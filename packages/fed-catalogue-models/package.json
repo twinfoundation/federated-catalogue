@@ -1,13 +1,13 @@
 {
-	"name": "@gtsc/logging-rest-client",
-	"version": "0.0.5-next.2",
-	"description": "Logging contract implementation which can connect to REST endpoints",
+	"name": "@gtsc/fed-catalogue-models",
+	"version": "0.0.1",
+	"description": "Models which define the structure of the Federated Catalog Service",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/gtscio/logging.git",
-		"directory": "packages/logging-rest-client"
+		"url": "https://github.com/gtscio/fed-catalogue.git",
+		"directory": "packages/fed-catalogue-models"
 	},
-	"author": "martyn.janes@iota.org",
+	"author": "jose.cantera@iota.org",
 	"license": "Apache-2.0",
 	"type": "module",
 	"engines": {
@@ -28,13 +28,10 @@
 		"dist": "npm run clean && npm run build && npm run test && npm run bundle && npm run docs"
 	},
 	"dependencies": {
-		"@gtsc/api-core": "next",
-		"@gtsc/api-models": "next",
 		"@gtsc/core": "next",
 		"@gtsc/entity": "next",
 		"@gtsc/nameof": "next",
-		"@gtsc/services": "next",
-		"@gtsc/logging-models": "0.0.5-next.2"
+		"@gtsc/services": "next"
 	},
 	"devDependencies": {
 		"@gtsc/nameof-transformer": "next",

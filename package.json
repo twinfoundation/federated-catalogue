@@ -1,12 +1,12 @@
 {
-	"name": "@gtsc/logging",
-	"version": "0.0.5-next.2",
-	"description": "Logging",
+	"name": "@gtsc/fed-catalogue",
+	"version": "0.0.1",
+	"description": "Federated Catalogue",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/gtscio/logging.git"
+		"url": "https://github.com/gtscio/fed-cat.git"
 	},
-	"author": "martyn.janes@iota.org",
+	"author": "jose.cantera@iota.org",
 	"license": "Apache-2.0",
 	"private": true,
 	"engines": {
@@ -39,11 +39,9 @@
 		"prettier": "3.3.2"
 	},
 	"workspaces": [
-		"packages/logging-models",
-		"packages/logging-connector-console",
-		"packages/logging-connector-entity-storage",
-		"packages/logging-service",
-		"packages/logging-rest-client"
+		"packages/fed-catalogue-models",
+		"packages/fed-catalogue-service",
+		"packages/fed-catalogue--client"
 	],
 	"type": "module"
 }

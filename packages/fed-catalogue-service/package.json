@@ -1,13 +1,13 @@
 {
-	"name": "@gtsc/logging-service",
-	"version": "0.0.5-next.2",
-	"description": "Logging contract implementation and REST endpoint definitions",
+	"name": "@gtsc/fed-catalogue-service",
+	"version": "0.0.1",
+	"description": "Federated Catalogue contract implementation and REST endpoint definitions",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/gtscio/logging.git",
-		"directory": "packages/logging-service"
+		"url": "https://github.com/gtscio/fed-catalogue.git",
+		"directory": "packages/fed-catalogue-service"
 	},
-	"author": "martyn.janes@iota.org",
+	"author": "jose.xantera@iota.org",
 	"license": "Apache-2.0",
 	"type": "module",
 	"engines": {
@@ -34,7 +34,7 @@
 		"@gtsc/entity": "next",
 		"@gtsc/nameof": "next",
 		"@gtsc/services": "next",
-		"@gtsc/logging-models": "0.0.5-next.2",
+		"@gtsc/fed-catalogue-models": "0.0.1",
 		"@gtsc/web": "next"
 	},
 	"devDependencies": {
