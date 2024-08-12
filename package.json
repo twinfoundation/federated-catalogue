@@ -40,8 +40,7 @@
 	},
 	"workspaces": [
 		"packages/fed-catalogue-models",
-		"packages/fed-catalogue-service",
-		"packages/fed-catalogue--client"
+		"packages/fed-catalogue-service"
 	],
 	"type": "module"
 }
