@@ -22,7 +22,7 @@ The name of the service.
 
 ### bootstrap()?
 
-> `optional` **bootstrap**(`nodeLoggingConnectorType`?): `Promise`\<`void`\>
+> `optional` **bootstrap**(`nodeLoggingConnectorType`?): `Promise`\<`boolean`\>
 
 Bootstrap the service by creating and initializing any resources it needs.
 
@@ -34,9 +34,9 @@ The node logging connector type, defaults to "node-logging".
 
 #### Returns
 
-`Promise`\<`void`\>
+`Promise`\<`boolean`\>
 
-Nothing.
+True if the bootstrapping process was successful.
 
 #### Inherited from
 

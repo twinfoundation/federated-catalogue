@@ -32,10 +32,12 @@
 		"@gtsc/api-models": "next",
 		"@gtsc/core": "next",
 		"@gtsc/entity": "next",
+		"@gtsc/entity-storage-models": "next",
 		"@gtsc/nameof": "next",
 		"@gtsc/services": "next",
 		"@gtsc/fed-catalogue-models": "0.0.1",
-		"@gtsc/web": "next"
+		"@gtsc/web": "next",
+		"@gtsc/logging-models": "next"
 	},
 	"devDependencies": {
 		"@gtsc/nameof-transformer": "next",

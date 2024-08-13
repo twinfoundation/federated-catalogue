@@ -1,13 +1,13 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 import type { IRestRouteEntryPoint } from "@gtsc/api-models";
-import { generateRestRoutesLogging, tagsLogging } from "./loggingRoutes";
+import { generateRestRoutesFedCatalogue, tagsFedCatalogue } from "./fedCatalogueRoutes";
 
 export const restEntryPoints: IRestRouteEntryPoint[] = [
 	{
-		name: "logging",
-		defaultBaseRoute: "logging",
-		tags: tagsLogging,
-		generateRoutes: generateRestRoutesLogging
+		name: "fedcatalogue",
+		defaultBaseRoute: "fedcatalogue",
+		tags: tagsFedCatalogue,
+		generateRoutes: generateRestRoutesFedCatalogue
 	}
 ];

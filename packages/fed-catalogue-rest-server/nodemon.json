@@ -1,0 +1,7 @@
+{
+	"verbose": true,
+	"watch": ["dist/", ".env", ".env.dev"],
+	"ext": "*.js,*.mjs,*.json",
+	"ignoreRoot": [".git"],
+	"ignore": ["**/rest/**"]
+}

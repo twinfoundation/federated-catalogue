@@ -1,0 +1,31 @@
+{
+	"error": {
+		"apiServer": {
+			"serviceUnknownType": "Unknown type \"{type}\" specified for \"{serviceType}\"",
+			"processorUnknownType": "Unknown processor \"{type}\" specified for \"{processorType}\"",
+			"noEnvVars": "There are no environment variables starting SERVER_ the server will not start without them, please set them in the shell or create a .env file",
+			"storageFileRootNotSet": "The environment variable SERVER_STORAGE_FILE_ROOT is not set"
+		}
+	},
+	"apiServer": {
+		"terminateSignal": "Server terminating",
+		"debuggingEnabled": "Debugging Enabled",
+		"configuring": "Configuring {element}",
+		"configuringEntityStorage": "Configuring {element} with name \"{storageName}\" using \"{storageType}\" connector",
+		"starting": "Starting {element}",
+		"stopping": "Stopping {element}",
+		"bootstrapStarted": "{filename} not found, starting bootstrap process",
+		"bootstrapComplete": "Bootstrap process complete",
+		"bootstrapping": "Bootstrap {element}",
+		"generatingMnemonic": "Generating and storing mnemonic \"{mnemonic}\"",
+		"fundingWallet": "Funding wallet \"{address}\"",
+		"generatingSystemIdentity": "Generating system identity",
+		"identityExplorer": "Identity explorer \"{url}\"",
+		"addingAttestation": "Adding attestation verification method",
+		"systemIdentity": "System identity \"{identity}\"",
+		"systemUserEmail": "System User Email \"{email}\"",
+		"systemUserPassword": "System User Password \"{password}\"",
+		"systemConfigRecord": "System configuration created in \"{filename}\", some of these details will not be shown again, please record them",
+		"systemConfigExists": "System configuration already exists, please check \"{filename}\" for details"
+	}
+}

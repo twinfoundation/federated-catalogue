@@ -24,4 +24,9 @@ export interface IParticipantEntry {
 	 * The legal name.
 	 */
 	legalName: string;
+
+	/**
+	 * The trusted issuer of the compliance credential
+	 */
+	trustedIssuerId: string;
 }

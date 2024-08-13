@@ -1,6 +1,16 @@
-# Interface: IParticipantEntry
+# Class: ParticipantEntry
 
-Interface describing a participant.
+Call defining a telemetry metric.
+
+## Constructors
+
+### new ParticipantEntry()
+
+> **new ParticipantEntry**(): [`ParticipantEntry`](ParticipantEntry.md)
+
+#### Returns
+
+[`ParticipantEntry`](ParticipantEntry.md)
 
 ## Properties
 

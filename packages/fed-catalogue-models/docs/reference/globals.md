@@ -1,5 +1,9 @@
 # @gtsc/fed-catalogue-models
 
+## Classes
+
+- [ParticipantEntry](classes/ParticipantEntry.md)
+
 ## Interfaces
 
 - [IFederatedCatalogue](interfaces/IFederatedCatalogue.md)

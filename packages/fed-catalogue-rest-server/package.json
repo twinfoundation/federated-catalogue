@@ -1,0 +1,71 @@
+{
+	"name": "@gtsc/fed-catalogue-rest-server",
+	"version": "0.0.1",
+	"description": "Serve APIs using the specified configuration",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/gtscio/fed-catalogue.git",
+		"directory": "packages/fed-catalogue-rest-server"
+	},
+	"author": "jose.cantera@iota.org",
+	"license": "Apache-2.0",
+	"type": "module",
+	"engines": {
+		"node": ">=20.0.0"
+	},
+	"scripts": {
+		"clean": "rimraf dist coverage",
+		"build": "tspc",
+		"dev": "concurrently \"tspc --watch\" \"nodemon\"",
+		"merge-locales": "merge-locales",
+		"test": "vitest --run --config ./vitest.config.ts --no-cache",
+		"coverage": "vitest --run --coverage --config ./vitest.config.ts --no-cache",
+		"docs:clean": "rimraf docs/overview.md",
+		"docs:copy-overview": "copyfiles README.md docs",
+		"docs:rename-overview": "node -e \"require('fs/promises').rename('docs/README.md','docs/overview.md')\"",
+		"docs:remove-header": "replace-in-files --regex='^.*overview.md.*?\\s\\s.*?\\s\\s' --string='docs/' --replacement='' \"docs/**/*.md\"",
+		"docs:api": "ts-to-openapi ./ts-to-openapi.json ./docs/open-api/spec.json",
+		"docs": "npm run docs:clean && npm run docs:copy-overview && npm run docs:rename-overview && npm run docs:remove-header && npm run docs:api",
+		"dist": "npm run clean && npm run build && npm run merge-locales && npm run test && npm run docs",
+		"start": "node dist/es/index.js"
+	},
+	"dependencies": {
+		"@gtsc/api-auth-entity-storage-service": "next",
+		"@gtsc/api-core": "next",
+		"@gtsc/api-models": "next",
+		"@gtsc/api-processors": "next",
+		"@gtsc/api-service": "next",
+		"@gtsc/api-server-fastify": "next",
+		"@gtsc/core": "next",
+		"@gtsc/crypto": "next",
+		"@gtsc/entity-storage-connector-file": "next",
+		"@gtsc/entity-storage-models": "next",
+		"@gtsc/logging-models": "next",
+		"@gtsc/logging-connector-console": "next",
+		"@gtsc/logging-service": "next",
+		"@gtsc/nameof": "next",
+		"@gtsc/services": "next",
+		"@gtsc/fed-catalogue-models": "0.0.1",
+		"@gtsc/fed-catalogue-service": "0.0.1",
+		"dotenv": "16.4.5"
+	},
+	"devDependencies": {
+		"@gtsc/merge-locales": "next",
+		"@gtsc/nameof-transformer": "next",
+		"@gtsc/ts-to-openapi": "next",
+		"@vitest/coverage-v8": "1.6.0",
+		"@types/node": "20.14.8",
+		"concurrently": "8.2.2",
+		"copyfiles": "2.4.1",
+		"cross-env": "7.0.3",
+		"nodemon": "3.1.4",
+		"replace-in-files-cli": "2.2.0",
+		"rimraf": "5.0.7",
+		"rollup-plugin-typescript2": "0.36.0",
+		"ts-patch": "3.2.0",
+		"typedoc": "0.25.13",
+		"typedoc-plugin-markdown": "4.0.3",
+		"typescript": "5.4.5",
+		"vitest": "1.6.0"
+	}
+}
