@@ -1,26 +1,24 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 import type { IService } from "@gtsc/services";
-import type { ILogEntry } from "./ILogEntry";
-import type { LogLevel } from "./logLevel";
+import type { IParticipantEntry } from "./IParticipantEntry";
 
 /**
- * Interface describing a logging contract.
+ * Interface describing a Fed Catalogue Contract.
  */
-export interface ILogging extends IService {
+export interface IFederatedCatalogue extends IService {
 	/**
-	 * Log an entry to the service.
-	 * @param logEntry The entry to log.
+	 * Registers a compliance Credential to the service.
+	 * @param credential The credential as JWT.
 	 * @returns Nothing.
 	 */
-	log(logEntry: ILogEntry): Promise<void>;
+	registerComplianceCredential(credential: string): Promise<void>;
 
 	/**
-	 * Query the log entries.
-	 * @param level The level of the log entries.
-	 * @param source The source of the log entries.
-	 * @param timeStart The inclusive time as the start of the log entries.
-	 * @param timeEnd The inclusive time as the end of the log entries.
+	 * Query the federated catalogue.
+	 * @param participant The identity of the participant.
+	 * @param legalRegistrationNumber The legal registration number.
+	 * @param lrnType The legal registration number type (EORI, VATID, GLEIF, KENYA_PIN, etc.)
 	 * @param cursor The cursor to request the next page of entities.
 	 * @param pageSize The maximum number of entities in a page.
 	 * @returns All the entities for the storage matching the conditions,
@@ -28,17 +26,16 @@ export interface ILogging extends IService {
 	 * @throws NotImplementedError if the implementation does not support retrieval.
 	 */
 	query(
-		level?: LogLevel,
-		source?: string,
-		timeStart?: number,
-		timeEnd?: number,
+		participant?: string,
+		legalRegistrationNumber?: string,
+		lrnType?: string,
 		cursor?: string,
 		pageSize?: number
 	): Promise<{
 		/**
 		 * The entities, which can be partial if a limited keys list was provided.
 		 */
-		entities: ILogEntry[];
+		entities: IParticipantEntry[];
 		/**
 		 * An optional cursor, when defined can be used to call find to get more entities.
 		 */
