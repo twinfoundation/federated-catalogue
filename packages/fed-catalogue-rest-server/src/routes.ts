@@ -4,7 +4,7 @@ import { generateRestRoutesAuthentication } from "@gtsc/api-auth-entity-storage-
 import type { IRestRoute } from "@gtsc/api-models";
 import { generateRestRoutesInformation } from "@gtsc/api-service";
 import { generateRestRoutesLogging } from "@gtsc/logging-service";
-i
+i;
 
 /**
  * The routes for the application.

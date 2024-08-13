@@ -16,17 +16,17 @@
     ],
     "tags": [
         {
-            "name": "Logging",
-            "description": "Endpoints which are modelled to access a logging contract."
+            "name": "Federated Catalogue",
+            "description": "Endpoints which are modelled to access a Federated Catalogue."
         }
     ],
     "paths": {
-        "/logging": {
+        "/fedcatalogue": {
             "post": {
-                "operationId": "loggingEntryCreate",
-                "summary": "Create a log entry",
+                "operationId": "compliancePresentationRequest",
+                "summary": "Present a Compliance Credential",
                 "tags": [
-                    "Logging"
+                    "Federated Catalogue"
                 ],
                 "security": [
                     {
@@ -96,36 +96,16 @@
                     }
                 },
                 "requestBody": {
-                    "description": "Create a new log entry.",
+                    "description": "Register a new Compliance Credential.",
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/LogEntry"
+                                "$ref": "#/components/schemas/CompliancePresentationRequest"
                             },
                             "examples": {
-                                "loggingEntryCreateInfoExample": {
-                                    "value": {
-                                        "level": "info",
-                                        "message": "This is an information message",
-                                        "source": "source",
-                                        "ts": 1715252922273
-                                    }
-                                },
-                                "loggingEntryCreateErrorExample": {
-                                    "value": {
-                                        "level": "info",
-                                        "message": "This is an error message",
-                                        "source": "source",
-                                        "ts": 1715252922273,
-                                        "error": {
-                                            "name": "GeneralError",
-                                            "message": "component.error",
-                                            "properties": {
-                                                "foo": "bar"
-                                            }
-                                        }
-                                    }
+                                "compliancePresentationRequestExample": {
+                                    "value": "ey..."
                                 }
                             }
                         }
@@ -133,23 +113,15 @@
                 }
             },
             "get": {
-                "operationId": "loggingListEntries",
-                "summary": "Get a list of the log entries",
+                "operationId": "fedCatalogueListParticipants",
+                "summary": "Get a list of the participant entries",
                 "tags": [
-                    "Logging"
+                    "Federated Catalogue"
                 ],
                 "parameters": [
                     {
-                        "name": "level",
-                        "description": "The level of the log entries to retrieve.",
-                        "in": "query",
-                        "required": false,
-                        "schema": {},
-                        "example": "info"
-                    },
-                    {
-                        "name": "source",
-                        "description": "The source of the log entries to retrieve.",
+                        "name": "participantId",
+                        "description": "The participant Id.",
                         "in": "query",
                         "required": false,
                         "schema": {
@@ -157,21 +129,22 @@
                         }
                     },
                     {
-                        "name": "timeStart",
-                        "description": "The start time of the metrics to retrieve as a timestamp in ms.",
+                        "name": "legalRegistrationNumber",
+                        "description": "The legal registration number.",
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "type": "number"
-                        }
+                            "type": "string"
+                        },
+                        "example": "abc"
                     },
                     {
-                        "name": "timeEnd",
-                        "description": "The end time of the metrics to retrieve as a timestamp in ms.",
+                        "name": "lrnType",
+                        "description": "The legal registration number type.",
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "type": "number"
+                            "type": "string"
                         }
                     },
                     {
@@ -204,17 +177,18 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/LoggingListResponse"
+                                    "$ref": "#/components/schemas/ParticipantListResponse"
                                 },
                                 "examples": {
                                     "listResponseExample": {
                                         "value": {
                                             "entities": [
                                                 {
-                                                    "level": "info",
-                                                    "message": "This is an information message",
-                                                    "source": "source",
-                                                    "ts": 1715252922273
+                                                    "participantId": "did:iota:xxx",
+                                                    "legalRegistrationNumber": "zzz",
+                                                    "legalName": "A Inc.",
+                                                    "lrnType": "VAT_ID",
+                                                    "trustedIssuerId": "did:iota:zzz"
                                                 }
                                             ],
                                             "cursor": "1",
@@ -324,59 +298,17 @@
                 "additionalProperties": false,
                 "description": "Model to describe serialized error."
             },
-            "LogEntry": {
-                "type": "object",
-                "properties": {
-                    "level": {
-                        "$ref": "#/components/schemas/LogLevel"
-                    },
-                    "source": {
-                        "type": "string",
-                        "description": "The source of the log entry."
-                    },
-                    "ts": {
-                        "type": "number",
-                        "description": "The timestamp of the log entry, if left blank will be populated by the connector."
-                    },
-                    "message": {
-                        "type": "string",
-                        "description": "The message."
-                    },
-                    "error": {
-                        "$ref": "#/components/schemas/Error"
-                    },
-                    "data": {
-                        "type": "object",
-                        "additionalProperties": {},
-                        "description": "Optional data for the message."
-                    }
-                },
-                "required": [
-                    "level",
-                    "source",
-                    "message"
-                ],
-                "additionalProperties": false,
-                "description": "Interface describing a log entry."
-            },
-            "LogLevel": {
+            "CompliancePresentationRequest": {
                 "type": "string",
-                "enum": [
-                    "info",
-                    "error",
-                    "warn",
-                    "trace",
-                    "debug"
-                ],
-                "description": "Log level."
+                "description": "The data to be used in the create."
             },
-            "LoggingListResponse": {
+            "ParticipantListResponse": {
                 "type": "object",
                 "properties": {
                     "entities": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/LogEntry"
+                            "$ref": "#/components/schemas/ParticipantEntry"
                         },
                         "description": "The entities, which can be partial if a limited keys list was provided."
                     },
@@ -399,6 +331,40 @@
                 ],
                 "additionalProperties": false,
                 "description": "The response payload."
+            },
+            "ParticipantEntry": {
+                "type": "object",
+                "properties": {
+                    "participantId": {
+                        "type": "string",
+                        "description": "The participant Id."
+                    },
+                    "lrnType": {
+                        "type": "string",
+                        "description": "The legal registration number."
+                    },
+                    "legalRegistrationNumber": {
+                        "type": "string",
+                        "description": "The legal registration number."
+                    },
+                    "legalName": {
+                        "type": "string",
+                        "description": "The legal name."
+                    },
+                    "trustedIssuerId": {
+                        "type": "string",
+                        "description": "The trusted issuer of the compliance credential"
+                    }
+                },
+                "required": [
+                    "participantId",
+                    "lrnType",
+                    "legalRegistrationNumber",
+                    "legalName",
+                    "trustedIssuerId"
+                ],
+                "additionalProperties": false,
+                "description": "Interface describing a participant."
             }
         },
         "securitySchemes": {

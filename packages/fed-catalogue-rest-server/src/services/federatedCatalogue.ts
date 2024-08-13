@@ -25,7 +25,12 @@ export const TELEMETRY_SERVICE_NAME = "telemetry";
 export function initialiseFederatedCatalogueService(options: IOptions, services: IService[]): void {
 	systemLogInfo(I18n.formatMessage("apiServer.configuring", { element: "Telemetry Service" }));
 
-	initialiseEntityStorageConnector(options,services, options.envVars.FED_CAT_STORAGE_CONNECTOR, "schema");
+	initialiseEntityStorageConnector(
+		options,
+		services,
+		options.envVars.FED_CAT_STORAGE_CONNECTOR,
+		"schema"
+	);
 
 	const service = new FederatedCatalogueService({
 		storageConnector: o

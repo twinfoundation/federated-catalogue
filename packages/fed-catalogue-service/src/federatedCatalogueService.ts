@@ -2,8 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0.
 import { Guards } from "@gtsc/core";
 import type { IEntityStorageConnector } from "@gtsc/entity-storage-models";
-import type { IFederatedCatalogue, IParticipantEntry, ParticipantEntry } from "@gtsc/fed-catalogue-models";
-import type { ILogging } from "@gtsc/logging-models";
+import type {
+	IFederatedCatalogue,
+	IParticipantEntry,
+	ParticipantEntry
+} from "@gtsc/fed-catalogue-models";
+import { LoggingConnectorFactory, type ILoggingConnector } from "@gtsc/logging-models";
 import { nameof } from "@gtsc/nameof";
 import { ServiceFactory } from "@gtsc/services";
 
@@ -19,7 +23,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	/**
 	 * Logging service.
 	 */
-	private readonly _loggingService: ILogging;
+	private readonly _loggingService: ILoggingConnector;
 
 	/**
 	 * Storage service.
@@ -29,11 +33,14 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	/**
 	 * Create a new instance of FederatedCatalogue service.
 	 * @param options The options for the connector.
-	 * @param options.entityConnectorName The type of the logging connector to use, defaults to "logging".
+	 * @param options.loggingConnectorType The type of the logging connector to use, defaults to "logging".
+	 * @param options.entityServiceName The name of the EntityService.
 	 */
-	constructor(options?: { entityConnectorName: string }) {
-		this._loggingService = ServiceFactory.get<ILogging>("logging");
-		this._entityStorage = ServiceFactory.get<IEntityStorageConnector<ParticipantEntry>>(nameof<ParticipantEntry>());
+	constructor(options?: { loggingConnectorType?: string; entityServiceName?: string }) {
+		this._loggingService = LoggingConnectorFactory.get(options?.loggingConnectorType ?? "logging");
+		this._entityStorage = ServiceFactory.get<IEntityStorageConnector<ParticipantEntry>>(
+			options?.entityServiceName ?? nameof<ParticipantEntry>()
+		);
 	}
 
 	/**

@@ -1,8 +1,8 @@
-# Function: generateRestRoutesLogging()
+# Function: generateRestRoutesFedCatalogue()
 
-> **generateRestRoutesLogging**(`baseRouteName`, `factoryServiceName`): `IRestRoute`[]
+> **generateRestRoutesFedCatalogue**(`baseRouteName`, `factoryServiceName`): `IRestRoute`[]
 
-The REST routes for logging.
+The REST routes for Federated Catalogue.
 
 ## Parameters
 

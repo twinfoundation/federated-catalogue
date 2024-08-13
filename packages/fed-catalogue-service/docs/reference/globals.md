@@ -1,16 +1,16 @@
-# @gtsc/logging-service
+# @gtsc/fed-catalogue-service
 
 ## Classes
 
-- [LoggingService](classes/LoggingService.md)
+- [FederatedCatalogueService](classes/FederatedCatalogueService.md)
 
 ## Variables
 
-- [tagsLogging](variables/tagsLogging.md)
+- [tagsFedCatalogue](variables/tagsFedCatalogue.md)
 - [restEntryPoints](variables/restEntryPoints.md)
 
 ## Functions
 
-- [generateRestRoutesLogging](functions/generateRestRoutesLogging.md)
-- [loggingCreate](functions/loggingCreate.md)
-- [loggingList](functions/loggingList.md)
+- [generateRestRoutesFedCatalogue](functions/generateRestRoutesFedCatalogue.md)
+- [complianceCredentialPresentation](functions/complianceCredentialPresentation.md)
+- [participantList](functions/participantList.md)

@@ -1,8 +1,8 @@
-# Function: loggingList()
+# Function: participantList()
 
-> **loggingList**(`httpRequestContext`, `factoryServiceName`, `request`): `Promise`\<`ILoggingListResponse`\>
+> **participantList**(`httpRequestContext`, `factoryServiceName`, `request`): `Promise`\<`IParticipantListResponse`\>
 
-Get a list of the logging entries.
+Get a list of the logging participant entries.
 
 ## Parameters
 
@@ -14,12 +14,12 @@ The request context for the API.
 
 The name of the service to use in the routes.
 
-• **request**: `ILoggingListRequest`
+• **request**: `IParticipantListRequest`
 
 The request.
 
 ## Returns
 
-`Promise`\<`ILoggingListResponse`\>
+`Promise`\<`IParticipantListResponse`\>
 
 The response object with additional http response properties.

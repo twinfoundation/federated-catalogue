@@ -2,7 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0.
 import type { IHttpRequestContext, INoContentResponse, IRestRoute, ITag } from "@gtsc/api-models";
 import { Coerce, Guards } from "@gtsc/core";
-import type { ICompliancePresentationRequest, IFederatedCatalogue, IParticipantListRequest, IParticipantListResponse } from "@gtsc/fed-catalogue-models";
+import type {
+	ICompliancePresentationRequest,
+	IFederatedCatalogue,
+	IParticipantListRequest,
+	IParticipantListResponse
+} from "@gtsc/fed-catalogue-models";
 import { nameof } from "@gtsc/nameof";
 import { ServiceFactory } from "@gtsc/services";
 import { HttpStatusCode } from "@gtsc/web";
@@ -92,7 +97,8 @@ export function generateRestRoutesFedCatalogue(
 										participantId: "did:iota:xxx",
 										legalRegistrationNumber: "zzz",
 										legalName: "A Inc.",
-										lrnType: "VAT_ID"
+										lrnType: "VAT_ID",
+										"trustedIssuerId": "did:iota:zzz"
 									}
 								],
 								cursor: "1",
