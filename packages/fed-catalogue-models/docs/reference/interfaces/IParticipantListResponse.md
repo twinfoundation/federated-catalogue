@@ -1,4 +1,4 @@
-# Interface: ILoggingListResponse
+# Interface: IParticipantListResponse
 
 Response for log entry list request.
 
@@ -12,7 +12,7 @@ The response payload.
 
 #### entities
 
-> **entities**: [`ILogEntry`](ILogEntry.md)[]
+> **entities**: [`IParticipantEntry`](IParticipantEntry.md)[]
 
 The entities, which can be partial if a limited keys list was provided.
 

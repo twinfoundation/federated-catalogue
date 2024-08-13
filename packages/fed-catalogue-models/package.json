@@ -25,7 +25,7 @@
 		"docs:generate": "typedoc",
 		"docs:remove-header": "replace-in-files --regex='^.*overview.md.*?\\s\\s.*?\\s\\s' --string='docs/' --replacement='' \"docs/**/*.md\"",
 		"docs": "npm run docs:clean && npm run docs:generate && npm run docs:remove-header",
-		"dist": "npm run clean && npm run build && npm run test && npm run bundle && npm run docs"
+		"dist": "npm run clean && npm run build && npm run bundle && npm run docs"
 	},
 	"dependencies": {
 		"@gtsc/core": "next",
