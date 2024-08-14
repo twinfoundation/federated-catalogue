@@ -21,7 +21,7 @@
         }
     ],
     "paths": {
-        "/fedcatalogue": {
+        "/fedcatalogue/participant-credentials": {
             "post": {
                 "operationId": "compliancePresentationRequest",
                 "summary": "Present a Compliance Credential",
@@ -111,7 +111,9 @@
                         }
                     }
                 }
-            },
+            }
+        },
+        "/fedcatalogue/participants": {
             "get": {
                 "operationId": "fedCatalogueListParticipants",
                 "summary": "Get a list of the participant entries",

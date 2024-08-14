@@ -8,6 +8,7 @@ import { configure, findRootPackageFolder } from "./configure.js";
 import { initialiseLocales } from "./locales.js";
 import { buildRoutes } from "./routes.js";
 import { startWebServer } from "./server.js";
+import { initialiseFederatedCatalogueService } from "./services/federatedCatalogue.js";
 import {
 	initialiseLoggingConnectorFactory,
 	initialiseLoggingService,
@@ -39,6 +40,9 @@ try {
 
 	initialiseLoggingConnectorFactory(options, services);
 	initialiseLoggingService(options, services);
+
+	// Service initialization
+	initialiseFederatedCatalogueService(options, services);
 
 	for (const service of services) {
 		if (Is.function(service.start)) {

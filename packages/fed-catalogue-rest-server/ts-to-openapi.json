@@ -1,10 +1,10 @@
 {
-	"title": "GTSC Workbench Server",
-	"version": "1.0.0",
-	"description": "REST API for Global Trade and Supply Chain - API Server.",
+	"title": "TWN Federated Catalogue",
+	"version": "0.0.1",
+	"description": "REST API Federated Catalogue.",
 	"licenseName": "Apache 2.0 License",
 	"licenseUrl": "https://opensource.org/licenses/Apache-2.0",
-	"servers": ["http://localhost:3000"],
+	"servers": ["http://localhost:3010"],
 	"restRoutes": [
 		{
 			"package": "@gtsc/api-service"

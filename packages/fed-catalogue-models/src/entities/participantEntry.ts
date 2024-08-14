@@ -16,7 +16,7 @@ export class ParticipantEntry {
 	/**
 	 * The legal registration number.
 	 */
-	@property({ type: "string", isPrimary: true, optional: true })
+	@property({ type: "string", optional: true })
 	public lrnType!: string;
 
 	/**

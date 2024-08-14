@@ -24,6 +24,10 @@ The options for the connector.
 
 The type of the logging connector to use, defaults to "logging".
 
+• **options.entityStorageConnectorName?**: `string`
+
+The name of the Entity Connector, defaults to "participant-entry".
+
 #### Returns
 
 [`FederatedCatalogueService`](FederatedCatalogueService.md)

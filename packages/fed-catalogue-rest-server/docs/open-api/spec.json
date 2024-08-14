@@ -1,9 +1,9 @@
 {
     "openapi": "3.1.0",
     "info": {
-        "title": "GTSC Workbench Server",
-        "description": "REST API for Global Trade and Supply Chain - API Server.",
-        "version": "1.0.0",
+        "title": "TWN Federated Catalogue",
+        "description": "REST API Federated Catalogue.",
+        "version": "0.0.1",
         "license": {
             "name": "Apache 2.0 License",
             "url": "https://opensource.org/licenses/Apache-2.0"
@@ -11,7 +11,7 @@
     },
     "servers": [
         {
-            "url": "http://localhost:3000"
+            "url": "http://localhost:3010"
         }
     ],
     "tags": [
@@ -279,7 +279,7 @@
                 }
             }
         },
-        "/fedcatalogue": {
+        "/fedcatalogue/participant-credentials": {
             "post": {
                 "operationId": "compliancePresentationRequest",
                 "summary": "Present a Compliance Credential",
@@ -369,7 +369,9 @@
                         }
                     }
                 }
-            },
+            }
+        },
+        "/fedcatalogue/participants": {
             "get": {
                 "operationId": "fedCatalogueListParticipants",
                 "summary": "Get a list of the participant entries",

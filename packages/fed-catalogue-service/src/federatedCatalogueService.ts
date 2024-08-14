@@ -36,13 +36,13 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	 * Create a new instance of FederatedCatalogue service.
 	 * @param options The options for the connector.
 	 * @param options.loggingConnectorType The type of the logging connector to use, defaults to "logging".
+	 * @param options.entityStorageConnectorName The name of the Entity Connector, defaults to "participant-entry".
 	 */
-	constructor(options?: { loggingConnectorType?: string }) {
+	constructor(options?: { loggingConnectorType?: string; entityStorageConnectorName?: string }) {
 		this._loggingService = LoggingConnectorFactory.get(options?.loggingConnectorType ?? "logging");
-		this._entityStorage =
-			EntityStorageConnectorFactory.get<IEntityStorageConnector<ParticipantEntry>>(
-				nameof<ParticipantEntry>()
-			);
+		this._entityStorage = EntityStorageConnectorFactory.get<
+			IEntityStorageConnector<ParticipantEntry>
+		>(options?.entityStorageConnectorName ?? "participant-entry");
 	}
 
 	/**

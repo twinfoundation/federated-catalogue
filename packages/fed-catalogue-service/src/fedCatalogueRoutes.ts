@@ -42,7 +42,7 @@ export function generateRestRoutesFedCatalogue(
 		summary: "Present a Compliance Credential",
 		tag: tagsFedCatalogue[0].name,
 		method: "POST",
-		path: `${baseRouteName}/`,
+		path: `${baseRouteName}/participant-credentials`,
 		handler: async (httpRequestContext, request) =>
 			complianceCredentialPresentation(httpRequestContext, factoryServiceName, request),
 		requestType: {
@@ -68,7 +68,7 @@ export function generateRestRoutesFedCatalogue(
 		summary: "Get a list of the participant entries",
 		tag: tagsFedCatalogue[0].name,
 		method: "GET",
-		path: `${baseRouteName}/`,
+		path: `${baseRouteName}/participants`,
 		handler: async (httpRequestContext, request) =>
 			participantList(httpRequestContext, factoryServiceName, request),
 		requestType: {

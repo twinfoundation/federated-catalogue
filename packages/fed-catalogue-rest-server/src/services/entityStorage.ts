@@ -2,11 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0.
 import path from "node:path";
 import { GeneralError, I18n, StringHelper } from "@gtsc/core";
+import { EntitySchemaFactory, EntitySchemaHelper } from "@gtsc/entity";
 import { FileEntityStorageConnector } from "@gtsc/entity-storage-connector-file";
 import {
 	EntityStorageConnectorFactory,
 	type IEntityStorageConnector
 } from "@gtsc/entity-storage-models";
+import { ParticipantEntry } from "@gtsc/fed-catalogue-models";
 import type { IService } from "@gtsc/services";
 import { systemLogInfo } from "./logging.js";
 import type { IOptions } from "../models/IOptions.js";
@@ -26,6 +28,8 @@ export function initialiseEntityStorageConnector(
 	schema: string
 ): void {
 	const storageName = StringHelper.kebabCase(schema);
+
+	EntitySchemaFactory.register(schema, () => EntitySchemaHelper.getSchema(ParticipantEntry));
 
 	systemLogInfo(
 		I18n.formatMessage("apiServer.configuringEntityStorage", {

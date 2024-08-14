@@ -40,6 +40,7 @@
 		"@gtsc/crypto": "next",
 		"@gtsc/entity-storage-connector-file": "next",
 		"@gtsc/entity-storage-models": "next",
+		"@gtsc/entity": "next",
 		"@gtsc/logging-models": "next",
 		"@gtsc/logging-connector-console": "next",
 		"@gtsc/logging-service": "next",
