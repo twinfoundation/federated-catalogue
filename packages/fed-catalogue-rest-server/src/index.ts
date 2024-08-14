@@ -15,7 +15,6 @@ import {
 	systemLogError,
 	systemLogInfo
 } from "./services/logging.js";
-import { buildProcessors } from "./services/processors.js";
 
 try {
 	const serverInfo: IServerInfo = {
@@ -41,8 +40,6 @@ try {
 	initialiseLoggingConnectorFactory(options, services);
 	initialiseLoggingService(options, services);
 
-	const processors = buildProcessors(options, services);
-
 	for (const service of services) {
 		if (Is.function(service.start)) {
 			systemLogInfo(I18n.formatMessage("apiServer.starting", { element: service.CLASS_NAME }));
@@ -50,7 +47,7 @@ try {
 		}
 	}
 
-	await startWebServer(options, processors, buildRoutes(), async () => {
+	await startWebServer(options, [], buildRoutes(), async () => {
 		for (const service of services) {
 			if (Is.function(service.stop)) {
 				systemLogInfo(I18n.formatMessage("apiServer.stopping", { element: service.CLASS_NAME }));

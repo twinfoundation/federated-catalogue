@@ -3,7 +3,6 @@
 import path from "node:path";
 import { GeneralError, I18n, StringHelper } from "@gtsc/core";
 import { FileEntityStorageConnector } from "@gtsc/entity-storage-connector-file";
-import { MemoryEntityStorageConnector } from "@gtsc/entity-storage-connector-memory";
 import {
 	EntityStorageConnectorFactory,
 	type IEntityStorageConnector
@@ -27,6 +26,7 @@ export function initialiseEntityStorageConnector(
 	schema: string
 ): void {
 	const storageName = StringHelper.kebabCase(schema);
+
 	systemLogInfo(
 		I18n.formatMessage("apiServer.configuringEntityStorage", {
 			element: "Entity Storage",
@@ -36,11 +36,7 @@ export function initialiseEntityStorageConnector(
 	);
 	let entityStorageConnector: IEntityStorageConnector;
 
-	if (type === "memory") {
-		entityStorageConnector = new MemoryEntityStorageConnector({
-			entitySchema: schema
-		});
-	} else if (type === "file") {
+	if (type === "file") {
 		entityStorageConnector = new FileEntityStorageConnector({
 			entitySchema: schema,
 			config: {

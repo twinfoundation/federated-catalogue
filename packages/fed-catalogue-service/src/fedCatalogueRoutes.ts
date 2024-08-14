@@ -98,7 +98,7 @@ export function generateRestRoutesFedCatalogue(
 										legalRegistrationNumber: "zzz",
 										legalName: "A Inc.",
 										lrnType: "VAT_ID",
-										"trustedIssuerId": "did:iota:zzz"
+										trustedIssuerId: "did:iota:zzz"
 									}
 								],
 								cursor: "1",

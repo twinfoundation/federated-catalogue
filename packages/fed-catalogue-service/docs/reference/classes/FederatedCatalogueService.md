@@ -24,10 +24,6 @@ The options for the connector.
 
 The type of the logging connector to use, defaults to "logging".
 
-• **options.entityServiceName?**: `string`
-
-The name of the EntityService.
-
 #### Returns
 
 [`FederatedCatalogueService`](FederatedCatalogueService.md)

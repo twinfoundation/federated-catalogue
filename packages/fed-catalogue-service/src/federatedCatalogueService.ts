@@ -1,7 +1,10 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 import { Guards } from "@gtsc/core";
-import type { IEntityStorageConnector } from "@gtsc/entity-storage-models";
+import {
+	EntityStorageConnectorFactory,
+	type IEntityStorageConnector
+} from "@gtsc/entity-storage-models";
 import type {
 	IFederatedCatalogue,
 	IParticipantEntry,
@@ -9,7 +12,6 @@ import type {
 } from "@gtsc/fed-catalogue-models";
 import { LoggingConnectorFactory, type ILoggingConnector } from "@gtsc/logging-models";
 import { nameof } from "@gtsc/nameof";
-import { ServiceFactory } from "@gtsc/services";
 
 /**
  * Service for performing logging operations to a connector.
@@ -34,13 +36,13 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	 * Create a new instance of FederatedCatalogue service.
 	 * @param options The options for the connector.
 	 * @param options.loggingConnectorType The type of the logging connector to use, defaults to "logging".
-	 * @param options.entityServiceName The name of the EntityService.
 	 */
-	constructor(options?: { loggingConnectorType?: string; entityServiceName?: string }) {
+	constructor(options?: { loggingConnectorType?: string }) {
 		this._loggingService = LoggingConnectorFactory.get(options?.loggingConnectorType ?? "logging");
-		this._entityStorage = ServiceFactory.get<IEntityStorageConnector<ParticipantEntry>>(
-			options?.entityServiceName ?? nameof<ParticipantEntry>()
-		);
+		this._entityStorage =
+			EntityStorageConnectorFactory.get<IEntityStorageConnector<ParticipantEntry>>(
+				nameof<ParticipantEntry>()
+			);
 	}
 
 	/**

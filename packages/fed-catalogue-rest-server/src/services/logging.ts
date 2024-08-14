@@ -4,19 +4,12 @@ import { CLIDisplay } from "@gtsc/cli-core";
 import { ErrorHelper, GeneralError, I18n, Is, type IError } from "@gtsc/core";
 import { ConsoleLoggingConnector } from "@gtsc/logging-connector-console";
 import {
-	EntityStorageLoggingConnector,
-	initSchema as initSchemaLogging,
-	type LogEntry
-} from "@gtsc/logging-connector-entity-storage";
-import {
 	LoggingConnectorFactory,
 	MultiLoggingConnector,
 	type ILoggingConnector
 } from "@gtsc/logging-models";
 import { LoggingService } from "@gtsc/logging-service";
-import { nameof } from "@gtsc/nameof";
 import { ServiceFactory, type IService } from "@gtsc/services";
-import { initialiseEntityStorageConnector } from "./entityStorage.js";
 import type { IOptions } from "../models/IOptions.js";
 
 export const LOGGING_SERVICE_NAME = "logging";
@@ -83,16 +76,6 @@ export function initialiseLoggingConnectorFactory(options: IOptions, services: I
 				hideGroups: true
 			});
 			namespace = ConsoleLoggingConnector.NAMESPACE;
-		} else if (type === "entity-storage") {
-			initSchemaLogging();
-			initialiseEntityStorageConnector(
-				options,
-				services,
-				options.envVars.SERVER_LOGGING_ENTITY_STORAGE_TYPE,
-				nameof<LogEntry>()
-			);
-			connector = new EntityStorageLoggingConnector();
-			namespace = EntityStorageLoggingConnector.NAMESPACE;
 		} else {
 			throw new GeneralError("apiServer", "serviceUnknownType", {
 				type,
