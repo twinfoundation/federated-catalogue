@@ -55,6 +55,16 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 		console.log("here!!!!");
 
+		const participantEntry: ParticipantEntry = {
+			participantId: "1",
+			legalRegistrationNumber: "xx",
+			lrnType: "xx",
+			trustedIssuerId: "x",
+			legalName: "zzz"
+		};
+
+		await this._entityStorage.set(participantEntry);
+
 		/*
 		await this._loggingService.log({
 			level:
