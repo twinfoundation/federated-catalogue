@@ -53,6 +53,8 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	public async registerComplianceCredential(credential: string): Promise<void> {
 		Guards.string(this.CLASS_NAME, nameof(credential), credential);
 
+		console.log("here!!!!");
+
 		/*
 		await this._loggingService.log({
 			level:

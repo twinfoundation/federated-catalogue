@@ -9,6 +9,7 @@ import { initialiseLocales } from "./locales.js";
 import { buildRoutes } from "./routes.js";
 import { startWebServer } from "./server.js";
 import { initialiseFederatedCatalogueService } from "./services/federatedCatalogue.js";
+import { initialiseInformationService } from "./services/information.js";
 import {
 	initialiseLoggingConnectorFactory,
 	initialiseLoggingService,
@@ -16,6 +17,7 @@ import {
 	systemLogError,
 	systemLogInfo
 } from "./services/logging.js";
+import { buildProcessors } from "./services/processors.js";
 
 try {
 	const serverInfo: IServerInfo = {
@@ -41,6 +43,8 @@ try {
 	initialiseLoggingConnectorFactory(options, services);
 	initialiseLoggingService(options, services);
 
+	initialiseInformationService(options, services, serverInfo);
+
 	// Service initialization
 	initialiseFederatedCatalogueService(options, services);
 
@@ -51,7 +55,9 @@ try {
 		}
 	}
 
-	await startWebServer(options, [], buildRoutes(), async () => {
+	const processors = buildProcessors(options, services);
+
+	await startWebServer(options, processors, buildRoutes(), async () => {
 		for (const service of services) {
 			if (Is.function(service.stop)) {
 				systemLogInfo(I18n.formatMessage("apiServer.stopping", { element: service.CLASS_NAME }));
