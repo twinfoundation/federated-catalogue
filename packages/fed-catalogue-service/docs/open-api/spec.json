@@ -34,8 +34,8 @@
                     }
                 ],
                 "responses": {
-                    "204": {
-                        "description": "The rest request ended in success with no data."
+                    "201": {
+                        "description": "The rest request ended in created response."
                     },
                     "400": {
                         "description": "The server cannot process the request, see the error field for more details.",

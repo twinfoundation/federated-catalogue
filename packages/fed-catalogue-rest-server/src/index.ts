@@ -53,6 +53,11 @@ try {
 			systemLogInfo(I18n.formatMessage("apiServer.starting", { element: service.CLASS_NAME }));
 			await service.start(options.systemConfig.systemIdentity, options.systemLoggingConnectorName);
 		}
+
+		if (Is.function(service.bootstrap)) {
+			systemLogInfo(I18n.formatMessage("apiServer.boostrap", { element: service.CLASS_NAME }));
+			await service.bootstrap(options.systemLoggingConnectorName);
+		}
 	}
 
 	const processors = buildProcessors(options, services);
