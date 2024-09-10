@@ -7,3 +7,6 @@ export * from "./models/api/IParticipantListResponse";
 export * from "./models/IParticipantEntry";
 export * from "./models/IFederatedCatalogue";
 export * from "./entities/participantEntry";
+export * from "./models/IComplianceCredential";
+export * from "./models/IComplianceEvidence";
+export * from "./models/IVerificationResult";

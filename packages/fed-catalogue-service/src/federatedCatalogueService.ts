@@ -1,27 +1,21 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import { DidResolver } from "@gaia-x/json-web-signature-2020";
-import { GeneralError, Guards } from "@gtsc/core";
+
+import { Guards } from "@gtsc/core";
 import {
 	EntityStorageConnectorFactory,
 	type IEntityStorageConnector
 } from "@gtsc/entity-storage-models";
 import type {
+	IComplianceCredential,
 	IFederatedCatalogue,
 	IParticipantEntry,
 	ParticipantEntry
 } from "@gtsc/fed-catalogue-models";
 import { LoggingConnectorFactory, type ILoggingConnector } from "@gtsc/logging-models";
 import { nameof } from "@gtsc/nameof";
-import type { DIDDocument, JsonWebKey } from "did-resolver";
-import {
-	type JWTVerifyResult,
-	type KeyLike,
-	type ProtectedHeaderParameters,
-	decodeProtectedHeader,
-	jwtVerify
-} from "jose";
-import { DIDService } from "./didService";
+import { ComplianceCredentialVerificationService } from "./verification/complianceCredentialVerificationService";
+import { JwtVerificationService } from "./verification/jwtVerificationService";
 
 /**
  * Service for performing logging operations to a connector.
@@ -43,9 +37,14 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	private readonly _entityStorage: IEntityStorageConnector<ParticipantEntry>;
 
 	/**
-	 * DID service.
+	 * JWT Verifier service.
 	 */
-	private readonly _didService: DIDService;
+	private readonly _jwtVerifier: JwtVerificationService;
+
+	/**
+	 * Compliance Credential Verifier service.
+	 */
+	private readonly _credentialVerifier: ComplianceCredentialVerificationService;
 
 	/**
 	 * Create a new instance of FederatedCatalogue service.
@@ -59,16 +58,35 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			IEntityStorageConnector<ParticipantEntry>
 		>(options?.entityStorageConnectorName ?? "participant-entry");
 
-		this._didService = new DIDService(new DidResolver(), this._loggingService);
+		this._jwtVerifier = new JwtVerificationService(this._loggingService);
+		this._credentialVerifier = new ComplianceCredentialVerificationService();
 	}
 
 	/**
 	 * Registers a compliance Credential to the service.
-	 * @param credential The credential (wrapped into a presentation) as JWT.
+	 * @param credentialJwt The credential (wrapped into a presentation) as JWT.
 	 * @returns Nothing.
 	 */
-	public async registerComplianceCredential(credential: string): Promise<void> {
-		Guards.string(this.CLASS_NAME, nameof(credential), credential);
+	public async registerComplianceCredential(credentialJwt: string): Promise<void> {
+		Guards.string(this.CLASS_NAME, nameof(credentialJwt), credentialJwt);
+
+		// This will raise exceptions as it has been coded reusing code from Gaia-X
+		const complianceCredential = (await this._jwtVerifier.decodeJwt(
+			credentialJwt
+		)) as IComplianceCredential;
+		const result = await this._credentialVerifier.verify(complianceCredential);
+
+		if (!result.verified) {
+			this._loggingService.log({
+				level: "error",
+				source: this.CLASS_NAME,
+				ts: Date.now(),
+				message: "Compliance credential cannot be verified",
+				data: { result }
+			});
+
+			return;
+		}
 
 		const participantEntry: ParticipantEntry = {
 			participantId: "1",
@@ -80,10 +98,12 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 		await this._entityStorage.set(participantEntry);
 
-		/*
 		await this._loggingService.log({
-			level:
-		}); */
+			level: "info",
+			source: this.CLASS_NAME,
+			ts: Date.now(),
+			message: "Compliance credential verified and new entry added to the Fed Catalogue2"
+		});
 	}
 
 	/**
@@ -127,139 +147,5 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			pageSize: 1,
 			totalEntities: 1
 		};
-	}
-
-	/**
-	 * Decodes the JWT.
-	 * @param jwt JWT.
-	 * @returns Decoded.
-	 */
-	private async decodeJwt(jwt: string): Promise<object> {
-		const decodedJWT: ProtectedHeaderParameters = this.decodeJWTHeaders(jwt);
-
-		const { iss, kid } = this.getMandatoryHeadersOrFail(decodedJWT);
-
-		const DID = await this._didService.getDIDDocumentFromDID(iss);
-		const JWK = this.getJwkFromDid(DID, kid);
-		if (!JWK) {
-			throw new GeneralError(this.CLASS_NAME, "No JWK found on DID", { kid });
-		}
-		const key = await this._didService.getPublicKeyFromJWK(JWK);
-		if (!key) {
-			throw new GeneralError(this.CLASS_NAME, "Wrong public key on DID. Not JWK", { kid });
-		}
-		const vpPayload = await this.decodeJWT(jwt, key);
-		return vpPayload;
-	}
-
-	/**
-	 * Decodes JWT headers.
-	 * @param jwtVerifiablePresentation a jwt containing a verifiable presentation as payload
-	 * @returns ProtectedHeader parameters
-	 * @throws BadRequestException if the string is not a valid JWT
-	 * @throws InternalServerErrorException if the token was not decoded for an unknown reason
-	 * @private
-	 */
-	private decodeJWTHeaders(jwtVerifiablePresentation: string): ProtectedHeaderParameters {
-		try {
-			return decodeProtectedHeader(jwtVerifiablePresentation);
-		} catch (error) {
-			if (
-				(error as { message: string }).message === "Invalid Token or Protected Header formatting"
-			) {
-				throw new GeneralError(
-					this.CLASS_NAME,
-					"The payload is not a valid JWT and was not decoded"
-				);
-			} else {
-				throw new GeneralError(
-					this.CLASS_NAME,
-					"An unexpected error has occurred on server-side and we don't know what happened",
-					{},
-					error
-				);
-			}
-		}
-	}
-
-	/**
-	 * Retrieves the two mandatory headers iss & kid from a JWT headers.
-	 * Throws a BadRequestException if one of them is not present.
-	 * @param decodedHeaders Decoded headers.
-	 * @returns Issuer and kid.
-	 * @private
-	 * @see https://www.w3.org/TR/vc-jose-cose/#using-header-params-claims-key-discovery
-	 */
-	private getMandatoryHeadersOrFail(decodedHeaders: ProtectedHeaderParameters): {
-		iss: string;
-		kid: string;
-	} {
-		// eslint-disable-next-line @typescript-eslint/dot-notation
-		const iss = decodedHeaders["iss"] as string;
-		// eslint-disable-next-line @typescript-eslint/dot-notation
-		const kid = decodedHeaders["kid"] as string;
-		this.checkIssIsPresent(iss);
-		this.checkKidIsPresent(kid);
-		return { iss, kid };
-	}
-
-	/**
-	 * Checks whether the kid header passed as parameter is present.
-	 * @param kid a jwt header, might be null, empty or undefined
-	 * @throws BadRequestException if the header is not filled
-	 * @private
-	 */
-	private checkKidIsPresent(kid: string): void {
-		if (!kid) {
-			throw new GeneralError(
-				this.CLASS_NAME,
-				"The kid header referencing the verificationMethod of the DID is missing"
-			);
-		}
-	}
-
-	/**
-	 * Checks whether the iss header passed as parameter is present.
-	 * @param iss a jwt header, might be null, empty or undefined
-	 * @throws BadRequestException if the header is not filled
-	 * @private
-	 */
-	private checkIssIsPresent(iss: string): void {
-		if (!iss) {
-			throw new GeneralError(
-				this.CLASS_NAME,
-				"The iss header referencing the issuer's DID is missing"
-			);
-		}
-	}
-
-	/**
-	 * Retrieves the verificationMethod JWK from a DID based on the JWT's kid header.
-	 * @param DID the DIDDocument.
-	 * @param kid the verificationMethod name.
-	 * @returns JWK
-	 * @throws GeneralError
-	 * @private
-	 */
-	private getJwkFromDid(DID: DIDDocument, kid: string): JsonWebKey | undefined {
-		try {
-			return this._didService.getJWKFromDID(DID, kid);
-		} catch (error) {
-			throw new GeneralError(this.CLASS_NAME, "Invalid request", {}, error);
-		}
-	}
-
-	/**
-	 * Decode JWT.
-	 * @param jwt JWT.
-	 * @param key Key.
-	 * @returns Verification result.
-	 */
-	private async decodeJWT(jwt: string, key: KeyLike): Promise<JWTVerifyResult> {
-		try {
-			return jwtVerify(jwt, key);
-		} catch (error) {
-			throw new GeneralError(this.CLASS_NAME, "The signature validation has failed", {}, error);
-		}
 	}
 }

@@ -162,6 +162,12 @@ export class DIDService {
 			const response = await FetchHelper.fetch(this.CLASS_NAME, url, "GET");
 			if (response.status === HttpStatusCode.ok) {
 				const data = await response.text();
+				this._logger.log({
+					source: this.CLASS_NAME,
+					level: "info",
+					message: "X5U Certificate loaded",
+					ts: Date.now()
+				});
 				const cert = data.replace(/\n/gm, "");
 				this._certificateCache[url] = cert;
 				return cert;
