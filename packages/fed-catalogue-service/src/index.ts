@@ -3,3 +3,4 @@
 export * from "./fedCatalogueRoutes";
 export * from "./federatedCatalogueService";
 export * from "./restEntryPoints";
+export * from "./didService";

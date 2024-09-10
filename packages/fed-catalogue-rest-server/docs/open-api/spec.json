@@ -21,7 +21,7 @@
         },
         {
             "name": "Federated Catalogue",
-            "description": "Endpoints which are modelled to access a Federated Catalogue."
+            "description": "Endpoints to access a Federated Catalogue."
         }
     ],
     "paths": {
@@ -32,7 +32,6 @@
                 "tags": [
                     "Info"
                 ],
-                "security": [],
                 "responses": {
                     "200": {
                         "description": "The information about the server.",
@@ -102,7 +101,6 @@
                 "tags": [
                     "Info"
                 ],
-                "security": [],
                 "responses": {
                     "200": {
                         "description": "The health of the server.",
@@ -215,7 +213,6 @@
                 "tags": [
                     "Info"
                 ],
-                "security": [],
                 "responses": {
                     "200": {
                         "description": "The OpenAPI spec for the endpoints.",
@@ -291,9 +288,25 @@
                         "jwtBearerAuthScheme": []
                     }
                 ],
+                "requestBody": {
+                    "description": "Register a new Compliance Credential.",
+                    "required": true,
+                    "content": {
+                        "application/jwt": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CompliancePresentationRequest"
+                            },
+                            "examples": {
+                                "compliancePresentationRequestExample": {
+                                    "value": "ey..."
+                                }
+                            }
+                        }
+                    }
+                },
                 "responses": {
-                    "204": {
-                        "description": "The rest request ended in success with no data."
+                    "201": {
+                        "description": "The rest request ended in created response."
                     },
                     "400": {
                         "description": "The server cannot process the request, see the error field for more details.",
@@ -348,22 +361,6 @@
                                             "message": "component.error"
                                         }
                                     }
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "description": "Register a new Compliance Credential.",
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/CompliancePresentationRequest"
-                            },
-                            "examples": {
-                                "compliancePresentationRequestExample": {
-                                    "value": "ey..."
                                 }
                             }
                         }

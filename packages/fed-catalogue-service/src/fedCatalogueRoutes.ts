@@ -1,6 +1,6 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import type { ICreatedResponse, IHttpRequestContext, INoContentResponse, IRestRoute, ITag } from "@gtsc/api-models";
+import type { ICreatedResponse, IHttpRequestContext, IRestRoute, ITag } from "@gtsc/api-models";
 import { Coerce, Guards } from "@gtsc/core";
 import type {
 	ICompliancePresentationRequest,
@@ -23,7 +23,7 @@ const ROUTES_SOURCE = "fedCatalogueRoutes";
 export const tagsFedCatalogue: ITag[] = [
 	{
 		name: "Federated Catalogue",
-		description: "Endpoints which are modelled to access a Federated Catalogue."
+		description: "Endpoints to access a Federated Catalogue."
 	}
 ];
 
@@ -37,7 +37,7 @@ export function generateRestRoutesFedCatalogue(
 	baseRouteName: string,
 	factoryServiceName: string
 ): IRestRoute[] {
-	const createRoute: IRestRoute<ICompliancePresentationRequest, INoContentResponse> = {
+	const createRoute: IRestRoute<ICompliancePresentationRequest, ICreatedResponse> = {
 		operationId: "compliancePresentationRequest",
 		summary: "Present a Compliance Credential",
 		tag: tagsFedCatalogue[0].name,
@@ -46,6 +46,7 @@ export function generateRestRoutesFedCatalogue(
 		handler: async (httpRequestContext, request) =>
 			complianceCredentialPresentation(httpRequestContext, factoryServiceName, request),
 		requestType: {
+			mimeType: "application/jwt",
 			type: nameof<ICompliancePresentationRequest>(),
 			examples: [
 				{
@@ -126,13 +127,18 @@ export async function complianceCredentialPresentation(
 	httpRequestContext: IHttpRequestContext,
 	factoryServiceName: string,
 	request: ICompliancePresentationRequest
-): Promise<INoContentResponse> {
+): Promise<ICreatedResponse> {
 	Guards.object<ICompliancePresentationRequest>(ROUTES_SOURCE, nameof(request), request);
 	Guards.string(ROUTES_SOURCE, nameof(request.body), request.body);
+
 	const service = ServiceFactory.get<IFederatedCatalogue>(factoryServiceName);
 	await service.registerComplianceCredential(request.body);
+
 	return {
-		statusCode: HttpStatusCode.noContent
+		headers: {
+			location: ""
+		},
+		statusCode: HttpStatusCode.created
 	};
 }
 

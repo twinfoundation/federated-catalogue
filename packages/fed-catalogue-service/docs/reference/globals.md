@@ -2,6 +2,7 @@
 
 ## Classes
 
+- [DIDService](classes/DIDService.md)
 - [FederatedCatalogueService](classes/FederatedCatalogueService.md)
 
 ## Variables

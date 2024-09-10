@@ -17,7 +17,7 @@
     "tags": [
         {
             "name": "Federated Catalogue",
-            "description": "Endpoints which are modelled to access a Federated Catalogue."
+            "description": "Endpoints to access a Federated Catalogue."
         }
     ],
     "paths": {
@@ -33,6 +33,22 @@
                         "jwtBearerAuthScheme": []
                     }
                 ],
+                "requestBody": {
+                    "description": "Register a new Compliance Credential.",
+                    "required": true,
+                    "content": {
+                        "application/jwt": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CompliancePresentationRequest"
+                            },
+                            "examples": {
+                                "compliancePresentationRequestExample": {
+                                    "value": "ey..."
+                                }
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "201": {
                         "description": "The rest request ended in created response."
@@ -90,22 +106,6 @@
                                             "message": "component.error"
                                         }
                                     }
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "description": "Register a new Compliance Credential.",
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/CompliancePresentationRequest"
-                            },
-                            "examples": {
-                                "compliancePresentationRequestExample": {
-                                    "value": "ey..."
                                 }
                             }
                         }

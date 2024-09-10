@@ -26,8 +26,10 @@ export function initialiseSystemLoggingConnector(options: IOptions, services: IS
 	// Create a regular console logger which automatically translates messages and hides groups.
 	// to display the system messages to the console
 	const consoleLoggingConnector = new ConsoleLoggingConnector({
-		translateMessages: true,
-		hideGroups: true
+		config: {
+			translateMessages: true,
+			hideGroups: true
+		}
 	});
 	services.push(consoleLoggingConnector);
 
@@ -72,8 +74,10 @@ export function initialiseLoggingConnectorFactory(options: IOptions, services: I
 		let namespace: string;
 		if (type === "console") {
 			connector = new ConsoleLoggingConnector({
-				translateMessages: true,
-				hideGroups: true
+				config: {
+					translateMessages: true,
+					hideGroups: true
+				}
 			});
 			namespace = ConsoleLoggingConnector.NAMESPACE;
 		} else {

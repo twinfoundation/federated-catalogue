@@ -1,6 +1,6 @@
 # Function: complianceCredentialPresentation()
 
-> **complianceCredentialPresentation**(`httpRequestContext`, `factoryServiceName`, `request`): `Promise`\<`INoContentResponse`\>
+> **complianceCredentialPresentation**(`httpRequestContext`, `factoryServiceName`, `request`): `Promise`\<`ICreatedResponse`\>
 
 Register a new participant.
 
@@ -20,6 +20,6 @@ The request.
 
 ## Returns
 
-`Promise`\<`INoContentResponse`\>
+`Promise`\<`ICreatedResponse`\>
 
 The response object with additional http response properties.

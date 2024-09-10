@@ -37,7 +37,11 @@
 		"@gtsc/services": "next",
 		"@gtsc/fed-catalogue-models": "0.0.1",
 		"@gtsc/web": "next",
-		"@gtsc/logging-models": "next"
+		"@gtsc/logging-models": "next",
+		"jose": "^4.9.3",
+		"did-resolver": "^4.1.0",
+		"web-did-resolver": "^2.0.27",
+		"@gaia-x/json-web-signature-2020": "file:../../../../gaia-x/json-web-signature-2020"
 	},
 	"devDependencies": {
 		"@gtsc/nameof-transformer": "next",
