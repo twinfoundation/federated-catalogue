@@ -38,11 +38,13 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 	/**
 	 * JWT Verifier service.
+	 * @internal
 	 */
 	private readonly _jwtVerifier: JwtVerificationService;
 
 	/**
 	 * Compliance Credential Verifier service.
+	 * @internal
 	 */
 	private readonly _credentialVerifier: ComplianceCredentialVerificationService;
 
@@ -74,6 +76,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		const complianceCredential = (await this._jwtVerifier.decodeJwt(
 			credentialJwt
 		)) as IComplianceCredential;
+
 		const result = await this._credentialVerifier.verify(complianceCredential);
 
 		if (!result.verified) {

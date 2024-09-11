@@ -60,22 +60,6 @@ Logging service.
 
 Storage service.
 
-***
-
-### \_jwtVerifier
-
-> `private` `readonly` **\_jwtVerifier**: [`JwtVerificationService`](JwtVerificationService.md)
-
-JWT Verifier service.
-
-***
-
-### \_credentialVerifier
-
-> `private` `readonly` **\_credentialVerifier**: [`ComplianceCredentialVerificationService`](ComplianceCredentialVerificationService.md)
-
-Compliance Credential Verifier service.
-
 ## Methods
 
 ### registerComplianceCredential()

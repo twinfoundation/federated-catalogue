@@ -3,9 +3,6 @@
 ## Classes
 
 - [FederatedCatalogueService](classes/FederatedCatalogueService.md)
-- [ComplianceCredentialVerificationService](classes/ComplianceCredentialVerificationService.md)
-- [DIDService](classes/DIDService.md)
-- [JwtVerificationService](classes/JwtVerificationService.md)
 
 ## Variables
 

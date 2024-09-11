@@ -3,6 +3,3 @@
 export * from "./fedCatalogueRoutes";
 export * from "./federatedCatalogueService";
 export * from "./restEntryPoints";
-export * from "./verification/didService";
-export * from "./verification/jwtVerificationService";
-export * from "./verification/complianceCredentialVerificationService";

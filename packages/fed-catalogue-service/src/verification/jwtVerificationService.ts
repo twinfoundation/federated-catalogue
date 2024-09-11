@@ -22,6 +22,7 @@ export class JwtVerificationService {
 
 	/**
 	 * DID service.
+	 * @internal
 	 */
 	private readonly _didService: DIDService;
 
@@ -35,25 +36,21 @@ export class JwtVerificationService {
 	 * @returns Decoded.
 	 */
 	public async decodeJwt(jwt: string): Promise<object> {
-		console.log("here!!!");
 		const decodedJWT: ProtectedHeaderParameters = this.decodeJWTHeaders(jwt);
-		console.log("there!!!");
-
 
 		const { iss, kid } = this.getMandatoryHeadersOrFail(decodedJWT);
-		console.log("there!!!2");
 
 		const DID = await this._didService.getDIDDocumentFromDID(iss);
 		const JWK = this.getJwkFromDid(DID, kid);
 		if (!JWK) {
 			throw new GeneralError(this.CLASS_NAME, "No JWK found on DID", { kid });
 		}
-		console.log("there!!!3");
 
 		const key = await this._didService.getPublicKeyFromJWK(JWK);
 		if (!key) {
 			throw new GeneralError(this.CLASS_NAME, "Wrong public key on DID. Not JWK", { kid });
 		}
+
 		const vpPayload = await this.decodeJWTWithKey(jwt, key);
 		return vpPayload.payload;
 	}
