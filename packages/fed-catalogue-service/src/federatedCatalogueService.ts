@@ -1,7 +1,7 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import { Guards } from "@gtsc/core";
+import { GeneralError, Guards } from "@gtsc/core";
 import {
 	EntityStorageConnectorFactory,
 	type IEntityStorageConnector
@@ -61,7 +61,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		>(options?.entityStorageConnectorName ?? "participant-entry");
 
 		this._jwtVerifier = new JwtVerificationService(this._loggingService);
-		this._credentialVerifier = new ComplianceCredentialVerificationService();
+		this._credentialVerifier = new ComplianceCredentialVerificationService(this._loggingService);
 	}
 
 	/**
@@ -88,7 +88,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 				data: { result }
 			});
 
-			return;
+			throw new GeneralError(this.CLASS_NAME, "Compliance credential cannot be verified", { reason: result.verificationFailureReason });
 		}
 
 		const participantEntry: ParticipantEntry = {
