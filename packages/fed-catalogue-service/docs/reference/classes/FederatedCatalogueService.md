@@ -54,11 +54,19 @@ Logging service.
 
 ***
 
-### \_entityStorage
+### \_entityStorageParticipants
 
-> `private` `readonly` **\_entityStorage**: `IEntityStorageConnector`\<`ParticipantEntry`\>
+> `private` `readonly` **\_entityStorageParticipants**: `IEntityStorageConnector`\<`ParticipantEntry`\>
 
-Storage service.
+Storage service for participants.
+
+***
+
+### \_entityStorageSDs
+
+> `private` `readonly` **\_entityStorageSDs**: `IEntityStorageConnector`\<`ServiceDescriptionEntry`\>
+
+Storage service for service descriptions.
 
 ## Methods
 
@@ -86,9 +94,9 @@ Nothing.
 
 ***
 
-### query()
+### queryParticipants()
 
-> **query**(`participantId`?, `legalRegistrationNumber`?, `lrnType`?, `cursor`?, `pageSize`?): `Promise`\<`object`\>
+> **queryParticipants**(`participantId`?, `legalRegistrationNumber`?, `lrnType`?, `cursor`?, `pageSize`?): `Promise`\<`object`\>
 
 Query the federated catalogue.
 
@@ -135,7 +143,80 @@ An optional cursor, when defined can be used to call find to get more entities.
 
 #### Implementation of
 
-`IFederatedCatalogue.query`
+`IFederatedCatalogue.queryParticipants`
+
+#### Throws
+
+NotImplementedError if the implementation does not support retrieval.
+
+***
+
+### registerServiceDescriptionCredential()
+
+> **registerServiceDescriptionCredential**(`credentialJwt`): `Promise`\<`void`\>
+
+Registers a compliance Credential to the service.
+
+#### Parameters
+
+• **credentialJwt**: `string`
+
+The credential (wrapped into a presentation) as JWT.
+
+#### Returns
+
+`Promise`\<`void`\>
+
+Nothing.
+
+#### Implementation of
+
+`IFederatedCatalogue.registerServiceDescriptionCredential`
+
+***
+
+### queryServiceDescriptions()
+
+> **queryServiceDescriptions**(`providedBy`?, `cursor`?, `pageSize`?): `Promise`\<`object`\>
+
+Query the federated catalogue.
+
+#### Parameters
+
+• **providedBy?**: `string`
+
+The identity of the participant.
+
+• **cursor?**: `string`
+
+The cursor to request the next page of entities.
+
+• **pageSize?**: `number`
+
+The maximum number of entities in a page.
+
+#### Returns
+
+`Promise`\<`object`\>
+
+All the entities for the storage matching the conditions,
+and a cursor which can be used to request more entities.
+
+##### entities
+
+> **entities**: `IServiceDescriptionEntry`[]
+
+The entities, which can be partial if a limited keys list was provided.
+
+##### cursor?
+
+> `optional` **cursor**: `string`
+
+An optional cursor, when defined can be used to call find to get more entities.
+
+#### Implementation of
+
+`IFederatedCatalogue.queryServiceDescriptions`
 
 #### Throws
 
@@ -146,6 +227,34 @@ NotImplementedError if the implementation does not support retrieval.
 ### extractParticipantEntry()
 
 > `private` **extractParticipantEntry**(`participantId`, `complianceCredential`, `credentials`): `IParticipantEntry`
+
+Extracts participant entry from the credentials.
+
+#### Parameters
+
+• **participantId**: `string`
+
+Participant Id.
+
+• **complianceCredential**: `IComplianceCredential`
+
+Compliance credential
+
+• **credentials**
+
+The Credentials extracted.
+
+#### Returns
+
+`IParticipantEntry`
+
+Participant Entry to be saved on the Database.
+
+***
+
+### extractServiceDescriptionEntry()
+
+> `private` **extractServiceDescriptionEntry**(`participantId`, `complianceCredential`, `credentials`): `IParticipantEntry`
 
 Extracts participant entry from the credentials.
 

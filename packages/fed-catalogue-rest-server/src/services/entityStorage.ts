@@ -8,7 +8,8 @@ import {
 	EntityStorageConnectorFactory,
 	type IEntityStorageConnector
 } from "@gtsc/entity-storage-models";
-import { ParticipantEntry } from "@gtsc/fed-catalogue-models";
+import { ParticipantEntry, ServiceDescriptionEntry } from "@gtsc/fed-catalogue-models";
+import { nameof } from "@gtsc/nameof";
 import type { IService } from "@gtsc/services";
 import { systemLogInfo } from "./logging.js";
 import type { IOptions } from "../models/IOptions.js";
@@ -28,8 +29,12 @@ export function initialiseEntityStorageConnector(
 	schema: string
 ): void {
 	const storageName = StringHelper.kebabCase(schema);
+	const sdStorageName = "service-description-entry";
 
 	EntitySchemaFactory.register(schema, () => EntitySchemaHelper.getSchema(ParticipantEntry));
+	EntitySchemaFactory.register(nameof<ServiceDescriptionEntry>(), () =>
+		EntitySchemaHelper.getSchema(ServiceDescriptionEntry)
+	);
 
 	systemLogInfo(
 		I18n.formatMessage("apiServer.configuringEntityStorage", {
@@ -39,12 +44,19 @@ export function initialiseEntityStorageConnector(
 		})
 	);
 	let entityStorageConnector: IEntityStorageConnector;
+	let sdStorageConnector: IEntityStorageConnector;
 
 	if (type === "file") {
 		entityStorageConnector = new FileEntityStorageConnector({
 			entitySchema: schema,
 			config: {
 				directory: path.join(options.storageFileRoot, storageName)
+			}
+		});
+		sdStorageConnector = new FileEntityStorageConnector({
+			entitySchema: nameof<ServiceDescriptionEntry>(),
+			config: {
+				directory: path.join(options.storageFileRoot, sdStorageName)
 			}
 		});
 	} else {
@@ -56,4 +68,7 @@ export function initialiseEntityStorageConnector(
 
 	services.push(entityStorageConnector);
 	EntityStorageConnectorFactory.register(storageName, () => entityStorageConnector);
+
+	services.push(sdStorageConnector);
+	EntityStorageConnectorFactory.register(sdStorageName, () => sdStorageConnector);
 }

@@ -120,9 +120,9 @@ Nothing.
 
 ***
 
-### query()
+### queryParticipants()
 
-> **query**(`participant`?, `legalRegistrationNumber`?, `lrnType`?, `cursor`?, `pageSize`?): `Promise`\<`object`\>
+> **queryParticipants**(`participant`?, `legalRegistrationNumber`?, `lrnType`?, `cursor`?, `pageSize`?): `Promise`\<`object`\>
 
 Query the federated catalogue.
 
@@ -158,6 +158,71 @@ and a cursor which can be used to request more entities.
 ##### entities
 
 > **entities**: [`IParticipantEntry`](IParticipantEntry.md)[]
+
+The entities, which can be partial if a limited keys list was provided.
+
+##### cursor?
+
+> `optional` **cursor**: `string`
+
+An optional cursor, when defined can be used to call find to get more entities.
+
+#### Throws
+
+NotImplementedError if the implementation does not support retrieval.
+
+***
+
+### registerServiceDescriptionCredential()
+
+> **registerServiceDescriptionCredential**(`credential`): `Promise`\<`void`\>
+
+Registers a service description Credential to the service.
+
+#### Parameters
+
+• **credential**: `string`
+
+The credential as JWT.
+
+#### Returns
+
+`Promise`\<`void`\>
+
+Nothing.
+
+***
+
+### queryServiceDescriptions()
+
+> **queryServiceDescriptions**(`providedBy`?, `cursor`?, `pageSize`?): `Promise`\<`object`\>
+
+Query the federated catalogue.
+
+#### Parameters
+
+• **providedBy?**: `string`
+
+The identity of the participant.
+
+• **cursor?**: `string`
+
+The cursor to request the next page of entities.
+
+• **pageSize?**: `number`
+
+The maximum number of entities in a page.
+
+#### Returns
+
+`Promise`\<`object`\>
+
+All the entities for the storage matching the conditions,
+and a cursor which can be used to request more entities.
+
+##### entities
+
+> **entities**: [`IServiceDescriptionEntry`](IServiceDescriptionEntry.md)[]
 
 The entities, which can be partial if a limited keys list was provided.
 

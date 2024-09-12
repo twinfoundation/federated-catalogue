@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0.
 import type { IService } from "@gtsc/services";
 import type { IParticipantEntry } from "./IParticipantEntry";
+import type { IServiceDescriptionEntry } from "./IServiceDescriptionEntry";
 
 /**
  * Interface describing a Fed Catalogue Contract.
@@ -25,7 +26,7 @@ export interface IFederatedCatalogue extends IService {
 	 * and a cursor which can be used to request more entities.
 	 * @throws NotImplementedError if the implementation does not support retrieval.
 	 */
-	query(
+	queryParticipants(
 		participant?: string,
 		legalRegistrationNumber?: string,
 		lrnType?: string,
@@ -36,6 +37,37 @@ export interface IFederatedCatalogue extends IService {
 		 * The entities, which can be partial if a limited keys list was provided.
 		 */
 		entities: IParticipantEntry[];
+		/**
+		 * An optional cursor, when defined can be used to call find to get more entities.
+		 */
+		cursor?: string;
+	}>;
+
+	/**
+	 * Registers a service description Credential to the service.
+	 * @param credential The credential as JWT.
+	 * @returns Nothing.
+	 */
+	registerServiceDescriptionCredential(credential: string): Promise<void>;
+
+	/**
+	 * Query the federated catalogue.
+	 * @param providedBy The identity of the participant.
+	 * @param cursor The cursor to request the next page of entities.
+	 * @param pageSize The maximum number of entities in a page.
+	 * @returns All the entities for the storage matching the conditions,
+	 * and a cursor which can be used to request more entities.
+	 * @throws NotImplementedError if the implementation does not support retrieval.
+	 */
+	queryServiceDescriptions(
+		providedBy?: string,
+		cursor?: string,
+		pageSize?: number
+	): Promise<{
+		/**
+		 * The entities, which can be partial if a limited keys list was provided.
+		 */
+		entities: IServiceDescriptionEntry[];
 		/**
 		 * An optional cursor, when defined can be used to call find to get more entities.
 		 */
