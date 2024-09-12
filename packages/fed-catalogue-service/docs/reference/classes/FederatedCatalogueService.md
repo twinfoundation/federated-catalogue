@@ -133,18 +133,6 @@ The entities, which can be partial if a limited keys list was provided.
 
 An optional cursor, when defined can be used to call find to get more entities.
 
-##### pageSize?
-
-> `optional` **pageSize**: `number`
-
-Number of entities to return.
-
-##### totalEntities
-
-> **totalEntities**: `number`
-
-Total entities length.
-
 #### Implementation of
 
 `IFederatedCatalogue.query`
@@ -157,7 +145,7 @@ NotImplementedError if the implementation does not support retrieval.
 
 ### extractParticipantEntry()
 
-> `private` **extractParticipantEntry**(`participantId`, `issuerId`, `credentials`): `IParticipantEntry`
+> `private` **extractParticipantEntry**(`participantId`, `complianceCredential`, `credentials`): `IParticipantEntry`
 
 Extracts participant entry from the credentials.
 
@@ -167,9 +155,9 @@ Extracts participant entry from the credentials.
 
 Participant Id.
 
-• **issuerId**: `string`
+• **complianceCredential**: `IComplianceCredential`
 
-Issuer Id.
+Compliance credential
 
 • **credentials**
 

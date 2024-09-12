@@ -29,4 +29,24 @@ export interface IParticipantEntry {
 	 * The trusted issuer of the compliance credential
 	 */
 	trustedIssuerId: string;
+
+	/**
+	 * Country code
+	 */
+	countryCode: string;
+
+	/**
+	 * Valid from
+	 */
+	validFrom: string;
+
+	/**
+	 * Valid to
+	 */
+	validUntil: string;
+
+	/**
+	 * Date created
+	 */
+	dateCreated: string;
 }

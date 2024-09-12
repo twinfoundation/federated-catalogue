@@ -34,7 +34,15 @@ export class ComplianceCredentialVerificationService {
 		if (!Array.isArray(credential.type) || !credential.type.includes("gx:ComplianceCredential")) {
 			return {
 				verified: false,
-				verificationFailureReason: "Invalid type",
+				verificationFailureReason: "Invalid credential type",
+				credentials: {}
+			};
+		}
+
+		if (credential.issuer !== process.env.CLEARING_HOUSE_WHITELIST) {
+			return {
+				verified: false,
+				verificationFailureReason: `Credential's Issuer is not the clearing house: ${process.env.CLEARING_HOUSE_WHITELIST}`,
 				credentials: {}
 			};
 		}
@@ -92,7 +100,7 @@ export class ComplianceCredentialVerificationService {
 					credentials: {}
 				};
 			}
-			finalResult.credentials[verResult.credential?.type as string] =
+			finalResult.credentials[verResult.credential?.credentialSubject.type as string] =
 				verResult.credential as IVerifiableCredential;
 		}
 

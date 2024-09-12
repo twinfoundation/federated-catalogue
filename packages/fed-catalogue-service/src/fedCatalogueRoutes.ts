@@ -106,12 +106,14 @@ export function generateRestRoutesFedCatalogue(
 										legalRegistrationNumber: "zzz",
 										legalName: "A Inc.",
 										lrnType: "VAT_ID",
-										trustedIssuerId: "did:iota:zzz"
+										trustedIssuerId: "did:iota:zzz",
+										countryCode: "KE",
+										validFrom: "2024-08-01T12:00:00Z",
+										validUntil: "2025-08-01T12:00:00Z",
+										dateCreated: "2024-08-02T13:45:00Z"
 									}
 								],
-								cursor: "1",
-								pageSize: 10,
-								totalEntities: 20
+								cursor: "1"
 							}
 						}
 					}

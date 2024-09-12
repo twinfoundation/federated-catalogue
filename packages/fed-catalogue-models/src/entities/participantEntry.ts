@@ -36,4 +36,28 @@ export class ParticipantEntry {
 	 */
 	@property({ type: "string" })
 	public trustedIssuerId!: string;
+
+	/**
+	 * Country code
+	 */
+	@property({ type: "string" })
+	public countryCode!: string;
+
+	/**
+	 * Valid from
+	 */
+	@property({ type: "string" })
+	public validFrom!: string;
+
+	/**
+	 * Valid to
+	 */
+	@property({ type: "string" })
+	public validUntil!: string;
+
+	/**
+	 * Date created
+	 */
+	@property({ type: "string" })
+	public dateCreated!: string;
 }

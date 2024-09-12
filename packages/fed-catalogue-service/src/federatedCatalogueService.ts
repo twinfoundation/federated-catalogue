@@ -95,8 +95,9 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		}
 
 		const participantEntry = this.extractParticipantEntry(
-			complianceCredential.credentialSubject.id,
-			complianceCredential.issuer,
+			// Workaround to deal with GX Compliance Service
+			complianceCredential.credentialSubject.id.split("#")[0],
+			complianceCredential,
 			result.credentials
 		);
 
@@ -140,33 +141,24 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		 * An optional cursor, when defined can be used to call find to get more entities.
 		 */
 		cursor?: string;
-		/**
-		 * Number of entities to return.
-		 */
-		pageSize?: number;
-		/**
-		 * Total entities length.
-		 */
-		totalEntities: number;
 	}> {
+		const entries = await this._entityStorage.query();
 		return {
-			entities: [] as IParticipantEntry[],
-			cursor: undefined,
-			pageSize: 1,
-			totalEntities: 1
+			entities: entries.entities as IParticipantEntry[],
+			cursor: entries.cursor
 		};
 	}
 
 	/**
 	 * Extracts participant entry from the credentials.
 	 * @param participantId Participant Id.
-	 * @param issuerId Issuer Id.
+	 * @param complianceCredential Compliance credential
 	 * @param credentials The Credentials extracted.
 	 * @returns Participant Entry to be saved on the Database.
 	 */
 	private extractParticipantEntry(
 		participantId: string,
-		issuerId: string,
+		complianceCredential: IComplianceCredential,
 		credentials: { [type: string]: IVerifiableCredential }
 	): IParticipantEntry {
 		const legalParticipantData = credentials["gx:LegalParticipant"].credentialSubject;
@@ -177,8 +169,12 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			participantId,
 			legalRegistrationNumber: legalRegistrationData["gx:taxId"] as string,
 			lrnType: legalRegistrationEvidence["gx:evidenceOf"] as string,
-			trustedIssuerId: issuerId,
-			legalName: legalParticipantData["gx:legalName"] as string
+			countryCode: legalRegistrationData["gx:countryCode"] as string,
+			trustedIssuerId: complianceCredential.issuer,
+			legalName: legalParticipantData["gx:legalName"] as string,
+			validFrom: complianceCredential.validFrom,
+			validUntil: complianceCredential.validUntil,
+			dateCreated: new Date().toISOString()
 		};
 
 		return result;
