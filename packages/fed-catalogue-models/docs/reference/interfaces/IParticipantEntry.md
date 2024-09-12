@@ -73,3 +73,11 @@ Valid to
 > **dateCreated**: `string`
 
 Date created
+
+***
+
+### evidences
+
+> **evidences**: `string`[]
+
+Original credentials

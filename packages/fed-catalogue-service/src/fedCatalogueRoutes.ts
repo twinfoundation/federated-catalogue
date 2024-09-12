@@ -110,7 +110,8 @@ export function generateRestRoutesFedCatalogue(
 										countryCode: "KE",
 										validFrom: "2024-08-01T12:00:00Z",
 										validUntil: "2025-08-01T12:00:00Z",
-										dateCreated: "2024-08-02T13:45:00Z"
+										dateCreated: "2024-08-02T13:45:00Z",
+										evidences: ["https://credentials.example.org/1234567"]
 									}
 								],
 								cursor: "1"

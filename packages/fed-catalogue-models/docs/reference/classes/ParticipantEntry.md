@@ -83,3 +83,11 @@ Valid to
 > **dateCreated**: `string`
 
 Date created
+
+***
+
+### evidences
+
+> **evidences**: `string`[]
+
+Date created

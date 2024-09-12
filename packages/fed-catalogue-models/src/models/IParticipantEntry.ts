@@ -49,4 +49,10 @@ export interface IParticipantEntry {
 	 * Date created
 	 */
 	dateCreated: string;
+
+	/**
+	 * Original credentials
+	 *
+	 */
+	evidences: string[];
 }

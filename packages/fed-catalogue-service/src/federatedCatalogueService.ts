@@ -165,6 +165,11 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		const legalRegistrationData = credentials["gx:legalRegistrationNumber"].credentialSubject;
 		const legalRegistrationEvidence = credentials["gx:legalRegistrationNumber"].evidence;
 
+		const evidences: string[] = [];
+		for (const evidence of complianceCredential.credentialSubject["gx:evidence"]) {
+			evidences.push(evidence.id as string);
+		}
+
 		const result: IParticipantEntry = {
 			participantId,
 			legalRegistrationNumber: legalRegistrationData["gx:taxId"] as string,
@@ -174,7 +179,8 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			legalName: legalParticipantData["gx:legalName"] as string,
 			validFrom: complianceCredential.validFrom,
 			validUntil: complianceCredential.validUntil,
-			dateCreated: new Date().toISOString()
+			dateCreated: new Date().toISOString(),
+			evidences
 		};
 
 		return result;

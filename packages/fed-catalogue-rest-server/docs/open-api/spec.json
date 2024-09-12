@@ -467,7 +467,10 @@
                                                     "countryCode": "KE",
                                                     "validFrom": "2024-08-01T12:00:00Z",
                                                     "validUntil": "2025-08-01T12:00:00Z",
-                                                    "dateCreated": "2024-08-02T13:45:00Z"
+                                                    "dateCreated": "2024-08-02T13:45:00Z",
+                                                    "evidences": [
+                                                        "https://credentials.example.org/1234567"
+                                                    ]
                                                 }
                                             ],
                                             "cursor": "1"
@@ -718,6 +721,13 @@
                     "dateCreated": {
                         "type": "string",
                         "description": "Date created"
+                    },
+                    "evidences": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Original credentials"
                     }
                 },
                 "required": [
@@ -729,7 +739,8 @@
                     "countryCode",
                     "validFrom",
                     "validUntil",
-                    "dateCreated"
+                    "dateCreated",
+                    "evidences"
                 ],
                 "additionalProperties": false,
                 "description": "Interface describing a participant."

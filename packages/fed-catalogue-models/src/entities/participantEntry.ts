@@ -60,4 +60,10 @@ export class ParticipantEntry {
 	 */
 	@property({ type: "string" })
 	public dateCreated!: string;
+
+	/**
+	 * Date created
+	 */
+	@property({ type: "array" })
+	public evidences!: string[];
 }
