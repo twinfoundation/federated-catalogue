@@ -3,8 +3,8 @@
 import path from "node:path";
 import type { IServerInfo } from "@gtsc/api-models";
 import { InformationService } from "@gtsc/api-service";
-import { I18n } from "@gtsc/core";
-import { ServiceFactory, type IService } from "@gtsc/services";
+import { ComponentFactory, I18n } from "@gtsc/core";
+import type { IService } from "@gtsc/services";
 import { systemLogInfo } from "./logging.js";
 import type { IOptions } from "../models/IOptions.js";
 
@@ -29,5 +29,5 @@ export function initialiseInformationService(
 
 	const informationService = new InformationService(serverInfo, specFile);
 	services.push(informationService);
-	ServiceFactory.register(INFORMATION_SERVICE_NAME, () => informationService);
+	ComponentFactory.register(INFORMATION_SERVICE_NAME, () => informationService);
 }
