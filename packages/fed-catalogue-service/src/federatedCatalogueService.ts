@@ -1,7 +1,7 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import { GeneralError, Guards } from "@gtsc/core";
+import { Guards, UnprocessableError } from "@gtsc/core";
 import {
 	EntityStorageConnectorFactory,
 	type IEntityStorageConnector
@@ -10,6 +10,7 @@ import type {
 	IComplianceCredential,
 	IFederatedCatalogue,
 	IParticipantEntry,
+	IVerifiableCredential,
 	ParticipantEntry
 } from "@gtsc/fed-catalogue-models";
 import { LoggingConnectorFactory, type ILoggingConnector } from "@gtsc/logging-models";
@@ -88,16 +89,16 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 				data: { result }
 			});
 
-			throw new GeneralError(this.CLASS_NAME, "Compliance credential cannot be verified", { reason: result.verificationFailureReason });
+			throw new UnprocessableError(this.CLASS_NAME, "Compliance credential cannot be verified", {
+				reason: result.verificationFailureReason
+			});
 		}
 
-		const participantEntry: ParticipantEntry = {
-			participantId: "1",
-			legalRegistrationNumber: "xx",
-			lrnType: "xx",
-			trustedIssuerId: "x",
-			legalName: "zzz"
-		};
+		const participantEntry = this.extractParticipantEntry(
+			complianceCredential.credentialSubject.id,
+			complianceCredential.issuer,
+			result.credentials
+		);
 
 		await this._entityStorage.set(participantEntry);
 
@@ -105,7 +106,11 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			level: "info",
 			source: this.CLASS_NAME,
 			ts: Date.now(),
-			message: "Compliance credential verified and new entry added to the Fed Catalogue2"
+			message: "Compliance credential verified and new entry added to the Fed Catalogue",
+			data: {
+				participantId: complianceCredential.credentialSubject.id,
+				trustedIssuer: complianceCredential.issuer
+			}
 		});
 	}
 
@@ -150,5 +155,32 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			pageSize: 1,
 			totalEntities: 1
 		};
+	}
+
+	/**
+	 * Extracts participant entry from the credentials.
+	 * @param participantId Participant Id.
+	 * @param issuerId Issuer Id.
+	 * @param credentials The Credentials extracted.
+	 * @returns Participant Entry to be saved on the Database.
+	 */
+	private extractParticipantEntry(
+		participantId: string,
+		issuerId: string,
+		credentials: { [type: string]: IVerifiableCredential }
+	): IParticipantEntry {
+		const legalParticipantData = credentials["gx:LegalParticipant"].credentialSubject;
+		const legalRegistrationData = credentials["gx:legalRegistrationNumber"].credentialSubject;
+		const legalRegistrationEvidence = credentials["gx:legalRegistrationNumber"].evidence;
+
+		const result: IParticipantEntry = {
+			participantId,
+			legalRegistrationNumber: legalRegistrationData["gx:taxId"] as string,
+			lrnType: legalRegistrationEvidence["gx:evidenceOf"] as string,
+			trustedIssuerId: issuerId,
+			legalName: legalParticipantData["gx:legalName"] as string
+		};
+
+		return result;
 	}
 }

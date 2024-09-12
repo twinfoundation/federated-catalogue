@@ -5,10 +5,12 @@ import {
 	JsonWebSignature2020Verifier,
 	type VerifiableCredential
 } from "@gaia-x/json-web-signature-2020";
-import { GeneralError, type IError } from "@gtsc/core";
+import { Guards, UnprocessableError, type IError } from "@gtsc/core";
 import type {
 	IComplianceCredential,
 	IComplianceEvidence,
+	IComplianceVerificationResult,
+	IVerifiableCredential,
 	IVerificationResult
 } from "@gtsc/fed-catalogue-models";
 import type { ILoggingConnector } from "@gtsc/logging-models";
@@ -28,11 +30,12 @@ export class ComplianceCredentialVerificationService {
 		this._logger = logger;
 	}
 
-	public async verify(credential: IComplianceCredential): Promise<IVerificationResult> {
+	public async verify(credential: IComplianceCredential): Promise<IComplianceVerificationResult> {
 		if (!Array.isArray(credential.type) || !credential.type.includes("gx:ComplianceCredential")) {
 			return {
 				verified: false,
-				verificationFailureReason: "Invalid type"
+				verificationFailureReason: "Invalid type",
+				credentials: {}
 			};
 		}
 
@@ -41,7 +44,8 @@ export class ComplianceCredentialVerificationService {
 		if (validFromDate > Date.now()) {
 			return {
 				verified: false,
-				verificationFailureReason: "Not valid yet"
+				verificationFailureReason: "Not valid yet",
+				credentials: {}
 			};
 		}
 
@@ -50,7 +54,8 @@ export class ComplianceCredentialVerificationService {
 		if (validUntilDate <= Date.now()) {
 			return {
 				verified: false,
-				verificationFailureReason: "Expired"
+				verificationFailureReason: "Expired",
+				credentials: {}
 			};
 		}
 
@@ -58,36 +63,48 @@ export class ComplianceCredentialVerificationService {
 		if (!subject) {
 			return {
 				verified: false,
-				verificationFailureReason: "Missing subject"
+				verificationFailureReason: "Missing subject",
+				credentials: {}
 			};
 		}
 
 		const evidences = subject["gx:evidence"];
-		if (!Array.isArray(evidences)) {
+		if (!Array.isArray(evidences) || evidences.length === 0) {
 			return {
 				verified: false,
-				verificationFailureReason: "Missing evidences"
+				verificationFailureReason: "Missing evidences",
+				credentials: {}
 			};
 		}
+
+		const finalResult: IComplianceVerificationResult = {
+			verified: true,
+			verificationFailureReason: "",
+			credentials: {}
+		};
 
 		for (const evidence of evidences) {
 			const verResult = await this.verifyEvidence(evidence);
 			if (!verResult.verified) {
 				return {
 					verified: false,
-					verificationFailureReason: `Evidence failure: ${verResult.verificationFailureReason}`
+					verificationFailureReason: `Evidence failure: ${verResult.verificationFailureReason}`,
+					credentials: {}
 				};
 			}
+			finalResult.credentials[verResult.credential?.type as string] =
+				verResult.credential as IVerifiableCredential;
 		}
 
-		return {
-			verified: true,
-			verificationFailureReason: ""
-		};
+		return finalResult;
 	}
 
-	private async verifyEvidence(evidence: IComplianceEvidence): Promise<IVerificationResult> {
+	private async verifyEvidence(
+		evidence: IComplianceEvidence
+	): Promise<IVerificationResult & { credential?: IVerifiableCredential }> {
 		// The credential associated to the evidence has to be retrieved, then verified
+		Guards.object<IComplianceEvidence>(this.CLASS_NAME, nameof<IComplianceEvidence>(), evidence);
+
 		const credentialUrl = evidence.id;
 		this._logger.log({
 			source: this.CLASS_NAME,
@@ -121,8 +138,14 @@ export class ComplianceCredentialVerificationService {
 		const responseData = await credentialResponse.json();
 		const theCredential = structuredClone(responseData);
 
+		// The proof is not taken into account to calculate the hash
 		delete theCredential.proof;
-		theCredential.iat = Date.parse(theCredential.validFrom) / 1000;
+		// Workaround to reflect the fact that the original enveloped credential contained the "iat" claim
+		// and was actually used by the Compliance Service to calculate the hash, probably it shouldn't as it refers
+		// to the JWT wrapping the credential, not the credential itself
+		if (!theCredential.iat) {
+			theCredential.iat = Date.parse(theCredential.validFrom) / 1000;
+		}
 
 		// Checking the hash
 		const canonicalized = canonicalize(theCredential) as string;
@@ -134,7 +157,7 @@ export class ComplianceCredentialVerificationService {
 		} else if (hashingAlg === "sha512") {
 			hashToCheck = HashingUtils.sha512(canonicalized);
 		} else {
-			throw new GeneralError(this.CLASS_NAME, `Unknown hashing algorithm: ${hashingAlg}`);
+			throw new UnprocessableError(this.CLASS_NAME, `Unknown hashing algorithm: ${hashingAlg}`);
 		}
 		if (hashToCheck !== hash) {
 			return {
@@ -144,8 +167,9 @@ export class ComplianceCredentialVerificationService {
 		}
 
 		const verifier: JsonWebSignature2020Verifier = new JsonWebSignature2020Verifier();
+		const originalCredential = responseData as VerifiableCredential;
 		try {
-			await verifier.verify(responseData as VerifiableCredential);
+			await verifier.verify(originalCredential);
 		} catch (error) {
 			this._logger.log({
 				source: this.CLASS_NAME,
@@ -169,7 +193,8 @@ export class ComplianceCredentialVerificationService {
 
 		return {
 			verified: true,
-			verificationFailureReason: ""
+			verificationFailureReason: "",
+			credential: originalCredential as IVerifiableCredential
 		};
 	}
 }

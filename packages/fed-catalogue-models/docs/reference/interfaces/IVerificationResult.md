@@ -1,5 +1,9 @@
 # Interface: IVerificationResult
 
+## Extended by
+
+- [`IComplianceVerificationResult`](IComplianceVerificationResult.md)
+
 ## Properties
 
 ### verified

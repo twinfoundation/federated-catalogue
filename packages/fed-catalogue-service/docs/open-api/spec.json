@@ -54,7 +54,7 @@
                         "description": "The rest request ended in created response."
                     },
                     "400": {
-                        "description": "The server cannot process the request, see the error field for more details.",
+                        "description": "The server cannot process the request, see the content for more details.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -75,7 +75,7 @@
                         }
                     },
                     "401": {
-                        "description": "You are not authorized to use the API or no credentials were supplied, see the error field for more details.",
+                        "description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -92,8 +92,26 @@
                             }
                         }
                     },
+                    "422": {
+                        "description": "The server cannot process the request, see the content for more details.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "examples": {
+                                    "exampleResponse": {
+                                        "value": {
+                                            "name": "UnprocessableError",
+                                            "message": "component.error"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "500": {
-                        "description": "The server has encountered a situation it does not know how to handle, see the error field for more details.",
+                        "description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -203,7 +221,7 @@
                         }
                     },
                     "400": {
-                        "description": "The server cannot process the request, see the error field for more details.",
+                        "description": "The server cannot process the request, see the content for more details.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -224,7 +242,7 @@
                         }
                     },
                     "401": {
-                        "description": "You are not authorized to use the API or no credentials were supplied, see the error field for more details.",
+                        "description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -242,7 +260,7 @@
                         }
                     },
                     "500": {
-                        "description": "The server has encountered a situation it does not know how to handle, see the error field for more details.",
+                        "description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
                         "content": {
                             "application/json": {
                                 "schema": {

@@ -10,3 +10,5 @@ export * from "./entities/participantEntry";
 export * from "./models/IComplianceCredential";
 export * from "./models/IComplianceEvidence";
 export * from "./models/IVerificationResult";
+export * from "./models/IVerifiableCredential";
+export * from "./models/IComplianceVerificationResult";

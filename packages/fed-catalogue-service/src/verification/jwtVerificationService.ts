@@ -4,7 +4,7 @@
 /* eslint-disable jsdoc/require-jsdoc */
 
 import { DidResolver } from "@gaia-x/json-web-signature-2020";
-import { GeneralError } from "@gtsc/core";
+import { GeneralError, UnprocessableError } from "@gtsc/core";
 import type { ILoggingConnector } from "@gtsc/logging-models";
 import { nameof } from "@gtsc/nameof";
 import type { DIDDocument, JsonWebKey } from "did-resolver";
@@ -70,7 +70,7 @@ export class JwtVerificationService {
 			if (
 				(error as { message: string }).message === "Invalid Token or Protected Header formatting"
 			) {
-				throw new GeneralError(
+				throw new UnprocessableError(
 					this.CLASS_NAME,
 					"The payload is not a valid JWT and was not decoded"
 				);

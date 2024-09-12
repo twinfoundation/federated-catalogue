@@ -1,6 +1,12 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import type { ICreatedResponse, IHttpRequestContext, IRestRoute, ITag } from "@gtsc/api-models";
+import type {
+	ICreatedResponse,
+	IHttpRequestContext,
+	IRestRoute,
+	ITag,
+	IUnprocessableEntityResponse
+} from "@gtsc/api-models";
 import { Coerce, Guards } from "@gtsc/core";
 import type {
 	ICompliancePresentationRequest,
@@ -60,7 +66,8 @@ export function generateRestRoutesFedCatalogue(
 		responseType: [
 			{
 				type: nameof<ICreatedResponse>()
-			}
+			},
+			{ type: nameof<IUnprocessableEntityResponse>() }
 		]
 	};
 
@@ -136,7 +143,7 @@ export async function complianceCredentialPresentation(
 
 	return {
 		headers: {
-			location: ""
+			Location: ""
 		},
 		statusCode: HttpStatusCode.created
 	};

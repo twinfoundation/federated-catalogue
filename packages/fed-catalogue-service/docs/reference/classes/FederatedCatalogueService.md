@@ -152,3 +152,31 @@ Total entities length.
 #### Throws
 
 NotImplementedError if the implementation does not support retrieval.
+
+***
+
+### extractParticipantEntry()
+
+> `private` **extractParticipantEntry**(`participantId`, `issuerId`, `credentials`): `IParticipantEntry`
+
+Extracts participant entry from the credentials.
+
+#### Parameters
+
+• **participantId**: `string`
+
+Participant Id.
+
+• **issuerId**: `string`
+
+Issuer Id.
+
+• **credentials**
+
+The Credentials extracted.
+
+#### Returns
+
+`IParticipantEntry`
+
+Participant Entry to be saved on the Database.
