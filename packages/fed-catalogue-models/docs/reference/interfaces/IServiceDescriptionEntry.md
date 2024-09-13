@@ -12,6 +12,30 @@ Service Id.
 
 ***
 
+### servicePolicy
+
+> **servicePolicy**: `unknown`
+
+Service policy.
+
+***
+
+### name
+
+> **name**: `string`
+
+Service name.
+
+***
+
+### description?
+
+> `optional` **description**: `string`
+
+Service description.
+
+***
+
 ### providedBy
 
 > **providedBy**: `string`
@@ -20,9 +44,9 @@ Service provider
 
 ***
 
-### restEndpoint
+### endpointURL
 
-> **restEndpoint**: `string`
+> **endpointURL**: `string`
 
 REST endpoint
 

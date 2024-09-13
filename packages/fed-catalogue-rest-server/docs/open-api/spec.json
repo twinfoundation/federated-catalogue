@@ -706,7 +706,9 @@
                                             "entities": [
                                                 {
                                                     "serviceId": "http://example.org/is123456",
-                                                    "restEndpoint": "https://endpoint.example.org/api",
+                                                    "name": "Service 1",
+                                                    "servicePolicy": {},
+                                                    "endpointURL": "https://endpoint.example.org/api",
                                                     "providedBy": "did:iota:1234567",
                                                     "validFrom": "2024-08-01T12:00:00Z",
                                                     "validUntil": "2025-08-01T12:00:00Z",
@@ -1020,11 +1022,22 @@
                         "type": "string",
                         "description": "Service Id."
                     },
+                    "servicePolicy": {
+                        "description": "Service policy."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Service name."
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Service description."
+                    },
                     "providedBy": {
                         "type": "string",
                         "description": "Service provider"
                     },
-                    "restEndpoint": {
+                    "endpointURL": {
                         "type": "string",
                         "description": "REST endpoint"
                     },
@@ -1050,8 +1063,10 @@
                 },
                 "required": [
                     "serviceId",
+                    "servicePolicy",
+                    "name",
                     "providedBy",
-                    "restEndpoint",
+                    "endpointURL",
                     "validFrom",
                     "validUntil",
                     "dateCreated",

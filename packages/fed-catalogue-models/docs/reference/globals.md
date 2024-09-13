@@ -12,6 +12,7 @@
 - [IComplianceVerificationResult](interfaces/IComplianceVerificationResult.md)
 - [IFederatedCatalogue](interfaces/IFederatedCatalogue.md)
 - [IParticipantEntry](interfaces/IParticipantEntry.md)
+- [IServiceDescriptionCredential](interfaces/IServiceDescriptionCredential.md)
 - [IServiceDescriptionEntry](interfaces/IServiceDescriptionEntry.md)
 - [IVerifiableCredential](interfaces/IVerifiableCredential.md)
 - [IVerificationResult](interfaces/IVerificationResult.md)

@@ -11,6 +11,21 @@ export interface IServiceDescriptionEntry {
 	serviceId: string;
 
 	/**
+	 * Service policy.
+	 */
+	servicePolicy: unknown;
+
+	/**
+	 * Service name.
+	 */
+	name: string;
+
+	/**
+	 * Service description.
+	 */
+	description?: string;
+
+	/**
 	 * Service provider
 	 */
 	providedBy: string;
@@ -18,7 +33,7 @@ export interface IServiceDescriptionEntry {
 	/**
 	 * REST endpoint
 	 */
-	restEndpoint: string;
+	endpointURL: string;
 
 	/**
 	 * Valid from

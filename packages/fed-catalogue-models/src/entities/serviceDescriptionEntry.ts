@@ -3,7 +3,7 @@
 import { entity, property } from "@gtsc/entity";
 
 /**
- * Call defining a telemetry metric.
+ * Service Description Entry.
  */
 @entity()
 export class ServiceDescriptionEntry {
@@ -12,6 +12,18 @@ export class ServiceDescriptionEntry {
 	 */
 	@property({ type: "string", isPrimary: true })
 	public serviceId!: string;
+
+	/**
+	 * The service name.
+	 */
+	@property({ type: "string" })
+	public name!: string;
+
+	/**
+	 * The service description.
+	 */
+	@property({ type: "string", optional: true })
+	public description?: string;
 
 	/**
 	 * The provider
@@ -23,7 +35,13 @@ export class ServiceDescriptionEntry {
 	 * The REST endpoint
 	 */
 	@property({ type: "string", optional: true })
-	public restEndpoint!: string;
+	public endpointURL!: string;
+
+	/**
+	 * The policy
+	 */
+	@property({ type: "object" })
+	public servicePolicy!: unknown;
 
 	/**
 	 * Valid from

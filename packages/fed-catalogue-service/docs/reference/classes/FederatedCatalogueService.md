@@ -254,26 +254,18 @@ Participant Entry to be saved on the Database.
 
 ### extractServiceDescriptionEntry()
 
-> `private` **extractServiceDescriptionEntry**(`participantId`, `complianceCredential`, `credentials`): `IParticipantEntry`
+> `private` **extractServiceDescriptionEntry**(`sdCredential`): `IServiceDescriptionEntry`
 
 Extracts participant entry from the credentials.
 
 #### Parameters
 
-• **participantId**: `string`
+• **sdCredential**: `IServiceDescriptionCredential`
 
-Participant Id.
-
-• **complianceCredential**: `IComplianceCredential`
-
-Compliance credential
-
-• **credentials**
-
-The Credentials extracted.
+SD credential
 
 #### Returns
 
-`IParticipantEntry`
+`IServiceDescriptionEntry`
 
-Participant Entry to be saved on the Database.
+Service Description Entry to be saved on the Database.

@@ -189,7 +189,9 @@ export function generateRestRoutesFedCatalogue(
 								entities: [
 									{
 										serviceId: "http://example.org/is123456",
-										restEndpoint: "https://endpoint.example.org/api",
+										name: "Service 1",
+										servicePolicy: {},
+										endpointURL: "https://endpoint.example.org/api",
 										providedBy: "did:iota:1234567",
 										validFrom: "2024-08-01T12:00:00Z",
 										validUntil: "2025-08-01T12:00:00Z",
@@ -222,7 +224,7 @@ export async function complianceCredentialPresentation(
 	request: ICompliancePresentationRequest
 ): Promise<ICreatedResponse> {
 	Guards.object<ICompliancePresentationRequest>(ROUTES_SOURCE, nameof(request), request);
-	Guards.string(ROUTES_SOURCE, nameof(request.body), request.body);
+	Guards.stringValue(ROUTES_SOURCE, nameof(request.body), request.body);
 
 	const service = ServiceFactory.get<IFederatedCatalogue>(factoryServiceName);
 	await service.registerComplianceCredential(request.body);
@@ -274,7 +276,7 @@ export async function serviceDescriptionCredentialPresentation(
 	request: ICompliancePresentationRequest
 ): Promise<ICreatedResponse> {
 	Guards.object<ICompliancePresentationRequest>(ROUTES_SOURCE, nameof(request), request);
-	Guards.string(ROUTES_SOURCE, nameof(request.body), request.body);
+	Guards.stringValue(ROUTES_SOURCE, nameof(request.body), request.body);
 
 	const service = ServiceFactory.get<IFederatedCatalogue>(factoryServiceName);
 	await service.registerServiceDescriptionCredential(request.body);

@@ -1,6 +1,6 @@
 # Class: ParticipantEntry
 
-Call defining a telemetry metric.
+Participant entry.
 
 ## Constructors
 
@@ -24,7 +24,7 @@ The participant Id.
 
 ### lrnType
 
-> **lrnType**: `string`
+> **lrnType**: `undefined` \| `string`
 
 The legal registration number.
 

@@ -3,7 +3,7 @@
 import { entity, property } from "@gtsc/entity";
 
 /**
- * Call defining a telemetry metric.
+ * Participant entry.
  */
 @entity()
 export class ParticipantEntry {
@@ -17,7 +17,7 @@ export class ParticipantEntry {
 	 * The legal registration number.
 	 */
 	@property({ type: "string", optional: true })
-	public lrnType!: string;
+	public lrnType!: string | undefined;
 
 	/**
 	 * The legal registration number.

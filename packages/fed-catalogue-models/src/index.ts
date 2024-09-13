@@ -17,3 +17,4 @@ export * from "./models/IComplianceEvidence";
 export * from "./models/IVerificationResult";
 export * from "./models/IVerifiableCredential";
 export * from "./models/IComplianceVerificationResult";
+export * from "./models/IServiceDescriptionCredential";

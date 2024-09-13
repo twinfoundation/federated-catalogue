@@ -1,6 +1,6 @@
 # Class: ServiceDescriptionEntry
 
-Call defining a telemetry metric.
+Service Description Entry.
 
 ## Constructors
 
@@ -22,6 +22,22 @@ The service Id.
 
 ***
 
+### name
+
+> **name**: `string`
+
+The service name.
+
+***
+
+### description?
+
+> `optional` **description**: `string`
+
+The service description.
+
+***
+
 ### providedBy
 
 > **providedBy**: `string`
@@ -30,11 +46,19 @@ The provider
 
 ***
 
-### restEndpoint
+### endpointURL
 
-> **restEndpoint**: `string`
+> **endpointURL**: `string`
 
 The REST endpoint
+
+***
+
+### servicePolicy
+
+> **servicePolicy**: `unknown`
+
+The policy
 
 ***
 
