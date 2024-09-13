@@ -11,7 +11,7 @@ export class ServiceDescriptionEntry {
 	 * The service Id.
 	 */
 	@property({ type: "string", isPrimary: true })
-	public serviceId!: string;
+	public id!: string;
 
 	/**
 	 * The service name.

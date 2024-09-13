@@ -131,10 +131,16 @@ export function generateRestRoutesFedCatalogue(
 						id: "listResponseExample",
 						response: {
 							body: {
+								"@context": [
+									"https://w3id.org/gaia-x/development",
+									"https://schema.org",
+									"https://www.w3.org/ns/credentials/v2"
+								],
 								entities: [
 									{
-										participantId: "did:iota:xxx",
-										legalRegistrationNumber: "zzz",
+										id: "did:iota:xxx",
+										type: "Participant",
+										registrationNumber: "zzz",
 										legalName: "A Inc.",
 										lrnType: "VAT_ID",
 										trustedIssuerId: "did:iota:zzz",
@@ -186,10 +192,16 @@ export function generateRestRoutesFedCatalogue(
 						id: "listResponseExample",
 						response: {
 							body: {
+								"@context": [
+									"https://w3id.org/gaia-x/development",
+									"https://schema.org",
+									"https://www.w3.org/ns/credentials/v2"
+								],
 								entities: [
 									{
-										serviceId: "http://example.org/is123456",
+										id: "http://example.org/is123456",
 										name: "Service 1",
+										type: "ServiceOffering",
 										servicePolicy: {},
 										endpointURL: "https://endpoint.example.org/api",
 										providedBy: "did:iota:1234567",
@@ -259,7 +271,14 @@ export async function participantList(
 		Coerce.number(request?.query?.pageSize)
 	);
 	return {
-		body: itemsAndCursor
+		body: {
+			"@context": [
+				"https://w3id.org/gaia-x/development",
+				"https://schema.org",
+				"https://www.w3.org/ns/credentials/v2"
+			],
+			...itemsAndCursor
+		}
 	};
 }
 
@@ -309,6 +328,13 @@ export async function serviceDescriptionList(
 		Coerce.number(request?.query?.pageSize)
 	);
 	return {
-		body: itemsAndCursor
+		body: {
+			"@context": [
+				"https://w3id.org/gaia-x/development",
+				"https://schema.org",
+				"https://www.w3.org/ns/credentials/v2"
+			],
+			...itemsAndCursor
+		}
 	};
 }

@@ -11,19 +11,19 @@ export class ParticipantEntry {
 	 * The participant Id.
 	 */
 	@property({ type: "string", isPrimary: true })
-	public participantId!: string;
+	public id!: string;
 
 	/**
 	 * The legal registration number.
 	 */
 	@property({ type: "string", optional: true })
-	public lrnType!: string | undefined;
+	public lrnType?: string | undefined;
 
 	/**
 	 * The legal registration number.
 	 */
 	@property({ type: "string" })
-	public legalRegistrationNumber!: string;
+	public registrationNumber!: string;
 
 	/**
 	 * The legal name.

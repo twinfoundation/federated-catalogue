@@ -295,8 +295,9 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		}
 
 		const result: IParticipantEntry = {
-			participantId,
-			legalRegistrationNumber: legalRegistrationData["gx:taxId"] as string,
+			id: participantId,
+			type: "Participant",
+			registrationNumber: legalRegistrationData["gx:taxId"] as string,
 			lrnType: legalRegistrationEvidence["gx:evidenceOf"] as string,
 			countryCode: legalRegistrationData["gx:countryCode"] as string,
 			trustedIssuerId: complianceCredential.issuer,
@@ -321,7 +322,8 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		const credentialData = sdCredential.credentialSubject;
 
 		const result: IServiceDescriptionEntry = {
-			serviceId: credentialData.id,
+			id: credentialData.id,
+			type: "ServiceOffering",
 			providedBy: credentialData["gx:providedBy"],
 			servicePolicy: credentialData["gx:servicePolicy"],
 			name: credentialData["gx:name"],

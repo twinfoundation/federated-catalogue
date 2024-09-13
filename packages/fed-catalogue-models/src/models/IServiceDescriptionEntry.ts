@@ -8,7 +8,12 @@ export interface IServiceDescriptionEntry {
 	/**
 	 * Service Id.
 	 */
-	serviceId: string;
+	id: string;
+
+	/**
+	 * Service offering.
+	 */
+	type: "ServiceOffering";
 
 	/**
 	 * Service policy.

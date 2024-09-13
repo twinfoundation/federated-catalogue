@@ -8,17 +8,22 @@ export interface IParticipantEntry {
 	/**
 	 * The participant Id.
 	 */
-	participantId: string;
+	id: string;
 
 	/**
-	 * The legal registration number.
+	 * JSON-LD type.
+	 */
+	type: "Participant";
+
+	/**
+	 * The legal registration number type.
 	 */
 	lrnType: string;
 
 	/**
 	 * The legal registration number.
 	 */
-	legalRegistrationNumber: string;
+	registrationNumber: string;
 
 	/**
 	 * The legal name.

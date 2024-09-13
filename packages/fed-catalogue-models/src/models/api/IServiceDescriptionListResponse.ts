@@ -11,6 +11,10 @@ export interface IServiceDescriptionListResponse {
 	 */
 	body: {
 		/**
+		 * The LD @context.
+		 */
+		"@context": string[];
+		/**
 		 * The entities, which can be partial if a limited keys list was provided.
 		 */
 		entities: IServiceDescriptionEntry[];
