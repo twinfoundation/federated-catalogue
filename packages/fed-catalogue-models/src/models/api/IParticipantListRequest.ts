@@ -12,12 +12,12 @@ export interface IParticipantListRequest {
 		/**
 		 * The participant Id.
 		 */
-		participantId?: string;
+		id?: string;
 
 		/**
 		 * The legal registration number.
 		 */
-		legalRegistrationNumber?: string;
+		registrationNumber?: string;
 
 		/**
 		 * The legal registration number type.

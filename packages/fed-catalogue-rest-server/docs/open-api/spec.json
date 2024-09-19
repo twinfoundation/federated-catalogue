@@ -395,7 +395,7 @@
                 ],
                 "parameters": [
                     {
-                        "name": "participantId",
+                        "name": "id",
                         "description": "The participant Id.",
                         "in": "query",
                         "required": false,
@@ -404,7 +404,7 @@
                         }
                     },
                     {
-                        "name": "legalRegistrationNumber",
+                        "name": "registrationNumber",
                         "description": "The legal registration number.",
                         "in": "query",
                         "required": false,
@@ -457,10 +457,16 @@
                                 "examples": {
                                     "listResponseExample": {
                                         "value": {
+                                            "@context": [
+                                                "https://w3id.org/gaia-x/development",
+                                                "https://schema.org",
+                                                "https://www.w3.org/ns/credentials/v2"
+                                            ],
                                             "entities": [
                                                 {
-                                                    "participantId": "did:iota:xxx",
-                                                    "legalRegistrationNumber": "zzz",
+                                                    "id": "did:iota:xxx",
+                                                    "type": "Participant",
+                                                    "registrationNumber": "zzz",
                                                     "legalName": "A Inc.",
                                                     "lrnType": "VAT_ID",
                                                     "trustedIssuerId": "did:iota:zzz",
@@ -703,10 +709,16 @@
                                 "examples": {
                                     "listResponseExample": {
                                         "value": {
+                                            "@context": [
+                                                "https://w3id.org/gaia-x/development",
+                                                "https://schema.org",
+                                                "https://www.w3.org/ns/credentials/v2"
+                                            ],
                                             "entities": [
                                                 {
-                                                    "serviceId": "http://example.org/is123456",
+                                                    "id": "http://example.org/is123456",
                                                     "name": "Service 1",
+                                                    "type": "ServiceOffering",
                                                     "servicePolicy": {},
                                                     "endpointURL": "https://endpoint.example.org/api",
                                                     "providedBy": "did:iota:1234567",
@@ -910,6 +922,13 @@
             "ParticipantListResponse": {
                 "type": "object",
                 "properties": {
+                    "@context": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "The LD"
+                    },
                     "entities": {
                         "type": "array",
                         "items": {
@@ -923,6 +942,7 @@
                     }
                 },
                 "required": [
+                    "@context",
                     "entities"
                 ],
                 "additionalProperties": false,
@@ -931,15 +951,20 @@
             "ParticipantEntry": {
                 "type": "object",
                 "properties": {
-                    "participantId": {
+                    "id": {
                         "type": "string",
                         "description": "The participant Id."
                     },
+                    "type": {
+                        "type": "string",
+                        "const": "Participant",
+                        "description": "JSON-LD type."
+                    },
                     "lrnType": {
                         "type": "string",
-                        "description": "The legal registration number."
+                        "description": "The legal registration number type."
                     },
-                    "legalRegistrationNumber": {
+                    "registrationNumber": {
                         "type": "string",
                         "description": "The legal registration number."
                     },
@@ -976,9 +1001,10 @@
                     }
                 },
                 "required": [
-                    "participantId",
+                    "id",
+                    "type",
                     "lrnType",
-                    "legalRegistrationNumber",
+                    "registrationNumber",
                     "legalName",
                     "trustedIssuerId",
                     "countryCode",
@@ -997,6 +1023,13 @@
             "ServiceDescriptionListResponse": {
                 "type": "object",
                 "properties": {
+                    "@context": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "The LD"
+                    },
                     "entities": {
                         "type": "array",
                         "items": {
@@ -1010,6 +1043,7 @@
                     }
                 },
                 "required": [
+                    "@context",
                     "entities"
                 ],
                 "additionalProperties": false,
@@ -1018,9 +1052,14 @@
             "ServiceDescriptionEntry": {
                 "type": "object",
                 "properties": {
-                    "serviceId": {
+                    "id": {
                         "type": "string",
                         "description": "Service Id."
+                    },
+                    "type": {
+                        "type": "string",
+                        "const": "ServiceOffering",
+                        "description": "Service offering."
                     },
                     "servicePolicy": {
                         "description": "Service policy."
@@ -1062,7 +1101,8 @@
                     }
                 },
                 "required": [
-                    "serviceId",
+                    "id",
+                    "type",
                     "servicePolicy",
                     "name",
                     "providedBy",

@@ -14,9 +14,9 @@ Service Description Entry.
 
 ## Properties
 
-### serviceId
+### id
 
-> **serviceId**: `string`
+> **id**: `string`
 
 The service Id.
 

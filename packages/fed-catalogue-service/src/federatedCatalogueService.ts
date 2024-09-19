@@ -1,7 +1,8 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import { Guards, UnprocessableError } from "@gtsc/core";
+import { Guards, Is, UnprocessableError } from "@gtsc/core";
+import { ComparisonOperator, type EntityCondition } from "@gtsc/entity";
 import {
 	EntityStorageConnectorFactory,
 	type IEntityStorageConnector
@@ -140,7 +141,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 	/**
 	 * Query the federated catalogue.
-	 * @param participantId The identity of the participant.
+	 * @param id The identity of the participant.
 	 * @param legalRegistrationNumber The legal registration number.
 	 * @param lrnType The legal registration number type (EORI, VATID, GLEIF, KENYA_PIN, etc.)
 	 * @param cursor The cursor to request the next page of entities.
@@ -150,7 +151,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	 * @throws NotImplementedError if the implementation does not support retrieval.
 	 */
 	public async queryParticipants(
-		participantId?: string,
+		id?: string,
 		legalRegistrationNumber?: string,
 		lrnType?: string,
 		cursor?: string,
@@ -165,7 +166,39 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		 */
 		cursor?: string;
 	}> {
-		const entries = await this._entityStorageParticipants.query();
+		const conditions: EntityCondition<ParticipantEntry>[] = [];
+
+		if (Is.stringValue(id)) {
+			const condition: EntityCondition<ParticipantEntry> = {
+				property: "id",
+				value: id,
+				comparison: ComparisonOperator.Equals
+			};
+
+			conditions.push(condition);
+		}
+
+		if (Is.stringValue(lrnType)) {
+			const condition: EntityCondition<ParticipantEntry> = {
+				property: "lrnType",
+				value: lrnType,
+				comparison: ComparisonOperator.Equals
+			};
+
+			conditions.push(condition);
+		}
+
+		if (Is.stringValue(legalRegistrationNumber)) {
+			const condition: EntityCondition<ParticipantEntry> = {
+				property: "registrationNumber",
+				value: legalRegistrationNumber,
+				comparison: ComparisonOperator.Equals
+			};
+
+			conditions.push(condition);
+		}
+
+		const entries = await this._entityStorageParticipants.query({ conditions });
 		return {
 			entities: entries.entities as IParticipantEntry[],
 			cursor: entries.cursor

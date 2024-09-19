@@ -117,7 +117,7 @@ export function generateRestRoutesFedCatalogue(
 					id: "participantListRequestExample",
 					request: {
 						query: {
-							legalRegistrationNumber: "abc"
+							registrationNumber: "abc"
 						}
 					}
 				}
@@ -264,8 +264,8 @@ export async function participantList(
 	const service = ServiceFactory.get<IFederatedCatalogue>(factoryServiceName);
 
 	const itemsAndCursor = await service.queryParticipants(
-		request?.query.participantId,
-		request?.query?.legalRegistrationNumber,
+		request?.query?.id,
+		request?.query?.registrationNumber,
 		request?.query?.lrnType,
 		request?.query?.cursor,
 		Coerce.number(request?.query?.pageSize)

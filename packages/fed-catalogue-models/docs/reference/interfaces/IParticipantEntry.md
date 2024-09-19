@@ -4,11 +4,19 @@ Interface describing a participant.
 
 ## Properties
 
-### participantId
+### id
 
-> **participantId**: `string`
+> **id**: `string`
 
 The participant Id.
+
+***
+
+### type
+
+> **type**: `"Participant"`
+
+JSON-LD type.
 
 ***
 
@@ -16,13 +24,13 @@ The participant Id.
 
 > **lrnType**: `string`
 
-The legal registration number.
+The legal registration number type.
 
 ***
 
-### legalRegistrationNumber
+### registrationNumber
 
-> **legalRegistrationNumber**: `string`
+> **registrationNumber**: `string`
 
 The legal registration number.
 

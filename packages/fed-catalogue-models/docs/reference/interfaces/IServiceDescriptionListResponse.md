@@ -10,6 +10,12 @@ Response for log entry list request.
 
 The response payload.
 
+#### @context
+
+> **@context**: `string`[]
+
+The LD @context.
+
 #### entities
 
 > **entities**: [`IServiceDescriptionEntry`](IServiceDescriptionEntry.md)[]

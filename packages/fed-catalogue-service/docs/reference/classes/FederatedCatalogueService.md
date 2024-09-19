@@ -96,13 +96,13 @@ Nothing.
 
 ### queryParticipants()
 
-> **queryParticipants**(`participantId`?, `legalRegistrationNumber`?, `lrnType`?, `cursor`?, `pageSize`?): `Promise`\<`object`\>
+> **queryParticipants**(`id`?, `legalRegistrationNumber`?, `lrnType`?, `cursor`?, `pageSize`?): `Promise`\<`object`\>
 
 Query the federated catalogue.
 
 #### Parameters
 
-• **participantId?**: `string`
+• **id?**: `string`
 
 The identity of the participant.
 

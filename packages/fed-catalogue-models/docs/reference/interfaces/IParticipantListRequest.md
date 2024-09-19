@@ -10,15 +10,15 @@ Get the a list of the participant entries.
 
 The query parameters.
 
-#### participantId?
+#### id?
 
-> `optional` **participantId**: `string`
+> `optional` **id**: `string`
 
 The participant Id.
 
-#### legalRegistrationNumber?
+#### registrationNumber?
 
-> `optional` **legalRegistrationNumber**: `string`
+> `optional` **registrationNumber**: `string`
 
 The legal registration number.
 

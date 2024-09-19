@@ -14,25 +14,25 @@ Participant entry.
 
 ## Properties
 
-### participantId
+### id
 
-> **participantId**: `string`
+> **id**: `string`
 
 The participant Id.
 
 ***
 
-### lrnType
+### lrnType?
 
-> **lrnType**: `undefined` \| `string`
+> `optional` **lrnType**: `string`
 
 The legal registration number.
 
 ***
 
-### legalRegistrationNumber
+### registrationNumber
 
-> **legalRegistrationNumber**: `string`
+> **registrationNumber**: `string`
 
 The legal registration number.
 

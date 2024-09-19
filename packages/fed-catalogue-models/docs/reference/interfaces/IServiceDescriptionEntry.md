@@ -4,11 +4,19 @@ Interface describing a SD.
 
 ## Properties
 
-### serviceId
+### id
 
-> **serviceId**: `string`
+> **id**: `string`
 
 Service Id.
+
+***
+
+### type
+
+> **type**: `"ServiceOffering"`
+
+Service offering.
 
 ***
 
