@@ -178,7 +178,7 @@ export function generateRestRoutesFedCatalogue(
 					id: "serviceListRequestExample",
 					request: {
 						query: {
-							provider: "did:iota:1234"
+							providedBy: "did:iota:1234"
 						}
 					}
 				}
@@ -323,7 +323,7 @@ export async function serviceDescriptionList(
 	const service = ServiceFactory.get<IFederatedCatalogue>(factoryServiceName);
 
 	const itemsAndCursor = await service.queryServiceDescriptions(
-		request?.query.provider,
+		request?.query.providedBy,
 		request?.query.cursor,
 		Coerce.number(request?.query?.pageSize)
 	);

@@ -3,7 +3,7 @@
 
 /* eslint-disable jsdoc/require-jsdoc */
 
-export interface IServiceDescriptionCredential {
+export interface IDataResourceCredential {
 	"@context": string[];
 	type: string;
 	id: string;
@@ -15,7 +15,8 @@ export interface IServiceDescriptionCredential {
 		type: string;
 		"gx:description"?: string;
 		"gx:name": string;
+		"gx:exposedThrough": string;
 		"gx:providedBy": string;
-		"gx:servicePolicy": unknown;
+		"gx:resourcePolicy": unknown;
 	};
 }

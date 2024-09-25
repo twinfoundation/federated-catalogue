@@ -1,4 +1,4 @@
-# Interface: IServiceDescriptionCredential
+# Interface: IDataResourceCredential
 
 ## Properties
 
@@ -58,10 +58,14 @@
 
 > **gx:name**: `string`
 
+#### gx:exposedThrough
+
+> **gx:exposedThrough**: `string`
+
 #### gx:providedBy
 
 > **gx:providedBy**: `string`
 
-#### gx:servicePolicy
+#### gx:resourcePolicy
 
-> **gx:servicePolicy**: `unknown`
+> **gx:resourcePolicy**: `unknown`

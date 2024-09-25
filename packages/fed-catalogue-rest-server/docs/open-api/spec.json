@@ -665,7 +665,7 @@
                 ],
                 "parameters": [
                     {
-                        "name": "provider",
+                        "name": "providedBy",
                         "description": "The service provider.",
                         "in": "query",
                         "required": false,

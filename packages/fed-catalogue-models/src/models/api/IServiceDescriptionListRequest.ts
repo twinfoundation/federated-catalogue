@@ -12,7 +12,7 @@ export interface IServiceDescriptionListRequest {
 		/**
 		 * The service provider.
 		 */
-		provider?: string;
+		providedBy?: string;
 
 		/**
 		 * The optional cursor to get next chunk.

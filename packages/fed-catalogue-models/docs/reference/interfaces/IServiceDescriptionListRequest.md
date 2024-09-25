@@ -10,9 +10,9 @@ Get the a list of the service description entries.
 
 The query parameters.
 
-#### provider?
+#### providedBy?
 
-> `optional` **provider**: `string`
+> `optional` **providedBy**: `string`
 
 The service provider.
 

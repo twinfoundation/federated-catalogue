@@ -9,6 +9,7 @@ import {
 } from "@gtsc/entity-storage-models";
 import type {
 	IComplianceCredential,
+	IDataResourceCredential,
 	IFederatedCatalogue,
 	IParticipantEntry,
 	IServiceDescriptionCredential,
@@ -216,9 +217,9 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		// This will raise exceptions as it has been coded reusing code from Gaia-X
 		const sdCredential = (await this._jwtVerifier.decodeJwt(
 			credentialJwt
-		)) as IServiceDescriptionCredential;
+		)) as IComplianceCredential;
 
-		const result = await this._serviceDescriptionCredentialVerifier.verify(sdCredential);
+		const result = await this._complianceCredentialVerifier.verify(sdCredential);
 
 		if (!result.verified) {
 			this._loggingService.log({
@@ -238,7 +239,11 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			);
 		}
 
-		const serviceProvider = sdCredential.credentialSubject["gx:providedBy"];
+		const targetCredential = result.credentials[
+			"gx:ServiceOffering"
+		] as unknown as IServiceDescriptionCredential;
+
+		const serviceProvider = targetCredential.credentialSubject["gx:providedBy"] as string;
 		const participantData = await this._entityStorageParticipants.get(serviceProvider);
 		if (!participantData) {
 			this._loggingService.log({
@@ -246,21 +251,24 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 				source: this.CLASS_NAME,
 				ts: Date.now(),
 				message: "Service provider is not known as participant",
-				data: { providedBy: sdCredential.credentialSubject["gx:providedBy"] }
+				data: { providedBy: targetCredential.credentialSubject["gx:providedBy"] }
 			});
 
 			throw new UnprocessableError(
 				this.CLASS_NAME,
 				"Service provider is not known as participant",
 				{
-					providedBy: sdCredential.credentialSubject["gx:providedBy"]
+					providedBy: targetCredential.credentialSubject["gx:providedBy"]
 				}
 			);
 		}
 
 		// Check what has to be done concerning the issuer
 
-		const serviceDescriptionEntry = this.extractServiceDescriptionEntry(sdCredential);
+		const serviceDescriptionEntry = this.extractServiceDescriptionEntry(
+			targetCredential,
+			result.credentials["gx:DataResource"] as unknown as IDataResourceCredential
+		);
 
 		await this._entityStorageSDs.set(serviceDescriptionEntry);
 
@@ -270,7 +278,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			ts: Date.now(),
 			message: "Service Description credential verified and new entry added to the Fed Catalogue",
 			data: {
-				providedBy: sdCredential.credentialSubject["gx:providedBy"],
+				providedBy: targetCredential.credentialSubject["gx:providedBy"],
 				trustedIssuer: sdCredential.issuer
 			}
 		});
@@ -299,7 +307,21 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		 */
 		cursor?: string;
 	}> {
-		const entries = await this._entityStorageSDs.query();
+		const conditions: EntityCondition<ServiceDescriptionEntry>[] = [];
+
+		if (Is.stringValue(providedBy)) {
+			const condition: EntityCondition<ServiceDescriptionEntry> = {
+				property: "providedBy",
+				value: providedBy,
+				comparison: ComparisonOperator.Equals
+			};
+
+			conditions.push(condition);
+		}
+
+		console.log(conditions);
+
+		const entries = await this._entityStorageSDs.query({ conditions });
 		return {
 			entities: entries.entities as IServiceDescriptionEntry[],
 			cursor: entries.cursor
@@ -346,11 +368,13 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 	/**
 	 * Extracts participant entry from the credentials.
-	 * @param sdCredential SD credential
+	 * @param sdCredential SD credential.
+	 * @param dataResourceCredential Data Resource credential.
 	 * @returns Service Description Entry to be saved on the Database.
 	 */
 	private extractServiceDescriptionEntry(
-		sdCredential: IServiceDescriptionCredential
+		sdCredential: IServiceDescriptionCredential,
+		dataResourceCredential: IDataResourceCredential
 	): IServiceDescriptionEntry {
 		const credentialData = sdCredential.credentialSubject;
 
@@ -360,11 +384,11 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			providedBy: credentialData["gx:providedBy"],
 			servicePolicy: credentialData["gx:servicePolicy"],
 			name: credentialData["gx:name"],
-			endpointURL: credentialData["gx:endpoint"].endpointURL,
+			endpointURL: dataResourceCredential.credentialSubject["gx:exposedThrough"],
 			validFrom: sdCredential.validFrom,
 			validUntil: sdCredential.validUntil,
 			dateCreated: new Date().toISOString(),
-			evidences: [sdCredential.id]
+			evidences: [sdCredential.id, dataResourceCredential.id]
 		};
 
 		return result;

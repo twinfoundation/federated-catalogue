@@ -254,7 +254,7 @@ Participant Entry to be saved on the Database.
 
 ### extractServiceDescriptionEntry()
 
-> `private` **extractServiceDescriptionEntry**(`sdCredential`): `IServiceDescriptionEntry`
+> `private` **extractServiceDescriptionEntry**(`sdCredential`, `dataResourceCredential`): `IServiceDescriptionEntry`
 
 Extracts participant entry from the credentials.
 
@@ -262,7 +262,11 @@ Extracts participant entry from the credentials.
 
 • **sdCredential**: `IServiceDescriptionCredential`
 
-SD credential
+SD credential.
+
+• **dataResourceCredential**: `IDataResourceCredential`
+
+Data Resource credential.
 
 #### Returns
 

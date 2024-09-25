@@ -10,6 +10,7 @@
 - [IComplianceCredential](interfaces/IComplianceCredential.md)
 - [IComplianceEvidence](interfaces/IComplianceEvidence.md)
 - [IComplianceVerificationResult](interfaces/IComplianceVerificationResult.md)
+- [IDataResourceCredential](interfaces/IDataResourceCredential.md)
 - [IFederatedCatalogue](interfaces/IFederatedCatalogue.md)
 - [IParticipantEntry](interfaces/IParticipantEntry.md)
 - [IServiceDescriptionCredential](interfaces/IServiceDescriptionCredential.md)
