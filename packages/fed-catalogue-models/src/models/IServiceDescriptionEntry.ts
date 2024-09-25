@@ -60,4 +60,10 @@ export interface IServiceDescriptionEntry {
 	 *
 	 */
 	evidences: string[];
+
+	/**
+	 *
+	 * Resources aggregated
+	 * */
+	aggregationOfResources?: string[];
 }

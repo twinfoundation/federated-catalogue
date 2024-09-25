@@ -16,7 +16,9 @@ export interface IDataResourceCredential {
 		"gx:description"?: string;
 		"gx:name": string;
 		"gx:exposedThrough": string;
-		"gx:providedBy": string;
+		"gx:producedBy": string;
+		"gx:license": string;
+		"gx:copyrightOwnedBy": string;
 		"gx:resourcePolicy": unknown;
 	};
 }

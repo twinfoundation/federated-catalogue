@@ -17,5 +17,6 @@ export interface IServiceDescriptionCredential {
 		"gx:name": string;
 		"gx:providedBy": string;
 		"gx:servicePolicy": unknown;
+		"gx:aggregationOfResources"?: string[];
 	};
 }

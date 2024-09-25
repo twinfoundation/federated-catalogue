@@ -62,6 +62,14 @@ The policy
 
 ***
 
+### aggregationOfResources?
+
+> `optional` **aggregationOfResources**: `string`[]
+
+Resources aggregated
+
+***
+
 ### validFrom
 
 > **validFrom**: `string`

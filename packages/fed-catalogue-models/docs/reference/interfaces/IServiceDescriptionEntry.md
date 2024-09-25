@@ -89,3 +89,11 @@ Date created
 > **evidences**: `string`[]
 
 Original credentials
+
+***
+
+### aggregationOfResources?
+
+> `optional` **aggregationOfResources**: `string`[]
+
+Resources aggregated

@@ -6,48 +6,54 @@ import { entity, property } from "@gtsc/entity";
  * Service Description Entry.
  */
 @entity()
-export class ServiceDescriptionEntry {
+export class DataResourceEntry {
 	/**
-	 * The service Id.
+	 * The Id.
 	 */
 	@property({ type: "string", isPrimary: true })
 	public id!: string;
 
 	/**
-	 * The service name.
+	 * The name.
 	 */
 	@property({ type: "string" })
 	public name!: string;
 
 	/**
-	 * The service description.
+	 * The description.
 	 */
 	@property({ type: "string", optional: true })
 	public description?: string;
 
 	/**
-	 * The provider
+	 * The producer of the data
 	 */
 	@property({ type: "string" })
-	public providedBy!: string;
+	public producedBy!: string;
+
+	/**
+	 * The copyright owner
+	 */
+	@property({ type: "string" })
+	public copyrightOwnedBy!: string;
+
+	/**
+	 * The license
+	 */
+	@property({ type: "string" })
+	public license!: string;
 
 	/**
 	 * The REST endpoint
 	 */
 	@property({ type: "string", optional: true })
-	public endpointURL!: string;
+	public exposedThrough!: string;
 
 	/**
 	 * The policy
 	 */
 	@property({ type: "object" })
-	public servicePolicy!: unknown;
-
-	/**
-	 * Resources aggregated
-	 */
-	@property({ type: "array" })
-	public aggregationOfResources?: string[];
+	public resourcePolicy!: unknown;
 
 	/**
 	 * Valid from

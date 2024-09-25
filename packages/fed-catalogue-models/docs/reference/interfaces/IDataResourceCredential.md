@@ -62,9 +62,17 @@
 
 > **gx:exposedThrough**: `string`
 
-#### gx:providedBy
+#### gx:producedBy
 
-> **gx:providedBy**: `string`
+> **gx:producedBy**: `string`
+
+#### gx:license
+
+> **gx:license**: `string`
+
+#### gx:copyrightOwnedBy
+
+> **gx:copyrightOwnedBy**: `string`
 
 #### gx:resourcePolicy
 

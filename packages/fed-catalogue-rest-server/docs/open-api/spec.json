@@ -1098,6 +1098,13 @@
                             "type": "string"
                         },
                         "description": "Original credentials"
+                    },
+                    "aggregationOfResources": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Resources aggregated"
                     }
                 },
                 "required": [

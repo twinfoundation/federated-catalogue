@@ -65,3 +65,7 @@
 #### gx:servicePolicy
 
 > **gx:servicePolicy**: `unknown`
+
+#### gx:aggregationOfResources?
+
+> `optional` **gx:aggregationOfResources**: `string`[]

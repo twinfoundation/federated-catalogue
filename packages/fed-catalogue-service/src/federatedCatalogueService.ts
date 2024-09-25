@@ -1,6 +1,8 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
+/* eslint-disable jsdoc/require-jsdoc */
+
 import { Guards, Is, UnprocessableError } from "@gtsc/core";
 import { ComparisonOperator, type EntityCondition } from "@gtsc/entity";
 import {
@@ -8,8 +10,10 @@ import {
 	type IEntityStorageConnector
 } from "@gtsc/entity-storage-models";
 import type {
+	DataResourceEntry,
 	IComplianceCredential,
 	IDataResourceCredential,
+	IDataResourceEntry,
 	IFederatedCatalogue,
 	IParticipantEntry,
 	IServiceDescriptionCredential,
@@ -49,6 +53,11 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	private readonly _entityStorageSDs: IEntityStorageConnector<ServiceDescriptionEntry>;
 
 	/**
+	 * Storage service for service descriptions.
+	 */
+	private readonly _entityStorageResources: IEntityStorageConnector<DataResourceEntry>;
+
+	/**
 	 * JWT Verifier service.
 	 * @internal
 	 */
@@ -81,6 +90,11 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		this._entityStorageSDs = EntityStorageConnectorFactory.get<
 			IEntityStorageConnector<ServiceDescriptionEntry>
 		>("service-description-entry");
+
+		this._entityStorageResources =
+			EntityStorageConnectorFactory.get<IEntityStorageConnector<DataResourceEntry>>(
+				"data-resource-entry"
+			);
 
 		this._jwtVerifier = new JwtVerificationService(this._loggingService);
 		this._complianceCredentialVerifier = new ComplianceCredentialVerificationService(
@@ -243,34 +257,34 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			"gx:ServiceOffering"
 		] as unknown as IServiceDescriptionCredential;
 
-		const serviceProvider = targetCredential.credentialSubject["gx:providedBy"] as string;
-		const participantData = await this._entityStorageParticipants.get(serviceProvider);
-		if (!participantData) {
+		// Check what has to be done concerning the issuer
+		const dataResourceCredential = result.credentials[
+			"gx:DataResource"
+		] as unknown as IDataResourceCredential;
+
+		if (targetCredential) {
+			const serviceProvider = targetCredential.credentialSubject["gx:providedBy"] as string;
+			await this.checkParticipantExists(serviceProvider);
+
+			const serviceDescriptionEntry = this.extractServiceDescriptionEntry(
+				targetCredential,
+				dataResourceCredential
+			);
+			await this._entityStorageSDs.set(serviceDescriptionEntry);
+		}
+
+		if (!dataResourceCredential) {
 			this._loggingService.log({
 				level: "error",
 				source: this.CLASS_NAME,
 				ts: Date.now(),
-				message: "Service provider is not known as participant",
-				data: { providedBy: targetCredential.credentialSubject["gx:providedBy"] }
+				message: "At least a data resource has to be provided"
 			});
 
-			throw new UnprocessableError(
-				this.CLASS_NAME,
-				"Service provider is not known as participant",
-				{
-					providedBy: targetCredential.credentialSubject["gx:providedBy"]
-				}
-			);
+			throw new UnprocessableError(this.CLASS_NAME, "At least a data resource has to be provided");
 		}
-
-		// Check what has to be done concerning the issuer
-
-		const serviceDescriptionEntry = this.extractServiceDescriptionEntry(
-			targetCredential,
-			result.credentials["gx:DataResource"] as unknown as IDataResourceCredential
-		);
-
-		await this._entityStorageSDs.set(serviceDescriptionEntry);
+		const dataResourceEntry = this.extractDataResourceEntry(dataResourceCredential);
+		await this._entityStorageResources.set(dataResourceEntry);
 
 		await this._loggingService.log({
 			level: "info",
@@ -278,7 +292,9 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			ts: Date.now(),
 			message: "Service Description credential verified and new entry added to the Fed Catalogue",
 			data: {
-				providedBy: targetCredential.credentialSubject["gx:providedBy"],
+				providedBy:
+					targetCredential?.credentialSubject["gx:providedBy"] ??
+					dataResourceCredential.credentialSubject["gx:producedBy"],
 				trustedIssuer: sdCredential.issuer
 			}
 		});
@@ -318,8 +334,6 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 			conditions.push(condition);
 		}
-
-		console.log(conditions);
 
 		const entries = await this._entityStorageSDs.query({ conditions });
 		return {
@@ -367,7 +381,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	}
 
 	/**
-	 * Extracts participant entry from the credentials.
+	 * Extracts service description entry from the credentials.
 	 * @param sdCredential SD credential.
 	 * @param dataResourceCredential Data Resource credential.
 	 * @returns Service Description Entry to be saved on the Database.
@@ -388,9 +402,59 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			validFrom: sdCredential.validFrom,
 			validUntil: sdCredential.validUntil,
 			dateCreated: new Date().toISOString(),
-			evidences: [sdCredential.id, dataResourceCredential.id]
+			evidences: [sdCredential.id, dataResourceCredential.id],
+			aggregationOfResources: credentialData["gx:aggregationOfResources"]
 		};
 
 		return result;
+	}
+
+	/**
+	 * Extracts data resource entry from the credentials.
+	 * @param dataResourceCredential Data Resource credential.
+	 * @returns DataResource Entry to be saved on the Database.
+	 */
+	private extractDataResourceEntry(
+		dataResourceCredential: IDataResourceCredential
+	): IDataResourceEntry {
+		const credentialData = dataResourceCredential.credentialSubject;
+
+		const result: IDataResourceEntry = {
+			id: credentialData.id,
+			type: "DataResource",
+			producedBy: credentialData["gx:producedBy"],
+			copyrightOwnedBy: credentialData["gx:copyrightOwnedBy"],
+			license: credentialData["gx:license"],
+			resourcePolicy: credentialData["gx:resourcePolicy"],
+			name: credentialData["gx:name"],
+			exposedThrough: credentialData["gx:exposedThrough"],
+			validFrom: dataResourceCredential.validFrom,
+			validUntil: dataResourceCredential.validUntil,
+			dateCreated: new Date().toISOString(),
+			evidences: [dataResourceCredential.id]
+		};
+
+		return result;
+	}
+
+	private async checkParticipantExists(participantId: string): Promise<void> {
+		const participantData = await this._entityStorageParticipants.get(participantId);
+		if (!participantData) {
+			this._loggingService.log({
+				level: "error",
+				source: this.CLASS_NAME,
+				ts: Date.now(),
+				message: "Service provider is not known as participant",
+				data: { providedBy: participantId }
+			});
+
+			throw new UnprocessableError(
+				this.CLASS_NAME,
+				"Service provider is not known as participant",
+				{
+					providedBy: participantId
+				}
+			);
+		}
 	}
 }

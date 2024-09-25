@@ -8,7 +8,11 @@ import {
 	EntityStorageConnectorFactory,
 	type IEntityStorageConnector
 } from "@gtsc/entity-storage-models";
-import { ParticipantEntry, ServiceDescriptionEntry } from "@gtsc/fed-catalogue-models";
+import {
+	DataResourceEntry,
+	ParticipantEntry,
+	ServiceDescriptionEntry
+} from "@gtsc/fed-catalogue-models";
 import { nameof } from "@gtsc/nameof";
 import type { IService } from "@gtsc/services";
 import { systemLogInfo } from "./logging.js";
@@ -30,10 +34,14 @@ export function initialiseEntityStorageConnector(
 ): void {
 	const storageName = StringHelper.kebabCase(schema);
 	const sdStorageName = "service-description-entry";
+	const resourceStorageName = "data-resource-entry";
 
 	EntitySchemaFactory.register(schema, () => EntitySchemaHelper.getSchema(ParticipantEntry));
 	EntitySchemaFactory.register(nameof<ServiceDescriptionEntry>(), () =>
 		EntitySchemaHelper.getSchema(ServiceDescriptionEntry)
+	);
+	EntitySchemaFactory.register(nameof<DataResourceEntry>(), () =>
+		EntitySchemaHelper.getSchema(DataResourceEntry)
 	);
 
 	systemLogInfo(
@@ -45,6 +53,7 @@ export function initialiseEntityStorageConnector(
 	);
 	let entityStorageConnector: IEntityStorageConnector;
 	let sdStorageConnector: IEntityStorageConnector;
+	let resourcesStorageConnector: IEntityStorageConnector;
 
 	if (type === "file") {
 		entityStorageConnector = new FileEntityStorageConnector({
@@ -59,6 +68,12 @@ export function initialiseEntityStorageConnector(
 				directory: path.join(options.storageFileRoot, sdStorageName)
 			}
 		});
+		resourcesStorageConnector = new FileEntityStorageConnector({
+			entitySchema: nameof<DataResourceEntry>(),
+			config: {
+				directory: path.join(options.storageFileRoot, resourceStorageName)
+			}
+		});
 	} else {
 		throw new GeneralError("apiServer", "serviceUnknownType", {
 			type,
@@ -71,4 +86,7 @@ export function initialiseEntityStorageConnector(
 
 	services.push(sdStorageConnector);
 	EntityStorageConnectorFactory.register(sdStorageName, () => sdStorageConnector);
+
+	services.push(resourcesStorageConnector);
+	EntityStorageConnectorFactory.register(resourceStorageName, () => resourcesStorageConnector);
 }

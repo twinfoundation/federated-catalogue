@@ -8,6 +8,8 @@ export * from "./models/api/IServiceDescriptionListRequest";
 export * from "./models/api/IParticipantListResponse";
 export * from "./models/api/IServiceDescriptionListResponse";
 export * from "./models/IParticipantEntry";
+export * from "./models/IDataResourceEntry";
+export * from "./entities/dataResourceEntry";
 export * from "./entities/serviceDescriptionEntry";
 export * from "./models/IServiceDescriptionEntry";
 export * from "./models/IFederatedCatalogue";

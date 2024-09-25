@@ -2,6 +2,7 @@
 
 ## Classes
 
+- [DataResourceEntry](classes/DataResourceEntry.md)
 - [ParticipantEntry](classes/ParticipantEntry.md)
 - [ServiceDescriptionEntry](classes/ServiceDescriptionEntry.md)
 
@@ -11,6 +12,7 @@
 - [IComplianceEvidence](interfaces/IComplianceEvidence.md)
 - [IComplianceVerificationResult](interfaces/IComplianceVerificationResult.md)
 - [IDataResourceCredential](interfaces/IDataResourceCredential.md)
+- [IDataResourceEntry](interfaces/IDataResourceEntry.md)
 - [IFederatedCatalogue](interfaces/IFederatedCatalogue.md)
 - [IParticipantEntry](interfaces/IParticipantEntry.md)
 - [IServiceDescriptionCredential](interfaces/IServiceDescriptionCredential.md)

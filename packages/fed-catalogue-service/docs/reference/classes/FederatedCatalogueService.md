@@ -68,6 +68,14 @@ Storage service for participants.
 
 Storage service for service descriptions.
 
+***
+
+### \_entityStorageResources
+
+> `private` `readonly` **\_entityStorageResources**: `IEntityStorageConnector`\<`DataResourceEntry`\>
+
+Storage service for service descriptions.
+
 ## Methods
 
 ### registerComplianceCredential()
@@ -256,7 +264,7 @@ Participant Entry to be saved on the Database.
 
 > `private` **extractServiceDescriptionEntry**(`sdCredential`, `dataResourceCredential`): `IServiceDescriptionEntry`
 
-Extracts participant entry from the credentials.
+Extracts service description entry from the credentials.
 
 #### Parameters
 
@@ -273,3 +281,37 @@ Data Resource credential.
 `IServiceDescriptionEntry`
 
 Service Description Entry to be saved on the Database.
+
+***
+
+### extractDataResourceEntry()
+
+> `private` **extractDataResourceEntry**(`dataResourceCredential`): `IDataResourceEntry`
+
+Extracts data resource entry from the credentials.
+
+#### Parameters
+
+• **dataResourceCredential**: `IDataResourceCredential`
+
+Data Resource credential.
+
+#### Returns
+
+`IDataResourceEntry`
+
+DataResource Entry to be saved on the Database.
+
+***
+
+### checkParticipantExists()
+
+> `private` **checkParticipantExists**(`participantId`): `Promise`\<`void`\>
+
+#### Parameters
+
+• **participantId**: `string`
+
+#### Returns
+
+`Promise`\<`void`\>
