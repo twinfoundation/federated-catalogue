@@ -7,5 +7,5 @@ import type { IVerificationResult } from "./IVerificationResult";
 /* eslint-disable jsdoc/require-jsdoc */
 
 export interface IComplianceVerificationResult extends IVerificationResult {
-	credentials: { [type: string]: IVerifiableCredential };
+	credentials: IVerifiableCredential[];
 }

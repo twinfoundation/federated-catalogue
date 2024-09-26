@@ -248,7 +248,7 @@ Participant Id.
 
 Compliance credential
 
-• **credentials**
+• **credentials**: `IVerifiableCredential`[]
 
 The Credentials extracted.
 
@@ -262,7 +262,7 @@ Participant Entry to be saved on the Database.
 
 ### extractServiceDescriptionEntry()
 
-> `private` **extractServiceDescriptionEntry**(`sdCredential`, `dataResourceCredential`): `IServiceDescriptionEntry`
+> `private` **extractServiceDescriptionEntry**(`sdCredential`, `dataResourceCredentials`): `IServiceDescriptionEntry`
 
 Extracts service description entry from the credentials.
 
@@ -272,7 +272,7 @@ Extracts service description entry from the credentials.
 
 SD credential.
 
-• **dataResourceCredential**: `IDataResourceCredential`
+• **dataResourceCredentials**: `IDataResourceCredential`[]
 
 Data Resource credential.
 

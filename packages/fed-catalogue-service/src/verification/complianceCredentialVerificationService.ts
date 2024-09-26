@@ -35,7 +35,7 @@ export class ComplianceCredentialVerificationService {
 			return {
 				verified: false,
 				verificationFailureReason: "Invalid credential type",
-				credentials: {}
+				credentials: []
 			};
 		}
 
@@ -43,7 +43,7 @@ export class ComplianceCredentialVerificationService {
 			return {
 				verified: false,
 				verificationFailureReason: `Credential's Issuer is not the clearing house: ${process.env.CLEARING_HOUSE_WHITELIST}`,
-				credentials: {}
+				credentials: []
 			};
 		}
 
@@ -53,7 +53,7 @@ export class ComplianceCredentialVerificationService {
 			return {
 				verified: false,
 				verificationFailureReason: "Not valid yet",
-				credentials: {}
+				credentials: []
 			};
 		}
 
@@ -63,7 +63,7 @@ export class ComplianceCredentialVerificationService {
 			return {
 				verified: false,
 				verificationFailureReason: "Expired",
-				credentials: {}
+				credentials: []
 			};
 		}
 
@@ -72,7 +72,7 @@ export class ComplianceCredentialVerificationService {
 			return {
 				verified: false,
 				verificationFailureReason: "Missing subject",
-				credentials: {}
+				credentials: []
 			};
 		}
 
@@ -81,14 +81,14 @@ export class ComplianceCredentialVerificationService {
 			return {
 				verified: false,
 				verificationFailureReason: "Missing evidences",
-				credentials: {}
+				credentials: []
 			};
 		}
 
 		const finalResult: IComplianceVerificationResult = {
 			verified: true,
 			verificationFailureReason: "",
-			credentials: {}
+			credentials: []
 		};
 
 		for (const evidence of evidences) {
@@ -97,11 +97,10 @@ export class ComplianceCredentialVerificationService {
 				return {
 					verified: false,
 					verificationFailureReason: `Evidence failure: ${verResult.verificationFailureReason}`,
-					credentials: {}
+					credentials: []
 				};
 			}
-			finalResult.credentials[verResult.credential?.credentialSubject.type as string] =
-				verResult.credential as IVerifiableCredential;
+			finalResult.credentials.push(verResult.credential as IVerifiableCredential);
 		}
 
 		return finalResult;

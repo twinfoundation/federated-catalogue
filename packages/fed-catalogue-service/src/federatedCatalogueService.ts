@@ -253,14 +253,13 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			);
 		}
 
-		const targetCredential = result.credentials[
-			"gx:ServiceOffering"
-		] as unknown as IServiceDescriptionCredential;
+		const targetCredential = result.credentials.find(
+			credential => credential.credentialSubject.type === "gx:ServiceOffering"
+		) as unknown as IServiceDescriptionCredential;
 
-		// Check what has to be done concerning the issuer
-		const dataResourceCredential = result.credentials[
-			"gx:DataResource"
-		] as unknown as IDataResourceCredential;
+		const dataResourceCredentials = result.credentials.filter(
+			credential => credential.credentialSubject.type === "gx:DataResource"
+		) as unknown as IDataResourceCredential[];
 
 		if (targetCredential) {
 			const serviceProvider = targetCredential.credentialSubject["gx:providedBy"] as string;
@@ -268,12 +267,12 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 			const serviceDescriptionEntry = this.extractServiceDescriptionEntry(
 				targetCredential,
-				dataResourceCredential
+				dataResourceCredentials
 			);
 			await this._entityStorageSDs.set(serviceDescriptionEntry);
 		}
 
-		if (!dataResourceCredential) {
+		if (!dataResourceCredentials || !Is.arrayValue(dataResourceCredentials)) {
 			this._loggingService.log({
 				level: "error",
 				source: this.CLASS_NAME,
@@ -283,8 +282,11 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 			throw new UnprocessableError(this.CLASS_NAME, "At least a data resource has to be provided");
 		}
-		const dataResourceEntry = this.extractDataResourceEntry(dataResourceCredential);
-		await this._entityStorageResources.set(dataResourceEntry);
+
+		for (const dataResourceCredential of dataResourceCredentials) {
+			const dataResourceEntry = this.extractDataResourceEntry(dataResourceCredential);
+			await this._entityStorageResources.set(dataResourceEntry);
+		}
 
 		await this._loggingService.log({
 			level: "info",
@@ -294,7 +296,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			data: {
 				providedBy:
 					targetCredential?.credentialSubject["gx:providedBy"] ??
-					dataResourceCredential.credentialSubject["gx:producedBy"],
+					dataResourceCredentials[0].credentialSubject["gx:producedBy"],
 				trustedIssuer: sdCredential.issuer
 			}
 		});
@@ -352,11 +354,21 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	private extractParticipantEntry(
 		participantId: string,
 		complianceCredential: IComplianceCredential,
-		credentials: { [type: string]: IVerifiableCredential }
+		credentials: IVerifiableCredential[]
 	): IParticipantEntry {
-		const legalParticipantData = credentials["gx:LegalParticipant"].credentialSubject;
-		const legalRegistrationData = credentials["gx:legalRegistrationNumber"].credentialSubject;
-		const legalRegistrationEvidence = credentials["gx:legalRegistrationNumber"].evidence;
+		const legalParticipantData = credentials.find(
+			cred => cred.type === "gx:LegalParticipant"
+		)?.credentialSubject;
+		const legalRegistrationData = credentials.find(
+			cred => cred.type === "gx:legalRegistrationNumber"
+		)?.credentialSubject;
+		const legalRegistrationEvidence = credentials.find(
+			cred => cred.type === "gx:legalRegistrationNumber"
+		)?.evidence;
+
+		Guards.objectValue(this.CLASS_NAME, nameof(legalParticipantData), legalParticipantData);
+		Guards.objectValue(this.CLASS_NAME, nameof(legalRegistrationData), legalRegistrationData);
+		Guards.objectValue(this.CLASS_NAME, nameof(legalRegistrationData), legalRegistrationEvidence);
 
 		const evidences: string[] = [];
 		for (const evidence of complianceCredential.credentialSubject["gx:evidence"]) {
@@ -383,14 +395,20 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	/**
 	 * Extracts service description entry from the credentials.
 	 * @param sdCredential SD credential.
-	 * @param dataResourceCredential Data Resource credential.
+	 * @param dataResourceCredentials Data Resource credential.
 	 * @returns Service Description Entry to be saved on the Database.
 	 */
 	private extractServiceDescriptionEntry(
 		sdCredential: IServiceDescriptionCredential,
-		dataResourceCredential: IDataResourceCredential
+		dataResourceCredentials: IDataResourceCredential[]
 	): IServiceDescriptionEntry {
 		const credentialData = sdCredential.credentialSubject;
+
+		// A custom type for TLIP Node probably would be needed
+		// at the moment this hack can be enough
+		const nodeCredential = dataResourceCredentials.find(credential =>
+			credential.id.includes("tlipNodeResourceVC")
+		);
 
 		const result: IServiceDescriptionEntry = {
 			id: credentialData.id,
@@ -398,11 +416,11 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			providedBy: credentialData["gx:providedBy"],
 			servicePolicy: credentialData["gx:servicePolicy"],
 			name: credentialData["gx:name"],
-			endpointURL: dataResourceCredential.credentialSubject["gx:exposedThrough"],
+			endpointURL: nodeCredential?.credentialSubject["gx:exposedThrough"] as string,
 			validFrom: sdCredential.validFrom,
 			validUntil: sdCredential.validUntil,
 			dateCreated: new Date().toISOString(),
-			evidences: [sdCredential.id, dataResourceCredential.id],
+			evidences: [sdCredential.id],
 			aggregationOfResources: credentialData["gx:aggregationOfResources"]
 		};
 

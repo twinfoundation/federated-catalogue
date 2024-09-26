@@ -8,11 +8,7 @@
 
 ### credentials
 
-> **credentials**: `object`
-
-#### Index signature
-
- \[`type`: `string`\]: [`IVerifiableCredential`](IVerifiableCredential.md)
+> **credentials**: [`IVerifiableCredential`](IVerifiableCredential.md)[]
 
 ***
 
