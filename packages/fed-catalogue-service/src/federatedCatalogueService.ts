@@ -411,13 +411,13 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		credentials: IVerifiableCredential[]
 	): IParticipantEntry {
 		const legalParticipantData = credentials.find(
-			cred => cred.type === "gx:LegalParticipant"
+			cred => cred.credentialSubject?.type === "gx:LegalParticipant"
 		)?.credentialSubject;
 		const legalRegistrationData = credentials.find(
-			cred => cred.type === "gx:legalRegistrationNumber"
+			cred => cred.credentialSubject?.type === "gx:legalRegistrationNumber"
 		)?.credentialSubject;
 		const legalRegistrationEvidence = credentials.find(
-			cred => cred.type === "gx:legalRegistrationNumber"
+			cred => cred.credentialSubject?.type === "gx:legalRegistrationNumber"
 		)?.evidence;
 
 		Guards.objectValue(this.CLASS_NAME, nameof(legalParticipantData), legalParticipantData);
