@@ -20,6 +20,8 @@
 - [IVerifiableCredential](interfaces/IVerifiableCredential.md)
 - [IVerificationResult](interfaces/IVerificationResult.md)
 - [ICompliancePresentationRequest](interfaces/ICompliancePresentationRequest.md)
+- [IDataResourceListRequest](interfaces/IDataResourceListRequest.md)
+- [IDataResourceListResponse](interfaces/IDataResourceListResponse.md)
 - [IParticipantListRequest](interfaces/IParticipantListRequest.md)
 - [IParticipantListResponse](interfaces/IParticipantListResponse.md)
 - [IServiceDescriptionListRequest](interfaces/IServiceDescriptionListRequest.md)

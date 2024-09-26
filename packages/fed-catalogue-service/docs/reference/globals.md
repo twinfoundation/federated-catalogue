@@ -16,3 +16,4 @@
 - [participantList](functions/participantList.md)
 - [serviceDescriptionCredentialPresentation](functions/serviceDescriptionCredentialPresentation.md)
 - [serviceDescriptionList](functions/serviceDescriptionList.md)
+- [dataResourceList](functions/dataResourceList.md)

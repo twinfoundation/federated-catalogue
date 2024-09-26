@@ -232,6 +232,59 @@ NotImplementedError if the implementation does not support retrieval.
 
 ***
 
+### queryDataResourceDescriptions()
+
+> **queryDataResourceDescriptions**(`id`?, `producedBy`?, `cursor`?, `pageSize`?): `Promise`\<`object`\>
+
+Query the federated catalogue.
+
+#### Parameters
+
+• **id?**: `string`
+
+The identity of the DataResource.
+
+• **producedBy?**: `string`
+
+The identity of the participant.
+
+• **cursor?**: `string`
+
+The cursor to request the next page of entities.
+
+• **pageSize?**: `number`
+
+The maximum number of entities in a page.
+
+#### Returns
+
+`Promise`\<`object`\>
+
+All the entities for the storage matching the conditions,
+and a cursor which can be used to request more entities.
+
+##### entities
+
+> **entities**: `IDataResourceEntry`[]
+
+The entities, which can be partial if a limited keys list was provided.
+
+##### cursor?
+
+> `optional` **cursor**: `string`
+
+An optional cursor, when defined can be used to call find to get more entities.
+
+#### Implementation of
+
+`IFederatedCatalogue.queryDataResourceDescriptions`
+
+#### Throws
+
+NotImplementedError if the implementation does not support retrieval.
+
+***
+
 ### extractParticipantEntry()
 
 > `private` **extractParticipantEntry**(`participantId`, `complianceCredential`, `credentials`): `IParticipantEntry`

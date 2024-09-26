@@ -10,6 +10,8 @@ import type {
 import { Coerce, Guards } from "@gtsc/core";
 import type {
 	ICompliancePresentationRequest,
+	IDataResourceListRequest,
+	IDataResourceListResponse,
 	IFederatedCatalogue,
 	IParticipantListRequest,
 	IParticipantListResponse,
@@ -220,7 +222,75 @@ export function generateRestRoutesFedCatalogue(
 		]
 	};
 
-	return [createParticipantRoute, listParticipantsRoute, createServiceRoute, listServicesRoute];
+	const listDataResourcesRoute: IRestRoute<
+		IDataResourceListRequest,
+		IDataResourceListResponse
+	> = {
+		operationId: "fedCatalogueListResources",
+		summary: "Get a list of the data resource entries",
+		tag: tagsFedCatalogue[0].name,
+		method: "GET",
+		path: `${baseRouteName}/data-resources`,
+		handler: async (httpRequestContext, request) =>
+			dataResourceList(httpRequestContext, factoryServiceName, request),
+		requestType: {
+			type: nameof<IDataResourceListRequest>(),
+			examples: [
+				{
+					id: "resourceListRequestExample",
+					request: {
+						query: {
+							producedBy: "did:iota:1234"
+						}
+					}
+				}
+			]
+		},
+		responseType: [
+			{
+				type: nameof<IDataResourceListResponse>(),
+				examples: [
+					{
+						id: "listResponseExample",
+						response: {
+							body: {
+								"@context": [
+									"https://w3id.org/gaia-x/development",
+									"https://schema.org",
+									"https://www.w3.org/ns/credentials/v2"
+								],
+								entities: [
+									{
+										id: "http://example.org/is123456",
+										name: "Data Resource 1",
+										type: "DataResource",
+										copyrightOwnedBy: "did:iota:1234",
+										license: "http://licenses.example.org/12345",
+										resourcePolicy: {},
+										exposedThrough: "https://endpoint.example.org/api",
+										producedBy: "did:iota:1234567",
+										validFrom: "2024-08-01T12:00:00Z",
+										validUntil: "2025-08-01T12:00:00Z",
+										dateCreated: "2024-08-02T13:45:00Z",
+										evidences: ["https://credentials.example.org/1234567"]
+									}
+								],
+								cursor: "1"
+							}
+						}
+					}
+				]
+			}
+		]
+	};
+
+	return [
+		createParticipantRoute,
+		listParticipantsRoute,
+		createServiceRoute,
+		listServicesRoute,
+		listDataResourcesRoute
+	];
 }
 
 /**
@@ -324,6 +394,38 @@ export async function serviceDescriptionList(
 
 	const itemsAndCursor = await service.queryServiceDescriptions(
 		request?.query.providedBy,
+		request?.query.cursor,
+		Coerce.number(request?.query?.pageSize)
+	);
+	return {
+		body: {
+			"@context": [
+				"https://w3id.org/gaia-x/development",
+				"https://schema.org",
+				"https://www.w3.org/ns/credentials/v2"
+			],
+			...itemsAndCursor
+		}
+	};
+}
+
+/**
+ * Get a list of the data resource entries.
+ * @param httpRequestContext The request context for the API.
+ * @param factoryServiceName The name of the service to use in the routes.
+ * @param request The request.
+ * @returns The response object with additional http response properties.
+ */
+export async function dataResourceList(
+	httpRequestContext: IHttpRequestContext,
+	factoryServiceName: string,
+	request: IDataResourceListRequest
+): Promise<IDataResourceListResponse> {
+	const service = ServiceFactory.get<IFederatedCatalogue>(factoryServiceName);
+
+	const itemsAndCursor = await service.queryDataResourceDescriptions(
+		request?.query.id,
+		request?.query.producedBy,
 		request?.query.cursor,
 		Coerce.number(request?.query?.pageSize)
 	);

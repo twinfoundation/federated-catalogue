@@ -345,6 +345,60 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	}
 
 	/**
+	 * Query the federated catalogue.
+	 * @param id The identity of the DataResource.
+	 * @param producedBy The identity of the participant.
+	 * @param cursor The cursor to request the next page of entities.
+	 * @param pageSize The maximum number of entities in a page.
+	 * @returns All the entities for the storage matching the conditions,
+	 * and a cursor which can be used to request more entities.
+	 * @throws NotImplementedError if the implementation does not support retrieval.
+	 */
+	public async queryDataResourceDescriptions(
+		id?: string,
+		producedBy?: string,
+		cursor?: string,
+		pageSize?: number
+	): Promise<{
+		/**
+		 * The entities, which can be partial if a limited keys list was provided.
+		 */
+		entities: IDataResourceEntry[];
+		/**
+		 * An optional cursor, when defined can be used to call find to get more entities.
+		 */
+		cursor?: string;
+	}> {
+		const conditions: EntityCondition<ServiceDescriptionEntry>[] = [];
+
+		if (Is.stringValue(producedBy)) {
+			const condition: EntityCondition<ServiceDescriptionEntry> = {
+				property: "producedBy",
+				value: producedBy,
+				comparison: ComparisonOperator.Equals
+			};
+
+			conditions.push(condition);
+		}
+
+		if (Is.stringValue(id)) {
+			const condition: EntityCondition<ServiceDescriptionEntry> = {
+				property: "id",
+				value: id,
+				comparison: ComparisonOperator.Equals
+			};
+
+			conditions.push(condition);
+		}
+
+		const entries = await this._entityStorageResources.query({ conditions });
+		return {
+			entities: entries.entities as IDataResourceEntry[],
+			cursor: entries.cursor
+		};
+	}
+
+	/**
 	 * Extracts participant entry from the credentials.
 	 * @param participantId Participant Id.
 	 * @param complianceCredential Compliance credential
