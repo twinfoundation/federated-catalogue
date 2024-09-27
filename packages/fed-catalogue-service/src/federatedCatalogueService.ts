@@ -463,6 +463,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		const nodeCredential = dataResourceCredentials.find(credential =>
 			credential.id.includes("tlipNodeResourceVC")
 		);
+		Guards.objectValue(this.CLASS_NAME, nameof(nodeCredential), nodeCredential);
 
 		const result: IServiceDescriptionEntry = {
 			id: credentialData.id,
@@ -490,6 +491,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		dataResourceCredential: IDataResourceCredential
 	): IDataResourceEntry {
 		const credentialData = dataResourceCredential.credentialSubject;
+		Guards.objectValue(this.CLASS_NAME, nameof(credentialData), credentialData);
 
 		const result: IDataResourceEntry = {
 			id: credentialData.id,
