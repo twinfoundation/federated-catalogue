@@ -53,6 +53,7 @@ export interface IFederatedCatalogue extends IService {
 
 	/**
 	 * Query the federated catalogue.
+	 * @param id Service id.
 	 * @param providedBy The identity of the participant.
 	 * @param cursor The cursor to request the next page of entities.
 	 * @param pageSize The maximum number of entities in a page.
@@ -61,6 +62,7 @@ export interface IFederatedCatalogue extends IService {
 	 * @throws NotImplementedError if the implementation does not support retrieval.
 	 */
 	queryServiceDescriptions(
+		id?: string,
 		providedBy?: string,
 		cursor?: string,
 		pageSize?: number

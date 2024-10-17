@@ -10,6 +10,10 @@ export interface IServiceDescriptionListRequest {
 	 */
 	query: {
 		/**
+		 * Id.
+		 */
+		id?: string;
+		/**
 		 * The service provider.
 		 */
 		providedBy?: string;

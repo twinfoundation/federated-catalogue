@@ -134,8 +134,6 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		}
 
 		const participantEntry = this.extractParticipantEntry(
-			// Workaround to deal with GX Compliance Service
-			complianceCredential.credentialSubject.id.split("#")[0],
 			complianceCredential,
 			result.credentials
 		);
@@ -304,6 +302,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 	/**
 	 * Query the federated catalogue.
+	 * @param id Service Id.
 	 * @param providedBy The identity of the participant.
 	 * @param cursor The cursor to request the next page of entities.
 	 * @param pageSize The maximum number of entities in a page.
@@ -312,6 +311,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	 * @throws NotImplementedError if the implementation does not support retrieval.
 	 */
 	public async queryServiceDescriptions(
+		id?: string,
 		providedBy?: string,
 		cursor?: string,
 		pageSize?: number
@@ -331,6 +331,16 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			const condition: EntityCondition<ServiceDescriptionEntry> = {
 				property: "providedBy",
 				value: providedBy,
+				comparison: ComparisonOperator.Equals
+			};
+
+			conditions.push(condition);
+		}
+
+		if (Is.stringValue(id)) {
+			const condition: EntityCondition<ServiceDescriptionEntry> = {
+				property: "id",
+				value: id,
 				comparison: ComparisonOperator.Equals
 			};
 
@@ -400,13 +410,11 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 	/**
 	 * Extracts participant entry from the credentials.
-	 * @param participantId Participant Id.
 	 * @param complianceCredential Compliance credential
 	 * @param credentials The Credentials extracted.
 	 * @returns Participant Entry to be saved on the Database.
 	 */
 	private extractParticipantEntry(
-		participantId: string,
 		complianceCredential: IComplianceCredential,
 		credentials: IVerifiableCredential[]
 	): IParticipantEntry {
@@ -430,7 +438,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		}
 
 		const result: IParticipantEntry = {
-			id: participantId,
+			id: legalParticipantData.id as string,
 			type: "Participant",
 			registrationNumber: legalRegistrationData["gx:taxId"] as string,
 			lrnType: legalRegistrationEvidence["gx:evidenceOf"] as string,

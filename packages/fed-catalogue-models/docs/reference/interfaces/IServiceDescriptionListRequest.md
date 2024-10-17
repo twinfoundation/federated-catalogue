@@ -10,6 +10,12 @@ Get the a list of the service description entries.
 
 The query parameters.
 
+#### id?
+
+> `optional` **id**: `string`
+
+Id.
+
 #### providedBy?
 
 > `optional` **providedBy**: `string`

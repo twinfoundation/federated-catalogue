@@ -195,11 +195,15 @@ Nothing.
 
 ### queryServiceDescriptions()
 
-> **queryServiceDescriptions**(`providedBy`?, `cursor`?, `pageSize`?): `Promise`\<`object`\>
+> **queryServiceDescriptions**(`id`?, `providedBy`?, `cursor`?, `pageSize`?): `Promise`\<`object`\>
 
 Query the federated catalogue.
 
 #### Parameters
+
+• **id?**: `string`
+
+Service id.
 
 • **providedBy?**: `string`
 

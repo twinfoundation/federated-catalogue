@@ -185,11 +185,15 @@ Nothing.
 
 ### queryServiceDescriptions()
 
-> **queryServiceDescriptions**(`providedBy`?, `cursor`?, `pageSize`?): `Promise`\<`object`\>
+> **queryServiceDescriptions**(`id`?, `providedBy`?, `cursor`?, `pageSize`?): `Promise`\<`object`\>
 
 Query the federated catalogue.
 
 #### Parameters
+
+• **id?**: `string`
+
+Service Id.
 
 • **providedBy?**: `string`
 
@@ -287,15 +291,11 @@ NotImplementedError if the implementation does not support retrieval.
 
 ### extractParticipantEntry()
 
-> `private` **extractParticipantEntry**(`participantId`, `complianceCredential`, `credentials`): `IParticipantEntry`
+> `private` **extractParticipantEntry**(`complianceCredential`, `credentials`): `IParticipantEntry`
 
 Extracts participant entry from the credentials.
 
 #### Parameters
-
-• **participantId**: `string`
-
-Participant Id.
 
 • **complianceCredential**: `IComplianceCredential`
 

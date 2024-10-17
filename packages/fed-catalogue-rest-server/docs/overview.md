@@ -1,4 +1,4 @@
-# Workbench Server
+# REST Server
 
 A REST server implementation support the routes from various packages.
 

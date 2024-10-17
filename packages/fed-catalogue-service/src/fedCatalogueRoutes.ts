@@ -393,6 +393,7 @@ export async function serviceDescriptionList(
 	const service = ServiceFactory.get<IFederatedCatalogue>(factoryServiceName);
 
 	const itemsAndCursor = await service.queryServiceDescriptions(
+		request?.query.id,
 		request?.query.providedBy,
 		request?.query.cursor,
 		Coerce.number(request?.query?.pageSize)
