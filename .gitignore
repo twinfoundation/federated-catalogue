@@ -14,3 +14,6 @@ vitest.config.ts.timestamp*
 .env
 .env.*
 .local-data
+.local-data-docker
+
+.DS_Store
