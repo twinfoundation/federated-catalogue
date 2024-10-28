@@ -41,7 +41,7 @@
 		"jose": "^4.9.3",
 		"did-resolver": "^4.1.0",
 		"web-did-resolver": "^2.0.27",
-		"@gaia-x/json-web-signature-2020": "file:../../../../gaia-x/json-web-signature-2020",
+		"@gaia-x/json-web-signature-2020": "file:../../../../gaia-x/gx-compliance/json-web-signature-2020",
 		"canonicalize": "^2.0.0"
 	},
 	"devDependencies": {
