@@ -1,7 +1,7 @@
 version: "3.5"
 services:
     federation-service:
-        image: fed-catalogue-service
+        image: iotazebra/fed-catalogue-service
         env_file:
             - ./packages/fed-catalogue-rest-server/.env
         ports:
