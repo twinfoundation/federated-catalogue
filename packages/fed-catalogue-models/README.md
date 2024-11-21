@@ -1,4 +1,4 @@
-# GTSC Logging Models
+# Fed Catalogue Models
 
 Models which define the structure of the logging contracts and connectors.
 
