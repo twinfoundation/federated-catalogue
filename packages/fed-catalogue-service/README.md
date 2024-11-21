@@ -1,4 +1,4 @@
-# GTSC Logging Service
+# Federated Catalogue Service
 
 Logging contract implementation and REST endpoint definitions.
 
