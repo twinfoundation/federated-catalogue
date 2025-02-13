@@ -1,10 +1,12 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
+import { IParticipant } from "../IParticipant";
+
 /**
  * Interface describing a participant.
  */
-export interface IParticipantEntry {
+export interface IParticipantEntry extends IParticipant {
 	/**
 	 * The participant Id.
 	 */
@@ -39,16 +41,6 @@ export interface IParticipantEntry {
 	 * Country code
 	 */
 	countryCode: string;
-
-	/**
-	 * Valid from
-	 */
-	validFrom: string;
-
-	/**
-	 * Valid to
-	 */
-	validUntil: string;
 
 	/**
 	 * Date created

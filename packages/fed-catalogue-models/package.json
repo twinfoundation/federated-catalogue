@@ -1,5 +1,5 @@
 {
-	"name": "@twin.org/fed-catalogue-models",
+	"name": "@twin.org/federated-catalogue-models",
 	"version": "0.0.1-next.1",
 	"description": "Models which define the structure of the Federated Catalog Service",
 	"repository": {
@@ -32,14 +32,15 @@
 	},
 	"dependencies": {
 		"@twin.org/core": "next",
+		"@twin.org/data-json-ld": "next",
 		"@twin.org/entity": "next",
 		"@twin.org/nameof": "next"
 	},
 	"devDependencies": {
+		"@rollup/plugin-json": "6.1.0",
 		"@twin.org/nameof-transformer": "next",
 		"@twin.org/nameof-vitest-plugin": "next",
 		"@twin.org/ts-to-schema": "next",
-		"@rollup/plugin-json": "6.1.0",
 		"@vitest/coverage-v8": "3.0.5",
 		"copyfiles": "2.4.1",
 		"rimraf": "6.0.1",

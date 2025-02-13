@@ -1,14 +1,14 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import type { IService } from "@gtsc/services";
-import type { IDataResourceEntry } from "./IDataResourceEntry";
-import type { IParticipantEntry } from "./IParticipantEntry";
-import type { IServiceDescriptionEntry } from "./IServiceDescriptionEntry";
+import type { IComponent } from "@twin.org/core";
+import type { IDataResourceEntry } from "./entities/IDataResourceEntry";
+import type { IParticipantEntry } from "./entities/IParticipantEntry";
+import type { IServiceDescriptionEntry } from "./entities/IServiceDescriptionEntry";
 
 /**
  * Interface describing a Fed Catalogue Contract.
  */
-export interface IFederatedCatalogue extends IService {
+export interface IFederatedCatalogue extends IComponent {
 	/**
 	 * Registers a compliance Credential to the service.
 	 * @param credential The credential as JWT.
@@ -49,7 +49,7 @@ export interface IFederatedCatalogue extends IService {
 	 * @param credential The credential as JWT.
 	 * @returns Nothing.
 	 */
-	registerServiceDescriptionCredential(credential: string): Promise<void>;
+	registerServiceOfferingCredential(credential: string): Promise<void>;
 
 	/**
 	 * Query the federated catalogue.
@@ -61,7 +61,7 @@ export interface IFederatedCatalogue extends IService {
 	 * and a cursor which can be used to request more entities.
 	 * @throws NotImplementedError if the implementation does not support retrieval.
 	 */
-	queryServiceDescriptions(
+	queryServiceOfferings(
 		id?: string,
 		providedBy?: string,
 		cursor?: string,

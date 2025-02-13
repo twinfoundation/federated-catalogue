@@ -1,5 +1,5 @@
 {
-	"name": "@gtsc/fed-catalogue-rest-server",
+	"name": "@twin.org/fed-catalogue-rest-server",
 	"version": "0.0.1-next.1",
 	"description": "Serve APIs using the specified configuration",
 	"repository": {
@@ -35,8 +35,8 @@
 		"@twin.org/engine-server": "next",
 		"@twin.org/engine-server-types": "next",
 		"@twin.org/engine-types": "next",
-		"@gtsc/fed-catalogue-models": "0.0.1-next.1",
-		"@gtsc/fed-catalogue-service": "0.0.1-next.1",
+		"@twin.org/federated-catalogue-models": "0.0.1-next.1",
+		"@twin.org/federated-catalogue-service": "0.0.1-next.1",
 		"dotenv": "16.4.7"
 	},
 	"devDependencies": {

@@ -1,24 +1,15 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-/* eslint-disable jsdoc/require-jsdoc */
+import type { IDidVerifiableCredential } from "@twin.org/standards-w3c-did";
+import type { IDataResourceSubject } from "./IDataResourceSubject";
 
-export interface IDataResourceCredential {
-	"@context": string[];
-	type: string;
-	id: string;
-	issuer: string;
-	validFrom: string;
-	validUntil: string;
-	credentialSubject: {
-		id: string;
-		type: string;
-		"gx:description"?: string;
-		"gx:name": string;
-		"gx:exposedThrough": string;
-		"gx:producedBy": string;
-		"gx:license": string;
-		"gx:copyrightOwnedBy": string;
-		"gx:resourcePolicy": unknown;
-	};
+/**
+ * Data Resource Credential
+ */
+export interface IDataResourceCredential extends IDidVerifiableCredential {
+	/**
+	 * The subject of the Credential
+	 */
+	credentialSubject: IDataResourceSubject;
 }

@@ -1,11 +1,15 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import type { IVerifiableCredential } from "./IVerifiableCredential";
+import type { IDidVerifiableCredential } from "@twin.org/standards-w3c-did";
 import type { IVerificationResult } from "./IVerificationResult";
 
-/* eslint-disable jsdoc/require-jsdoc */
-
+/**
+ * Compliance verification result
+ */
 export interface IComplianceVerificationResult extends IVerificationResult {
-	credentials: IVerifiableCredential[];
+	/**
+	 * The credentials involved
+	 */
+	credentials: IDidVerifiableCredential[];
 }
