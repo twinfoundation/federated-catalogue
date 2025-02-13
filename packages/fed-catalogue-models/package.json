@@ -1,10 +1,10 @@
 {
-	"name": "@gtsc/fed-catalogue-models",
-	"version": "0.0.1",
+	"name": "@twin.org/fed-catalogue-models",
+	"version": "0.0.1-next.1",
 	"description": "Models which define the structure of the Federated Catalog Service",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/gtscio/fed-catalogue.git",
+		"url": "https://github.com/twinfoundation/federated-catalogue.git",
 		"directory": "packages/fed-catalogue-models"
 	},
 	"author": "jose.cantera@iota.org",
@@ -14,8 +14,10 @@
 		"node": ">=20.0.0"
 	},
 	"scripts": {
-		"clean": "rimraf dist coverage docs/reference",
-		"build": "tspc",
+		"clean": "rimraf dist coverage docs/reference src/schemas",
+		"build:schema": "ts-to-schema ./ts-to-schema.json ./src/schemas",
+		"build:compile": "tsc",
+		"build": "npm run build:schema && npm run build:compile",
 		"test": "vitest --run --config ./vitest.config.ts --no-cache",
 		"coverage": "vitest --run --coverage --config ./vitest.config.ts --no-cache",
 		"bundle:esm": "rollup --config rollup.config.mjs --environment MODULE:esm",
@@ -23,40 +25,42 @@
 		"bundle": "npm run bundle:esm && npm run bundle:cjs",
 		"docs:clean": "rimraf docs/reference",
 		"docs:generate": "typedoc",
-		"docs:remove-header": "replace-in-files --regex='^.*overview.md.*?\\s\\s.*?\\s\\s' --string='docs/' --replacement='' \"docs/**/*.md\"",
-		"docs": "npm run docs:clean && npm run docs:generate && npm run docs:remove-header",
-		"dist": "npm run clean && npm run build && npm run bundle && npm run docs"
+		"docs": "npm run docs:clean && npm run docs:generate",
+		"dist": "npm run clean && npm run build && npm run test && npm run bundle && npm run docs",
+		"dist:no-test": "npm run clean && npm run build && npm run bundle && npm run docs",
+		"prepare": "ts-patch install -s"
 	},
 	"dependencies": {
-		"@gtsc/core": "next",
-		"@gtsc/entity": "next",
-		"@gtsc/nameof": "next",
-		"@gtsc/services": "next"
+		"@twin.org/core": "next",
+		"@twin.org/entity": "next",
+		"@twin.org/nameof": "next"
 	},
 	"devDependencies": {
-		"@gtsc/nameof-transformer": "next",
-		"@vitest/coverage-v8": "1.6.0",
+		"@twin.org/nameof-transformer": "next",
+		"@twin.org/nameof-vitest-plugin": "next",
+		"@twin.org/ts-to-schema": "next",
+		"@rollup/plugin-json": "6.1.0",
+		"@vitest/coverage-v8": "3.0.5",
 		"copyfiles": "2.4.1",
-		"replace-in-files-cli": "2.2.0",
-		"rimraf": "5.0.7",
-		"rollup": "4.18.0",
-		"rollup-plugin-typescript2": "0.36.0",
-		"ts-patch": "3.2.0",
-		"typedoc": "0.25.13",
-		"typedoc-plugin-markdown": "4.0.3",
-		"typescript": "5.4.5",
-		"vitest": "1.6.0"
+		"rimraf": "6.0.1",
+		"rollup": "4.34.6",
+		"ts-patch": "3.3.0",
+		"tsc-watch": "6.2.1",
+		"typedoc": "0.27.7",
+		"typedoc-plugin-markdown": "4.4.2",
+		"typescript": "5.7.3",
+		"vitest": "3.0.5"
 	},
 	"main": "./dist/cjs/index.cjs",
 	"module": "./dist/esm/index.mjs",
 	"types": "./dist/types/index.d.ts",
 	"exports": {
 		".": {
+			"types": "./dist/types/index.d.ts",
 			"require": "./dist/cjs/index.cjs",
-			"import": "./dist/esm/index.mjs",
-			"types": "./dist/types/index.d.ts"
+			"import": "./dist/esm/index.mjs"
 		},
-		"./locales": "./locales"
+		"./locales/*.json": "./locales/*.json"
 	},
 	"files": [
 		"dist/cjs",

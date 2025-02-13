@@ -1,14 +1,14 @@
 {
-	"name": "@gtsc/fed-catalogue",
-	"version": "0.0.1",
+	"name": "@twin.org/fed-catalogue",
+	"version": "0.0.1-next.1",
 	"description": "Federated Catalogue",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/gtscio/fed-cat.git"
+		"url": "https://github.com/twinfoundation/federated-catalogue.git"
 	},
 	"author": "jose.cantera@iota.org",
 	"license": "Apache-2.0",
-	"private": true,
+	"private": false,
 	"engines": {
 		"node": ">=20.0.0"
 	},
@@ -16,32 +16,31 @@
 		"dist": "node ./scripts/workspaces.mjs dist",
 		"format": "prettier --config .prettierrc --write .",
 		"lint:format": "prettier --config .prettierrc --check .",
-		"lint:code": "eslint . --ext .js,.mjs,.ts",
+		"lint:code": "eslint . --ext .js,.mjs,.ts,.svelte",
 		"lint:markdown": "markdownlint **/*.md --ignore **/node_modules/** --ignore **/docs/reference/**",
 		"lint:spell": "cspell ** --no-progress",
 		"lint": "npm run lint:format && npm run lint:code && npm run lint:markdown && npm run lint:spell"
 	},
 	"devDependencies": {
-		"@typescript-eslint/eslint-plugin": "7.13.1",
-		"cspell": "8.9.0",
-		"eslint": "8.57.0",
-		"eslint-config-prettier": "9.1.0",
-		"eslint-plugin-header": "3.1.1",
-		"eslint-plugin-import": "2.29.1",
-		"eslint-plugin-jsdoc": "48.2.12",
-		"eslint-plugin-prettier": "5.1.3",
-		"eslint-plugin-promise": "6.2.0",
-		"eslint-plugin-simple-import-sort": "12.1.0",
-		"eslint-plugin-unicorn": "54.0.0",
-		"eslint-plugin-unused-imports": "3.2.0",
-		"fast-glob": "3.3.2",
-		"markdownlint-cli": "0.41.0",
-		"prettier": "3.3.2"
+		"@typescript-eslint/eslint-plugin": "^7.13.1",
+		"cspell": "^8.17.3",
+		"eslint": "^8.57.0",
+		"eslint-config-prettier": "^10.0.1",
+		"eslint-plugin-header": "^3.1.1",
+		"eslint-plugin-import": "^2.31.0",
+		"eslint-plugin-jsdoc": "^50.6.3",
+		"eslint-plugin-prettier": "^5.2.3",
+		"eslint-plugin-promise": "^7.2.1",
+		"eslint-plugin-unicorn": "^56.0.1",
+		"eslint-plugin-unused-imports": "^3.2.0",
+		"fast-glob": "^3.3.3",
+		"markdownlint-cli": "^0.44.0",
+		"prettier": "^3.4.2"
 	},
 	"workspaces": [
 		"packages/fed-catalogue-models",
 		"packages/fed-catalogue-service",
-		"packages/fed-catalogue-rest-server"
+		"apps/fed-catalogue-rest-server"
 	],
 	"type": "module"
 }

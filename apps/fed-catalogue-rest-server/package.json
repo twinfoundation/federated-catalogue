@@ -1,0 +1,62 @@
+{
+	"name": "@gtsc/fed-catalogue-rest-server",
+	"version": "0.0.1-next.1",
+	"description": "Serve APIs using the specified configuration",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/twinfoundation/federated-catalogue.git",
+		"directory": "apps/fed-catalogue-rest-server"
+	},
+	"author": "jose.cantera@iota.org",
+	"license": "Apache-2.0",
+	"type": "module",
+	"engines": {
+		"node": ">=20.0.0"
+	},
+	"private": true,
+	"scripts": {
+		"clean": "rimraf dist coverage",
+		"build": "tsc",
+		"build:watch": "tsc-watch --onSuccess \"npm run bundle:esm\"",
+		"dev": "concurrently \"tspc --watch\" \"nodemon\"",
+		"merge-locales": "merge-locales",
+		"test": "vitest --run --config ./vitest.config.ts --no-cache",
+		"coverage": "vitest --run --coverage --config ./vitest.config.ts --no-cache",
+		"docs:clean": "rimraf docs/open-api",
+		"docs:api": "ts-to-openapi ./ts-to-openapi.json ./docs/open-api/spec.json",
+		"docs": "npm run docs:clean && npm run docs:api",
+		"dist": "npm run clean && npm run build && npm run merge-locales && npm run test && npm run docs",
+		"start": "node dist/es/index.js",
+		"prepare": "ts-patch install -s"
+	},
+	"dependencies": {
+		"@twin.org/engine-models": "next",
+		"@twin.org/engine": "next",
+		"@twin.org/engine-server": "next",
+		"@twin.org/engine-server-types": "next",
+		"@twin.org/engine-types": "next",
+		"@gtsc/fed-catalogue-models": "0.0.1-next.1",
+		"@gtsc/fed-catalogue-service": "0.0.1-next.1",
+		"dotenv": "16.4.7"
+	},
+	"devDependencies": {
+		"@twin.org/entity-storage-connector-memory": "next",
+		"@twin.org/merge-locales": "next",
+		"@twin.org/nameof-transformer": "next",
+		"@twin.org/nameof-vitest-plugin": "next",
+		"@twin.org/ts-to-openapi": "next",
+		"@vitest/coverage-v8": "3.0.5",
+		"@types/node": "22.13.1",
+		"concurrently": "9.1.2",
+		"copyfiles": "2.4.1",
+		"cross-env": "7.0.3",
+		"nodemon": "3.1.9",
+		"rimraf": "6.0.1",
+		"ts-patch": "3.3.0",
+		"tsc-watch": "6.2.1",
+		"typedoc": "0.27.6",
+		"typedoc-plugin-markdown": "4.4.1",
+		"typescript": "5.7.3",
+		"vitest": "3.0.5"
+	}
+}
