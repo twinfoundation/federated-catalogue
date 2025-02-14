@@ -1,0 +1,17 @@
+{
+	"baseUrl": "https://schema.twindev.org/aig/",
+	"sources": ["./src/models/**/*.ts"],
+	"types": [
+		"IAuditableItemGraphVertex",
+		"IAuditableItemGraphAlias",
+		"IAuditableItemGraphResource",
+		"IAuditableItemGraphEdge",
+		"IAuditableItemGraphChangeset",
+		"IAuditableItemGraphPatchOperation",
+		"IAuditableItemGraphVertexList"
+	],
+	"externalReferences": {
+		"IJsonLd(.*)": "https://schema.twindev.org/json-ld/JsonLd$1",
+		"IImmutableProof(.*)": "https://schema.twindev.org/immutable-proof/ImmutableProof$1"
+	}
+}

@@ -570,7 +570,7 @@ module.exports = {
 				'@typescript-eslint/object-curly-spacing': ['off'],
 				'@typescript-eslint/default-param-last': ['error'],
 				'@typescript-eslint/dot-notation': ['error'],
-				'@typescript-eslint/explicit-function-return-type': ['error'],
+				'@typescript-eslint/explicit-function-return-type': ['error', { allowExpressions: true }],
 				'@typescript-eslint/explicit-member-accessibility': [
 					'error',
 					{
@@ -621,6 +621,7 @@ module.exports = {
 				'@typescript-eslint/no-array-constructor': ['error'],
 				'@typescript-eslint/no-base-to-string': ['error'],
 				'@typescript-eslint/no-dupe-class-members': ['error'],
+				'@typescript-eslint/no-duplicate-type-constituents': ['error', { ignoreUnions: true }],
 				'@typescript-eslint/no-dynamic-delete': ['off'],
 				'@typescript-eslint/no-empty-function': ['off'],
 				'@typescript-eslint/no-empty-interface': ['error'],

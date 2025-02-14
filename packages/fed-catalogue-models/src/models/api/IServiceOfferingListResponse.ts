@@ -1,11 +1,11 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import type { IServiceDescriptionEntry } from "../offering/IServiceOfferingEntry";
+import type { IServiceOfferingEntry } from "../service-offering/IServiceOfferingEntry";
 
 /**
- * Response for log entry list request.
+ * Response for Service Offering list
  */
-export interface IServiceDescriptionListResponse {
+export interface IServiceOfferingListResponse {
 	/**
 	 * The response payload.
 	 */
@@ -17,7 +17,7 @@ export interface IServiceDescriptionListResponse {
 		/**
 		 * The entities, which can be partial if a limited keys list was provided.
 		 */
-		entities: IServiceDescriptionEntry[];
+		entities: IServiceOfferingEntry[];
 
 		/**
 		 * An optional cursor, when defined can be used to call find to get more entities.

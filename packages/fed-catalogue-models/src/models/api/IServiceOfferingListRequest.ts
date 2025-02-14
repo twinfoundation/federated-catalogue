@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0.
 
 /**
- * Get the a list of the service description entries.
+ * Get the a list of the service offering entries.
  */
-export interface IServiceDescriptionListRequest {
+export interface IServiceOfferingListRequest {
 	/**
 	 * The query parameters.
 	 */
