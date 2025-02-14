@@ -7,7 +7,7 @@ import { IEndpoint } from "./IEndpoint";
 /**
  * A Service offering
  */
-export interface IServiceOffering {
+export interface IServiceOffering extends IJsonLdNodeObject {
 	/**
 	 * Id
 	 */

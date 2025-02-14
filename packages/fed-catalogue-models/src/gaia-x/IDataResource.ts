@@ -1,7 +1,7 @@
 import { IJsonLdNodeObject } from "@twin.org/data-json-ld";
 import { IDataExchangeComponent } from "./IDataExchangeComponent";
 
-export interface IDataResource {
+export interface IDataResource extends IJsonLdNodeObject {
 	/**
 	 * Subject Id
 	 */

@@ -1,11 +1,11 @@
 # Fed Catalogue Models
 
-Models which define the structure of the logging contracts and connectors.
+Models which define the structure of the Federated Catalogo.
 
 ## Installation
 
 ```shell
-npm install @gtsc/logging-models
+npm install @twin.org/federated-catalog-models
 ```
 
 ## Examples
