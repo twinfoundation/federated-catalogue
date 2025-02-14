@@ -1,12 +1,15 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import { IDataResource } from "../IDataResource";
-
 /**
- * Interface describing a Data Resource entry.
+ * A Catalog entry
  */
-export interface IDataResourceEntry extends IDataResource {
+export interface ICatalogEntry {
+  /**
+	 * The trusted issuer of the compliance credential
+	 */
+	trustedIssuerId: string;
+
 	/**
 	 * Valid from (as per W3C VC Data Model v2)
 	 */

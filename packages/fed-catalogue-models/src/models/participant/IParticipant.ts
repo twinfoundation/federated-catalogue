@@ -1,12 +1,7 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import { IParticipant } from "../IParticipant";
-
-/**
- * Interface describing a participant.
- */
-export interface IParticipantEntry extends IParticipant {
+export interface IParticipant {
 	/**
 	 * The participant Id.
 	 */
@@ -33,23 +28,7 @@ export interface IParticipantEntry extends IParticipant {
 	legalName: string;
 
 	/**
-	 * The trusted issuer of the compliance credential
-	 */
-	trustedIssuerId: string;
-
-	/**
 	 * Country code
 	 */
 	countryCode: string;
-
-	/**
-	 * Date created
-	 */
-	dateCreated: string;
-
-	/**
-	 * Original credentials
-	 *
-	 */
-	evidences: string[];
 }

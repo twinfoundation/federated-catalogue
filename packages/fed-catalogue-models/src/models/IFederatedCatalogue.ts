@@ -1,9 +1,9 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 import type { IComponent } from "@twin.org/core";
-import type { IDataResourceEntry } from "./entities/IDataResourceEntry";
-import type { IParticipantEntry } from "./entities/IParticipantEntry";
-import type { IServiceDescriptionEntry } from "./entities/IServiceDescriptionEntry";
+import type { IDataResourceEntry } from "./data-resource/IDataResourceEntry";
+import type { IParticipantEntry } from "./participant/IParticipantEntry";
+import type { IServiceOfferingEntry } from "./service-offering/IServiceOfferingEntry";
 
 /**
  * Interface describing a Fed Catalogue Contract.
@@ -70,7 +70,7 @@ export interface IFederatedCatalogue extends IComponent {
 		/**
 		 * The entities, which can be partial if a limited keys list was provided.
 		 */
-		entities: IServiceDescriptionEntry[];
+		entities: IServiceOfferingEntry[];
 		/**
 		 * An optional cursor, when defined can be used to call find to get more entities.
 		 */

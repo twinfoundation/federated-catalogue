@@ -1,7 +1,17 @@
 import { IJsonLdNodeObject } from "@twin.org/data-json-ld";
 
 export interface IDataResource {
-  /**
+	/**
+	 * Subject Id
+	 */
+	id: string;
+
+	/** Subject type
+	 *
+	 */
+	type: "DataResource";
+
+	/**
 	 * Description
 	 */
 	description?: string;
