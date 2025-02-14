@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0.
 
 import { IJsonLdContextDefinitionElement, IJsonLdNodeObject } from "@twin.org/data-json-ld";
-import { IServiceOffering } from "./IServiceOffering";
+import { IServiceOffering } from "../../gaia-x/IServiceOffering";
 import { FederatedCatalogueTypes } from "../fedCatalogueTypes";
 
 /**

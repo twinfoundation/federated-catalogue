@@ -5,7 +5,7 @@
  * A Catalog entry
  */
 export interface ICatalogEntry {
-  /**
+	/**
 	 * The trusted issuer of the compliance credential
 	 */
 	trustedIssuerId: string;

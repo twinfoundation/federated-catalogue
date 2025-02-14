@@ -11,8 +11,8 @@ export const FederatedCatalogueTypes = {
 	 */
 	Gaia_X_LD_Context: "https://w3id.org/gaia-x/development#",
 
-  /**
-   * The W3id security LD Context
-   */
-  W3Id_Security_JWS_Context: "https://w3id.org/security/suites/jws-2020/v1"
+	/**
+	 * The W3id security LD Context
+	 */
+	W3Id_Security_JWS_Context: "https://w3id.org/security/suites/jws-2020/v1"
 } as const;

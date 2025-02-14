@@ -133,10 +133,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			});
 		}
 
-		const participantEntry = this.extractParticipantEntry(
-			complianceCredential,
-			result.credentials
-		);
+		const participantEntry = this.extractParticipantEntry(complianceCredential, result.credentials);
 
 		await this._entityStorageParticipants.set(participantEntry);
 

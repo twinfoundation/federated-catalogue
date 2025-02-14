@@ -1,6 +1,12 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
+import { IAddress } from "./IAddress";
+import { IRegistrationNumber } from "./IRegistrationNumber";
+
+/**
+ * A Legal Person participating in the ecosystem
+ */
 export interface IParticipant {
 	/**
 	 * The participant Id.
@@ -10,17 +16,12 @@ export interface IParticipant {
 	/**
 	 * JSON-LD type.
 	 */
-	type: "Participant";
-
-	/**
-	 * The legal registration number type.
-	 */
-	lrnType: string;
+	type: "LegalPerson";
 
 	/**
 	 * The legal registration number.
 	 */
-	registrationNumber: string;
+	registrationNumber: IRegistrationNumber;
 
 	/**
 	 * The legal name.
@@ -28,7 +29,8 @@ export interface IParticipant {
 	legalName: string;
 
 	/**
-	 * Country code
+	 *  Legal Address
+	 *
 	 */
-	countryCode: string;
+	legalAddress: IAddress;
 }

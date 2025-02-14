@@ -1,6 +1,7 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import { entity, property } from "@twin.org/entity";
+import { entity, property, SortDirection } from "@twin.org/entity";
+import { IDataExchangeComponent } from "../gaia-x/IDataExchangeComponent";
 
 /**
  * Service Description Entry.
@@ -12,6 +13,12 @@ export class DataResourceEntry {
 	 */
 	@property({ type: "string", isPrimary: true })
 	public id!: string;
+
+	/**
+	 * The trusted issuer of the compliance credential
+	 */
+	@property({ type: "string", isPrimary: true })
+	public trustedIssuer!: string;
 
 	/**
 	 * The name.
@@ -46,8 +53,8 @@ export class DataResourceEntry {
 	/**
 	 * The REST endpoint
 	 */
-	@property({ type: "string", optional: true })
-	public exposedThrough!: string;
+	@property({ type: "object", optional: true })
+	public exposedThrough!: IDataExchangeComponent;
 
 	/**
 	 * The policy
@@ -58,19 +65,19 @@ export class DataResourceEntry {
 	/**
 	 * Valid from
 	 */
-	@property({ type: "string" })
+	@property({ type: "string", format: "date-time" })
 	public validFrom!: string;
 
 	/**
 	 * Valid to
 	 */
-	@property({ type: "string" })
+	@property({ type: "string", format: "date-time" })
 	public validUntil!: string;
 
 	/**
 	 * Date created
 	 */
-	@property({ type: "string" })
+	@property({ type: "string", format: "date-time", sortDirection: SortDirection.Descending })
 	public dateCreated!: string;
 
 	/**

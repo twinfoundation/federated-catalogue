@@ -3,8 +3,7 @@
 
 import { IJsonLdContextDefinitionElement, IJsonLdNodeObject } from "@twin.org/data-json-ld";
 import { FederatedCatalogueTypes } from "../fedCatalogueTypes";
-import { IDataResourceEntry } from "./IDataResourceEntry";
-import { IDataResource } from "./IDataResource";
+import { IDataResource } from "../../gaia-x/IDataResource";
 
 export interface IDataResourceSubject extends IJsonLdNodeObject, IDataResource {
 	"@context":

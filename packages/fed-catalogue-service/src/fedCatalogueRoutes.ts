@@ -6,8 +6,8 @@ import type {
 	IRestRoute,
 	ITag,
 	IUnprocessableEntityResponse
-} from "@gtsc/api-models";
-import { Coerce, Guards } from "@gtsc/core";
+} from "@twin.org/api-models";
+import { Coerce, Guards } from "@twin.org/core";
 import type {
 	ICompliancePresentationRequest,
 	IDataResourceListRequest,
@@ -15,13 +15,12 @@ import type {
 	IFederatedCatalogue,
 	IParticipantListRequest,
 	IParticipantListResponse,
-	IServiceDescriptionListRequest,
-	IServiceDescriptionListResponse,
-	IServiceDescriptionPresentationRequest
-} from "@gtsc/fed-catalogue-models";
-import { nameof } from "@gtsc/nameof";
-import { ServiceFactory } from "@gtsc/services";
-import { HttpStatusCode } from "@gtsc/web";
+	IServiceOfferingListRequest,
+	IServiceOfferingListResponse,
+	IServiceOfferingPresentationRequest
+} from "@twin.org/federated-catalogue-models";
+import { nameof } from "@twin.org/nameof";
+import { HttpStatusCode } from "@twin.org/web";
 
 /**
  * The source used when communicating about these routes.
@@ -76,7 +75,7 @@ export function generateRestRoutesFedCatalogue(
 		]
 	};
 
-	const createServiceRoute: IRestRoute<IServiceDescriptionPresentationRequest, ICreatedResponse> = {
+	const createServiceRoute: IRestRoute<IServiceOfferingPresentationRequest, ICreatedResponse> = {
 		operationId: "serviceDescriptionPresentationRequest",
 		summary: "Present a Service Description Credential",
 		tag: tagsFedCatalogue[0].name,
@@ -86,7 +85,7 @@ export function generateRestRoutesFedCatalogue(
 			serviceDescriptionCredentialPresentation(httpRequestContext, factoryServiceName, request),
 		requestType: {
 			mimeType: "application/jwt",
-			type: nameof<IServiceDescriptionPresentationRequest>(),
+			type: nameof<IServiceOfferingPresentationRequest>(),
 			examples: [
 				{
 					id: "servicePresentationRequestExample",
@@ -162,10 +161,7 @@ export function generateRestRoutesFedCatalogue(
 		]
 	};
 
-	const listServicesRoute: IRestRoute<
-		IServiceDescriptionListRequest,
-		IServiceDescriptionListResponse
-	> = {
+	const listServicesRoute: IRestRoute<IServiceOfferingListRequest, IServiceOfferingListResponse> = {
 		operationId: "fedCatalogueListServices",
 		summary: "Get a list of the service entries",
 		tag: tagsFedCatalogue[0].name,
@@ -174,7 +170,7 @@ export function generateRestRoutesFedCatalogue(
 		handler: async (httpRequestContext, request) =>
 			serviceDescriptionList(httpRequestContext, factoryServiceName, request),
 		requestType: {
-			type: nameof<IServiceDescriptionListRequest>(),
+			type: nameof<IServiceOfferingListRequest>(),
 			examples: [
 				{
 					id: "serviceListRequestExample",
@@ -188,7 +184,7 @@ export function generateRestRoutesFedCatalogue(
 		},
 		responseType: [
 			{
-				type: nameof<IServiceDescriptionListResponse>(),
+				type: nameof<IServiceOfferingListResponse>(),
 				examples: [
 					{
 						id: "listResponseExample",
@@ -222,10 +218,7 @@ export function generateRestRoutesFedCatalogue(
 		]
 	};
 
-	const listDataResourcesRoute: IRestRoute<
-		IDataResourceListRequest,
-		IDataResourceListResponse
-	> = {
+	const listDataResourcesRoute: IRestRoute<IDataResourceListRequest, IDataResourceListResponse> = {
 		operationId: "fedCatalogueListResources",
 		summary: "Get a list of the data resource entries",
 		tag: tagsFedCatalogue[0].name,
@@ -269,6 +262,7 @@ export function generateRestRoutesFedCatalogue(
 										resourcePolicy: {},
 										exposedThrough: "https://endpoint.example.org/api",
 										producedBy: "did:iota:1234567",
+										trustedIssuerId: "did:iota:987654",
 										validFrom: "2024-08-01T12:00:00Z",
 										validUntil: "2025-08-01T12:00:00Z",
 										dateCreated: "2024-08-02T13:45:00Z",
@@ -313,7 +307,7 @@ export async function complianceCredentialPresentation(
 
 	return {
 		headers: {
-			Location: ""
+			location: ""
 		},
 		statusCode: HttpStatusCode.created
 	};
@@ -372,7 +366,7 @@ export async function serviceDescriptionCredentialPresentation(
 
 	return {
 		headers: {
-			Location: ""
+			location: ""
 		},
 		statusCode: HttpStatusCode.created
 	};
@@ -388,8 +382,8 @@ export async function serviceDescriptionCredentialPresentation(
 export async function serviceDescriptionList(
 	httpRequestContext: IHttpRequestContext,
 	factoryServiceName: string,
-	request: IServiceDescriptionListRequest
-): Promise<IServiceDescriptionListResponse> {
+	request: IServiceOfferingListRequest
+): Promise<IServiceOfferingListResponse> {
 	const service = ServiceFactory.get<IFederatedCatalogue>(factoryServiceName);
 
 	const itemsAndCursor = await service.queryServiceDescriptions(

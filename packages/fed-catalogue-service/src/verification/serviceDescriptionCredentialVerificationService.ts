@@ -48,9 +48,21 @@ export class ServiceDescriptionCredentialVerificationService {
 			};
 		}
 
-		Guards.stringValue(this.CLASS_NAME, nameof(credentialData["gx:name"]), credentialData["gx:name"]);
-		Guards.stringValue(this.CLASS_NAME, nameof(credentialData["gx:providedBy"]), credentialData["gx:providedBy"]);
-		Guards.object(this.CLASS_NAME, nameof(credentialData["gx:servicePolicy"]), credentialData["gx:servicePolicy"]);
+		Guards.stringValue(
+			this.CLASS_NAME,
+			nameof(credentialData["gx:name"]),
+			credentialData["gx:name"]
+		);
+		Guards.stringValue(
+			this.CLASS_NAME,
+			nameof(credentialData["gx:providedBy"]),
+			credentialData["gx:providedBy"]
+		);
+		Guards.object(
+			this.CLASS_NAME,
+			nameof(credentialData["gx:servicePolicy"]),
+			credentialData["gx:servicePolicy"]
+		);
 
 		return {
 			verified: true,

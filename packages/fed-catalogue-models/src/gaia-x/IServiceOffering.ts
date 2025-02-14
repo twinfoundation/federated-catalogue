@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0.
 
 import { IJsonLdNodeObject } from "@twin.org/data-json-ld";
+import { IEndpoint } from "./IEndpoint";
 
 /**
  * A Service offering
@@ -41,4 +42,9 @@ export interface IServiceOffering {
 	 * Resources aggregated
 	 */
 	aggregationOfResources?: string[];
+
+	/**
+	 * The endpoint
+	 */
+	endpoint: IEndpoint;
 }

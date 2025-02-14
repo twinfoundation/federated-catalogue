@@ -1,4 +1,5 @@
 import { IJsonLdNodeObject } from "@twin.org/data-json-ld";
+import { IDataExchangeComponent } from "./IDataExchangeComponent";
 
 export interface IDataResource {
 	/**
@@ -24,7 +25,7 @@ export interface IDataResource {
 	/**
 	 * Exposed through endpoint
 	 */
-	exposedThrough: string;
+	exposedThrough: IDataExchangeComponent;
 
 	/**
 	 * Who is the data producer

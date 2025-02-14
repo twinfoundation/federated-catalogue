@@ -1,6 +1,7 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import { entity, property } from "@twin.org/entity";
+import { entity, property, SortDirection } from "@twin.org/entity";
+import { IEndpoint } from "../gaia-x/IEndpoint";
 
 /**
  * Service Description Entry.
@@ -12,6 +13,12 @@ export class ServiceDescriptionEntry {
 	 */
 	@property({ type: "string", isPrimary: true })
 	public id!: string;
+
+	/**
+	 * The trusted issuer of the compliance credential
+	 */
+	@property({ type: "string" })
+	public trustedIssuer!: string;
 
 	/**
 	 * The service name.
@@ -28,14 +35,14 @@ export class ServiceDescriptionEntry {
 	/**
 	 * The provider
 	 */
-	@property({ type: "string" })
+	@property({ type: "string", isSecondary: true })
 	public providedBy!: string;
 
 	/**
 	 * The REST endpoint
 	 */
-	@property({ type: "string", optional: true })
-	public endpointURL!: string;
+	@property({ type: "object" })
+	public endpoint!: IEndpoint;
 
 	/**
 	 * The policy
@@ -52,19 +59,19 @@ export class ServiceDescriptionEntry {
 	/**
 	 * Valid from
 	 */
-	@property({ type: "string" })
+	@property({ type: "string", format: "date-time" })
 	public validFrom!: string;
 
 	/**
 	 * Valid to
 	 */
-	@property({ type: "string" })
+	@property({ type: "string", format: "date-time" })
 	public validUntil!: string;
 
 	/**
 	 * Date created
 	 */
-	@property({ type: "string" })
+	@property({ type: "string", format: "date-time", sortDirection: SortDirection.Descending })
 	public dateCreated!: string;
 
 	/**

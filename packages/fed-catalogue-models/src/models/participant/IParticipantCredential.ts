@@ -4,6 +4,6 @@
 import { IDidVerifiableCredential } from "@twin.org/standards-w3c-did";
 import { IParticipantSubject } from "./IParticipantSubject";
 
-export interface IServiceOfferingCredential extends IDidVerifiableCredential {
+export interface IParticipantCredential extends IDidVerifiableCredential {
 	credentialSubject: IParticipantSubject;
 }

@@ -1,6 +1,7 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import { entity, property } from "@twin.org/entity";
+import { entity, property, SortDirection } from "@twin.org/entity";
+import { IRegistrationNumber } from "../gaia-x/IRegistrationNumber";
 
 /**
  * Participant entry.
@@ -16,14 +17,8 @@ export class ParticipantEntry {
 	/**
 	 * The legal registration number.
 	 */
-	@property({ type: "string", optional: true })
-	public lrnType?: string | undefined;
-
-	/**
-	 * The legal registration number.
-	 */
-	@property({ type: "string" })
-	public registrationNumber!: string;
+	@property({ type: "object" })
+	public registrationNumber!: IRegistrationNumber;
 
 	/**
 	 * The legal name.
@@ -46,19 +41,19 @@ export class ParticipantEntry {
 	/**
 	 * Valid from
 	 */
-	@property({ type: "string" })
+	@property({ type: "string", format: "date-time" })
 	public validFrom!: string;
 
 	/**
 	 * Valid to
 	 */
-	@property({ type: "string" })
+	@property({ type: "string", format: "date-time" })
 	public validUntil!: string;
 
 	/**
 	 * Date created
 	 */
-	@property({ type: "string" })
+	@property({ type: "string", format: "date-time", sortDirection: SortDirection.Descending })
 	public dateCreated!: string;
 
 	/**

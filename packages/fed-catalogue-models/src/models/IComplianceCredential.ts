@@ -21,7 +21,7 @@ export interface IComplianceCredential extends IDidVerifiableCredential {
 	id: string;
 
 	/**
-	 * Compliance evidence.
+	 * Compliance evidence. It is mandatory.
 	 *
 	 */
 	evidence: IComplianceEvidence[];

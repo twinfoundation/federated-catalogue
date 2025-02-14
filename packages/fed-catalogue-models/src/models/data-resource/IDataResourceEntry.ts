@@ -1,7 +1,7 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import { IDataResource } from "./IDataResource";
+import { IDataResource } from "../../gaia-x/IDataResource";
 import { ICatalogEntry } from "../ICatalogEntry";
 
 /**
