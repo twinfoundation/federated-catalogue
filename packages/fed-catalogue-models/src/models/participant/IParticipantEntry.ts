@@ -1,8 +1,8 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import { IParticipant } from "../../gaia-x/IParticipant";
-import { ICatalogEntry } from "../ICatalogEntry";
+import type { IParticipant } from "../../gaia-x/IParticipant";
+import type { ICatalogEntry } from "../ICatalogEntry";
 
 /**
  * Interface describing a participant.

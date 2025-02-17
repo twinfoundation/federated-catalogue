@@ -7,7 +7,7 @@ import type {
 	ITag,
 	IUnprocessableEntityResponse
 } from "@twin.org/api-models";
-import { Coerce, Guards } from "@twin.org/core";
+import { Coerce, ComponentFactory, Guards } from "@twin.org/core";
 import type {
 	ICompliancePresentationRequest,
 	IDataResourceListRequest,
@@ -140,12 +140,16 @@ export function generateRestRoutesFedCatalogue(
 								entities: [
 									{
 										id: "did:iota:xxx",
-										type: "Participant",
-										registrationNumber: "zzz",
+										type: "LegalPerson",
+										registrationNumber: {
+											type: "LocalRegistrationNumber",
+											local: "P1234567"
+										},
 										legalName: "A Inc.",
-										lrnType: "VAT_ID",
 										trustedIssuerId: "did:iota:zzz",
-										countryCode: "KE",
+										legalAddress: {
+											countryCode: "KE"
+										},
 										validFrom: "2024-08-01T12:00:00Z",
 										validUntil: "2025-08-01T12:00:00Z",
 										dateCreated: "2024-08-02T13:45:00Z",
@@ -201,7 +205,10 @@ export function generateRestRoutesFedCatalogue(
 										name: "Service 1",
 										type: "ServiceOffering",
 										servicePolicy: {},
-										endpointURL: "https://endpoint.example.org/api",
+										endpoint: {
+											type: "Endpoint",
+											endpointURL: "https://endpoint.example.org/api"
+										},
 										providedBy: "did:iota:1234567",
 										validFrom: "2024-08-01T12:00:00Z",
 										validUntil: "2025-08-01T12:00:00Z",
@@ -260,7 +267,10 @@ export function generateRestRoutesFedCatalogue(
 										copyrightOwnedBy: "did:iota:1234",
 										license: "http://licenses.example.org/12345",
 										resourcePolicy: {},
-										exposedThrough: "https://endpoint.example.org/api",
+										exposedThrough: {
+											"@id": "https://endpoint.example.org/api",
+											type: "DataExchangeComponent"
+										},
 										producedBy: "did:iota:1234567",
 										trustedIssuerId: "did:iota:987654",
 										validFrom: "2024-08-01T12:00:00Z",
@@ -302,7 +312,7 @@ export async function complianceCredentialPresentation(
 	Guards.object<ICompliancePresentationRequest>(ROUTES_SOURCE, nameof(request), request);
 	Guards.stringValue(ROUTES_SOURCE, nameof(request.body), request.body);
 
-	const service = ServiceFactory.get<IFederatedCatalogue>(factoryServiceName);
+	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
 	await service.registerComplianceCredential(request.body);
 
 	return {
@@ -325,7 +335,7 @@ export async function participantList(
 	factoryServiceName: string,
 	request: IParticipantListRequest
 ): Promise<IParticipantListResponse> {
-	const service = ServiceFactory.get<IFederatedCatalogue>(factoryServiceName);
+	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
 
 	const itemsAndCursor = await service.queryParticipants(
 		request?.query?.id,
@@ -361,7 +371,7 @@ export async function serviceDescriptionCredentialPresentation(
 	Guards.object<ICompliancePresentationRequest>(ROUTES_SOURCE, nameof(request), request);
 	Guards.stringValue(ROUTES_SOURCE, nameof(request.body), request.body);
 
-	const service = ServiceFactory.get<IFederatedCatalogue>(factoryServiceName);
+	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
 	await service.registerServiceDescriptionCredential(request.body);
 
 	return {
@@ -384,7 +394,7 @@ export async function serviceDescriptionList(
 	factoryServiceName: string,
 	request: IServiceOfferingListRequest
 ): Promise<IServiceOfferingListResponse> {
-	const service = ServiceFactory.get<IFederatedCatalogue>(factoryServiceName);
+	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
 
 	const itemsAndCursor = await service.queryServiceDescriptions(
 		request?.query.id,
@@ -416,7 +426,7 @@ export async function dataResourceList(
 	factoryServiceName: string,
 	request: IDataResourceListRequest
 ): Promise<IDataResourceListResponse> {
-	const service = ServiceFactory.get<IFederatedCatalogue>(factoryServiceName);
+	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
 
 	const itemsAndCursor = await service.queryDataResourceDescriptions(
 		request?.query.id,

@@ -1,7 +1,7 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import { IDataResourceEntry } from "../data-resource/IDataResourceEntry";
+import type { IDataResourceEntry } from "../data-resource/IDataResourceEntry";
 
 /**
  * Response for log entry list request.

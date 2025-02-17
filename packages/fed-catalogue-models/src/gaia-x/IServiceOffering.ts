@@ -1,13 +1,21 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import { IJsonLdNodeObject } from "@twin.org/data-json-ld";
-import { IEndpoint } from "./IEndpoint";
+import type { IJsonLdContextDefinitionElement, IJsonLdNodeObject } from "@twin.org/data-json-ld";
+import type { GaiaXTypes } from "./gaiaxTypes";
+import type { IEndpoint } from "./IEndpoint";
 
 /**
  * A Service offering
  */
 export interface IServiceOffering extends IJsonLdNodeObject {
+	/**
+	 * The LD @context
+	 */
+	"@context":
+		| typeof GaiaXTypes.Gaia_X_LD_Context
+		| [typeof GaiaXTypes.Gaia_X_LD_Context, ...IJsonLdContextDefinitionElement[]];
+
 	/**
 	 * Id
 	 */

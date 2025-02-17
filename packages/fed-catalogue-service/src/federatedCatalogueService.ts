@@ -3,12 +3,12 @@
 
 /* eslint-disable jsdoc/require-jsdoc */
 
-import { Guards, Is, UnprocessableError } from "@gtsc/core";
-import { ComparisonOperator, type EntityCondition } from "@gtsc/entity";
+import { Guards, Is, UnprocessableError } from "@twin.org/core";
+import { ComparisonOperator, type EntityCondition } from "@twin.org/entity";
 import {
 	EntityStorageConnectorFactory,
 	type IEntityStorageConnector
-} from "@gtsc/entity-storage-models";
+} from "@twin.org/entity-storage-models";
 import type {
 	DataResourceEntry,
 	IComplianceCredential,
@@ -21,9 +21,9 @@ import type {
 	IVerifiableCredential,
 	ParticipantEntry,
 	ServiceDescriptionEntry
-} from "@gtsc/fed-catalogue-models";
-import { LoggingConnectorFactory, type ILoggingConnector } from "@gtsc/logging-models";
-import { nameof } from "@gtsc/nameof";
+} from "@twin.org/federated-catalogue-models";
+import { LoggingConnectorFactory, type ILoggingConnector } from "@twin.org/logging-models";
+import { nameof } from "@twin.org/nameof";
 import { ComplianceCredentialVerificationService } from "./verification/complianceCredentialVerificationService";
 import { JwtVerificationService } from "./verification/jwtVerificationService";
 import { ServiceDescriptionCredentialVerificationService } from "./verification/serviceDescriptionCredentialVerificationService";

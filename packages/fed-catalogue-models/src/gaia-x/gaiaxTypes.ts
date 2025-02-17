@@ -1,11 +1,13 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
+/* eslint-disable camelcase */
+
 /**
- * The types of Federated Catalog Data
+ * The types concerning Gaia-X
  */
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const FederatedCatalogueTypes = {
+export const GaiaXTypes = {
 	/**
 	 * The Gaia-X LD Context
 	 */

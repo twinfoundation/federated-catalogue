@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0.
 
 import type { IDidVerifiableCredential } from "@twin.org/standards-w3c-did";
-import type { IDataResourceSubject } from "./IDataResourceSubject";
+import type { IDataResource } from "../../gaia-x/IDataResource";
 
 /**
  * Data Resource Credential
@@ -11,5 +11,5 @@ export interface IDataResourceCredential extends IDidVerifiableCredential {
 	/**
 	 * The subject of the Credential
 	 */
-	credentialSubject: IDataResourceSubject;
+	credentialSubject: IDataResource;
 }

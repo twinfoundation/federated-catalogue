@@ -1,7 +1,7 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import { IParticipantEntry } from "../participant/IParticipantEntry";
+import type { IParticipantEntry } from "../participant/IParticipantEntry";
 
 /**
  * Response for log entry list request.
