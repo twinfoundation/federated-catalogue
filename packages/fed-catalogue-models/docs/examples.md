@@ -1,1 +1,1 @@
-# @gtsc/logging-models - Examples
+# @twin.org/federated-catalog-models - Examples

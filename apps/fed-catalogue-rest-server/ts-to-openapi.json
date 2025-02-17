@@ -7,10 +7,10 @@
 	"servers": ["http://localhost:3010"],
 	"restRoutes": [
 		{
-			"package": "@gtsc/api-service"
+			"package": "@twin.org/api-service"
 		},
 		{
-			"package": "@gtsc/fed-catalogue-service"
+			"package": "@twin.org/fed-catalogue-service"
 		}
 	],
 	"authMethods": ["jwtBearer"]

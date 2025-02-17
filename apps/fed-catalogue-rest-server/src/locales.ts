@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0.
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import { I18n, type ILocaleDictionary } from "@gtsc/core";
+import { I18n, type ILocaleDictionary } from "@twin.org/core";
 
 /**
  * Initialise the locales for the application.

@@ -1,6 +1,6 @@
 {
 	"verbose": true,
-	"watch": ["dist/", ".env", ".env.dev", "../../node_modules/@gtsc"],
+	"watch": ["dist/", ".env", ".env.dev", "../../node_modules/@twin.org"],
 	"ext": "*.js,*.mjs,*.json",
 	"ignoreRoot": [".git"],
 	"ignore": ["**/rest/**", "*.ts"]
