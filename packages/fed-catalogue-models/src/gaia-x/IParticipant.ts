@@ -11,11 +11,12 @@ import type { IRegistrationNumber } from "./IRegistrationNumber";
  */
 export interface IParticipant extends IJsonLdNodeObject {
 	/**
-	 * The LD @context
+	 * The LD context
 	 */
 	"@context":
 		| typeof GaiaXTypes.Gaia_X_LD_Context
 		| [typeof GaiaXTypes.Gaia_X_LD_Context, ...IJsonLdContextDefinitionElement[]];
+
 	/**
 	 * The participant Id.
 	 */

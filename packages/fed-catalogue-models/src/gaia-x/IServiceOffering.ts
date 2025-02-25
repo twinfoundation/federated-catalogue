@@ -10,7 +10,7 @@ import type { IEndpoint } from "./IEndpoint";
  */
 export interface IServiceOffering extends IJsonLdNodeObject {
 	/**
-	 * The LD @context
+	 * The LD context
 	 */
 	"@context":
 		| typeof GaiaXTypes.Gaia_X_LD_Context

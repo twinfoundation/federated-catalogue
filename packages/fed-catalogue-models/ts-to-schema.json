@@ -1,8 +1,7 @@
 {
 	"baseUrl": "https://schema.twindev.org/federated-catalog/",
 	"sources": ["./src/models/**/*.ts"],
-	"types": [
-	],
+	"types": [],
 	"externalReferences": {
 		"IJsonLd(.*)": "https://schema.twindev.org/json-ld/JsonLd$1"
 	}

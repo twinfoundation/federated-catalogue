@@ -4,22 +4,20 @@
 import type { IJsonLdContextDefinitionElement, IJsonLdNodeObject } from "@twin.org/data-json-ld";
 import type { GaiaXTypes } from "./gaiaxTypes";
 import type { IDataExchangeComponent } from "./IDataExchangeComponent";
-import type { IEndpoint } from "./IEndpoint";
-import type { IDataSpaceConnector } from "../idsa/IDataSpaceConnector";
-import type { IDSATypes } from "../idsa/idsaTypes";
+import type { IDataSpaceConnector } from "../models/data-space-connector/IDataSpaceConnector";
 
 /**
- * A Data Resource as defined by Gaia-X and IDSA.
+ * A Data Resource as defined by Gaia-X.
+ * See also W3C DCAT Dataset
  */
 export interface IDataResource extends IJsonLdNodeObject {
 	/**
 	 * The LD Context
 	 */
-	"@context": [
-		typeof IDSATypes.IDSA_LD_Context,
-		typeof GaiaXTypes.Gaia_X_LD_Context,
-		...IJsonLdContextDefinitionElement[]
-	];
+	"@context":
+		| typeof GaiaXTypes.Gaia_X_LD_Context
+		| [typeof GaiaXTypes.Gaia_X_LD_Context, ...IJsonLdContextDefinitionElement[]];
+
 	/**
 	 * Subject Id
 	 */
@@ -64,10 +62,4 @@ export interface IDataResource extends IJsonLdNodeObject {
 	 * ODRL Policy
 	 */
 	resourcePolicy: IJsonLdNodeObject;
-
-	/**
-	 * The Data Resource endpoint.
-	 *
-	 */
-	resourceEndpoint?: IEndpoint;
 }

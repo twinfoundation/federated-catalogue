@@ -9,16 +9,31 @@ export * from "./models/api/IDataResourceListRequest";
 export * from "./models/api/IParticipantListResponse";
 export * from "./models/api/IServiceOfferingListResponse";
 export * from "./models/api/IDataResourceListResponse";
+
+export * from "./gaia-x/IDataExchangeComponent";
+export * from "./gaia-x/IAddress";
+export * from "./gaia-x/IDataResource";
+export * from "./gaia-x/IEndpoint";
+export * from "./gaia-x/IParticipant";
+export * from "./gaia-x/IRegistrationNumber";
+export * from "./gaia-x/IServiceOffering";
+
 export * from "./models/participant/IParticipantEntry";
-export * from "./models//data-resource/IDataResourceEntry";
-export * from "./entities/dataResourceEntry";
-export * from "./entities/serviceOfferingEntry";
+export * from "./models/participant/IParticipantCredential";
+
+export * from "./models/data-resource/IDataResourceEntry";
+export * from "./models/data-resource/IDataResourceCredential";
+
 export * from "./models/service-offering/IServiceOfferingEntry";
+export * from "./models/service-offering/IServiceOfferingCredential";
+
+export * from "./models/data-space-connector/IDataSpaceConnector";
+export * from "./models/data-space-connector/IDataSpaceConnectorEntry";
+export * from "./models/data-space-connector/IDataSpaceConnectorCredential";
+
 export * from "./models/IFederatedCatalogue";
-export * from "./entities/participantEntry";
+
 export * from "./models/IComplianceCredential";
 export * from "./models/IComplianceEvidence";
 export * from "./models/IVerificationResult";
 export * from "./models/IComplianceVerificationResult";
-export * from "./models/service-offering/IServiceOfferingCredential";
-export * from "./models/data-resource/IDataResourceCredential";

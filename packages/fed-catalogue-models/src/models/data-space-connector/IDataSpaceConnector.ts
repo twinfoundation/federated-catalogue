@@ -1,29 +1,24 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import type {
-	IJsonLdContextDefinitionElement,
-	IJsonLdKeyword,
-	IJsonLdNodeObject
-} from "@twin.org/data-json-ld";
-import type { IDSATypes } from "./idsaTypes";
-import type { IDataResource } from "../gaia-x/IDataResource";
-import type { IEndpoint } from "../gaia-x/IEndpoint";
+import type { IJsonLdContextDefinitionElement, IJsonLdKeyword } from "@twin.org/data-json-ld";
+import type { IDataExchangeComponent } from "../../gaia-x/IDataExchangeComponent";
+import type { IDataResource } from "../../gaia-x/IDataResource";
+import type { IEndpoint } from "../../gaia-x/IEndpoint";
 
 /**
- * Data Space Connector. It extends the IDSA's Connector definition.
- * https://international-data-spaces-association.github.io/InformationModel/docs/index.html#Connector
+ * TWIN Data Space Connector.
  */
-export interface IDataSpaceConnector extends IJsonLdNodeObject {
+export interface IDataSpaceConnector extends IDataExchangeComponent {
 	/**
 	 * The LD Context.
 	 */
-	"@context": [typeof IDSATypes.IDSA_LD_Context, ...IJsonLdContextDefinitionElement[]];
+	"@context": [...IJsonLdContextDefinitionElement[]];
 
 	/**
 	 * A Connector
 	 */
-	type: ["Connector", ...IJsonLdKeyword["@type"][]];
+	type: ["DataExchangeComponent", "DataSpaceConnector", ...IJsonLdKeyword["@type"][]];
 
 	/**
 	 * Connector's Identity
@@ -41,14 +36,21 @@ export interface IDataSpaceConnector extends IJsonLdNodeObject {
 	 * If the endpoint URL is a relative reference to a URL then it should be resolved using the
 	 * default endpoint URL as a base URL.
 	 */
-	subscriptionEndpoint: IEndpoint;
+	subscriptionActivityEndpoint: IEndpoint;
 
 	/**
 	 * The endpoint used by Providers to push data.
 	 * If the endpoint URL is a relative reference to a URL then it should be resolved using the
 	 * default endpoint URL as a base URL.
 	 */
-	pushEndpoint: IEndpoint;
+	pushActivityEndpoint: IEndpoint;
+
+	/**
+	 * The endpoint used by Consumers to pull data from.
+	 * If the endpoint URL is a relative reference to a URL then it should be resolved using the
+	 * default endpoint URL as a base URL.
+	 */
+	pullDataEndpoint: IEndpoint;
 
 	/**
 	 * The resources offered by this Connector.
@@ -57,6 +59,6 @@ export interface IDataSpaceConnector extends IJsonLdNodeObject {
 	 *
 	 */
 	resourceCatalog: {
-		offeredResource: { [resourceIndex: string]: IDataResource };
+		offeredResource: { [resourceId: string]: IDataResource };
 	};
 }

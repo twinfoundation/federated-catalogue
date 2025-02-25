@@ -51,7 +51,7 @@ export class DataResourceEntry {
 	public license!: string;
 
 	/**
-	 * The REST endpoint
+	 * The data exchange component used to expose the Data Resource.
 	 */
 	@property({ type: "object", optional: true })
 	public exposedThrough!: IDataExchangeComponent;
