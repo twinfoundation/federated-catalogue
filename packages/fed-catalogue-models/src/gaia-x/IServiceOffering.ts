@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0.
 
 import type { IJsonLdContextDefinitionElement, IJsonLdNodeObject } from "@twin.org/data-json-ld";
+import type { GaiaXContexts } from "./gaiaxContexts";
 import type { GaiaXTypes } from "./gaiaxTypes";
 import type { IEndpoint } from "./IEndpoint";
 
@@ -13,8 +14,8 @@ export interface IServiceOffering extends IJsonLdNodeObject {
 	 * The LD context
 	 */
 	"@context":
-		| typeof GaiaXTypes.Gaia_X_LD_Context
-		| [typeof GaiaXTypes.Gaia_X_LD_Context, ...IJsonLdContextDefinitionElement[]];
+		| typeof GaiaXContexts.Gaia_X_LD_Context
+		| [typeof GaiaXContexts.Gaia_X_LD_Context, ...IJsonLdContextDefinitionElement[]];
 
 	/**
 	 * Id
@@ -24,7 +25,7 @@ export interface IServiceOffering extends IJsonLdNodeObject {
 	/**
 	 * Type
 	 */
-	type: "ServiceOffering";
+	type: typeof GaiaXTypes.ServiceOffering;
 
 	/**
 	 * Description

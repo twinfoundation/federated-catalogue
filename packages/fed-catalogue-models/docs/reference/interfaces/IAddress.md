@@ -15,9 +15,9 @@ https://docs.gaia-x.eu/ontology/development/classes/Address/
 
 ### type
 
-> **type**: `"Address"`
+> **type**: `undefined` \| `"Address"`
 
-JSON-LD @ type
+JSON-LD @ type. In this case it is allowed to be omitted as it is usually a child node.
 
 ***
 

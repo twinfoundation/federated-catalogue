@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0.
 
 import type { IJsonLdNodeObject } from "@twin.org/data-json-ld";
+import type { GaiaXTypes } from "./gaiaxTypes";
 
 /**
  * Endpoint as defined by the Gaia-X ontology.
@@ -9,9 +10,9 @@ import type { IJsonLdNodeObject } from "@twin.org/data-json-ld";
  */
 export interface IEndpoint extends IJsonLdNodeObject {
 	/**
-	 * The type of JSON-LD node
+	 * The type of JSON-LD node. In this case it is allowed to be omitted as it is usually a child node.
 	 */
-	type: "Endpoint";
+	type: typeof GaiaXTypes.Endpoint | undefined;
 
 	/**
 	 *
@@ -29,5 +30,5 @@ export interface IEndpoint extends IJsonLdNodeObject {
 	 *
 	 * Standards conformity
 	 */
-	standardConformity: IJsonLdNodeObject;
+	standardConformity?: IJsonLdNodeObject;
 }

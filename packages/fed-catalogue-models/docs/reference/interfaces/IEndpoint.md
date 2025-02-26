@@ -15,9 +15,9 @@ https://docs.gaia-x.eu/ontology/development/classes/Endpoint
 
 ### type
 
-> **type**: `"Endpoint"`
+> **type**: `undefined` \| `"Endpoint"`
 
-The type of JSON-LD node
+The type of JSON-LD node. In this case it is allowed to be omitted as it is usually a child node.
 
 ***
 
@@ -37,8 +37,8 @@ The formal description
 
 ***
 
-### standardConformity
+### standardConformity?
 
-> **standardConformity**: `IJsonLdNodeObject`
+> `optional` **standardConformity**: `IJsonLdNodeObject`
 
 Standards conformity

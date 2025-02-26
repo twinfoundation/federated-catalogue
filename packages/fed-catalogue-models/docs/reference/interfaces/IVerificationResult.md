@@ -1,5 +1,7 @@
 # Interface: IVerificationResult
 
+Verification Result
+
 ## Extended by
 
 - [`IComplianceVerificationResult`](IComplianceVerificationResult.md)
@@ -10,8 +12,12 @@
 
 > **verified**: `boolean`
 
+True if verified. False the opposite.
+
 ***
 
 ### verificationFailureReason
 
 > **verificationFailureReason**: `string`
+
+Verification failure reason.

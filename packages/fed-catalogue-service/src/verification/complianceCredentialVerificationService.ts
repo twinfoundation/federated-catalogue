@@ -5,17 +5,17 @@ import {
 	JsonWebSignature2020Verifier,
 	type VerifiableCredential
 } from "@gaia-x/json-web-signature-2020";
-import { Guards, UnprocessableError, type IError } from "@gtsc/core";
+import { Guards, UnprocessableError, type IError } from "@twin.org/core";
 import type {
 	IComplianceCredential,
 	IComplianceEvidence,
 	IComplianceVerificationResult,
-	IVerifiableCredential,
 	IVerificationResult
-} from "@gtsc/fed-catalogue-models";
-import type { ILoggingConnector } from "@gtsc/logging-models";
-import { nameof } from "@gtsc/nameof";
-import { FetchHelper } from "@gtsc/web";
+} from "@twin.org/federated-catalogue-models";
+import type { ILoggingConnector } from "@twin.org/logging-models";
+import { nameof } from "@twin.org/nameof";
+import type { IDidVerifiableCredential } from "@twin.org/standards-w3c-did";
+import { FetchHelper } from "@twin.org/web";
 import canonicalize from "canonicalize";
 import { HashingUtils } from "../utils/hashingUtils";
 
@@ -48,6 +48,8 @@ export class ComplianceCredentialVerificationService {
 		}
 
 		const validFrom = credential.validFrom;
+		if (!validFrom) {
+		}
 		const validFromDate = Date.parse(validFrom);
 		if (validFromDate > Date.now()) {
 			return {
@@ -76,7 +78,7 @@ export class ComplianceCredentialVerificationService {
 			};
 		}
 
-		const evidences = subject["gx:evidence"];
+		const evidences = subject.evidence;
 		if (!Array.isArray(evidences) || evidences.length === 0) {
 			return {
 				verified: false,
@@ -100,7 +102,7 @@ export class ComplianceCredentialVerificationService {
 					credentials: []
 				};
 			}
-			finalResult.credentials.push(verResult.credential as IVerifiableCredential);
+			finalResult.credentials.push(verResult.credential as IDidVerifiableCredential);
 		}
 
 		return finalResult;
@@ -108,7 +110,7 @@ export class ComplianceCredentialVerificationService {
 
 	private async verifyEvidence(
 		evidence: IComplianceEvidence
-	): Promise<IVerificationResult & { credential?: IVerifiableCredential }> {
+	): Promise<IVerificationResult & { credential?: IDidVerifiableCredential }> {
 		// The credential associated to the evidence has to be retrieved, then verified
 		Guards.object<IComplianceEvidence>(this.CLASS_NAME, nameof<IComplianceEvidence>(), evidence);
 
@@ -201,7 +203,7 @@ export class ComplianceCredentialVerificationService {
 		return {
 			verified: true,
 			verificationFailureReason: "",
-			credential: originalCredential as IVerifiableCredential
+			credential: originalCredential as IDidVerifiableCredential
 		};
 	}
 }

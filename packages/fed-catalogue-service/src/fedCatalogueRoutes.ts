@@ -148,6 +148,7 @@ export function generateRestRoutesFedCatalogue(
 										legalName: "A Inc.",
 										trustedIssuerId: "did:iota:zzz",
 										legalAddress: {
+											type: "Address",
 											countryCode: "KE"
 										},
 										validFrom: "2024-08-01T12:00:00Z",
@@ -372,7 +373,7 @@ export async function serviceDescriptionCredentialPresentation(
 	Guards.stringValue(ROUTES_SOURCE, nameof(request.body), request.body);
 
 	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
-	await service.registerServiceDescriptionCredential(request.body);
+	await service.registerServiceOfferingCredential(request.body);
 
 	return {
 		headers: {
@@ -396,7 +397,7 @@ export async function serviceDescriptionList(
 ): Promise<IServiceOfferingListResponse> {
 	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
 
-	const itemsAndCursor = await service.queryServiceDescriptions(
+	const itemsAndCursor = await service.queryServiceOfferings(
 		request?.query.id,
 		request?.query.providedBy,
 		request?.query.cursor,

@@ -18,7 +18,7 @@ TWIN Data Space Connector.
 
 ### @context
 
-> **@context**: `IJsonLdContextDefinitionElement`[]
+> **@context**: \[`"https://w3id.org/gaia-x/development"`, `...IJsonLdContextDefinitionElement[]`\]
 
 The LD Context.
 
@@ -32,7 +32,7 @@ The LD Context.
 
 > **type**: \[`"DataExchangeComponent"`, `"DataSpaceConnector"`, `...string[]`\]
 
-A Connector
+A Connector is a Data Exchange Component
 
 #### Overrides
 

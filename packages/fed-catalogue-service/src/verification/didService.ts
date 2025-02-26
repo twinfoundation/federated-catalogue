@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0.
 
 import type { DidResolver } from "@gaia-x/json-web-signature-2020";
-import { ConflictError, GeneralError } from "@gtsc/core";
-import type { ILoggingConnector } from "@gtsc/logging-models";
-import { nameof } from "@gtsc/nameof";
-import { FetchHelper, HttpStatusCode } from "@gtsc/web";
+import { ConflictError, GeneralError } from "@twin.org/core";
+import type { ILoggingConnector } from "@twin.org/logging-models";
+import { nameof } from "@twin.org/nameof";
+import { FetchHelper, HttpStatusCode } from "@twin.org/web";
 import type { DIDDocument, JsonWebKey } from "did-resolver";
 import * as jose from "jose";
 import { type KeyLike, importJWK } from "jose";

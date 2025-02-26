@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0.
 
 import type { IJsonLdContextDefinitionElement, IJsonLdKeyword } from "@twin.org/data-json-ld";
+import type { GaiaXContexts } from "../../gaia-x/gaiaxContexts";
+import type { GaiaXTypes } from "../../gaia-x/gaiaxTypes";
 import type { IDataExchangeComponent } from "../../gaia-x/IDataExchangeComponent";
 import type { IDataResource } from "../../gaia-x/IDataResource";
 import type { IEndpoint } from "../../gaia-x/IEndpoint";
@@ -13,12 +15,16 @@ export interface IDataSpaceConnector extends IDataExchangeComponent {
 	/**
 	 * The LD Context.
 	 */
-	"@context": [...IJsonLdContextDefinitionElement[]];
+	"@context": [typeof GaiaXContexts.Gaia_X_LD_Context, ...IJsonLdContextDefinitionElement[]];
 
 	/**
-	 * A Connector
+	 * A Connector is a Data Exchange Component
 	 */
-	type: ["DataExchangeComponent", "DataSpaceConnector", ...IJsonLdKeyword["@type"][]];
+	type: [
+		typeof GaiaXTypes.DataExchangeComponent,
+		"DataSpaceConnector",
+		...IJsonLdKeyword["@type"][]
+	];
 
 	/**
 	 * Connector's Identity

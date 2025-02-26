@@ -17,6 +17,8 @@ export * from "./gaia-x/IEndpoint";
 export * from "./gaia-x/IParticipant";
 export * from "./gaia-x/IRegistrationNumber";
 export * from "./gaia-x/IServiceOffering";
+export * from "./gaia-x/gaiaxTypes";
+export * from "./gaia-x/gaiaxContexts";
 
 export * from "./models/participant/IParticipantEntry";
 export * from "./models/participant/IParticipantCredential";
@@ -37,3 +39,5 @@ export * from "./models/IComplianceCredential";
 export * from "./models/IComplianceEvidence";
 export * from "./models/IVerificationResult";
 export * from "./models/IComplianceVerificationResult";
+
+export * from "./models/federatedCatalogueTypes";

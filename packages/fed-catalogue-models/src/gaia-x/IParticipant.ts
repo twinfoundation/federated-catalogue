@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0.
 
 import type { IJsonLdContextDefinitionElement, IJsonLdNodeObject } from "@twin.org/data-json-ld";
+import type { GaiaXContexts } from "./gaiaxContexts";
 import type { GaiaXTypes } from "./gaiaxTypes";
 import type { IAddress } from "./IAddress";
 import type { IRegistrationNumber } from "./IRegistrationNumber";
@@ -14,8 +15,8 @@ export interface IParticipant extends IJsonLdNodeObject {
 	 * The LD context
 	 */
 	"@context":
-		| typeof GaiaXTypes.Gaia_X_LD_Context
-		| [typeof GaiaXTypes.Gaia_X_LD_Context, ...IJsonLdContextDefinitionElement[]];
+		| typeof GaiaXContexts.Gaia_X_LD_Context
+		| [typeof GaiaXContexts.Gaia_X_LD_Context, ...IJsonLdContextDefinitionElement[]];
 
 	/**
 	 * The participant Id.
@@ -25,7 +26,7 @@ export interface IParticipant extends IJsonLdNodeObject {
 	/**
 	 * JSON-LD type.
 	 */
-	type: "LegalPerson";
+	type: typeof GaiaXTypes.Participant;
 
 	/**
 	 * The legal registration number.

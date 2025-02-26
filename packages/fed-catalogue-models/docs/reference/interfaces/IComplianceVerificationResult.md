@@ -20,6 +20,8 @@ The credentials involved
 
 > **verified**: `boolean`
 
+True if verified. False the opposite.
+
 #### Inherited from
 
 [`IVerificationResult`](IVerificationResult.md).[`verified`](IVerificationResult.md#verified)
@@ -29,6 +31,8 @@ The credentials involved
 ### verificationFailureReason
 
 > **verificationFailureReason**: `string`
+
+Verification failure reason.
 
 #### Inherited from
 

@@ -27,6 +27,7 @@ import { nameof } from "@twin.org/nameof";
 import { ComplianceCredentialVerificationService } from "./verification/complianceCredentialVerificationService";
 import { JwtVerificationService } from "./verification/jwtVerificationService";
 import { ServiceDescriptionCredentialVerificationService } from "./verification/serviceDescriptionCredentialVerificationService";
+import { GaiaXTypes } from "../../fed-catalogue-models/dist/types/gaia-x/gaiaxTypes";
 
 /**
  * Service for performing logging operations to a connector.
@@ -249,11 +250,11 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		}
 
 		const targetCredential = result.credentials.find(
-			credential => credential.credentialSubject.type === "gx:ServiceOffering"
+			credential => credential.credentialSubject?.["@type"] === GaiaXTypes.ServiceOffering_Type
 		) as unknown as IServiceDescriptionCredential;
 
 		const dataResourceCredentials = result.credentials.filter(
-			credential => credential.credentialSubject.type === "gx:DataResource"
+			credential => credential.credentialSubject.type === GaiaXTypes.DataResource_Type
 		) as unknown as IDataResourceCredential[];
 
 		if (targetCredential) {

@@ -9,12 +9,37 @@
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const GaiaXTypes = {
 	/**
-	 * The Gaia-X LD Context
+	 * Data Resource
 	 */
-	Gaia_X_LD_Context: "https://w3id.org/gaia-x/development#",
+	DataResource: "DataResource",
 
 	/**
-	 * The W3id security LD Context
+	 * Service Offering Type
 	 */
-	W3Id_Security_JWS_Context: "https://w3id.org/security/suites/jws-2020/v1"
+	ServiceOffering: "ServiceOffering",
+
+	/**
+	 * Participant
+	 */
+	Participant: "LegalPerson",
+
+	/**
+	 * Data Exchange Component
+	 */
+	DataExchangeComponent: "DataExchangeComponent",
+
+	/**
+	 * Address
+	 */
+	Address: "Address",
+
+	/**
+	 * Endpoint
+	 */
+	Endpoint: "Endpoint",
+
+	/**
+	 * Registration number
+	 */
+	Registration_Number: "RegistrationNumber"
 } as const;

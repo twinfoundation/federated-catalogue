@@ -1,48 +1,33 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import type { IJsonLdNodeObject } from "@twin.org/data-json-ld";
+import type { IJsonLdKeyword, IJsonLdNodeObject } from "@twin.org/data-json-ld";
+import type { FederatedCatalogueTypes } from "./federatedCatalogueTypes";
 
 /**
  * Compliance Evidence.
  */
 export interface IComplianceEvidence extends IJsonLdNodeObject {
 	/**
-	 * Id.
+	 * Resolvable Id that allows to get access to the credential that serves as evidence.
 	 */
 	id: string;
 
 	/**
-	 * Type.
+	 * Type of evidence.
 	 */
-	type: string[];
+	type: typeof FederatedCatalogueTypes.CompliantCredential_Evidence;
 
 	/**
-	 * Integrity.
+	 * One or more cryptographic digests, as defined by the hash-expression
+	 * ABNF grammar defined in the Subresource Integrity specification,
+	 * Section 3.5: The integrity attribute.
 	 */
-	"gx:integrity": string;
-
-	/**
-	 * Integrity normalization
-	 *
-	 */
-	"gx:integrityNormalization": string;
-
-	/**
-	 * Engine version
-	 *
-	 */
-	"gx:engineVersion": string;
-
-	/**
-	 * Rules version
-	 *
-	 */
-	"gx:rulesVersion": string;
+	digestSRI: string;
 
 	/**
 	 * Original type
 	 *
 	 */
-	"gx:originalType": string | string[];
+	credentialType: IJsonLdKeyword["@type"] | IJsonLdKeyword["@type"][];
 }

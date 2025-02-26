@@ -18,6 +18,7 @@
 		"build:schema": "ts-to-schema ./ts-to-schema.json ./src/schemas",
 		"build:compile": "tsc",
 		"build": "npm run build:schema && npm run build:compile",
+		"build:watch": "tsc-watch --onSuccess \"npm run bundle:esm\"",
 		"test": "vitest --run --config ./vitest.config.ts --no-cache",
 		"coverage": "vitest --run --coverage --config ./vitest.config.ts --no-cache",
 		"bundle:esm": "rollup --config rollup.config.mjs --environment MODULE:esm",

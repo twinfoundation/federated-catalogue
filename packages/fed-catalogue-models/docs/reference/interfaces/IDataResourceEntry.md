@@ -14,7 +14,7 @@ Interface describing a Data Resource entry.
 
 ### @context
 
-> **@context**: `"https://w3id.org/gaia-x/development#"` \| \[`"https://w3id.org/gaia-x/development#"`, `...IJsonLdContextDefinitionElement[]`\]
+> **@context**: `"https://w3id.org/gaia-x/development"` \| \[`"https://w3id.org/gaia-x/development"`, `...IJsonLdContextDefinitionElement[]`\]
 
 The LD Context
 

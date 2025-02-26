@@ -18,7 +18,7 @@ A Legal Person participating in the ecosystem
 
 ### @context
 
-> **@context**: `"https://w3id.org/gaia-x/development#"` \| \[`"https://w3id.org/gaia-x/development#"`, `...IJsonLdContextDefinitionElement[]`\]
+> **@context**: `"https://w3id.org/gaia-x/development"` \| \[`"https://w3id.org/gaia-x/development"`, `...IJsonLdContextDefinitionElement[]`\]
 
 The LD context
 

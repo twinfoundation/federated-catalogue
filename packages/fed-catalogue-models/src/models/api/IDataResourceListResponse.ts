@@ -1,6 +1,7 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
+import type { IDataResource } from "../../gaia-x/IDataResource";
 import type { IDataResourceEntry } from "../data-resource/IDataResourceEntry";
 
 /**
@@ -14,11 +15,11 @@ export interface IDataResourceListResponse {
 		/**
 		 * The LD @context.
 		 */
-		"@context": string[];
+		"@context": IDataResource["@context"];
 		/**
 		 * The entities, which can be partial if a limited keys list was provided.
 		 */
-		entities: IDataResourceEntry[];
+		entities: Omit<IDataResourceEntry, "@context">[];
 
 		/**
 		 * An optional cursor, when defined can be used to call find to get more entities.

@@ -12,13 +12,13 @@ The response payload.
 
 #### @context
 
-> **@context**: `string`[]
+> **@context**: `"https://w3id.org/gaia-x/development"` \| \[`"https://w3id.org/gaia-x/development"`, `...IJsonLdContextDefinitionElement[]`\]
 
 The LD @context.
 
 #### entities
 
-> **entities**: [`IServiceOfferingEntry`](IServiceOfferingEntry.md)[]
+> **entities**: `Omit`\<[`IServiceOfferingEntry`](IServiceOfferingEntry.md), `"@context"`\>[]
 
 The entities, which can be partial if a limited keys list was provided.
 
