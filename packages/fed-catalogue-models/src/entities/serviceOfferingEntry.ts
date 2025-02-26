@@ -4,10 +4,10 @@ import { entity, property, SortDirection } from "@twin.org/entity";
 import type { IEndpoint } from "../gaia-x/IEndpoint";
 
 /**
- * Service Description Entry.
+ * Service Offering Entry.
  */
 @entity()
-export class ServiceDescriptionEntry {
+export class ServiceOfferingEntry {
 	/**
 	 * The service Id.
 	 */
@@ -33,7 +33,7 @@ export class ServiceDescriptionEntry {
 	public description?: string;
 
 	/**
-	 * The provider
+	 * The provider Id
 	 */
 	@property({ type: "string", isSecondary: true })
 	public providedBy!: string;

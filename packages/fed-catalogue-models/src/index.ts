@@ -41,3 +41,7 @@ export * from "./models/IVerificationResult";
 export * from "./models/IComplianceVerificationResult";
 
 export * from "./models/federatedCatalogueTypes";
+
+export * from "./entities/participantEntry";
+export * from "./entities/dataResourceEntry";
+export * from "./entities/serviceOfferingEntry";

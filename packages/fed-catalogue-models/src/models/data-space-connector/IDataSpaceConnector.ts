@@ -1,7 +1,11 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import type { IJsonLdContextDefinitionElement, IJsonLdKeyword } from "@twin.org/data-json-ld";
+import type {
+	IJsonLdContextDefinitionElement,
+	IJsonLdKeyword,
+	IJsonLdNodeObject
+} from "@twin.org/data-json-ld";
 import type { GaiaXContexts } from "../../gaia-x/gaiaxContexts";
 import type { GaiaXTypes } from "../../gaia-x/gaiaxTypes";
 import type { IDataExchangeComponent } from "../../gaia-x/IDataExchangeComponent";
@@ -27,9 +31,24 @@ export interface IDataSpaceConnector extends IDataExchangeComponent {
 	];
 
 	/**
-	 * Connector's Identity
+	 * Connector's Identity that allows to know public key of this Connector
 	 */
 	identity: string;
+
+	/**
+	 * Who maintains this Data Space Connector.
+	 */
+	maintainer: string;
+
+	/**
+	 * The name of this Data Space Connector
+	 */
+	name?: string;
+
+	/**
+	 * A description of this Data Space Connector
+	 */
+	description?: string;
 
 	/**
 	 * The default endpoint of the Connector.
@@ -42,7 +61,7 @@ export interface IDataSpaceConnector extends IDataExchangeComponent {
 	 * If the endpoint URL is a relative reference to a URL then it should be resolved using the
 	 * default endpoint URL as a base URL.
 	 */
-	subscriptionActivityEndpoint: IEndpoint;
+	subscriptionActivityEndpoint?: IEndpoint;
 
 	/**
 	 * The endpoint used by Providers to push data.
@@ -62,9 +81,15 @@ export interface IDataSpaceConnector extends IDataExchangeComponent {
 	 * The resources offered by this Connector.
 	 * A resource index is usually a relative reference to the default endpoint base URL.
 	 * Nonetheless if the resource already declares an endpoint URL that one should be taken.
+	 * It is captured the case where the Data Resource is supplied
+	 * via a list of identifiers or through a map indexed by Id
 	 *
 	 */
-	resourceCatalog: {
-		offeredResource: { [resourceId: string]: IDataResource };
-	};
+	offeredResource:
+		| string[]
+		| {
+				[resourceId: string]:
+					| IDataResource
+					| (IJsonLdNodeObject & { id: string; type: typeof GaiaXTypes.DataResource });
+		  };
 }

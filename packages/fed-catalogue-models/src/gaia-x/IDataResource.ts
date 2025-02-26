@@ -5,7 +5,6 @@ import type { IJsonLdContextDefinitionElement, IJsonLdNodeObject } from "@twin.o
 import type { GaiaXContexts } from "./gaiaxContexts";
 import type { GaiaXTypes } from "./gaiaxTypes";
 import type { IDataExchangeComponent } from "./IDataExchangeComponent";
-import type { IDataSpaceConnector } from "../models/data-space-connector/IDataSpaceConnector";
 
 /**
  * A Data Resource as defined by Gaia-X.
@@ -40,9 +39,14 @@ export interface IDataResource extends IJsonLdNodeObject {
 	name: string;
 
 	/**
-	 * Exposed through endpoint
+	 * Exposed through a Data Exchange Component.
+	 * 'string' in case just an Id pointing to the Data Exchange Component is supplied
+	 * the third case covers the idiom where a JSON-LD Node is supplied with id and type.
 	 */
-	exposedThrough?: IDataExchangeComponent | IDataSpaceConnector;
+	exposedThrough:
+		| IDataExchangeComponent
+		| string
+		| (IJsonLdNodeObject & { id: string; type: typeof GaiaXTypes.DataExchangeComponent });
 
 	/**
 	 * Who is the data producer

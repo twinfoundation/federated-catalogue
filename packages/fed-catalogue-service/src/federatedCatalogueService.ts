@@ -16,14 +16,14 @@ import type {
 	IDataResourceEntry,
 	IFederatedCatalogue,
 	IParticipantEntry,
-	IServiceDescriptionCredential,
-	IServiceDescriptionEntry,
-	IVerifiableCredential,
+	IServiceOfferingCredential,
+	IServiceOfferingEntry,
 	ParticipantEntry,
-	ServiceDescriptionEntry
+	ServiceOfferingEntry
 } from "@twin.org/federated-catalogue-models";
 import { LoggingConnectorFactory, type ILoggingConnector } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
+import type { IDidVerifiableCredential } from "@twin.org/standards-w3c-did";
 import { ComplianceCredentialVerificationService } from "./verification/complianceCredentialVerificationService";
 import { JwtVerificationService } from "./verification/jwtVerificationService";
 import { ServiceDescriptionCredentialVerificationService } from "./verification/serviceDescriptionCredentialVerificationService";
@@ -49,12 +49,12 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	private readonly _entityStorageParticipants: IEntityStorageConnector<ParticipantEntry>;
 
 	/**
-	 * Storage service for service descriptions.
+	 * Storage service for service offering.
 	 */
-	private readonly _entityStorageSDs: IEntityStorageConnector<ServiceDescriptionEntry>;
+	private readonly _entityStorageSOs: IEntityStorageConnector<ServiceOfferingEntry>;
 
 	/**
-	 * Storage service for service descriptions.
+	 * Storage service for data resources.
 	 */
 	private readonly _entityStorageResources: IEntityStorageConnector<DataResourceEntry>;
 
@@ -88,8 +88,8 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			IEntityStorageConnector<ParticipantEntry>
 		>(options?.entityStorageConnectorName ?? "participant-entry");
 
-		this._entityStorageSDs = EntityStorageConnectorFactory.get<
-			IEntityStorageConnector<ServiceDescriptionEntry>
+		this._entityStorageSOs = EntityStorageConnectorFactory.get<
+			IEntityStorageConnector<ServiceOfferingEntry>
 		>("service-description-entry");
 
 		this._entityStorageResources =
@@ -221,7 +221,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	 * @param credentialJwt The credential (wrapped into a presentation) as JWT.
 	 * @returns Nothing.
 	 */
-	public async registerServiceDescriptionCredential(credentialJwt: string): Promise<void> {
+	public async registerServiceOfferingCredential(credentialJwt: string): Promise<void> {
 		Guards.string(this.CLASS_NAME, nameof(credentialJwt), credentialJwt);
 
 		// This will raise exceptions as it has been coded reusing code from Gaia-X
@@ -261,11 +261,11 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			const serviceProvider = targetCredential.credentialSubject["gx:providedBy"] as string;
 			await this.checkParticipantExists(serviceProvider);
 
-			const serviceDescriptionEntry = this.extractServiceDescriptionEntry(
+			const serviceOfferingEntry = this.extractServiceOfferingEntry(
 				targetCredential,
 				dataResourceCredentials
 			);
-			await this._entityStorageSDs.set(serviceDescriptionEntry);
+			await this._entityStorageSOs.set(serviceOfferingEntry);
 		}
 
 		if (!dataResourceCredentials || !Is.arrayValue(dataResourceCredentials)) {
@@ -317,7 +317,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		/**
 		 * The entities, which can be partial if a limited keys list was provided.
 		 */
-		entities: IServiceDescriptionEntry[];
+		entities: IServiceOfferingEntry[];
 		/**
 		 * An optional cursor, when defined can be used to call find to get more entities.
 		 */
@@ -347,7 +347,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 		const entries = await this._entityStorageSDs.query({ conditions });
 		return {
-			entities: entries.entities as IServiceDescriptionEntry[],
+			entities: entries.entities as IServiceOfferingEntry[],
 			cursor: entries.cursor
 		};
 	}
@@ -414,7 +414,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	 */
 	private extractParticipantEntry(
 		complianceCredential: IComplianceCredential,
-		credentials: IVerifiableCredential[]
+		credentials: IDidVerifiableCredential[]
 	): IParticipantEntry {
 		const legalParticipantData = credentials.find(
 			cred => cred.credentialSubject?.type === "gx:LegalParticipant"
@@ -455,34 +455,29 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	/**
 	 * Extracts service description entry from the credentials.
 	 * @param sdCredential SD credential.
-	 * @param dataResourceCredentials Data Resource credential.
 	 * @returns Service Description Entry to be saved on the Database.
 	 */
-	private extractServiceDescriptionEntry(
-		sdCredential: IServiceDescriptionCredential,
-		dataResourceCredentials: IDataResourceCredential[]
-	): IServiceDescriptionEntry {
+	private extractServiceOfferingEntry(
+		sdCredential: IServiceOfferingCredential
+	): IServiceOfferingEntry {
 		const credentialData = sdCredential.credentialSubject;
 
-		// A custom type for TLIP Node probably would be needed
-		// at the moment this hack can be enough
-		const nodeCredential = dataResourceCredentials.find(credential =>
-			credential.id.includes("tlipNodeResourceVC")
-		);
-		Guards.objectValue(this.CLASS_NAME, nameof(nodeCredential), nodeCredential);
+		Guards.objectValue(this.CLASS_NAME, nameof(credentialData), credentialData);
 
-		const result: IServiceDescriptionEntry = {
+		const result: IServiceOfferingEntry = {
+			"@context": credentialData["@context"],
+			trustedIssuerId: sdCredential.issuer as string,
 			id: credentialData.id,
-			type: "ServiceOffering",
-			providedBy: credentialData["gx:providedBy"],
-			servicePolicy: credentialData["gx:servicePolicy"],
-			name: credentialData["gx:name"],
-			endpointURL: nodeCredential?.credentialSubject["gx:exposedThrough"] as string,
-			validFrom: sdCredential.validFrom,
-			validUntil: sdCredential.validUntil,
+			type: GaiaXTypes.ServiceOffering,
+			providedBy: credentialData.providedBy,
+			servicePolicy: credentialData.servicePolicy,
+			name: credentialData.name,
+			endpoint: credentialData.endpoint,
+			validFrom: sdCredential.validFrom as string,
+			validUntil: sdCredential.validUntil as string,
 			dateCreated: new Date().toISOString(),
-			evidences: [sdCredential.id],
-			aggregationOfResources: credentialData["gx:aggregationOfResources"]
+			evidences: [sdCredential.id as string],
+			aggregationOfResources: credentialData.aggregationOfResources
 		};
 
 		return result;
@@ -500,18 +495,20 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		Guards.objectValue(this.CLASS_NAME, nameof(credentialData), credentialData);
 
 		const result: IDataResourceEntry = {
+			"@context": credentialData["@context"],
 			id: credentialData.id,
-			type: "DataResource",
-			producedBy: credentialData["gx:producedBy"],
-			copyrightOwnedBy: credentialData["gx:copyrightOwnedBy"],
-			license: credentialData["gx:license"],
-			resourcePolicy: credentialData["gx:resourcePolicy"],
-			name: credentialData["gx:name"],
-			exposedThrough: credentialData["gx:exposedThrough"],
-			validFrom: dataResourceCredential.validFrom,
-			validUntil: dataResourceCredential.validUntil,
+			trustedIssuerId: dataResourceCredential.issuer as string,
+			type: GaiaXTypes.DataResource,
+			producedBy: credentialData.producedBy,
+			copyrightOwnedBy: credentialData.copyrightOwnedBy,
+			license: credentialData.license,
+			resourcePolicy: credentialData.resourcePolicy,
+			name: credentialData.name,
+			exposedThrough: credentialData.exposedThrough,
+			validFrom: dataResourceCredential.validFrom as string,
+			validUntil: dataResourceCredential.validUntil as string,
 			dateCreated: new Date().toISOString(),
-			evidences: [dataResourceCredential.id]
+			evidences: [dataResourceCredential.id as string]
 		};
 
 		return result;

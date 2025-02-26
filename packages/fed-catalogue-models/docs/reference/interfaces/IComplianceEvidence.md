@@ -16,52 +16,30 @@ Compliance Evidence.
 
 > **id**: `string`
 
-Id.
+Resolvable Id that allows to get access to the credential that serves as evidence.
 
 ***
 
 ### type
 
-> **type**: `string`[]
+> **type**: `"CompliantCredential"`
 
-Type.
-
-***
-
-### gx:integrity
-
-> **gx:integrity**: `string`
-
-Integrity.
+Type of evidence.
 
 ***
 
-### gx:integrityNormalization
+### digestSRI
 
-> **gx:integrityNormalization**: `string`
+> **digestSRI**: `string`
 
-Integrity normalization
-
-***
-
-### gx:engineVersion
-
-> **gx:engineVersion**: `string`
-
-Engine version
+One or more cryptographic digests, as defined by the hash-expression
+ABNF grammar defined in the Subresource Integrity specification,
+Section 3.5: The integrity attribute.
 
 ***
 
-### gx:rulesVersion
+### credentialType
 
-> **gx:rulesVersion**: `string`
-
-Rules version
-
-***
-
-### gx:originalType
-
-> **gx:originalType**: `string` \| `string`[]
+> **credentialType**: `string` \| `string`[]
 
 Original type

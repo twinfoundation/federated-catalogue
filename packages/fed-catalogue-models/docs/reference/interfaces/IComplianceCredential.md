@@ -32,6 +32,18 @@ The Id of the credential, it is mandatory.
 
 ***
 
+### type
+
+> **type**: \[`"VerifiableCredential"`, `"ComplianceCredential"`\]
+
+Type of Credential.
+
+#### Overrides
+
+`IDidVerifiableCredential.type`
+
+***
+
 ### evidence
 
 > **evidence**: [`IComplianceEvidence`](IComplianceEvidence.md)[]

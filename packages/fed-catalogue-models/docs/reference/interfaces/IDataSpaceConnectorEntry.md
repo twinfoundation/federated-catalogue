@@ -100,11 +100,47 @@ A Connector is a Data Exchange Component
 
 > **identity**: `string`
 
-Connector's Identity
+Connector's Identity that allows to know public key of this Connector
 
 #### Inherited from
 
 [`IDataSpaceConnector`](IDataSpaceConnector.md).[`identity`](IDataSpaceConnector.md#identity)
+
+***
+
+### maintainer
+
+> **maintainer**: `string`
+
+Who maintains this Data Space Connector.
+
+#### Inherited from
+
+[`IDataSpaceConnector`](IDataSpaceConnector.md).[`maintainer`](IDataSpaceConnector.md#maintainer)
+
+***
+
+### name?
+
+> `optional` **name**: `string`
+
+The name of this Data Space Connector
+
+#### Inherited from
+
+[`IDataSpaceConnector`](IDataSpaceConnector.md).[`name`](IDataSpaceConnector.md#name)
+
+***
+
+### description?
+
+> `optional` **description**: `string`
+
+A description of this Data Space Connector
+
+#### Inherited from
+
+[`IDataSpaceConnector`](IDataSpaceConnector.md).[`description`](IDataSpaceConnector.md#description)
 
 ***
 
@@ -121,9 +157,9 @@ This endpoint can be used as a base to guess other endpoints in case they are no
 
 ***
 
-### subscriptionActivityEndpoint
+### subscriptionActivityEndpoint?
 
-> **subscriptionActivityEndpoint**: [`IEndpoint`](IEndpoint.md)
+> `optional` **subscriptionActivityEndpoint**: [`IEndpoint`](IEndpoint.md)
 
 The endpoint used for data subscription by Consumers.
 If the endpoint URL is a relative reference to a URL then it should be resolved using the
@@ -163,22 +199,16 @@ default endpoint URL as a base URL.
 
 ***
 
-### resourceCatalog
+### offeredResource
 
-> **resourceCatalog**: `object`
+> **offeredResource**: `string`[] \| \{\}
 
 The resources offered by this Connector.
 A resource index is usually a relative reference to the default endpoint base URL.
 Nonetheless if the resource already declares an endpoint URL that one should be taken.
-
-#### offeredResource
-
-> **offeredResource**: `object`
-
-##### Index Signature
-
-\[`resourceId`: `string`\]: [`IDataResource`](IDataResource.md)
+It is captured the case where the Data Resource is supplied
+via a list of identifiers or through a map indexed by Id
 
 #### Inherited from
 
-[`IDataSpaceConnector`](IDataSpaceConnector.md).[`resourceCatalog`](IDataSpaceConnector.md#resourcecatalog)
+[`IDataSpaceConnector`](IDataSpaceConnector.md).[`offeredResource`](IDataSpaceConnector.md#offeredresource)

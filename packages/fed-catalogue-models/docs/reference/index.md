@@ -1,5 +1,11 @@
 # @twin.org/federated-catalogue-models
 
+## Classes
+
+- [DataResourceEntry](classes/DataResourceEntry.md)
+- [ParticipantEntry](classes/ParticipantEntry.md)
+- [ServiceOfferingEntry](classes/ServiceOfferingEntry.md)
+
 ## Interfaces
 
 - [IAddress](interfaces/IAddress.md)
@@ -31,3 +37,9 @@
 - [IParticipantEntry](interfaces/IParticipantEntry.md)
 - [IServiceOfferingCredential](interfaces/IServiceOfferingCredential.md)
 - [IServiceOfferingEntry](interfaces/IServiceOfferingEntry.md)
+
+## Variables
+
+- [GaiaXContexts](variables/GaiaXContexts.md)
+- [GaiaXTypes](variables/GaiaXTypes.md)
+- [FederatedCatalogueTypes](variables/FederatedCatalogueTypes.md)

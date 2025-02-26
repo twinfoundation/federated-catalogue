@@ -5,12 +5,13 @@ import {
 	JsonWebSignature2020Verifier,
 	type VerifiableCredential
 } from "@gaia-x/json-web-signature-2020";
-import { Guards, UnprocessableError, type IError } from "@twin.org/core";
-import type {
-	IComplianceCredential,
-	IComplianceEvidence,
-	IComplianceVerificationResult,
-	IVerificationResult
+import { Guards, UnprocessableError, Is, type IError } from "@twin.org/core";
+import {
+	FederatedCatalogueTypes,
+	type IComplianceCredential,
+	type IComplianceEvidence,
+	type IComplianceVerificationResult,
+	type IVerificationResult
 } from "@twin.org/federated-catalogue-models";
 import type { ILoggingConnector } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
@@ -31,7 +32,10 @@ export class ComplianceCredentialVerificationService {
 	}
 
 	public async verify(credential: IComplianceCredential): Promise<IComplianceVerificationResult> {
-		if (!Array.isArray(credential.type) || !credential.type.includes("gx:ComplianceCredential")) {
+		if (
+			!Array.isArray(credential.type) ||
+			!credential.type.includes(FederatedCatalogueTypes.ComplianceCredential)
+		) {
 			return {
 				verified: false,
 				verificationFailureReason: "Invalid credential type",
@@ -48,7 +52,12 @@ export class ComplianceCredentialVerificationService {
 		}
 
 		const validFrom = credential.validFrom;
-		if (!validFrom) {
+		if (Is.undefined(validFrom)) {
+			return {
+				verified: false,
+				verificationFailureReason: "Not valid yet",
+				credentials: []
+			};
 		}
 		const validFromDate = Date.parse(validFrom);
 		if (validFromDate > Date.now()) {
@@ -60,6 +69,13 @@ export class ComplianceCredentialVerificationService {
 		}
 
 		const validUntil = credential.validUntil;
+		if (Is.undefined(validUntil)) {
+			return {
+				verified: false,
+				verificationFailureReason: "No validity end period provided",
+				credentials: []
+			};
+		}
 		const validUntilDate = Date.parse(validUntil);
 		if (validUntilDate <= Date.now()) {
 			return {
@@ -78,7 +94,7 @@ export class ComplianceCredentialVerificationService {
 			};
 		}
 
-		const evidences = subject.evidence;
+		const evidences = credential.evidence;
 		if (!Array.isArray(evidences) || evidences.length === 0) {
 			return {
 				verified: false,
@@ -158,7 +174,7 @@ export class ComplianceCredentialVerificationService {
 
 		// Checking the hash
 		const canonicalized = canonicalize(theCredential) as string;
-		const hashingDetails = evidence["gx:integrity"];
+		const hashingDetails = evidence.digestSRI;
 		const [hashingAlg, hash] = hashingDetails.split("-");
 		let hashToCheck: string | null = "";
 		if (hashingAlg === "sha256") {

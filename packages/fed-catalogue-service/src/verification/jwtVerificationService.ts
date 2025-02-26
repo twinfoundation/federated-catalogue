@@ -4,9 +4,9 @@
 /* eslint-disable jsdoc/require-jsdoc */
 
 import { DidResolver } from "@gaia-x/json-web-signature-2020";
-import { GeneralError, UnprocessableError } from "@gtsc/core";
-import type { ILoggingConnector } from "@gtsc/logging-models";
-import { nameof } from "@gtsc/nameof";
+import { GeneralError, UnprocessableError } from "@twin.org/core";
+import type { ILoggingConnector } from "@twin.org/logging-models";
+import { nameof } from "@twin.org/nameof";
 import type { DIDDocument, JsonWebKey } from "did-resolver";
 import {
 	type JWTVerifyResult,

@@ -1,12 +1,13 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 import { entity, property, SortDirection } from "@twin.org/entity";
+import type { IEndpoint } from "../gaia-x/IEndpoint";
 
 /**
- * Data Resource Entry.
+ * Data Space Connector Entry.
  */
 @entity()
-export class DataResourceEntry {
+export class DataSpaceConnectorEntry {
 	/**
 	 * The Id.
 	 */
@@ -14,7 +15,7 @@ export class DataResourceEntry {
 	public id!: string;
 
 	/**
-	 * The trusted issuer of the compliance credential
+	 * The trusted issuer of the compliance credential.
 	 */
 	@property({ type: "string" })
 	public trustedIssuer!: string;
@@ -22,8 +23,8 @@ export class DataResourceEntry {
 	/**
 	 * The name.
 	 */
-	@property({ type: "string" })
-	public name!: string;
+	@property({ type: "string", optional: true })
+	public name?: string;
 
 	/**
 	 * The description.
@@ -32,35 +33,46 @@ export class DataResourceEntry {
 	public description?: string;
 
 	/**
-	 * The Id of the producer of the data described by this Data Resource.
+	 * The identity of the Data Space Connector
 	 */
 	@property({ type: "string" })
-	public producedBy!: string;
+	public identity!: string;
 
 	/**
-	 * The copyright owner
+	 * Who maintains the Data Space Connector
 	 */
 	@property({ type: "string" })
-	public copyrightOwnedBy!: string;
+	public maintainer!: string;
 
 	/**
-	 * The license
-	 */
-	@property({ type: "string" })
-	public license!: string;
-
-	/**
-	 * The data exchange component used to expose the Data Resource.
-	 * Only a URL pointing to the resource is stored
-	 */
-	@property({ type: "string" })
-	public exposedThrough!: string;
-
-	/**
-	 * The Data Resource policy
+	 * The default endpoint
 	 */
 	@property({ type: "object" })
-	public resourcePolicy!: unknown;
+	public defaultEndpoint!: IEndpoint;
+
+	/**
+	 * The activity push endpoint
+	 */
+	@property({ type: "object" })
+	public pushActivityEndpoint!: IEndpoint;
+
+	/**
+	 * The activity subscribe endpoint
+	 */
+	@property({ type: "object", optional: true })
+	public subscribeActivityEndpoint?: IEndpoint;
+
+	/**
+	 * The pull data endpoint
+	 */
+	@property({ type: "object" })
+	public pullDataEndpoint!: IEndpoint;
+
+	/**
+	 * The pull data endpoint
+	 */
+	@property({ type: "array" })
+	public offeredResources!: string[];
 
 	/**
 	 * Valid from

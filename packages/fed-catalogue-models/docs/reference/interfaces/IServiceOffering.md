@@ -62,7 +62,7 @@ Name
 
 ### providedBy
 
-> **providedBy**: `string`
+> **providedBy**: `string` \| [`IParticipant`](IParticipant.md) \| `IJsonLdNodeObject` & `object`
 
 Participant that provides the offering
 
@@ -78,9 +78,11 @@ ODRL policy associated to the service offering
 
 ### aggregationOfResources?
 
-> `optional` **aggregationOfResources**: `string`[]
+> `optional` **aggregationOfResources**: `string`[] \| [`IDataResource`](IDataResource.md)[] \| `IJsonLdNodeObject` & `object`
 
 Resources aggregated
+It is supported different representations, inline,
+by reference both providing the URI or a partial JSON-LD Node object
 
 ***
 

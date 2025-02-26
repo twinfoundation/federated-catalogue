@@ -1,6 +1,7 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 import { entity, property, SortDirection } from "@twin.org/entity";
+import type { IAddress } from "../gaia-x/IAddress";
 import type { IRegistrationNumber } from "../gaia-x/IRegistrationNumber";
 
 /**
@@ -15,6 +16,12 @@ export class ParticipantEntry {
 	public id!: string;
 
 	/**
+	 * The trusted issuer of the compliance credential
+	 */
+	@property({ type: "string" })
+	public trustedIssuerId!: string;
+
+	/**
 	 * The legal registration number.
 	 */
 	@property({ type: "object" })
@@ -27,16 +34,10 @@ export class ParticipantEntry {
 	public legalName!: string;
 
 	/**
-	 * The trusted issuer of the compliance credential
+	 * Address
 	 */
-	@property({ type: "string" })
-	public trustedIssuerId!: string;
-
-	/**
-	 * Country code
-	 */
-	@property({ type: "string" })
-	public countryCode!: string;
+	@property({ type: "object" })
+	public legalAddress!: IAddress;
 
 	/**
 	 * Valid from
