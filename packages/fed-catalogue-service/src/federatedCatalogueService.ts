@@ -83,8 +83,13 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	 * @param options The options for the connector.
 	 * @param options.loggingConnectorType The type of the logging connector to use, defaults to "logging".
 	 * @param options.entityStorageConnectorName The name of the Entity Connector, defaults to "participant-entry".
+	 * @param options.didResolverEndpoint The DIF Universal Resolver endpoint.
 	 */
-	constructor(options?: { loggingConnectorType?: string; entityStorageConnectorName?: string }) {
+	constructor(options: {
+		loggingConnectorType?: string;
+		entityStorageConnectorName?: string;
+		didResolverEndpoint: string;
+	}) {
 		this._loggingService = LoggingConnectorFactory.get(options?.loggingConnectorType ?? "logging");
 
 		this._entityStorageParticipants = EntityStorageConnectorFactory.get<
@@ -104,7 +109,10 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			IEntityStorageConnector<DataSpaceConnectorEntry>
 		>("data-space-connector-entry");
 
-		this._jwtVerifier = new JwtVerificationService(this._loggingService);
+		this._jwtVerifier = new JwtVerificationService(
+			options?.didResolverEndpoint,
+			this._loggingService
+		);
 		this._complianceCredentialVerifier = new ComplianceCredentialVerificationService(
 			this._loggingService
 		);

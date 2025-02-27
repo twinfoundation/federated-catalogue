@@ -39,6 +39,7 @@
 		"@twin.org/federated-catalogue-models": "0.0.1-next.1",
 		"@twin.org/web": "next",
 		"@twin.org/logging-models": "next",
+		"@twin.org/identity-models": "next",
 		"jose": "^4.9.3",
 		"@gaia-x/json-web-signature-2020": "file:../../../../gaia-x/json-web-signature-2020-dev-iota",
 		"canonicalize": "^2.0.0"

@@ -1,12 +1,12 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import type { DidResolver } from "@gaia-x/json-web-signature-2020";
-import { ConflictError, GeneralError } from "@twin.org/core";
+import { ConflictError, GeneralError, Is } from "@twin.org/core";
+import type { IIdentityResolverConnector } from "@twin.org/identity-models";
 import type { ILoggingConnector } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
-import { FetchHelper, HttpStatusCode } from "@twin.org/web";
-import type { DIDDocument, JsonWebKey } from "did-resolver";
+import type { IDidDocument, IDidDocumentVerificationMethod } from "@twin.org/standards-w3c-did";
+import { FetchHelper, HttpStatusCode, type IJwk } from "@twin.org/web";
 import * as jose from "jose";
 import { type KeyLike, importJWK } from "jose";
 
@@ -19,13 +19,10 @@ export class DIDService {
 	 */
 	public readonly CLASS_NAME: string = nameof<DIDService>();
 
-	// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
-	private readonly _didCache: Record<string, DIDDocument>;
-
-	// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
-	private readonly _certificateCache: Record<string, string>;
-
-	private readonly _didResolver: DidResolver;
+	/**
+	 * The DID Resolver being used.
+	 */
+	private readonly _didResolver: IIdentityResolverConnector;
 
 	/**
 	 * Logging service.
@@ -37,9 +34,7 @@ export class DIDService {
 	 * @param didResolver DID Resolver.
 	 * @param logger Logging.
 	 */
-	constructor(didResolver: DidResolver, logger: ILoggingConnector) {
-		this._didCache = {};
-		this._certificateCache = {};
+	constructor(didResolver: IIdentityResolverConnector, logger: ILoggingConnector) {
 		this._didResolver = didResolver;
 		this._logger = logger;
 	}
@@ -49,15 +44,10 @@ export class DIDService {
 	 * @param did DID.
 	 * @returns DID Document.
 	 */
-	public async getDIDDocumentFromDID(did: string): Promise<DIDDocument> {
-		const cachedDID = this._didCache[did];
-		// eslint-disable-next-line no-constant-condition
-		if (false) {
-			return cachedDID;
-		}
-		let didDocument: DIDDocument;
+	public async getDIDDocumentFromDID(did: string): Promise<IDidDocument> {
+		let didDocument: IDidDocument;
 		try {
-			didDocument = await this._didResolver.resolve(did);
+			didDocument = await this._didResolver.resolveDocument(did);
 		} catch (error) {
 			this._logger.log({
 				level: "error",
@@ -68,6 +58,7 @@ export class DIDService {
 			});
 			throw new ConflictError(this.CLASS_NAME, `Unable to retrieve your did ${did}`, "", [], error);
 		}
+
 		if (
 			!didDocument?.verificationMethod ||
 			didDocument?.verificationMethod?.constructor !== Array
@@ -84,8 +75,8 @@ export class DIDService {
 				`DID ${did} does not contain the verificationMethod array`
 			);
 		}
-		this._didCache[did] = didDocument;
-		return didDocument || undefined;
+
+		return didDocument;
 	}
 
 	/**
@@ -96,21 +87,20 @@ export class DIDService {
 	 * @throws Error
 	 */
 	public getJWKFromDID(
-		didDocument: DIDDocument,
+		didDocument: IDidDocument,
 		verificationMethodName: string
-	): JsonWebKey | undefined {
+	): IJwk | undefined {
 		const verificationMethod = didDocument.verificationMethod?.find(
-			verMethod => verMethod.id === verificationMethodName
-		);
-		if (!verificationMethod) {
+			verMethod => (verMethod as IDidDocumentVerificationMethod).id === verificationMethodName
+		) as IDidDocumentVerificationMethod;
+
+		if (Is.undefined(verificationMethod)) {
 			throw new GeneralError(
 				this.CLASS_NAME,
 				`Unable to find verificationMethod ${verificationMethodName} in the DID ${didDocument.id}`
 			);
 		}
-		return didDocument.verificationMethod?.find(
-			verMethod => verMethod.id === verificationMethodName
-		)?.publicKeyJwk;
+		return verificationMethod.publicKeyJwk;
 	}
 
 	/**
@@ -154,10 +144,6 @@ export class DIDService {
 	 * @returns Raw Certificate.
 	 */
 	public async loadCertificatesRaw(url: string): Promise<string> {
-		const certificateCached = this._certificateCache[url];
-		if (certificateCached) {
-			return certificateCached;
-		}
 		try {
 			const response = await FetchHelper.fetch(this.CLASS_NAME, url, "GET");
 			if (response.status === HttpStatusCode.ok) {
@@ -169,7 +155,6 @@ export class DIDService {
 					ts: Date.now()
 				});
 				const cert = data.replace(/\n/gm, "");
-				this._certificateCache[url] = cert;
 				return cert;
 			}
 			// eslint-disable-next-line no-restricted-syntax

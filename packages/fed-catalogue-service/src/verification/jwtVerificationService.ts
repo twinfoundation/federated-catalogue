@@ -1,13 +1,10 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-/* eslint-disable jsdoc/require-jsdoc */
-
-import { DidResolver } from "@gaia-x/json-web-signature-2020";
 import { GeneralError, UnprocessableError } from "@twin.org/core";
 import type { ILoggingConnector } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
-import type { DIDDocument, JsonWebKey } from "did-resolver";
+import type { IDidDocument } from "@twin.org/standards-w3c-did";
 import {
 	type JWTVerifyResult,
 	type KeyLike,
@@ -16,7 +13,11 @@ import {
 	jwtVerify
 } from "jose";
 import { DIDService } from "./didService";
+import { UniversalDidResolver } from "../resolution/universalDidResolver";
 
+/**
+ * Verifies a JWT
+ */
 export class JwtVerificationService {
 	public readonly CLASS_NAME: string = nameof<JwtVerificationService>();
 
@@ -26,8 +27,13 @@ export class JwtVerificationService {
 	 */
 	private readonly _didService: DIDService;
 
-	constructor(loggingService: ILoggingConnector) {
-		this._didService = new DIDService(new DidResolver(), loggingService);
+	/**
+	 * Constructor.
+	 * @param resolutionEndpoint Resolution endpoint (DIF Universal Resolver)
+	 * @param loggingService The logging service
+	 */
+	constructor(resolutionEndpoint: string, loggingService: ILoggingConnector) {
+		this._didService = new DIDService(new UniversalDidResolver(resolutionEndpoint), loggingService);
 	}
 
 	/**
@@ -144,7 +150,7 @@ export class JwtVerificationService {
 	 * @throws GeneralError
 	 * @private
 	 */
-	private getJwkFromDid(DID: DIDDocument, kid: string): JsonWebKey | undefined {
+	private getJwkFromDid(DID: IDidDocument, kid: string): JsonWebKey | undefined {
 		try {
 			return this._didService.getJWKFromDID(DID, kid);
 		} catch (error) {
