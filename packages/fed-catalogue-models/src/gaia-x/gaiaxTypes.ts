@@ -56,7 +56,7 @@ export const GaiaXTypes = {
 	/**
 	 * VAT ID
 	 */
-	VATID: "VATID",
+	VatID: "VatID",
 
 	/**
 	 * EU ID

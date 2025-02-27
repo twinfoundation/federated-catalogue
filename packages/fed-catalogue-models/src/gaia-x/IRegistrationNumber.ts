@@ -20,5 +20,46 @@ export interface IRegistrationNumber extends IJsonLdNodeObject {
 		| typeof GaiaXTypes.EUID
 		| typeof GaiaXTypes.LeiCode
 		| typeof GaiaXTypes.TaxID
-		| typeof GaiaXTypes.VATID;
+		| typeof GaiaXTypes.VatID;
+
+	/**
+	 * Local Registration.
+	 */
+	local?: string;
+
+	/**
+	 * Country code. See https://docs.gaia-x.eu/ontology/development/enums/CountryNameAlpha2/
+	 */
+	countryCode?: string;
+
+	/**
+	 * Subdivision country code.
+	 * See https://docs.gaia-x.eu/ontology/development/enums/RegionCode/
+	 */
+	subdivisionCountryCode?: string;
+
+	/**
+	 * The VAT identification number.
+	 */
+	vatID?: string;
+
+	/**
+	 * Unique LEI number as defined by GLEIF
+	 */
+	leiCode?: string;
+
+	/**
+	 * The Economic Operators Registration and Identification number (EORI)
+	 */
+	eori?: string;
+
+	/**
+	 * The European Unique Identifier (EUID) for business located in the European Ec
+	 */
+	eudi?: string;
+
+	/**
+	 * The company tax ID
+	 */
+	taxID?: string;
 }

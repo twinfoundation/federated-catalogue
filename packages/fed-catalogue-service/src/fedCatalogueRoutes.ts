@@ -429,7 +429,7 @@ export async function dataResourceList(
 ): Promise<IDataResourceListResponse> {
 	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
 
-	const itemsAndCursor = await service.queryDataResourceDescriptions(
+	const itemsAndCursor = await service.queryDataResources(
 		request?.query.id,
 		request?.query.producedBy,
 		request?.query.cursor,

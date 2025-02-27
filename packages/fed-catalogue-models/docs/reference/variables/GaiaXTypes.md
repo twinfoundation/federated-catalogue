@@ -60,9 +60,9 @@ Local Registration number
 
 EORI
 
-### VATID
+### VatID
 
-> `readonly` **VATID**: `"VATID"` = `"VATID"`
+> `readonly` **VatID**: `"VatID"` = `"VatID"`
 
 VAT ID
 

@@ -8,6 +8,7 @@ import {
 import { Guards, UnprocessableError, Is, type IError } from "@twin.org/core";
 import {
 	FederatedCatalogueTypes,
+	type ICredential,
 	type IComplianceCredential,
 	type IComplianceEvidence,
 	type IComplianceVerificationResult,
@@ -118,7 +119,7 @@ export class ComplianceCredentialVerificationService {
 					credentials: []
 				};
 			}
-			finalResult.credentials.push(verResult.credential as IDidVerifiableCredential);
+			finalResult.credentials.push(verResult.credential as ICredential);
 		}
 
 		return finalResult;

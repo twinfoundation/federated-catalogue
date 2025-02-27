@@ -9,27 +9,27 @@ import {
 	EntityStorageConnectorFactory,
 	type IEntityStorageConnector
 } from "@twin.org/entity-storage-models";
-import type {
-	DataResourceEntry,
-	DataSpaceConnectorEntry,
-	IComplianceCredential,
-	IDataResourceCredential,
-	IDataResourceEntry,
-	IFederatedCatalogue,
-	IParticipantEntry,
-	IServiceOfferingCredential,
-	IServiceOfferingEntry,
-	ParticipantEntry,
-	ServiceOfferingEntry,
-	IDataSpaceConnectorEntry,
-	IDataSpaceConnectorCredential
+import {
+	type DataResourceEntry,
+	type DataSpaceConnectorEntry,
+	type IComplianceCredential,
+	type IDataResourceCredential,
+	type IDataResourceEntry,
+	type IFederatedCatalogue,
+	type IParticipantEntry,
+	type IServiceOfferingCredential,
+	type IServiceOfferingEntry,
+	type ParticipantEntry,
+	type ServiceOfferingEntry,
+	type IDataSpaceConnectorEntry,
+	type IDataSpaceConnectorCredential,
+	type IParticipantCredential,
+	FederatedCatalogueTypes
 } from "@twin.org/federated-catalogue-models";
 import { LoggingConnectorFactory, type ILoggingConnector } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
-import type { IDidVerifiableCredential } from "@twin.org/standards-w3c-did";
 import { ComplianceCredentialVerificationService } from "./verification/complianceCredentialVerificationService";
 import { JwtVerificationService } from "./verification/jwtVerificationService";
-import { ServiceDescriptionCredentialVerificationService } from "./verification/serviceDescriptionCredentialVerificationService";
 import { GaiaXTypes } from "../../fed-catalogue-models/dist/types/gaia-x/gaiaxTypes";
 
 /**
@@ -79,12 +79,6 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	private readonly _complianceCredentialVerifier: ComplianceCredentialVerificationService;
 
 	/**
-	 * SD Credential Verifier service.
-	 * @internal
-	 */
-	private readonly _serviceDescriptionCredentialVerifier: ServiceDescriptionCredentialVerificationService;
-
-	/**
 	 * Create a new instance of FederatedCatalogue service.
 	 * @param options The options for the connector.
 	 * @param options.loggingConnectorType The type of the logging connector to use, defaults to "logging".
@@ -114,8 +108,6 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		this._complianceCredentialVerifier = new ComplianceCredentialVerificationService(
 			this._loggingService
 		);
-		this._serviceDescriptionCredentialVerifier =
-			new ServiceDescriptionCredentialVerificationService(this._loggingService);
 	}
 
 	/**
@@ -147,7 +139,14 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			});
 		}
 
-		const participantEntry = this.extractParticipantEntry(complianceCredential, result.credentials);
+		const targetCredential = result.credentials.find(
+			credential => credential.credentialSubject.type === GaiaXTypes.Participant
+		) as IParticipantCredential;
+
+		if (Is.undefined(targetCredential)) {
+			throw new UnprocessableError(this.CLASS_NAME, "No Participant Credential evidence provided");
+		}
+		const participantEntry = this.extractParticipantEntry(complianceCredential, targetCredential);
 
 		await this._entityStorageParticipants.set(participantEntry);
 
@@ -263,12 +262,35 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			);
 		}
 
+		const targetCredential = result.credentials.find(
+			credential => credential.credentialSubject.type === FederatedCatalogueTypes.DataSpaceConnector
+		) as IDataSpaceConnectorCredential;
+
+		const dataResourceCredentials = result.credentials.filter(
+			credential => credential.credentialSubject.type === GaiaXTypes.DataResource
+		) as IDataResourceCredential[];
+
+		if (Is.undefined(targetCredential)) {
+			throw new UnprocessableError(
+				this.CLASS_NAME,
+				"Data Space Connector credential not referenced from Compliance Credential"
+			);
+		}
+
 		const dataspaceConnectorEntry = this.extractDataSpaceConnectorEntry(
 			complianceCredential,
 			result.credentials[0] as IDataSpaceConnectorCredential
 		);
 
 		await this._entityStorageDataSpaceConnectors.set(dataspaceConnectorEntry);
+
+		for (const dataResourceCredential of dataResourceCredentials) {
+			const dataResourceEntry = this.extractDataResourceEntry(
+				complianceCredential,
+				dataResourceCredential
+			);
+			await this._entityStorageResources.set(dataResourceEntry);
+		}
 
 		await this._loggingService.log({
 			level: "info",
@@ -527,26 +549,16 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	/**
 	 * Extracts participant entry from the credentials.
 	 * @param complianceCredential Compliance credential
-	 * @param credentials The Credentials extracted.
+	 * @param participantCredential The Participant credential extracted.
 	 * @returns Participant Entry to be saved on the Database.
 	 */
 	private extractParticipantEntry(
 		complianceCredential: IComplianceCredential,
-		credentials: IDidVerifiableCredential[]
+		participantCredential: IParticipantCredential
 	): IParticipantEntry {
-		const legalParticipantData = credentials.find(
-			cred => cred.credentialSubject?.type === "gx:LegalParticipant"
-		)?.credentialSubject;
-		const legalRegistrationData = credentials.find(
-			cred => cred.credentialSubject?.type === "gx:legalRegistrationNumber"
-		)?.credentialSubject;
-		const legalRegistrationEvidence = credentials.find(
-			cred => cred.credentialSubject?.type === "gx:legalRegistrationNumber"
-		)?.evidence;
+		const participantData = participantCredential.credentialSubject;
 
-		Guards.objectValue(this.CLASS_NAME, nameof(legalParticipantData), legalParticipantData);
-		Guards.objectValue(this.CLASS_NAME, nameof(legalRegistrationData), legalRegistrationData);
-		Guards.objectValue(this.CLASS_NAME, nameof(legalRegistrationData), legalRegistrationEvidence);
+		Guards.objectValue(this.CLASS_NAME, nameof(participantData), participantData);
 
 		const evidences: string[] = [];
 		for (const evidence of complianceCredential.evidence) {
@@ -554,13 +566,8 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		}
 
 		const result: IParticipantEntry = {
-			id: legalParticipantData.id as string,
-			type: GaiaXTypes.Participant,
-			registrationNumber: legalRegistrationData["gx:taxId"] as string,
-			lrnType: legalRegistrationEvidence["gx:evidenceOf"] as string,
-			countryCode: legalRegistrationData["gx:countryCode"] as string,
+			...participantData,
 			trustedIssuerId: complianceCredential.issuer as string,
-			legalName: legalParticipantData["gx:legalName"] as string,
 			validFrom: complianceCredential.validFrom as string,
 			validUntil: complianceCredential.validUntil as string,
 			dateCreated: new Date().toISOString(),
