@@ -61,7 +61,7 @@ export interface IDataResource extends IJsonLdNodeObject {
 	/**
 	 * Copyright owner
 	 */
-	copyrightOwnedBy?: string;
+	copyrightOwnedBy: string;
 
 	/**
 	 * ODRL Policy

@@ -12,7 +12,7 @@ Interface describing a Fed Catalogue Contract.
 
 > **registerComplianceCredential**(`credential`): `Promise`\<`void`\>
 
-Registers a compliance Credential to the service.
+Registers a Participant's compliance Credential to the service.
 
 #### Parameters
 
@@ -54,7 +54,7 @@ The legal registration number.
 
 `string`
 
-The legal registration number type (EORI, VATID, GLEIF, KENYA_PIN, etc.)
+The legal registration number type (EORI, VATID, GLEIF, Kenya's PIN, etc.)
 
 ##### cursor?
 
@@ -81,11 +81,78 @@ NotImplementedError if the implementation does not support retrieval.
 
 ***
 
+### registerDataSpaceConnectorCredential()
+
+> **registerDataSpaceConnectorCredential**(`credential`): `Promise`\<`void`\>
+
+Registers a Data Space Connector to the service.
+
+#### Parameters
+
+##### credential
+
+`string`
+
+The credential as JWT.
+
+#### Returns
+
+`Promise`\<`void`\>
+
+Nothing.
+
+***
+
+### queryDataSpaceConnectors()
+
+> **queryDataSpaceConnectors**(`id`?, `maintainer`?, `cursor`?, `pageSize`?): `Promise`\<\{ `entities`: [`IDataSpaceConnectorEntry`](IDataSpaceConnectorEntry.md)[]; `cursor`: `string`; \}\>
+
+Query the federated catalogue.
+
+#### Parameters
+
+##### id?
+
+`string`
+
+Data Space Connector Id.
+
+##### maintainer?
+
+`string`
+
+The identity of the participant maintaining the Data Space Connector.
+
+##### cursor?
+
+`string`
+
+The cursor to request the next page of entities.
+
+##### pageSize?
+
+`number`
+
+The maximum number of entities in a page.
+
+#### Returns
+
+`Promise`\<\{ `entities`: [`IDataSpaceConnectorEntry`](IDataSpaceConnectorEntry.md)[]; `cursor`: `string`; \}\>
+
+All the entities for the storage matching the conditions,
+and a cursor which can be used to request more entities.
+
+#### Throws
+
+NotImplementedError if the implementation does not support retrieval.
+
+***
+
 ### registerServiceOfferingCredential()
 
 > **registerServiceOfferingCredential**(`credential`): `Promise`\<`void`\>
 
-Registers a service description Credential to the service.
+Registers a service offering Credential to the service.
 
 #### Parameters
 
@@ -115,13 +182,13 @@ Query the federated catalogue.
 
 `string`
 
-Service id.
+Service Offering id.
 
 ##### providedBy?
 
 `string`
 
-The identity of the participant.
+The identity of the participant providing the Offering.
 
 ##### cursor?
 
@@ -148,9 +215,9 @@ NotImplementedError if the implementation does not support retrieval.
 
 ***
 
-### queryDataResourceDescriptions()
+### queryDataResources()
 
-> **queryDataResourceDescriptions**(`id`?, `producedBy`?, `cursor`?, `pageSize`?): `Promise`\<\{ `entities`: [`IDataResourceEntry`](IDataResourceEntry.md)[]; `cursor`: `string`; \}\>
+> **queryDataResources**(`id`?, `producedBy`?, `cursor`?, `pageSize`?): `Promise`\<\{ `entities`: [`IDataResourceEntry`](IDataResourceEntry.md)[]; `cursor`: `string`; \}\>
 
 Query the federated catalogue.
 
@@ -160,13 +227,13 @@ Query the federated catalogue.
 
 `string`
 
-The identity of the participant.
+The id of the Data Resource.
 
 ##### producedBy?
 
 `string`
 
-The identity of the participant.
+The identity of the participant producing the data behind the data resource.
 
 ##### cursor?
 

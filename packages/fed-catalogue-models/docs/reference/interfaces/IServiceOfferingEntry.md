@@ -72,18 +72,6 @@ Name
 
 ***
 
-### providedBy
-
-> **providedBy**: `string` \| [`IParticipant`](IParticipant.md) \| `IJsonLdNodeObject` & `object`
-
-Participant that provides the offering
-
-#### Inherited from
-
-[`IServiceOffering`](IServiceOffering.md).[`providedBy`](IServiceOffering.md#providedby)
-
-***
-
 ### servicePolicy
 
 > **servicePolicy**: `IJsonLdNodeObject`
@@ -93,20 +81,6 @@ ODRL policy associated to the service offering
 #### Inherited from
 
 [`IServiceOffering`](IServiceOffering.md).[`servicePolicy`](IServiceOffering.md#servicepolicy)
-
-***
-
-### aggregationOfResources?
-
-> `optional` **aggregationOfResources**: `string`[] \| [`IDataResource`](IDataResource.md)[] \| `IJsonLdNodeObject` & `object`
-
-Resources aggregated
-It is supported different representations, inline,
-by reference both providing the URI or a partial JSON-LD Node object
-
-#### Inherited from
-
-[`IServiceOffering`](IServiceOffering.md).[`aggregationOfResources`](IServiceOffering.md#aggregationofresources)
 
 ***
 
@@ -179,3 +153,27 @@ The evidences concerning the data resource.
 #### Inherited from
 
 `ICatalogEntry.evidences`
+
+***
+
+### providedBy
+
+> **providedBy**: `string`
+
+Overwrites providedBy as we only store identifier as string
+
+#### Overrides
+
+[`IServiceOffering`](IServiceOffering.md).[`providedBy`](IServiceOffering.md#providedby)
+
+***
+
+### aggregationOfResources
+
+> **aggregationOfResources**: `string`[]
+
+Overwrites aggregationOfResources as we only store identifier as string
+
+#### Overrides
+
+[`IServiceOffering`](IServiceOffering.md).[`aggregationOfResources`](IServiceOffering.md#aggregationofresources)

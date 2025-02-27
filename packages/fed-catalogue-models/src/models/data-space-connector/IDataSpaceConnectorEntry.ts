@@ -7,4 +7,11 @@ import type { IDataSpaceConnector } from "./IDataSpaceConnector";
 /**
  * Interface describing a participant.
  */
-export interface IDataSpaceConnectorEntry extends IDataSpaceConnector, ICatalogEntry {}
+export interface IDataSpaceConnectorEntry extends IDataSpaceConnector, ICatalogEntry {
+	/**
+	 * Offered resources. Probably in the future this wll be separated in a different entry so
+	 * that a  Data Space Connector entry does not need to be modified when a new Data Resource
+	 * is offered.
+	 */
+	offeredResource: string[];
+}

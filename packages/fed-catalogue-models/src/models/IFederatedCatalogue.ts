@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0.
 import type { IComponent } from "@twin.org/core";
 import type { IDataResourceEntry } from "./data-resource/IDataResourceEntry";
+import type { IDataSpaceConnectorEntry } from "./data-space-connector/IDataSpaceConnectorEntry";
 import type { IParticipantEntry } from "./participant/IParticipantEntry";
 import type { IServiceOfferingEntry } from "./service-offering/IServiceOfferingEntry";
 
@@ -10,7 +11,7 @@ import type { IServiceOfferingEntry } from "./service-offering/IServiceOfferingE
  */
 export interface IFederatedCatalogue extends IComponent {
 	/**
-	 * Registers a compliance Credential to the service.
+	 * Registers a Participant's compliance Credential to the service.
 	 * @param credential The credential as JWT.
 	 * @returns Nothing.
 	 */
@@ -20,7 +21,7 @@ export interface IFederatedCatalogue extends IComponent {
 	 * Query the federated catalogue.
 	 * @param participant The identity of the participant.
 	 * @param legalRegistrationNumber The legal registration number.
-	 * @param lrnType The legal registration number type (EORI, VATID, GLEIF, KENYA_PIN, etc.)
+	 * @param lrnType The legal registration number type (EORI, VATID, GLEIF, Kenya's PIN, etc.)
 	 * @param cursor The cursor to request the next page of entities.
 	 * @param pageSize The maximum number of entities in a page.
 	 * @returns All the entities for the storage matching the conditions,
@@ -45,7 +46,40 @@ export interface IFederatedCatalogue extends IComponent {
 	}>;
 
 	/**
-	 * Registers a service description Credential to the service.
+	 * Registers a Data Space Connector to the service.
+	 * @param credential The credential as JWT.
+	 * @returns Nothing.
+	 */
+	registerDataSpaceConnectorCredential(credential: string): Promise<void>;
+
+	/**
+	 * Query the federated catalogue.
+	 * @param id Data Space Connector Id.
+	 * @param maintainer The identity of the participant maintaining the Data Space Connector.
+	 * @param cursor The cursor to request the next page of entities.
+	 * @param pageSize The maximum number of entities in a page.
+	 * @returns All the entities for the storage matching the conditions,
+	 * and a cursor which can be used to request more entities.
+	 * @throws NotImplementedError if the implementation does not support retrieval.
+	 */
+	queryDataSpaceConnectors(
+		id?: string,
+		maintainer?: string,
+		cursor?: string,
+		pageSize?: number
+	): Promise<{
+		/**
+		 * The entities, which can be partial if a limited keys list was provided.
+		 */
+		entities: IDataSpaceConnectorEntry[];
+		/**
+		 * An optional cursor, when defined can be used to call find to get more entities.
+		 */
+		cursor?: string;
+	}>;
+
+	/**
+	 * Registers a service offering Credential to the service.
 	 * @param credential The credential as JWT.
 	 * @returns Nothing.
 	 */
@@ -53,8 +87,8 @@ export interface IFederatedCatalogue extends IComponent {
 
 	/**
 	 * Query the federated catalogue.
-	 * @param id Service id.
-	 * @param providedBy The identity of the participant.
+	 * @param id Service Offering id.
+	 * @param providedBy The identity of the participant providing the Offering.
 	 * @param cursor The cursor to request the next page of entities.
 	 * @param pageSize The maximum number of entities in a page.
 	 * @returns All the entities for the storage matching the conditions,
@@ -79,15 +113,15 @@ export interface IFederatedCatalogue extends IComponent {
 
 	/**
 	 * Query the federated catalogue.
-	 * @param id The identity of the participant.
-	 * @param producedBy The identity of the participant.
+	 * @param id The id of the Data Resource.
+	 * @param producedBy The identity of the participant producing the data behind the data resource.
 	 * @param cursor The cursor to request the next page of entities.
 	 * @param pageSize The maximum number of entities in a page.
 	 * @returns All the entities for the storage matching the conditions,
 	 * and a cursor which can be used to request more entities.
 	 * @throws NotImplementedError if the implementation does not support retrieval.
 	 */
-	queryDataResourceDescriptions(
+	queryDataResources(
 		id?: string,
 		producedBy?: string,
 		cursor?: string,

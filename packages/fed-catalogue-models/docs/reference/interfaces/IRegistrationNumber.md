@@ -15,6 +15,6 @@ https://docs.gaia-x.eu/ontology/development/classes/RegistrationNumber/
 
 ### type
 
-> **type**: `"RegistrationNumber"`
+> **type**: `"RegistrationNumber"` \| `"LocalRegistrationNumber"` \| `"EORI"` \| `"VATID"` \| `"EUID"` \| `"LeiCode"` \| `"TaxID"`
 
 JSON-LD Type

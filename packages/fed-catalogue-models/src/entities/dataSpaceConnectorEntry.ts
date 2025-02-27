@@ -18,7 +18,7 @@ export class DataSpaceConnectorEntry {
 	 * The trusted issuer of the compliance credential.
 	 */
 	@property({ type: "string" })
-	public trustedIssuer!: string;
+	public trustedIssuerId!: string;
 
 	/**
 	 * The name.
@@ -72,7 +72,7 @@ export class DataSpaceConnectorEntry {
 	 * The pull data endpoint
 	 */
 	@property({ type: "array" })
-	public offeredResources!: string[];
+	public offeredResource!: string[];
 
 	/**
 	 * Valid from

@@ -28,6 +28,14 @@ The LD Context.
 
 ***
 
+### id
+
+> **id**: `string`
+
+A unique identifier given to this Data Space Connector
+
+***
+
 ### type
 
 > **type**: \[`"DataExchangeComponent"`, `"DataSpaceConnector"`, `...string[]`\]

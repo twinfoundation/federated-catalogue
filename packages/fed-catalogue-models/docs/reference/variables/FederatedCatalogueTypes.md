@@ -13,3 +13,7 @@ The types concerning the Federated Catalogue.
 ### ComplianceCredential
 
 > `readonly` **ComplianceCredential**: `"ComplianceCredential"` = `"ComplianceCredential"`
+
+### DataSpaceConnector
+
+> `readonly` **DataSpaceConnector**: `"DataSpaceConnector"` = `"DataSpaceConnector"`

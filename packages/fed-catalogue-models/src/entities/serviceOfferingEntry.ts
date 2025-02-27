@@ -15,10 +15,10 @@ export class ServiceOfferingEntry {
 	public id!: string;
 
 	/**
-	 * The trusted issuer of the compliance credential
+	 * The trusted issuer of the compliance credential associated with
 	 */
 	@property({ type: "string" })
-	public trustedIssuer!: string;
+	public trustedIssuerId!: string;
 
 	/**
 	 * The service name.

@@ -1,13 +1,13 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import type { IDidVerifiableCredential } from "@twin.org/standards-w3c-did";
 import type { IDataSpaceConnector } from "./IDataSpaceConnector";
+import type { ICredential } from "../ICredential";
 
 /**
  * Participant Credential.
  */
-export interface IDataSpaceConnectorCredential extends IDidVerifiableCredential {
+export interface IDataSpaceConnectorCredential extends ICredential {
 	/**
 	 * The Credential Subject
 	 */

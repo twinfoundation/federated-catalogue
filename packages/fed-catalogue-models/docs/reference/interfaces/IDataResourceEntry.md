@@ -72,32 +72,6 @@ The Resource Name
 
 ***
 
-### exposedThrough
-
-> **exposedThrough**: `string` \| [`IDataExchangeComponent`](IDataExchangeComponent.md) \| `IJsonLdNodeObject` & `object`
-
-Exposed through a Data Exchange Component.
-'string' in case just an Id pointing to the Data Exchange Component is supplied
-the third case covers the idiom where a JSON-LD Node is supplied with id and type.
-
-#### Inherited from
-
-[`IDataResource`](IDataResource.md).[`exposedThrough`](IDataResource.md#exposedthrough)
-
-***
-
-### producedBy
-
-> **producedBy**: `string`
-
-Who is the data producer
-
-#### Inherited from
-
-[`IDataResource`](IDataResource.md).[`producedBy`](IDataResource.md#producedby)
-
-***
-
 ### license
 
 > **license**: `string`
@@ -110,9 +84,9 @@ Pointer (URL) to the license
 
 ***
 
-### copyrightOwnedBy?
+### copyrightOwnedBy
 
-> `optional` **copyrightOwnedBy**: `string`
+> **copyrightOwnedBy**: `string`
 
 Copyright owner
 
@@ -191,3 +165,27 @@ The evidences concerning the data resource.
 #### Inherited from
 
 `ICatalogEntry.evidences`
+
+***
+
+### producedBy
+
+> **producedBy**: `string`
+
+Overwriting producedBy as we only store the identifier
+
+#### Overrides
+
+[`IDataResource`](IDataResource.md).[`producedBy`](IDataResource.md#producedby)
+
+***
+
+### exposedThrough
+
+> **exposedThrough**: `string`
+
+Overwriting exposedThrough as we only store the id of the Data Exchange Component
+
+#### Overrides
+
+[`IDataResource`](IDataResource.md).[`exposedThrough`](IDataResource.md#exposedthrough)

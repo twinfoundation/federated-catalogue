@@ -41,5 +41,35 @@ export const GaiaXTypes = {
 	/**
 	 * Registration number
 	 */
-	Registration_Number: "RegistrationNumber"
+	Registration_Number: "RegistrationNumber",
+
+	/**
+	 * Local Registration number
+	 */
+	Local_Registration_Number: "LocalRegistrationNumber",
+
+	/**
+	 * EORI
+	 */
+	EORI: "EORI",
+
+	/**
+	 * VAT ID
+	 */
+	VATID: "VATID",
+
+	/**
+	 * EU ID
+	 */
+	EUID: "EUID",
+
+	/**
+	 * GLEIF LEI code
+	 */
+	LeiCode: "LeiCode",
+
+	/**
+	 * Tax Id
+	 */
+	TaxID: "TaxID"
 } as const;

@@ -4,9 +4,21 @@ Participant Credential.
 
 ## Extends
 
-- `IDidVerifiableCredential`
+- [`ICredential`](ICredential.md)
 
 ## Properties
+
+### id
+
+> **id**: `string`
+
+The Id of the credential, it is mandatory.
+
+#### Inherited from
+
+[`ICredential`](ICredential.md).[`id`](ICredential.md#id)
+
+***
 
 ### credentialSubject
 
@@ -16,4 +28,4 @@ The Credential Subject
 
 #### Overrides
 
-`IDidVerifiableCredential.credentialSubject`
+[`ICredential`](ICredential.md).[`credentialSubject`](ICredential.md#credentialsubject)

@@ -7,4 +7,14 @@ import type { ICatalogEntry } from "../ICatalogEntry";
 /**
  * Interface describing a Data Resource entry.
  */
-export interface IDataResourceEntry extends ICatalogEntry, IDataResource {}
+export interface IDataResourceEntry extends ICatalogEntry, IDataResource {
+	/**
+	 * Overwriting producedBy as we only store the identifier
+	 */
+	producedBy: string;
+
+	/**
+	 * Overwriting exposedThrough as we only store the id of the Data Exchange Component
+	 */
+	exposedThrough: string;
+}

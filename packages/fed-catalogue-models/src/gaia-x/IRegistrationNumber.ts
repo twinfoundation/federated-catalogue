@@ -13,5 +13,12 @@ export interface IRegistrationNumber extends IJsonLdNodeObject {
 	/**
 	 * JSON-LD Type
 	 */
-	type: typeof GaiaXTypes.Registration_Number;
+	type:
+		| typeof GaiaXTypes.Registration_Number
+		| typeof GaiaXTypes.Local_Registration_Number
+		| typeof GaiaXTypes.EORI
+		| typeof GaiaXTypes.EUID
+		| typeof GaiaXTypes.LeiCode
+		| typeof GaiaXTypes.TaxID
+		| typeof GaiaXTypes.VATID;
 }

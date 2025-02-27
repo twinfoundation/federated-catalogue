@@ -3,6 +3,7 @@
 ## Classes
 
 - [DataResourceEntry](classes/DataResourceEntry.md)
+- [DataSpaceConnectorEntry](classes/DataSpaceConnectorEntry.md)
 - [ParticipantEntry](classes/ParticipantEntry.md)
 - [ServiceOfferingEntry](classes/ServiceOfferingEntry.md)
 
@@ -18,6 +19,7 @@
 - [IComplianceCredential](interfaces/IComplianceCredential.md)
 - [IComplianceEvidence](interfaces/IComplianceEvidence.md)
 - [IComplianceVerificationResult](interfaces/IComplianceVerificationResult.md)
+- [ICredential](interfaces/ICredential.md)
 - [IFederatedCatalogue](interfaces/IFederatedCatalogue.md)
 - [IVerificationResult](interfaces/IVerificationResult.md)
 - [ICompliancePresentationRequest](interfaces/ICompliancePresentationRequest.md)

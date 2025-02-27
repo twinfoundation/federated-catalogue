@@ -22,11 +22,11 @@ The service Id.
 
 ***
 
-### trustedIssuer
+### trustedIssuerId
 
-> **trustedIssuer**: `string`
+> **trustedIssuerId**: `string`
 
-The trusted issuer of the compliance credential
+The trusted issuer of the compliance credential associated with
 
 ***
 

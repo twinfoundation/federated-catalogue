@@ -4,7 +4,7 @@ A Compliance credential.
 
 ## Extends
 
-- `IDidVerifiableCredential`
+- [`ICredential`](ICredential.md)
 
 ## Properties
 
@@ -16,7 +16,7 @@ The LD Context.
 
 #### Overrides
 
-`IDidVerifiableCredential.@context`
+`ICredential.@context`
 
 ***
 
@@ -28,7 +28,7 @@ The Id of the credential, it is mandatory.
 
 #### Overrides
 
-`IDidVerifiableCredential.id`
+[`ICredential`](ICredential.md).[`id`](ICredential.md#id)
 
 ***
 
@@ -40,7 +40,7 @@ Type of Credential.
 
 #### Overrides
 
-`IDidVerifiableCredential.type`
+`ICredential.type`
 
 ***
 
@@ -52,4 +52,16 @@ Compliance evidence. It is mandatory.
 
 #### Overrides
 
-`IDidVerifiableCredential.evidence`
+`ICredential.evidence`
+
+***
+
+### credentialSubject
+
+> **credentialSubject**: `IJsonLdNodeObject` & `object` \| `IJsonLdNodeObject`[] & `object`
+
+Credential subject must always include id and type
+
+#### Inherited from
+
+[`ICredential`](ICredential.md).[`credentialSubject`](ICredential.md#credentialsubject)

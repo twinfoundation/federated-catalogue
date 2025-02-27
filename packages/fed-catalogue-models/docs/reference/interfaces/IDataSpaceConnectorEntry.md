@@ -84,6 +84,18 @@ The LD Context.
 
 ***
 
+### id
+
+> **id**: `string`
+
+A unique identifier given to this Data Space Connector
+
+#### Inherited from
+
+[`IDataSpaceConnector`](IDataSpaceConnector.md).[`id`](IDataSpaceConnector.md#id)
+
+***
+
 ### type
 
 > **type**: \[`"DataExchangeComponent"`, `"DataSpaceConnector"`, `...string[]`\]
@@ -201,14 +213,12 @@ default endpoint URL as a base URL.
 
 ### offeredResource
 
-> **offeredResource**: `string`[] \| \{\}
+> **offeredResource**: `string`[]
 
-The resources offered by this Connector.
-A resource index is usually a relative reference to the default endpoint base URL.
-Nonetheless if the resource already declares an endpoint URL that one should be taken.
-It is captured the case where the Data Resource is supplied
-via a list of identifiers or through a map indexed by Id
+Offered resources. Probably in the future this wll be separated in a different entry so
+that a  Data Space Connector entry does not need to be modified when a new Data Resource
+is offered.
 
-#### Inherited from
+#### Overrides
 
 [`IDataSpaceConnector`](IDataSpaceConnector.md).[`offeredResource`](IDataSpaceConnector.md#offeredresource)

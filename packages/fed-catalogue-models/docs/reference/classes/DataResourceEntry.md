@@ -22,9 +22,9 @@ The Id.
 
 ***
 
-### trustedIssuer
+### trustedIssuerId
 
-> **trustedIssuer**: `string`
+> **trustedIssuerId**: `string`
 
 The trusted issuer of the compliance credential
 

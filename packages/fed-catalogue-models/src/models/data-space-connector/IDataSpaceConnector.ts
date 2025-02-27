@@ -11,6 +11,7 @@ import type { GaiaXTypes } from "../../gaia-x/gaiaxTypes";
 import type { IDataExchangeComponent } from "../../gaia-x/IDataExchangeComponent";
 import type { IDataResource } from "../../gaia-x/IDataResource";
 import type { IEndpoint } from "../../gaia-x/IEndpoint";
+import type { FederatedCatalogueTypes } from "../federatedCatalogueTypes";
 
 /**
  * TWIN Data Space Connector.
@@ -22,11 +23,16 @@ export interface IDataSpaceConnector extends IDataExchangeComponent {
 	"@context": [typeof GaiaXContexts.Gaia_X_LD_Context, ...IJsonLdContextDefinitionElement[]];
 
 	/**
+	 * A unique identifier given to this Data Space Connector
+	 */
+	id: string;
+
+	/**
 	 * A Connector is a Data Exchange Component
 	 */
 	type: [
 		typeof GaiaXTypes.DataExchangeComponent,
-		"DataSpaceConnector",
+		typeof FederatedCatalogueTypes.DataSpaceConnector,
 		...IJsonLdKeyword["@type"][]
 	];
 

@@ -17,7 +17,7 @@ export class DataResourceEntry {
 	 * The trusted issuer of the compliance credential
 	 */
 	@property({ type: "string" })
-	public trustedIssuer!: string;
+	public trustedIssuerId!: string;
 
 	/**
 	 * The name.

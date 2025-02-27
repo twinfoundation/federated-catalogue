@@ -87,9 +87,9 @@ Pointer (URL) to the license
 
 ***
 
-### copyrightOwnedBy?
+### copyrightOwnedBy
 
-> `optional` **copyrightOwnedBy**: `string`
+> **copyrightOwnedBy**: `string`
 
 Copyright owner
 

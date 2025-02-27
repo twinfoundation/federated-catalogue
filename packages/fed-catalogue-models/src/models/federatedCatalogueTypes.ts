@@ -9,5 +9,6 @@
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const FederatedCatalogueTypes = {
 	CompliantCredential_Evidence: "CompliantCredential",
-	ComplianceCredential: "ComplianceCredential"
+	ComplianceCredential: "ComplianceCredential",
+	DataSpaceConnector: "DataSpaceConnector"
 } as const;

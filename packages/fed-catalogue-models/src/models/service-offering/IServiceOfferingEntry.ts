@@ -7,4 +7,14 @@ import type { ICatalogEntry } from "../ICatalogEntry";
 /**
  * Interface describing a SD.
  */
-export interface IServiceOfferingEntry extends ICatalogEntry, IServiceOffering {}
+export interface IServiceOfferingEntry extends ICatalogEntry, IServiceOffering {
+	/**
+	 * Overwrites providedBy as we only store identifier as string
+	 */
+	providedBy: string;
+
+	/**
+	 * Overwrites aggregationOfResources as we only store identifier as string
+	 */
+	aggregationOfResources: string[];
+}

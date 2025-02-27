@@ -10,7 +10,7 @@ Compliance verification result
 
 ### credentials
 
-> **credentials**: `IDidVerifiableCredential`[]
+> **credentials**: [`ICredential`](ICredential.md)[]
 
 The credentials involved
 
