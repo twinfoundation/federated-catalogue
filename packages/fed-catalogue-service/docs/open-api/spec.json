@@ -1,1052 +1,904 @@
 {
-    "openapi": "3.1.0",
-    "info": {
-        "title": "Global Trade and Supply Chain - Test Endpoints",
-        "description": "REST API for Global Trade and Supply Chain - Test Endpoints.",
-        "version": "1.0.0",
-        "license": {
-            "name": "Apache 2.0 License",
-            "url": "https://opensource.org/licenses/Apache-2.0"
-        }
-    },
-    "servers": [
-        {
-            "url": "https://localhost"
-        }
-    ],
-    "tags": [
-        {
-            "name": "Federated Catalogue",
-            "description": "Endpoints to access a Federated Catalogue."
-        }
-    ],
-    "paths": {
-        "/fedcatalogue/participant-credentials": {
-            "post": {
-                "operationId": "compliancePresentationRequest",
-                "summary": "Present a Compliance Credential",
-                "tags": [
-                    "Federated Catalogue"
-                ],
-                "security": [
-                    {
-                        "jwtBearerAuthScheme": []
-                    }
-                ],
-                "requestBody": {
-                    "description": "Register a new Compliance Credential.",
-                    "required": true,
-                    "content": {
-                        "application/jwt": {
-                            "schema": {
-                                "$ref": "#/components/schemas/CompliancePresentationRequest"
-                            },
-                            "examples": {
-                                "compliancePresentationRequestExample": {
-                                    "value": "ey..."
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "The rest request ended in created response."
-                    },
-                    "400": {
-                        "description": "The server cannot process the request, see the content for more details.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                },
-                                "examples": {
-                                    "exampleResponse": {
-                                        "value": {
-                                            "name": "GeneralError",
-                                            "message": "component.error",
-                                            "properties": {
-                                                "foo": "bar"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                },
-                                "examples": {
-                                    "exampleResponse": {
-                                        "value": {
-                                            "name": "UnauthorizedError",
-                                            "message": "component.error"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "The server cannot process the request, see the content for more details.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                },
-                                "examples": {
-                                    "exampleResponse": {
-                                        "value": {
-                                            "name": "UnprocessableError",
-                                            "message": "component.error"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                },
-                                "examples": {
-                                    "exampleResponse": {
-                                        "value": {
-                                            "name": "InternalServerError",
-                                            "message": "component.error"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/fedcatalogue/participants": {
-            "get": {
-                "operationId": "fedCatalogueListParticipants",
-                "summary": "Get a list of the participant entries",
-                "tags": [
-                    "Federated Catalogue"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "description": "The participant Id.",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "registrationNumber",
-                        "description": "The legal registration number.",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "abc"
-                    },
-                    {
-                        "name": "lrnType",
-                        "description": "The legal registration number type.",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "cursor",
-                        "description": "The optional cursor to get next chunk.",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "pageSize",
-                        "description": "The maximum number of entities in a page.",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "number"
-                        }
-                    }
-                ],
-                "security": [
-                    {
-                        "jwtBearerAuthScheme": []
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Response for log entry list request.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ParticipantListResponse"
-                                },
-                                "examples": {
-                                    "listResponseExample": {
-                                        "value": {
-                                            "@context": [
-                                                "https://w3id.org/gaia-x/development",
-                                                "https://schema.org",
-                                                "https://www.w3.org/ns/credentials/v2"
-                                            ],
-                                            "entities": [
-                                                {
-                                                    "id": "did:iota:xxx",
-                                                    "type": "Participant",
-                                                    "registrationNumber": "zzz",
-                                                    "legalName": "A Inc.",
-                                                    "lrnType": "VAT_ID",
-                                                    "trustedIssuerId": "did:iota:zzz",
-                                                    "countryCode": "KE",
-                                                    "validFrom": "2024-08-01T12:00:00Z",
-                                                    "validUntil": "2025-08-01T12:00:00Z",
-                                                    "dateCreated": "2024-08-02T13:45:00Z",
-                                                    "evidences": [
-                                                        "https://credentials.example.org/1234567"
-                                                    ]
-                                                }
-                                            ],
-                                            "cursor": "1"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "The server cannot process the request, see the content for more details.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                },
-                                "examples": {
-                                    "exampleResponse": {
-                                        "value": {
-                                            "name": "GeneralError",
-                                            "message": "component.error",
-                                            "properties": {
-                                                "foo": "bar"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                },
-                                "examples": {
-                                    "exampleResponse": {
-                                        "value": {
-                                            "name": "UnauthorizedError",
-                                            "message": "component.error"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                },
-                                "examples": {
-                                    "exampleResponse": {
-                                        "value": {
-                                            "name": "InternalServerError",
-                                            "message": "component.error"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/fedcatalogue/service-credentials": {
-            "post": {
-                "operationId": "serviceDescriptionPresentationRequest",
-                "summary": "Present a Service Description Credential",
-                "tags": [
-                    "Federated Catalogue"
-                ],
-                "security": [
-                    {
-                        "jwtBearerAuthScheme": []
-                    }
-                ],
-                "requestBody": {
-                    "description": "Register a new Service Description Credential.",
-                    "required": true,
-                    "content": {
-                        "application/jwt": {
-                            "schema": {
-                                "$ref": "#/components/schemas/ServiceDescriptionPresentationRequest"
-                            },
-                            "examples": {
-                                "servicePresentationRequestExample": {
-                                    "value": "ey..."
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "The rest request ended in created response."
-                    },
-                    "400": {
-                        "description": "The server cannot process the request, see the content for more details.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                },
-                                "examples": {
-                                    "exampleResponse": {
-                                        "value": {
-                                            "name": "GeneralError",
-                                            "message": "component.error",
-                                            "properties": {
-                                                "foo": "bar"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                },
-                                "examples": {
-                                    "exampleResponse": {
-                                        "value": {
-                                            "name": "UnauthorizedError",
-                                            "message": "component.error"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "The server cannot process the request, see the content for more details.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                },
-                                "examples": {
-                                    "exampleResponse": {
-                                        "value": {
-                                            "name": "UnprocessableError",
-                                            "message": "component.error"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                },
-                                "examples": {
-                                    "exampleResponse": {
-                                        "value": {
-                                            "name": "InternalServerError",
-                                            "message": "component.error"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/fedcatalogue/services": {
-            "get": {
-                "operationId": "fedCatalogueListServices",
-                "summary": "Get a list of the service entries",
-                "tags": [
-                    "Federated Catalogue"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "description": "Id.",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "providedBy",
-                        "description": "The service provider.",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "did:iota:1234"
-                    },
-                    {
-                        "name": "cursor",
-                        "description": "The optional cursor to get next chunk.",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "pageSize",
-                        "description": "The maximum number of entities in a page.",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "number"
-                        }
-                    }
-                ],
-                "security": [
-                    {
-                        "jwtBearerAuthScheme": []
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Response for log entry list request.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ServiceDescriptionListResponse"
-                                },
-                                "examples": {
-                                    "listResponseExample": {
-                                        "value": {
-                                            "@context": [
-                                                "https://w3id.org/gaia-x/development",
-                                                "https://schema.org",
-                                                "https://www.w3.org/ns/credentials/v2"
-                                            ],
-                                            "entities": [
-                                                {
-                                                    "id": "http://example.org/is123456",
-                                                    "name": "Service 1",
-                                                    "type": "ServiceOffering",
-                                                    "servicePolicy": {},
-                                                    "endpointURL": "https://endpoint.example.org/api",
-                                                    "providedBy": "did:iota:1234567",
-                                                    "validFrom": "2024-08-01T12:00:00Z",
-                                                    "validUntil": "2025-08-01T12:00:00Z",
-                                                    "dateCreated": "2024-08-02T13:45:00Z",
-                                                    "evidences": [
-                                                        "https://credentials.example.org/1234567"
-                                                    ]
-                                                }
-                                            ],
-                                            "cursor": "1"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "The server cannot process the request, see the content for more details.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                },
-                                "examples": {
-                                    "exampleResponse": {
-                                        "value": {
-                                            "name": "GeneralError",
-                                            "message": "component.error",
-                                            "properties": {
-                                                "foo": "bar"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                },
-                                "examples": {
-                                    "exampleResponse": {
-                                        "value": {
-                                            "name": "UnauthorizedError",
-                                            "message": "component.error"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                },
-                                "examples": {
-                                    "exampleResponse": {
-                                        "value": {
-                                            "name": "InternalServerError",
-                                            "message": "component.error"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/fedcatalogue/data-resources": {
-            "get": {
-                "operationId": "fedCatalogueListResources",
-                "summary": "Get a list of the data resource entries",
-                "tags": [
-                    "Federated Catalogue"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "producedBy",
-                        "description": "The service provider.",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "did:iota:1234"
-                    },
-                    {
-                        "name": "cursor",
-                        "description": "The optional cursor to get next chunk.",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "pageSize",
-                        "description": "The maximum number of entities in a page.",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "number"
-                        }
-                    }
-                ],
-                "security": [
-                    {
-                        "jwtBearerAuthScheme": []
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Response for log entry list request.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/DataResourceListResponse"
-                                },
-                                "examples": {
-                                    "listResponseExample": {
-                                        "value": {
-                                            "@context": [
-                                                "https://w3id.org/gaia-x/development",
-                                                "https://schema.org",
-                                                "https://www.w3.org/ns/credentials/v2"
-                                            ],
-                                            "entities": [
-                                                {
-                                                    "id": "http://example.org/is123456",
-                                                    "name": "Data Resource 1",
-                                                    "type": "DataResource",
-                                                    "copyrightOwnedBy": "did:iota:1234",
-                                                    "license": "http://licenses.example.org/12345",
-                                                    "resourcePolicy": {},
-                                                    "exposedThrough": "https://endpoint.example.org/api",
-                                                    "producedBy": "did:iota:1234567",
-                                                    "validFrom": "2024-08-01T12:00:00Z",
-                                                    "validUntil": "2025-08-01T12:00:00Z",
-                                                    "dateCreated": "2024-08-02T13:45:00Z",
-                                                    "evidences": [
-                                                        "https://credentials.example.org/1234567"
-                                                    ]
-                                                }
-                                            ],
-                                            "cursor": "1"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "The server cannot process the request, see the content for more details.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                },
-                                "examples": {
-                                    "exampleResponse": {
-                                        "value": {
-                                            "name": "GeneralError",
-                                            "message": "component.error",
-                                            "properties": {
-                                                "foo": "bar"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                },
-                                "examples": {
-                                    "exampleResponse": {
-                                        "value": {
-                                            "name": "UnauthorizedError",
-                                            "message": "component.error"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                },
-                                "examples": {
-                                    "exampleResponse": {
-                                        "value": {
-                                            "name": "InternalServerError",
-                                            "message": "component.error"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    },
-    "components": {
-        "schemas": {
-            "Error": {
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "type": "string",
-                        "description": "The name for the error."
-                    },
-                    "message": {
-                        "type": "string",
-                        "description": "The message for the error."
-                    },
-                    "source": {
-                        "type": "string",
-                        "description": "The source of the error."
-                    },
-                    "properties": {
-                        "type": "object",
-                        "additionalProperties": {},
-                        "description": "Any additional information for the error."
-                    },
-                    "stack": {
-                        "type": "string",
-                        "description": "The stack trace for the error."
-                    },
-                    "inner": {
-                        "$ref": "#/components/schemas/Error"
-                    }
-                },
-                "required": [
-                    "name",
-                    "message"
-                ],
-                "additionalProperties": false,
-                "description": "Model to describe serialized error."
-            },
-            "CompliancePresentationRequest": {
-                "type": "string",
-                "description": "The data to be used in the create."
-            },
-            "ParticipantListResponse": {
-                "type": "object",
-                "properties": {
-                    "@context": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "description": "The LD"
-                    },
-                    "entities": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ParticipantEntry"
-                        },
-                        "description": "The entities, which can be partial if a limited keys list was provided."
-                    },
-                    "cursor": {
-                        "type": "string",
-                        "description": "An optional cursor, when defined can be used to call find to get more entities."
-                    }
-                },
-                "required": [
-                    "@context",
-                    "entities"
-                ],
-                "additionalProperties": false,
-                "description": "The response payload."
-            },
-            "ParticipantEntry": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "description": "The participant Id."
-                    },
-                    "type": {
-                        "type": "string",
-                        "const": "Participant",
-                        "description": "JSON-LD type."
-                    },
-                    "lrnType": {
-                        "type": "string",
-                        "description": "The legal registration number type."
-                    },
-                    "registrationNumber": {
-                        "type": "string",
-                        "description": "The legal registration number."
-                    },
-                    "legalName": {
-                        "type": "string",
-                        "description": "The legal name."
-                    },
-                    "trustedIssuerId": {
-                        "type": "string",
-                        "description": "The trusted issuer of the compliance credential"
-                    },
-                    "countryCode": {
-                        "type": "string",
-                        "description": "Country code"
-                    },
-                    "validFrom": {
-                        "type": "string",
-                        "description": "Valid from"
-                    },
-                    "validUntil": {
-                        "type": "string",
-                        "description": "Valid to"
-                    },
-                    "dateCreated": {
-                        "type": "string",
-                        "description": "Date created"
-                    },
-                    "evidences": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "description": "Original credentials"
-                    }
-                },
-                "required": [
-                    "id",
-                    "type",
-                    "lrnType",
-                    "registrationNumber",
-                    "legalName",
-                    "trustedIssuerId",
-                    "countryCode",
-                    "validFrom",
-                    "validUntil",
-                    "dateCreated",
-                    "evidences"
-                ],
-                "additionalProperties": false,
-                "description": "Interface describing a participant."
-            },
-            "ServiceDescriptionPresentationRequest": {
-                "type": "string",
-                "description": "The data to be used in the create."
-            },
-            "ServiceDescriptionListResponse": {
-                "type": "object",
-                "properties": {
-                    "@context": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "description": "The LD"
-                    },
-                    "entities": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ServiceDescriptionEntry"
-                        },
-                        "description": "The entities, which can be partial if a limited keys list was provided."
-                    },
-                    "cursor": {
-                        "type": "string",
-                        "description": "An optional cursor, when defined can be used to call find to get more entities."
-                    }
-                },
-                "required": [
-                    "@context",
-                    "entities"
-                ],
-                "additionalProperties": false,
-                "description": "The response payload."
-            },
-            "ServiceDescriptionEntry": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "description": "Service Id."
-                    },
-                    "type": {
-                        "type": "string",
-                        "const": "ServiceOffering",
-                        "description": "Service offering."
-                    },
-                    "servicePolicy": {
-                        "description": "Service policy."
-                    },
-                    "name": {
-                        "type": "string",
-                        "description": "Service name."
-                    },
-                    "description": {
-                        "type": "string",
-                        "description": "Service description."
-                    },
-                    "providedBy": {
-                        "type": "string",
-                        "description": "Service provider"
-                    },
-                    "endpointURL": {
-                        "type": "string",
-                        "description": "REST endpoint"
-                    },
-                    "validFrom": {
-                        "type": "string",
-                        "description": "Valid from"
-                    },
-                    "validUntil": {
-                        "type": "string",
-                        "description": "Valid to"
-                    },
-                    "dateCreated": {
-                        "type": "string",
-                        "description": "Date created"
-                    },
-                    "evidences": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "description": "Original credentials"
-                    },
-                    "aggregationOfResources": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "description": "Resources aggregated"
-                    }
-                },
-                "required": [
-                    "id",
-                    "type",
-                    "servicePolicy",
-                    "name",
-                    "providedBy",
-                    "endpointURL",
-                    "validFrom",
-                    "validUntil",
-                    "dateCreated",
-                    "evidences"
-                ],
-                "additionalProperties": false,
-                "description": "Interface describing a SD."
-            },
-            "DataResourceListResponse": {
-                "type": "object",
-                "properties": {
-                    "@context": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "description": "The LD"
-                    },
-                    "entities": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/DataResourceEntry"
-                        },
-                        "description": "The entities, which can be partial if a limited keys list was provided."
-                    },
-                    "cursor": {
-                        "type": "string",
-                        "description": "An optional cursor, when defined can be used to call find to get more entities."
-                    }
-                },
-                "required": [
-                    "@context",
-                    "entities"
-                ],
-                "additionalProperties": false,
-                "description": "The response payload."
-            },
-            "DataResourceEntry": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "description": "The participant Id."
-                    },
-                    "type": {
-                        "type": "string",
-                        "const": "DataResource",
-                        "description": "JSON-LD type."
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "description": {
-                        "type": "string"
-                    },
-                    "producedBy": {
-                        "type": "string"
-                    },
-                    "copyrightOwnedBy": {
-                        "type": "string"
-                    },
-                    "license": {
-                        "type": "string"
-                    },
-                    "exposedThrough": {
-                        "type": "string"
-                    },
-                    "resourcePolicy": {},
-                    "validFrom": {
-                        "type": "string"
-                    },
-                    "validUntil": {
-                        "type": "string"
-                    },
-                    "dateCreated": {
-                        "type": "string"
-                    },
-                    "evidences": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
-                    }
-                },
-                "required": [
-                    "id",
-                    "type",
-                    "name",
-                    "producedBy",
-                    "copyrightOwnedBy",
-                    "license",
-                    "exposedThrough",
-                    "resourcePolicy",
-                    "validFrom",
-                    "validUntil",
-                    "dateCreated",
-                    "evidences"
-                ],
-                "additionalProperties": false,
-                "description": "Interface describing a participant."
-            }
-        },
-        "securitySchemes": {
-            "jwtBearerAuthScheme": {
-                "type": "http",
-                "scheme": "bearer",
-                "bearerFormat": "JWT"
-            }
-        }
-    }
+	"openapi": "3.1.0",
+	"info": {
+		"title": "TWIN - Test Endpoints",
+		"description": "REST API for TWIN - Test Endpoints.",
+		"version": "1.0.0",
+		"license": {
+			"name": "Apache 2.0 License",
+			"url": "https://opensource.org/licenses/Apache-2.0"
+		}
+	},
+	"servers": [
+		{
+			"url": "https://localhost"
+		}
+	],
+	"tags": [
+		{
+			"name": "Federated Catalogue",
+			"description": "Endpoints to access a Federated Catalogue."
+		}
+	],
+	"paths": {
+		"/fedcatalogue/participant-credentials": {
+			"post": {
+				"operationId": "compliancePresentationRequest",
+				"summary": "Present a Compliance Credential",
+				"tags": [
+					"Federated Catalogue"
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"requestBody": {
+					"description": "Register a new Compliance Credential.",
+					"required": true,
+					"content": {
+						"application/jwt": {
+							"schema": {
+								"$ref": "#/components/schemas/CompliancePresentationRequest"
+							},
+							"examples": {
+								"compliancePresentationRequestExample": {
+									"value": "ey..."
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "The rest request ended in created response."
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "component.error",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnprocessableError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/fedcatalogue/participants": {
+			"get": {
+				"operationId": "fedCatalogueListParticipants",
+				"summary": "Get a list of the participant entries",
+				"tags": [
+					"Federated Catalogue"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"description": "The participant Id.",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "registrationNumber",
+						"description": "The legal registration number.",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						},
+						"example": "abc"
+					},
+					{
+						"name": "lrnType",
+						"description": "The legal registration number type.",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "cursor",
+						"description": "The optional cursor to get next chunk.",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "pageSize",
+						"description": "The maximum number of entities in a page.",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "number"
+						}
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Response for log entry list request.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ParticipantListResponse"
+								},
+								"examples": {
+									"listResponseExample": {
+										"value": {
+											"@context": [
+												"https://w3id.org/gaia-x/development",
+												"https://schema.org",
+												"https://www.w3.org/ns/credentials/v2"
+											],
+											"entities": [
+												{
+													"id": "did:iota:xxx",
+													"type": "LegalPerson",
+													"registrationNumber": {
+														"type": "LocalRegistrationNumber",
+														"local": "P1234567"
+													},
+													"legalName": "A Inc.",
+													"trustedIssuerId": "did:iota:zzz",
+													"legalAddress": {
+														"type": "Address",
+														"countryCode": "KE"
+													},
+													"validFrom": "2024-08-01T12:00:00Z",
+													"validUntil": "2025-08-01T12:00:00Z",
+													"dateCreated": "2024-08-02T13:45:00Z",
+													"evidences": [
+														"https://credentials.example.org/1234567"
+													]
+												}
+											],
+											"cursor": "1"
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "component.error",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/fedcatalogue/service-credentials": {
+			"post": {
+				"operationId": "serviceDescriptionPresentationRequest",
+				"summary": "Present a Service Description Credential",
+				"tags": [
+					"Federated Catalogue"
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"requestBody": {
+					"description": "Register a new Service Offering Credential.",
+					"required": true,
+					"content": {
+						"application/jwt": {
+							"schema": {
+								"$ref": "#/components/schemas/ServiceOfferingPresentationRequest"
+							},
+							"examples": {
+								"servicePresentationRequestExample": {
+									"value": "ey..."
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "The rest request ended in created response."
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "component.error",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnprocessableError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/fedcatalogue/services": {
+			"get": {
+				"operationId": "fedCatalogueListServices",
+				"summary": "Get a list of the service entries",
+				"tags": [
+					"Federated Catalogue"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"description": "Id.",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "providedBy",
+						"description": "The service provider.",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						},
+						"example": "did:iota:1234"
+					},
+					{
+						"name": "cursor",
+						"description": "The optional cursor to get next chunk.",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "pageSize",
+						"description": "The maximum number of entities in a page.",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "number"
+						}
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Response for Service Offering list",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ServiceOfferingListResponse"
+								},
+								"examples": {
+									"listResponseExample": {
+										"value": {
+											"@context": [
+												"https://w3id.org/gaia-x/development",
+												"https://schema.org",
+												"https://www.w3.org/ns/credentials/v2"
+											],
+											"entities": [
+												{
+													"id": "http://example.org/is123456",
+													"name": "Service 1",
+													"type": "ServiceOffering",
+													"servicePolicy": {},
+													"endpoint": {
+														"type": "Endpoint",
+														"endpointURL": "https://endpoint.example.org/api"
+													},
+													"providedBy": "did:iota:1234567",
+													"validFrom": "2024-08-01T12:00:00Z",
+													"validUntil": "2025-08-01T12:00:00Z",
+													"dateCreated": "2024-08-02T13:45:00Z",
+													"evidences": [
+														"https://credentials.example.org/1234567"
+													]
+												}
+											],
+											"cursor": "1"
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "component.error",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/fedcatalogue/data-resources": {
+			"get": {
+				"operationId": "fedCatalogueListResources",
+				"summary": "Get a list of the data resource entries",
+				"tags": [
+					"Federated Catalogue"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "producedBy",
+						"description": "The service provider.",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						},
+						"example": "did:iota:1234"
+					},
+					{
+						"name": "cursor",
+						"description": "The optional cursor to get next chunk.",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "pageSize",
+						"description": "The maximum number of entities in a page.",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "number"
+						}
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Response for log entry list request.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DataResourceListResponse"
+								},
+								"examples": {
+									"listResponseExample": {
+										"value": {
+											"@context": [
+												"https://w3id.org/gaia-x/development",
+												"https://schema.org",
+												"https://www.w3.org/ns/credentials/v2"
+											],
+											"entities": [
+												{
+													"id": "http://example.org/is123456",
+													"name": "Data Resource 1",
+													"type": "DataResource",
+													"copyrightOwnedBy": "did:iota:1234",
+													"license": "http://licenses.example.org/12345",
+													"resourcePolicy": {},
+													"exposedThrough": {
+														"@id": "https://endpoint.example.org/api",
+														"type": "DataExchangeComponent"
+													},
+													"producedBy": "did:iota:1234567",
+													"trustedIssuerId": "did:iota:987654",
+													"validFrom": "2024-08-01T12:00:00Z",
+													"validUntil": "2025-08-01T12:00:00Z",
+													"dateCreated": "2024-08-02T13:45:00Z",
+													"evidences": [
+														"https://credentials.example.org/1234567"
+													]
+												}
+											],
+											"cursor": "1"
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "component.error",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"CompliancePresentationRequest": {
+				"type": "string",
+				"description": "The data to be used in the create."
+			},
+			"DataResourceListResponse": {
+				"type": "object",
+				"properties": {
+					"@context": {
+						"anyOf": [
+							{
+								"type": "string",
+								"const": "https://w3id.org/gaia-x/development"
+							},
+							{
+								"type": "array",
+								"minItems": 1,
+								"items": [
+									{
+										"type": "string",
+										"const": "https://w3id.org/gaia-x/development"
+									}
+								],
+								"additionalItems": {
+									"$ref": "#/components/schemas/JsonLdContextDefinitionElement"
+								}
+							}
+						],
+						"description": "The LD"
+					},
+					"entities": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/Omit%3CIDataResourceEntry%2C%22%40context%22%3E"
+						},
+						"description": "The entities, which can be partial if a limited keys list was provided."
+					},
+					"cursor": {
+						"type": "string",
+						"description": "An optional cursor, when defined can be used to call find to get more entities."
+					}
+				},
+				"required": [
+					"@context",
+					"entities"
+				],
+				"additionalProperties": false,
+				"description": "The response payload."
+			},
+			"Error": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string",
+						"description": "The name for the error."
+					},
+					"message": {
+						"type": "string",
+						"description": "The message for the error."
+					},
+					"source": {
+						"type": "string",
+						"description": "The source of the error."
+					},
+					"properties": {
+						"type": "object",
+						"additionalProperties": {},
+						"description": "Any additional information for the error."
+					},
+					"stack": {
+						"type": "string",
+						"description": "The stack trace for the error."
+					},
+					"inner": {
+						"$ref": "#/components/schemas/Error"
+					}
+				},
+				"required": [
+					"name",
+					"message"
+				],
+				"additionalProperties": false,
+				"description": "Model to describe serialized error."
+			},
+			"ParticipantListResponse": {
+				"type": "object",
+				"properties": {
+					"@context": {
+						"anyOf": [
+							{
+								"type": "string",
+								"const": "https://w3id.org/gaia-x/development"
+							},
+							{
+								"type": "array",
+								"minItems": 1,
+								"items": [
+									{
+										"type": "string",
+										"const": "https://w3id.org/gaia-x/development"
+									}
+								],
+								"additionalItems": {
+									"$ref": "#/components/schemas/JsonLdContextDefinitionElement"
+								}
+							}
+						],
+						"description": "The LD"
+					},
+					"entities": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/Omit%3CIParticipantEntry%2C%22%40context%22%3E"
+						},
+						"description": "The entities, which can be partial if a limited keys list was provided."
+					},
+					"cursor": {
+						"type": "string",
+						"description": "An optional cursor, when defined can be used to call find to get more entities."
+					}
+				},
+				"required": [
+					"@context",
+					"entities"
+				],
+				"additionalProperties": false,
+				"description": "The response payload."
+			},
+			"ServiceOfferingListResponse": {
+				"type": "object",
+				"properties": {
+					"@context": {
+						"anyOf": [
+							{
+								"type": "string",
+								"const": "https://w3id.org/gaia-x/development"
+							},
+							{
+								"type": "array",
+								"minItems": 1,
+								"items": [
+									{
+										"type": "string",
+										"const": "https://w3id.org/gaia-x/development"
+									}
+								],
+								"additionalItems": {
+									"$ref": "#/components/schemas/JsonLdContextDefinitionElement"
+								}
+							}
+						],
+						"description": "The LD"
+					},
+					"entities": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/Omit%3CIServiceOfferingEntry%2C%22%40context%22%3E"
+						},
+						"description": "The entities, which can be partial if a limited keys list was provided."
+					},
+					"cursor": {
+						"type": "string",
+						"description": "An optional cursor, when defined can be used to call find to get more entities."
+					}
+				},
+				"required": [
+					"@context",
+					"entities"
+				],
+				"additionalProperties": false,
+				"description": "The response payload."
+			},
+			"ServiceOfferingPresentationRequest": {
+				"type": "string",
+				"description": "The data to be used in the create."
+			}
+		},
+		"securitySchemes": {
+			"jwtBearerAuthScheme": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
+	}
 }

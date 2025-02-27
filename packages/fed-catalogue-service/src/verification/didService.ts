@@ -108,7 +108,7 @@ export class DIDService {
 	 * @param jwk JWK.
 	 * @returns Public Key.
 	 */
-	public async getPublicKeyFromJWK(jwk: JsonWebKey): Promise<KeyLike> {
+	public async getPublicKeyFromJWK(jwk: IJwk): Promise<KeyLike> {
 		return (await importJWK(jwk)) as KeyLike;
 	}
 

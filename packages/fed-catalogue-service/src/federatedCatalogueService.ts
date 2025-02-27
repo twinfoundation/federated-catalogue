@@ -24,13 +24,13 @@ import {
 	type IDataSpaceConnectorEntry,
 	type IDataSpaceConnectorCredential,
 	type IParticipantCredential,
-	FederatedCatalogueTypes
+	FederatedCatalogueTypes,
+	GaiaXTypes
 } from "@twin.org/federated-catalogue-models";
 import { LoggingConnectorFactory, type ILoggingConnector } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
 import { ComplianceCredentialVerificationService } from "./verification/complianceCredentialVerificationService";
 import { JwtVerificationService } from "./verification/jwtVerificationService";
-import { GaiaXTypes } from "../../fed-catalogue-models/dist/types/gaia-x/gaiaxTypes";
 
 /**
  * Service for performing logging operations to a connector.

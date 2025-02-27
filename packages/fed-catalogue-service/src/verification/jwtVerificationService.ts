@@ -5,6 +5,7 @@ import { GeneralError, UnprocessableError } from "@twin.org/core";
 import type { ILoggingConnector } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
 import type { IDidDocument } from "@twin.org/standards-w3c-did";
+import type { IJwk } from "@twin.org/web";
 import {
 	type JWTVerifyResult,
 	type KeyLike,
@@ -150,7 +151,7 @@ export class JwtVerificationService {
 	 * @throws GeneralError
 	 * @private
 	 */
-	private getJwkFromDid(DID: IDidDocument, kid: string): JsonWebKey | undefined {
+	private getJwkFromDid(DID: IDidDocument, kid: string): IJwk | undefined {
 		try {
 			return this._didService.getJWKFromDID(DID, kid);
 		} catch (error) {
