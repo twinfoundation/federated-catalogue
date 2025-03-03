@@ -3,7 +3,7 @@
 
 /* eslint-disable jsdoc/require-jsdoc */
 
-import { Guards, Is, UnprocessableError } from "@twin.org/core";
+import { Guards, Is, StringHelper, UnprocessableError } from "@twin.org/core";
 import { ComparisonOperator, type EntityCondition } from "@twin.org/entity";
 import {
 	EntityStorageConnectorFactory,
@@ -19,13 +19,13 @@ import {
 	type IParticipantEntry,
 	type IServiceOfferingCredential,
 	type IServiceOfferingEntry,
-	type ParticipantEntry,
 	type ServiceOfferingEntry,
 	type IDataSpaceConnectorEntry,
 	type IDataSpaceConnectorCredential,
 	type IParticipantCredential,
 	FederatedCatalogueTypes,
-	GaiaXTypes
+	GaiaXTypes,
+	type ParticipantEntry
 } from "@twin.org/federated-catalogue-models";
 import { LoggingConnectorFactory, type ILoggingConnector } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
@@ -82,32 +82,26 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	 * Create a new instance of FederatedCatalogue service.
 	 * @param options The options for the connector.
 	 * @param options.loggingConnectorType The type of the logging connector to use, defaults to "logging".
-	 * @param options.entityStorageConnectorName The name of the Entity Connector, defaults to "participant-entry".
 	 * @param options.didResolverEndpoint The DIF Universal Resolver endpoint.
 	 */
-	constructor(options: {
-		loggingConnectorType?: string;
-		entityStorageConnectorName?: string;
-		didResolverEndpoint: string;
-	}) {
+	constructor(options: { loggingConnectorType?: string; didResolverEndpoint: string }) {
 		this._loggingService = LoggingConnectorFactory.get(options?.loggingConnectorType ?? "logging");
 
 		this._entityStorageParticipants = EntityStorageConnectorFactory.get<
 			IEntityStorageConnector<ParticipantEntry>
-		>(options?.entityStorageConnectorName ?? "participant-entry");
+		>(StringHelper.kebabCase(nameof<ParticipantEntry>()));
 
 		this._entityStorageSOs = EntityStorageConnectorFactory.get<
 			IEntityStorageConnector<ServiceOfferingEntry>
-		>("service-description-entry");
+		>(StringHelper.kebabCase(nameof<ServiceOfferingEntry>()));
 
-		this._entityStorageResources =
-			EntityStorageConnectorFactory.get<IEntityStorageConnector<DataResourceEntry>>(
-				"data-resource-entry"
-			);
+		this._entityStorageResources = EntityStorageConnectorFactory.get<
+			IEntityStorageConnector<DataResourceEntry>
+		>(StringHelper.kebabCase(nameof<DataResourceEntry>()));
 
 		this._entityStorageDataSpaceConnectors = EntityStorageConnectorFactory.get<
 			IEntityStorageConnector<DataSpaceConnectorEntry>
-		>("data-space-connector-entry");
+		>(StringHelper.kebabCase(nameof<DataSpaceConnectorEntry>()));
 
 		this._jwtVerifier = new JwtVerificationService(
 			options?.didResolverEndpoint,

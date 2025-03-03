@@ -26,12 +26,6 @@ The options for the connector.
 
 The type of the logging connector to use, defaults to "logging".
 
-###### entityStorageConnectorName?
-
-`string`
-
-The name of the Entity Connector, defaults to "participant-entry".
-
 ###### didResolverEndpoint
 
 `string`

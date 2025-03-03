@@ -10,7 +10,7 @@
 			"package": "@twin.org/api-service"
 		},
 		{
-			"package": "@twin.org/fed-catalogue-service"
+			"package": "@twin.org/federated-catalogue-service"
 		}
 	],
 	"authMethods": ["jwtBearer"]

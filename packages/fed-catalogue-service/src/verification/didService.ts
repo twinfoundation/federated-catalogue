@@ -109,7 +109,7 @@ export class DIDService {
 	 * @returns Public Key.
 	 */
 	public async getPublicKeyFromJWK(jwk: IJwk): Promise<KeyLike> {
-		return (await importJWK(jwk)) as KeyLike;
+		return (await importJWK(jwk as jose.JWK)) as KeyLike;
 	}
 
 	/**
