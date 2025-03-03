@@ -15,7 +15,6 @@ import {
 	LoggingConnectorType
 } from "@twin.org/engine-types";
 import { FederatedCatalogueService } from "@twin.org/federated-catalogue-service";
-import { LoggingConnectorFactory } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
 import { extendEngineConfig, extendServerConfig } from "./extensions.js";
 import type { IFederatedCatalogVariables } from "./models/IFederatedCatalogVariables.js";
@@ -60,7 +59,7 @@ export async function start(
 
 	console.log(JSON.stringify(serverConfig, null, 2));
 
-	// Create the engine instance using file state storage and custom bootstrap.
+	// Create the engine instance using file state storage
 	const engine = new Engine<IEngineServerConfig>({
 		config: { ...engineConfig, ...serverConfig },
 		stateStorage: stateStorage ?? new FileStateStorage(envVars.stateFilename ?? "")
@@ -80,9 +79,6 @@ export async function start(
 		didResolverEndpoint: "1234"
 	});
 	ComponentFactory.register(nameof<FederatedCatalogueService>(), () => component);
-
-	console.log(LoggingConnectorFactory.names());
-	console.log("Instances", LoggingConnectorFactory.instancesList());
 
 	return {
 		engine,
