@@ -1,23 +1,24 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-/* eslint-disable no-console */
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import type { IServerInfo } from "@twin.org/api-models";
-import { ComponentFactory, GeneralError, Is } from "@twin.org/core";
+import { GeneralError, Is } from "@twin.org/core";
 import { buildEngineConfiguration, Engine } from "@twin.org/engine";
 import { FileStateStorage } from "@twin.org/engine-core";
-import { EngineCoreFactory, type IEngineStateStorage } from "@twin.org/engine-models";
+import {
+	EngineCoreFactory,
+	type IEngineCoreTypeConfig,
+	type IEngineStateStorage
+} from "@twin.org/engine-models";
 import { buildEngineServerConfiguration, EngineServer } from "@twin.org/engine-server";
 import type { IEngineServerConfig } from "@twin.org/engine-server-types";
-import {
-	BlobStorageConnectorType,
-	EntityStorageConnectorType,
-	LoggingConnectorType
-} from "@twin.org/engine-types";
-import { FederatedCatalogueService } from "@twin.org/federated-catalogue-service";
-import { nameof } from "@twin.org/nameof";
+import { BlobStorageConnectorType, EntityStorageConnectorType, LoggingConnectorType } from "@twin.org/engine-types";
 import { extendEngineConfig, extendServerConfig } from "./extensions.js";
 import type { IFederatedCatalogVariables } from "./models/IFederatedCatalogVariables.js";
+
+const FEDERATED_CATALOGUE_TYPE = "federated-catalogue-type";
+const REST_PATH = "federated-catalogue";
 
 /**
  * Start the engine server.
@@ -57,13 +58,29 @@ export async function start(
 	const serverConfig = buildEngineServerConfiguration(envVars, engineConfig, serverInfo, specFile);
 	extendServerConfig(serverConfig);
 
-	console.log(JSON.stringify(serverConfig, null, 2));
-
 	// Create the engine instance using file state storage
 	const engine = new Engine<IEngineServerConfig>({
 		config: { ...engineConfig, ...serverConfig },
 		stateStorage: stateStorage ?? new FileStateStorage(envVars.stateFilename ?? "")
 	});
+
+	const customTypeConfig: IEngineCoreTypeConfig[] = [
+		{
+			type: FEDERATED_CATALOGUE_TYPE,
+			restPath: REST_PATH,
+			options: { loggingConnectorType: LoggingConnectorType.Console, didResolverEndpoint: "1234" }
+		}
+	];
+
+	const filename = fileURLToPath(import.meta.url);
+	const dirnameStr = path.dirname(filename);
+
+	engine.addTypeInitialiser(
+		FEDERATED_CATALOGUE_TYPE,
+		customTypeConfig,
+		`file://${path.join(dirnameStr, "federatedCatalogue.js")}`,
+		"federatedCatalogueTypeInitialiser"
+	);
 
 	// Need to register the engine with the factory so that background tasks
 	// can clone it to spawn new instances.
@@ -71,14 +88,15 @@ export async function start(
 
 	// Construct the server with the engine.
 	const server = new EngineServer({ engineCore: engine });
+	server.addRestRouteGenerator(
+		FEDERATED_CATALOGUE_TYPE,
+		customTypeConfig,
+		`file://${path.join(dirnameStr, "federatedCatalogue.js")}`,
+		"generateRestRoutes"
+	);
+
 	// Start the server, which also starts the engine.
 	await server.start();
-
-	const component = new FederatedCatalogueService({
-		loggingConnectorType: LoggingConnectorType.Console,
-		didResolverEndpoint: "1234"
-	});
-	ComponentFactory.register(nameof<FederatedCatalogueService>(), () => component);
 
 	return {
 		engine,

@@ -1,8 +1,6 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-/* eslint-disable jsdoc/require-jsdoc */
-
 import { Guards, Is, StringHelper, UnprocessableError } from "@twin.org/core";
 import { ComparisonOperator, type EntityCondition } from "@twin.org/entity";
 import {
@@ -29,6 +27,7 @@ import {
 } from "@twin.org/federated-catalogue-models";
 import { LoggingConnectorFactory, type ILoggingConnector } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
+import type { IFederatedCatalogueOptions } from "./IFederatedCatalogueOptions";
 import { ComplianceCredentialVerificationService } from "./verification/complianceCredentialVerificationService";
 import { JwtVerificationService } from "./verification/jwtVerificationService";
 
@@ -81,10 +80,8 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	/**
 	 * Create a new instance of FederatedCatalogue service.
 	 * @param options The options for the connector.
-	 * @param options.loggingConnectorType The type of the logging connector to use, defaults to "logging".
-	 * @param options.didResolverEndpoint The DIF Universal Resolver endpoint.
 	 */
-	constructor(options: { loggingConnectorType?: string; didResolverEndpoint: string }) {
+	constructor(options: IFederatedCatalogueOptions) {
 		this._loggingService = LoggingConnectorFactory.get(options?.loggingConnectorType ?? "logging");
 
 		this._entityStorageParticipants = EntityStorageConnectorFactory.get<
@@ -667,6 +664,10 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		return result;
 	}
 
+	/**
+	 * Checks whether the Participant exists.
+	 * @param participantId The Participant identifier
+	 */
 	private async checkParticipantExists(participantId: string): Promise<void> {
 		const participantData = await this._entityStorageParticipants.get(participantId);
 		if (!participantData) {
