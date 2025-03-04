@@ -4,6 +4,10 @@
 
 - [FederatedCatalogueService](classes/FederatedCatalogueService.md)
 
+## Interfaces
+
+- [IFederatedCatalogueOptions](interfaces/IFederatedCatalogueOptions.md)
+
 ## Variables
 
 - [tagsFedCatalogue](variables/tagsFedCatalogue.md)

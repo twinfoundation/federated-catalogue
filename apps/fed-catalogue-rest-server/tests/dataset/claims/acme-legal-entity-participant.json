@@ -1,0 +1,16 @@
+{
+	"id": "twinfoundation.guthub.io/federated-catalogue/public-web/test-credentials/acme-legal-entity.json",
+	"credentialSubject": {
+		"@context": "https://w3id.org/gaia-x/development",
+		"type": "Participant",
+		"registrationNumber": {
+			"type": "LocalRegistrationNumber",
+			"local": "P123456"
+		},
+		"legalAddress": {
+			"type": "Address",
+			"countryCode": "KE"
+		},
+		"legalName": "ACME, Inc."
+	}
+}

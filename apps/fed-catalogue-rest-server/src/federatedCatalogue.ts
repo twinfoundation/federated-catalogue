@@ -23,12 +23,14 @@ import { nameof } from "@twin.org/nameof";
 export function federatedCatalogueTypeInitialiser(
 	core: IEngineCore,
 	context: IEngineCoreContext,
-	instanceConfig: {options: IFederatedCatalogueOptions },
+	instanceConfig: { options: IFederatedCatalogueOptions },
 	overrideInstanceType: string
 ): string {
-	console.log(instanceConfig)
 	const componentName = StringHelper.kebabCase(nameof<IFederatedCatalogue>(), true);
-	ComponentFactory.register(componentName, () => new FederatedCatalogueService(instanceConfig.options));
+	ComponentFactory.register(
+		componentName,
+		() => new FederatedCatalogueService(instanceConfig.options)
+	);
 	return overrideInstanceType ?? componentName;
 }
 

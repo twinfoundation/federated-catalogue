@@ -1,0 +1,12 @@
+{
+	"publicKeyJwk": {
+		"key_ops": ["verify"],
+		"ext": true,
+		"crv": "Ed25519",
+		"x": "qCv-ekqTLH4mrECuDuH-omoK_TLihpD1mPdMPqjlQpM",
+		"kty": "OKP",
+		"use": "sig",
+		"alg": "EdDSA",
+		"kid": "_PsKjSaPf_m10FKRIFY662IG4dM4jaJNV7pK7N1Zen0"
+	}
+}

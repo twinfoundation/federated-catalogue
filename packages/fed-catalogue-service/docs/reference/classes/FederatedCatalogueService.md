@@ -18,19 +18,9 @@ Create a new instance of FederatedCatalogue service.
 
 ##### options
 
+[`IFederatedCatalogueOptions`](../interfaces/IFederatedCatalogueOptions.md)
+
 The options for the connector.
-
-###### loggingConnectorType?
-
-`string`
-
-The type of the logging connector to use, defaults to "logging".
-
-###### didResolverEndpoint
-
-`string`
-
-The DIF Universal Resolver endpoint.
 
 #### Returns
 
