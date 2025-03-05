@@ -1,0 +1,34 @@
+{
+    "@context": [
+        "https://www.w3.org/ns/credentials/v2",
+        "https://w3id.org/security/suites/jws-2020/v1"
+    ],
+    "id": "https://twinfoundation.github.io/federated-catalogue/public-web/test-credentials/acme-legal-entity.json",
+    "type": [
+        "VerifiableCredential"
+    ],
+    "issuer": "did:iota:testnet:0xb0d60698c3ad801241881650176245556f90ca0c9ed7584ca250f312e9ec95c8",
+    "validFrom": "2025-03-05T08:53:24Z",
+    "validUntil": "2026-03-05T08:53:24Z",
+    "credentialSubject": {
+        "@context": "https://w3id.org/gaia-x/development",
+        "id": "did:iota:testnet:0x1a7bded4d22dc54722435d624e4323e10fcbc570cd57462eabbf3a5ab2ced24f",
+        "legalAddress": {
+            "countryCode": "KE",
+            "type": "Address"
+        },
+        "legalName": "ACME, Inc.",
+        "registrationNumber": {
+            "local": "P123456",
+            "type": "LocalRegistrationNumber"
+        },
+        "type": "Participant"
+    },
+    "proof": {
+        "type": "JsonWebSignature2020",
+        "created": "2025-03-05T12:36:09.118+01:00",
+        "proofPurpose": "assertionMethod",
+        "verificationMethod": "did:iota:testnet:0xb0d60698c3ad801241881650176245556f90ca0c9ed7584ca250f312e9ec95c8#4LQ8esc5syDl5oLckS8_QJ8vZ99DEsm-uBxXN4OehXU",
+        "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..2KwfDs_m5BjUS6M-3Xfva_I72lbZsroJ_q7nC_W2QEhr8kICdHbLYmPEFRa7HklC3WWORJMc9qnRTAaZKVH1Dg"
+    }
+}
