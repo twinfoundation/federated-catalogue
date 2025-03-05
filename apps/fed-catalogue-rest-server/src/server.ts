@@ -72,7 +72,12 @@ export async function start(
 		{
 			type: FEDERATED_CATALOGUE_TYPE,
 			restPath: REST_PATH,
-			options: { loggingConnectorType: LoggingConnectorType.Console, didResolverEndpoint: "1234" }
+			options: {
+				loggingConnectorType: LoggingConnectorType.Console,
+				didResolverEndpoint: envVars.resolverEndpoint,
+				// Check for support of multiple values from env vars
+				clearingHouseWhiteList: [envVars.clearingHouseWhitelist]
+			}
 		}
 	];
 

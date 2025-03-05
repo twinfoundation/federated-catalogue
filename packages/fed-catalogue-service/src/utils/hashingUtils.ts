@@ -11,7 +11,7 @@ export abstract class HashingUtils {
 			return null;
 		}
 
-		return createHash("sha256").update(input).digest("hex");
+		return createHash("sha256").update(input).digest("base64");
 	}
 
 	public static sha512(input: string): string | null {
@@ -19,6 +19,6 @@ export abstract class HashingUtils {
 			return null;
 		}
 
-		return createHash("sha512").update(input).digest("hex");
+		return createHash("sha512").update(input).digest("base64");
 	}
 }

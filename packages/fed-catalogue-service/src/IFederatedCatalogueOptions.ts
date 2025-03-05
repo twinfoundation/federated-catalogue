@@ -14,4 +14,9 @@ export interface IFederatedCatalogueOptions {
 	 * Resolver endpoint
 	 */
 	didResolverEndpoint: string;
+
+	/**
+	 * Clearing House white list
+	 */
+	clearingHouseWhiteList: string[];
 }

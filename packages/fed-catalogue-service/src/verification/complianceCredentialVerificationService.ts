@@ -21,17 +21,31 @@ import { FetchHelper } from "@twin.org/web";
 import canonicalize from "canonicalize";
 import { HashingUtils } from "../utils/hashingUtils";
 
-/* eslint-disable jsdoc/require-jsdoc */
-
+/**
+ * Compliance Credential Verification Service.
+ */
 export class ComplianceCredentialVerificationService {
 	public CLASS_NAME: string = nameof<ComplianceCredentialVerificationService>();
 
 	private readonly _logger: ILoggingConnector;
 
-	constructor(logger: ILoggingConnector) {
+	private readonly _clearingHouseWhitelist: string[];
+
+	/**
+	 * Constructor.
+	 * @param logger The Logger Component.
+	 * @param clearingHouseWhitelist The white list of clearing house identities accepted.
+	 */
+	constructor(logger: ILoggingConnector, clearingHouseWhitelist: string[]) {
 		this._logger = logger;
+		this._clearingHouseWhitelist = clearingHouseWhitelist;
 	}
 
+	/**
+	 * Verifies a Compliance Credential.
+	 * @param credential The Credential to be verified
+	 * @returns The Verification Result.
+	 */
 	public async verify(credential: IComplianceCredential): Promise<IComplianceVerificationResult> {
 		if (
 			!Array.isArray(credential.type) ||
@@ -44,10 +58,10 @@ export class ComplianceCredentialVerificationService {
 			};
 		}
 
-		if (credential.issuer !== process.env.CLEARING_HOUSE_WHITELIST) {
+		if (!this._clearingHouseWhitelist.includes(credential.issuer as string)) {
 			return {
 				verified: false,
-				verificationFailureReason: `Credential's Issuer is not the clearing house: ${process.env.CLEARING_HOUSE_WHITELIST}`,
+				verificationFailureReason: `Credential's Issuer is not the clearing house: ${this._clearingHouseWhitelist}`,
 				credentials: []
 			};
 		}
@@ -95,8 +109,8 @@ export class ComplianceCredentialVerificationService {
 			};
 		}
 
-		const evidences = credential.evidence;
-		if (!Array.isArray(evidences) || evidences.length === 0) {
+		const evidences = Is.array(credential.evidence) ? credential.evidence : [credential.evidence];
+		if (evidences.length === 0) {
 			return {
 				verified: false,
 				verificationFailureReason: "Missing evidences",
@@ -125,6 +139,11 @@ export class ComplianceCredentialVerificationService {
 		return finalResult;
 	}
 
+	/**
+	 * Verifies the evidence supplied as part of a Compliance Credential.
+	 * @param evidence The compliance evidence
+	 * @returns The verification result with the original credentials that served as evidence
+	 */
 	private async verifyEvidence(
 		evidence: IComplianceEvidence
 	): Promise<IVerificationResult & { credential?: IDidVerifiableCredential }> {
@@ -166,12 +185,15 @@ export class ComplianceCredentialVerificationService {
 
 		// The proof is not taken into account to calculate the hash
 		delete theCredential.proof;
+
+		// Below code no longer needed:
+
 		// Workaround to reflect the fact that the original enveloped credential contained the "iat" claim
 		// and was actually used by the Compliance Service to calculate the hash, probably it shouldn't as it refers
 		// to the JWT wrapping the credential, not the credential itself
-		if (!theCredential.iat) {
-			theCredential.iat = Date.parse(theCredential.validFrom) / 1000;
-		}
+		// if (!theCredential.iat) {
+		//	theCredential.iat = Date.parse(theCredential.validFrom) / 1000;
+		// }
 
 		// Checking the hash
 		const canonicalized = canonicalize(theCredential) as string;

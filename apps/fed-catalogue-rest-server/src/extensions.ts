@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0.
 /* eslint-disable no-console */
 import type { IEngineCoreTypeConfig } from "@twin.org/engine-models";
-import type { IEngineServerConfig } from "@twin.org/engine-server-types";
+import { MimeTypeProcessorType, type IEngineServerConfig } from "@twin.org/engine-server-types";
 import {
 	EntityStorageComponentType,
 	LoggingComponentType,
@@ -85,6 +85,11 @@ export function extendServerConfig(serverConfig: IEngineServerConfig): void {
 	serverConfig.types.loggingComponent.push({
 		type: LoggingComponentType.Service,
 		options: { loggingConnectorType: LoggingConnectorType.Console }
+	});
+
+	serverConfig.types.mimeTypeProcessor ??= [];
+	serverConfig.types.mimeTypeProcessor.push({
+		type: MimeTypeProcessorType.Jwt
 	});
 }
 
