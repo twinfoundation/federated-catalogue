@@ -1,8 +1,13 @@
 {
+    "credentialSubject": {
+
+    },
     "evidence": [
         {
             "type": "CompliantCredential",
-            "id": "",
+            "id": "https://twinfoundation.github.io/federated-catalogue/public-web/test-credentials/acme-legal-entity.json",
+            "credentialType": "VerifiableCredential",
+            "digestSRI": "sha256-FhNncM+XjSbstaLYgLeom7Dpl8i7M1r/KgWdTpbcaVE="
         }
     ]
 }
