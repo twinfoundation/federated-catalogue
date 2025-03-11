@@ -8,8 +8,8 @@
 		"VerifiableCredential"
 	],
 	"issuer": "did:iota:testnet:0xb0d60698c3ad801241881650176245556f90ca0c9ed7584ca250f312e9ec95c8",
-	"validFrom": "2025-03-11T11:18:02Z",
-	"validUntil": "2027-06-22T19:18:02Z",
+	"validFrom": "2025-03-11T14:45:41Z",
+	"validUntil": "2027-06-22T22:45:41Z",
 	"credentialSubject": {
 		"@context": "https://w3id.org/gaia-x/development",
 		"id": "did:iota:testnet:0x1a7bded4d22dc54722435d624e4323e10fcbc570cd57462eabbf3a5ab2ced24f",
@@ -22,13 +22,13 @@
 			"local": "P123456",
 			"type": "LocalRegistrationNumber"
 		},
-		"type": "LegalEntity"
+		"type": "LegalPerson"
 	},
 	"proof": {
 		"type": "JsonWebSignature2020",
-		"created": "2025-03-11T13:47:23.845+01:00",
+		"created": "2025-03-11T15:48:28.943+01:00",
 		"proofPurpose": "assertionMethod",
 		"verificationMethod": "did:iota:testnet:0xb0d60698c3ad801241881650176245556f90ca0c9ed7584ca250f312e9ec95c8#4LQ8esc5syDl5oLckS8_QJ8vZ99DEsm-uBxXN4OehXU",
-		"jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..ayJMpajQaLQOolsizXmgYjqq5nnpXo7PJJV4lMMYyQnT2p55BEXBylbbnEYH8MBHLY1j5Hk2By9uVNuLM_BhCg"
+		"jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..lum5u_Zmbq0gYMSjq9bv4OpoqfwFTgEz1H5y2t1Av34mIlcNeS2oes0w7n0dKEecD4AAlAAmINmefKJHNtraDQ"
 	}
 }

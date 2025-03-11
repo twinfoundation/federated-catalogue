@@ -2,7 +2,7 @@
 	"id": "https://twinfoundation.github.io/federated-catalogue/public-web/test-credentials/acme-legal-entity.json",
 	"credentialSubject": {
 		"@context": "https://w3id.org/gaia-x/development",
-		"type": "LegalEntity",
+		"type": "LegalPerson",
 		"registrationNumber": {
 			"type": "LocalRegistrationNumber",
 			"local": "P123456"

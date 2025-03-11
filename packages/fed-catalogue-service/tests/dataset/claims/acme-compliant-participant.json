@@ -5,7 +5,7 @@
 			"type": "CompliantCredential",
 			"id": "https://twinfoundation.github.io/federated-catalogue/public-web/test-credentials/acme-legal-entity.json",
 			"credentialType": "VerifiableCredential",
-			"digestSRI": "sha256-evRqlOsb0V78BGk1DdpjHB3CAMucI5Gc/rKg3VZ7cyc="
+			"digestSRI": "sha256-/MYOroQe7+kYd3YfI61FcsJ1OCCBJoGlc6MQYbadyQU="
 		},
 		{
 			"type": "CompliantCredential",
