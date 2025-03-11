@@ -1,0 +1,39 @@
+{
+    "@context": [
+        "https://www.w3.org/ns/credentials/v2",
+        "https://w3id.org/security/suites/jws-2020/v1",
+        "https://w3id.org/gaia-x/development"
+    ],
+    "id": "https://example.org/iota/onboarding/credentials/1741694144",
+    "type": [
+        "VerifiableCredential",
+        "ComplianceCredential"
+    ],
+    "issuer": "did:iota:testnet:0x858478793a53bae2136466dc8097466337e4189a19943f928fb27d39a5d5badd",
+    "validFrom": "2025-03-11T11:55:44Z",
+    "validUntil": "2027-06-22T19:55:44Z",
+    "credentialSubject": {
+        "id": "did:iota:testnet:0x1a7bded4d22dc54722435d624e4323e10fcbc570cd57462eabbf3a5ab2ced24f"
+    },
+    "evidence": [
+        {
+            "credentialType": "VerifiableCredential",
+            "digestSRI": "sha256-evRqlOsb0V78BGk1DdpjHB3CAMucI5Gc/rKg3VZ7cyc=",
+            "id": "https://twinfoundation.github.io/federated-catalogue/public-web/test-credentials/acme-legal-entity.json",
+            "type": "CompliantCredential"
+        },
+        {
+            "credentialType": "VerifiableCredential",
+            "digestSRI": "sha256-mQ54Te4nh4vyRRSFouRucIYheTCwKIBthQoW+uwcHB8=",
+            "id": "https://twinfoundation.github.io/federated-catalogue/public-web/test-credentials/acme-terms-conditions.json",
+            "type": "CompliantCredential"
+        }
+    ],
+    "proof": {
+        "type": "JsonWebSignature2020",
+        "created": "2025-03-11T13:54:28.087+01:00",
+        "proofPurpose": "assertionMethod",
+        "verificationMethod": "did:iota:testnet:0x858478793a53bae2136466dc8097466337e4189a19943f928fb27d39a5d5badd#U39wsIq4SDogJ9-oLRkBFJpJ_xUTfXNQcAUj5jBhF14",
+        "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..kPnbAp3ypdMG_YZ0un5L5wYlbAjXui0ejcEqR6q7JYit0JQmg-cG3QhNjhaIoqOQjxSO7gpoCuBw2cWhmXC7BQ"
+    }
+}
