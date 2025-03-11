@@ -5,6 +5,7 @@ import path from "node:path";
 import type { IServerInfo } from "@twin.org/api-models";
 import { BaseError, EnvHelper } from "@twin.org/core";
 import * as dotenv from "dotenv";
+import * as dotenvExpand from "dotenv-expand";
 import type { IFederatedCatalogVariables } from "./models/IFederatedCatalogVariables.js";
 import { start } from "./server.js";
 import { findRootPackageFolder, initialiseLocales } from "./utils.js";
@@ -20,9 +21,10 @@ try {
 	const rootPackageFolder = findRootPackageFolder();
 	await initialiseLocales(rootPackageFolder);
 
-	dotenv.config({
+	const dotEnvConfig = dotenv.config({
 		path: [path.join(rootPackageFolder, ".env")]
 	});
+	dotenvExpand.expand(dotEnvConfig);
 
 	const envVars = EnvHelper.envToJson<IFederatedCatalogVariables>(process.env, "FED_CATALOG");
 

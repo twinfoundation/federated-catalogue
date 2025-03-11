@@ -17,5 +17,5 @@ export interface IFederatedCatalogVariables
 	/**
 	 * The DIDs of the Clearing Houses that are whitelisted
 	 */
-	clearingHouseWhitelist: string[];
+	clearingHouseWhitelist: string;
 }

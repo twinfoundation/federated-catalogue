@@ -37,7 +37,8 @@
 		"@twin.org/engine-types": "next",
 		"@twin.org/federated-catalogue-models": "0.0.1-next.1",
 		"@twin.org/federated-catalogue-service": "0.0.1-next.1",
-		"dotenv": "16.4.7"
+		"dotenv": "16.4.7",
+		"dotenv-expand": "12.0.1"
 	},
 	"devDependencies": {
 		"@twin.org/entity-storage-connector-memory": "next",
