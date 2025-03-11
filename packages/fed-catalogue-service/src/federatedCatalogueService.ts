@@ -139,6 +139,8 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			});
 		}
 
+		console.log(result.credentials)
+
 		const targetCredential = result.credentials.find(
 			credential => credential.credentialSubject.type === GaiaXTypes.Participant
 		) as IParticipantCredential;

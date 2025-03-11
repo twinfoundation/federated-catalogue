@@ -7,7 +7,7 @@
 		"url": "https://github.com/twinfoundation/federated-catalogue.git",
 		"directory": "packages/fed-catalogue-service"
 	},
-	"author": "jose.xantera@iota.org",
+	"author": "jose.cantera@iota.org",
 	"license": "Apache-2.0",
 	"type": "module",
 	"engines": {
@@ -16,7 +16,7 @@
 	"scripts": {
 		"clean": "rimraf dist coverage docs/reference",
 		"build": "tsc",
-		"build:watch": "tsc-watch --onSuccess \"npm run bundle:esm\"",
+		"build:watch": "nodemon --watch src --ext ts --exec \"npm run build && npm run bundle:esm\"",
 		"test": "vitest --run --config ./vitest.config.ts --no-cache",
 		"coverage": "vitest --run --coverage --config ./vitest.config.ts --no-cache",
 		"bundle:esm": "rollup --config rollup.config.mjs --environment MODULE:esm",

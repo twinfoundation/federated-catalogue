@@ -18,7 +18,7 @@
 		"clean": "rimraf dist coverage",
 		"build": "tsc",
 		"build:watch": "tsc-watch --onSuccess \"npm run bundle:esm\"",
-		"dev": "concurrently \"tspc --watch\" \"nodemon\"",
+		"dev": "concurrently \"tsc --watch\" \"nodemon\"",
 		"merge-locales": "merge-locales",
 		"test": "vitest --run --config ./vitest.config.ts --no-cache",
 		"coverage": "vitest --run --coverage --config ./vitest.config.ts --no-cache",
