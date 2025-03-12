@@ -1,0 +1,56 @@
+{
+	"@context": [
+		"https://www.w3.org/ns/credentials/v2",
+		"https://w3id.org/security/suites/jws-2020/v1"
+	],
+	"id": "https://twinfoundation.github.io/federated-catalogue/public-web/test-credentials/data-space-connector-1.json",
+	"type": ["VerifiableCredential"],
+	"issuer": "did:iota:testnet:0x1a7bded4d22dc54722435d624e4323e10fcbc570cd57462eabbf3a5ab2ced24f",
+	"validFrom": "2025-03-12T18:10:42Z",
+	"validUntil": "2027-06-24T02:10:42Z",
+	"credentialSubject": {
+		"@context": [
+			"https://w3id.org/gaia-x/development",
+			{
+				"DataSpaceConnector": "twin:DataSpaceConnector",
+				"defaultEndpoint": "twin:defaultEndpoint",
+				"identity": "twin:identity",
+				"maintainer": "twin:maintainer",
+				"offeredResource": "twin:offeredResource",
+				"pullDataEndpoint": "twin:pullDataEndpoint",
+				"pushActivityEndpoint": "twin:pushActivityEndpoint",
+				"subscriptionActivityEndpoint": "twin:subscriptionActivityEndpoint",
+				"twin": "https://w3id.org/twin/ds-connector"
+			}
+		],
+		"defaultEndpoint": {
+			"endpointURL": "https://my-twin-node.example.org:9000/twin-ds-connector"
+		},
+		"id": "https://my-ds-connectors.example.org/ds-connector-ABCD",
+		"identity": "did:iota:ebsi:0x7e5bb83a6c5e2a656e88fcce9460491431e18b302e4f72edac20309a4a1b2896",
+		"maintainer": "did:iota:testnet:0x1a7bded4d22dc54722435d624e4323e10fcbc570cd57462eabbf3a5ab2ced24f",
+		"offeredResource": {
+			"http://my-data-resource.example.org": {
+				"name": "Documents Resource",
+				"type": "DataResource"
+			}
+		},
+		"pullDataEndpoint": {
+			"endpointURL": "/data"
+		},
+		"pushActivityEndpoint": {
+			"endpointURL": "/notify"
+		},
+		"subscriptionActivityEndpoint": {
+			"endpointURL": "/subscriptions"
+		},
+		"type": ["DataSpaceConnector", "DataExchangeComponent"]
+	},
+	"proof": {
+		"type": "JsonWebSignature2020",
+		"created": "2025-03-12T19:11:10.013+01:00",
+		"proofPurpose": "assertionMethod",
+		"verificationMethod": "did:iota:testnet:0x1a7bded4d22dc54722435d624e4323e10fcbc570cd57462eabbf3a5ab2ced24f#_PsKjSaPf_m10FKRIFY662IG4dM4jaJNV7pK7N1Zen0",
+		"jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..cfsSRflTkwL8d2sWn2holBl0wEk8-_UOVCBXgfmUhgXReo_lOLBoTWMA3q4rGRA1YSj4mE77pWychOznrJqpCA"
+	}
+}

@@ -1,7 +1,20 @@
 {
 	"id": "https://twinfoundation.github.io/federated-catalogue/public-web/test-credentials/data-space-connector-1.json",
 	"credentialSubject": {
-		"@context": ["https://w3id.org/gaia-x/development", "https://w3id.org/twin/ds-connector"],
+		"@context": [
+			"https://w3id.org/gaia-x/development",
+			{
+				"twin": "https://w3id.org/twin/ds-connector",
+				"DataSpaceConnector": "twin:DataSpaceConnector",
+				"identity": "twin:identity",
+				"defaultEndpoint": "twin:defaultEndpoint",
+				"subscriptionActivityEndpoint": "twin:subscriptionActivityEndpoint",
+				"pushActivityEndpoint": "twin:pushActivityEndpoint",
+				"pullDataEndpoint": "twin:pullDataEndpoint",
+				"offeredResource": "twin:offeredResource",
+				"maintainer": "twin:maintainer"
+			}
+		],
 		"id": "https://my-ds-connectors.example.org/ds-connector-ABCD",
 		"type": ["DataSpaceConnector", "DataExchangeComponent"],
 		"identity": "did:iota:ebsi:0x7e5bb83a6c5e2a656e88fcce9460491431e18b302e4f72edac20309a4a1b2896",
@@ -22,6 +35,7 @@
 				"type": "DataResource",
 				"name": "Documents Resource"
 			}
-		}
+		},
+		"maintainer": "did:iota:testnet:0x1a7bded4d22dc54722435d624e4323e10fcbc570cd57462eabbf3a5ab2ced24f"
 	}
 }
