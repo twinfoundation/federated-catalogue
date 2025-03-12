@@ -81,7 +81,7 @@ export function generateRestRoutesFedCatalogue(
 		summary: "Present a Service Offering Credential",
 		tag: tagsFedCatalogue[0].name,
 		method: "POST",
-		path: `${baseRouteName}/service-credentials`,
+		path: `${baseRouteName}/service-offering-credentials`,
 		handler: async (httpRequestContext, request) =>
 			serviceOfferingCredentialPresentation(httpRequestContext, factoryServiceName, request),
 		requestType: {
@@ -112,7 +112,7 @@ export function generateRestRoutesFedCatalogue(
 		summary: "Present a Data Space Connector Credential",
 		tag: tagsFedCatalogue[0].name,
 		method: "POST",
-		path: `${baseRouteName}/data-space-connectors`,
+		path: `${baseRouteName}/data-space-connector-credentials`,
 		handler: async (httpRequestContext, request) =>
 			dataSpaceConnectorCredentialPresentation(httpRequestContext, factoryServiceName, request),
 		requestType: {
@@ -140,7 +140,7 @@ export function generateRestRoutesFedCatalogue(
 		summary: "Present a Data Resource Credential",
 		tag: tagsFedCatalogue[0].name,
 		method: "POST",
-		path: `${baseRouteName}/data-resources`,
+		path: `${baseRouteName}/data-resource-credentials`,
 		handler: async (httpRequestContext, request) =>
 			dataResourceCredentialPresentation(httpRequestContext, factoryServiceName, request),
 		requestType: {
@@ -231,7 +231,7 @@ export function generateRestRoutesFedCatalogue(
 		summary: "Get a list of the service entries",
 		tag: tagsFedCatalogue[0].name,
 		method: "GET",
-		path: `${baseRouteName}/services`,
+		path: `${baseRouteName}/service-offerings`,
 		handler: async (httpRequestContext, request) =>
 			serviceOfferingList(httpRequestContext, factoryServiceName, request),
 		requestType: {

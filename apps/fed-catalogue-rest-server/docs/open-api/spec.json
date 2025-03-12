@@ -386,7 +386,7 @@
 				}
 			}
 		},
-		"/fedcatalogue/service-credentials": {
+		"/fedcatalogue/service-offering-credentials": {
 			"post": {
 				"operationId": "serviceOfferingPresentationRequest",
 				"summary": "Present a Service Offering Credential",
@@ -496,7 +496,7 @@
 				}
 			}
 		},
-		"/fedcatalogue/data-resources": {
+		"/fedcatalogue/data-resource-credentials": {
 			"post": {
 				"operationId": "datasResourcePresentationRequest",
 				"summary": "Present a Data Resource Credential",
@@ -604,162 +604,9 @@
 						}
 					}
 				}
-			},
-			"get": {
-				"operationId": "fedCatalogueListResources",
-				"summary": "Get a list of the data resource entries",
-				"tags": [
-					"Federated Catalogue"
-				],
-				"parameters": [
-					{
-						"name": "id",
-						"in": "query",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "producedBy",
-						"description": "The service provider.",
-						"in": "query",
-						"required": false,
-						"schema": {
-							"type": "string"
-						},
-						"example": "did:iota:1234"
-					},
-					{
-						"name": "cursor",
-						"description": "The optional cursor to get next chunk.",
-						"in": "query",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "pageSize",
-						"description": "The maximum number of entities in a page.",
-						"in": "query",
-						"required": false,
-						"schema": {
-							"type": "number"
-						}
-					}
-				],
-				"security": [
-					{
-						"jwtBearerAuthScheme": []
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Response fo data resource list.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/DataResourceListResponse"
-								},
-								"examples": {
-									"listResponseExample": {
-										"value": {
-											"@context": [
-												"https://w3id.org/gaia-x/development",
-												"https://schema.org",
-												"https://www.w3.org/ns/credentials/v2"
-											],
-											"entities": [
-												{
-													"id": "http://example.org/is123456",
-													"name": "Data Resource 1",
-													"type": "DataResource",
-													"copyrightOwnedBy": "did:iota:1234",
-													"license": "http://licenses.example.org/12345",
-													"resourcePolicy": {},
-													"exposedThrough": {
-														"@id": "https://endpoint.example.org/api",
-														"type": "DataExchangeComponent"
-													},
-													"producedBy": "did:iota:1234567",
-													"trustedIssuerId": "did:iota:987654",
-													"validFrom": "2024-08-01T12:00:00Z",
-													"validUntil": "2025-08-01T12:00:00Z",
-													"dateCreated": "2024-08-02T13:45:00Z",
-													"evidences": [
-														"https://credentials.example.org/1234567"
-													]
-												}
-											],
-											"cursor": "1"
-										}
-									}
-								}
-							}
-						}
-					},
-					"400": {
-						"description": "The server cannot process the request, see the content for more details.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Error"
-								},
-								"examples": {
-									"exampleResponse": {
-										"value": {
-											"name": "GeneralError",
-											"message": "component.error",
-											"properties": {
-												"foo": "bar"
-											}
-										}
-									}
-								}
-							}
-						}
-					},
-					"401": {
-						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Error"
-								},
-								"examples": {
-									"exampleResponse": {
-										"value": {
-											"name": "UnauthorizedError",
-											"message": "component.error"
-										}
-									}
-								}
-							}
-						}
-					},
-					"500": {
-						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Error"
-								},
-								"examples": {
-									"exampleResponse": {
-										"value": {
-											"name": "InternalServerError",
-											"message": "component.error"
-										}
-									}
-								}
-							}
-						}
-					}
-				}
 			}
 		},
-		"/fedcatalogue/data-space-connectors": {
+		"/fedcatalogue/data-space-connector-credentials": {
 			"post": {
 				"operationId": "dataspaceConnectorPresentationRequest",
 				"summary": "Present a Data Space Connector Credential",
@@ -841,169 +688,6 @@
 									"exampleResponse": {
 										"value": {
 											"name": "UnprocessableError",
-											"message": "component.error"
-										}
-									}
-								}
-							}
-						}
-					},
-					"500": {
-						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Error"
-								},
-								"examples": {
-									"exampleResponse": {
-										"value": {
-											"name": "InternalServerError",
-											"message": "component.error"
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			},
-			"get": {
-				"operationId": "fedCatalogueListDataSpaceConnectors",
-				"summary": "Get a list of the Data Space connectors entries",
-				"tags": [
-					"Federated Catalogue"
-				],
-				"parameters": [
-					{
-						"name": "id",
-						"in": "query",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "maintainedBy",
-						"description": "The maintainer",
-						"in": "query",
-						"required": false,
-						"schema": {
-							"type": "string"
-						},
-						"example": "did:iota:1234"
-					},
-					{
-						"name": "cursor",
-						"description": "The optional cursor to get next chunk.",
-						"in": "query",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "pageSize",
-						"description": "The maximum number of entities in a page.",
-						"in": "query",
-						"required": false,
-						"schema": {
-							"type": "number"
-						}
-					}
-				],
-				"security": [
-					{
-						"jwtBearerAuthScheme": []
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Response for Data Space Connector list",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/DataSpaceConnectorListResponse"
-								},
-								"examples": {
-									"listResponseExample": {
-										"value": {
-											"@context": [
-												"https://w3id.org/gaia-x/development",
-												"https://schema.org",
-												"https://www.w3.org/ns/credentials/v2"
-											],
-											"entities": [
-												{
-													"id": "https://my-ds-connectors.example.org/ds-connector-ABCD",
-													"type": [
-														"DataSpaceConnector",
-														"DataExchangeComponent"
-													],
-													"identity": "did:iota:testnet:123456",
-													"defaultEndpoint": {
-														"endpointURL": "https://my-twin-node.example.org:9000/twin-ds-connector"
-													},
-													"subscriptionActivityEndpoint": {
-														"endpointURL": "/subscriptions"
-													},
-													"pushActivityEndpoint": {
-														"endpointURL": "/notify"
-													},
-													"pullDataEndpoint": {
-														"endpointURL": "/data"
-													},
-													"offeredResource": [
-														"https://my-data-resource.example.org"
-													],
-													"trustedIssuerId": "did:iota:987654",
-													"validFrom": "2024-08-01T12:00:00Z",
-													"validUntil": "2025-08-01T12:00:00Z",
-													"dateCreated": "2024-08-02T13:45:00Z",
-													"evidences": [
-														"https://credentials.example.org/1234567"
-													]
-												}
-											],
-											"cursor": "1"
-										}
-									}
-								}
-							}
-						}
-					},
-					"400": {
-						"description": "The server cannot process the request, see the content for more details.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Error"
-								},
-								"examples": {
-									"exampleResponse": {
-										"value": {
-											"name": "GeneralError",
-											"message": "component.error",
-											"properties": {
-												"foo": "bar"
-											}
-										}
-									}
-								}
-							}
-						}
-					},
-					"401": {
-						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Error"
-								},
-								"examples": {
-									"exampleResponse": {
-										"value": {
-											"name": "UnauthorizedError",
 											"message": "component.error"
 										}
 									}
@@ -1275,6 +959,326 @@
 														"endpointURL": "https://endpoint.example.org/api"
 													},
 													"providedBy": "did:iota:1234567",
+													"validFrom": "2024-08-01T12:00:00Z",
+													"validUntil": "2025-08-01T12:00:00Z",
+													"dateCreated": "2024-08-02T13:45:00Z",
+													"evidences": [
+														"https://credentials.example.org/1234567"
+													]
+												}
+											],
+											"cursor": "1"
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "component.error",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/fedcatalogue/data-resources": {
+			"get": {
+				"operationId": "fedCatalogueListResources",
+				"summary": "Get a list of the data resource entries",
+				"tags": [
+					"Federated Catalogue"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "producedBy",
+						"description": "The service provider.",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						},
+						"example": "did:iota:1234"
+					},
+					{
+						"name": "cursor",
+						"description": "The optional cursor to get next chunk.",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "pageSize",
+						"description": "The maximum number of entities in a page.",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "number"
+						}
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Response fo data resource list.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DataResourceListResponse"
+								},
+								"examples": {
+									"listResponseExample": {
+										"value": {
+											"@context": [
+												"https://w3id.org/gaia-x/development",
+												"https://schema.org",
+												"https://www.w3.org/ns/credentials/v2"
+											],
+											"entities": [
+												{
+													"id": "http://example.org/is123456",
+													"name": "Data Resource 1",
+													"type": "DataResource",
+													"copyrightOwnedBy": "did:iota:1234",
+													"license": "http://licenses.example.org/12345",
+													"resourcePolicy": {},
+													"exposedThrough": {
+														"@id": "https://endpoint.example.org/api",
+														"type": "DataExchangeComponent"
+													},
+													"producedBy": "did:iota:1234567",
+													"trustedIssuerId": "did:iota:987654",
+													"validFrom": "2024-08-01T12:00:00Z",
+													"validUntil": "2025-08-01T12:00:00Z",
+													"dateCreated": "2024-08-02T13:45:00Z",
+													"evidences": [
+														"https://credentials.example.org/1234567"
+													]
+												}
+											],
+											"cursor": "1"
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "component.error",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/fedcatalogue/data-space-connectors": {
+			"get": {
+				"operationId": "fedCatalogueListDataSpaceConnectors",
+				"summary": "Get a list of the Data Space connectors entries",
+				"tags": [
+					"Federated Catalogue"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "maintainedBy",
+						"description": "The maintainer",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						},
+						"example": "did:iota:1234"
+					},
+					{
+						"name": "cursor",
+						"description": "The optional cursor to get next chunk.",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "pageSize",
+						"description": "The maximum number of entities in a page.",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "number"
+						}
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Response for Data Space Connector list",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DataSpaceConnectorListResponse"
+								},
+								"examples": {
+									"listResponseExample": {
+										"value": {
+											"@context": [
+												"https://w3id.org/gaia-x/development",
+												"https://schema.org",
+												"https://www.w3.org/ns/credentials/v2"
+											],
+											"entities": [
+												{
+													"id": "https://my-ds-connectors.example.org/ds-connector-ABCD",
+													"type": [
+														"DataSpaceConnector",
+														"DataExchangeComponent"
+													],
+													"identity": "did:iota:testnet:123456",
+													"defaultEndpoint": {
+														"endpointURL": "https://my-twin-node.example.org:9000/twin-ds-connector"
+													},
+													"subscriptionActivityEndpoint": {
+														"endpointURL": "/subscriptions"
+													},
+													"pushActivityEndpoint": {
+														"endpointURL": "/notify"
+													},
+													"pullDataEndpoint": {
+														"endpointURL": "/data"
+													},
+													"offeredResource": [
+														"https://my-data-resource.example.org"
+													],
+													"trustedIssuerId": "did:iota:987654",
 													"validFrom": "2024-08-01T12:00:00Z",
 													"validUntil": "2025-08-01T12:00:00Z",
 													"dateCreated": "2024-08-02T13:45:00Z",

@@ -480,7 +480,8 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 				sdComplianceCredential,
 				serviceOfferingCredential
 			);
-			await this._entityStorageSOs.set(serviceOfferingEntry);
+			const theEntry = ObjectHelper.omit<IServiceOfferingEntry>(serviceOfferingEntry, ["type", "@context"]);
+			await this._entityStorageSOs.set(theEntry as IServiceOfferingEntry);
 		}
 
 		for (const dataResourceCredential of dataResourceCredentials) {

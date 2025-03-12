@@ -53,7 +53,7 @@ export class ServiceOfferingEntry {
 	/**
 	 * Resources aggregated
 	 */
-	@property({ type: "array" })
+	@property({ type: "array", optional: true })
 	public aggregationOfResources?: string[];
 
 	/**
