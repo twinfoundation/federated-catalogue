@@ -78,9 +78,9 @@ The activity push endpoint
 
 ***
 
-### subscribeActivityEndpoint?
+### subscriptionActivityEndpoint?
 
-> `optional` **subscribeActivityEndpoint**: [`IEndpoint`](../interfaces/IEndpoint.md)
+> `optional` **subscriptionActivityEndpoint**: [`IEndpoint`](../interfaces/IEndpoint.md)
 
 The activity subscribe endpoint
 

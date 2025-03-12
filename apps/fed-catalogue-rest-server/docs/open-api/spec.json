@@ -881,7 +881,7 @@
 				}
 			}
 		},
-		"/fedcatalogue/services": {
+		"/fedcatalogue/service-offerings": {
 			"get": {
 				"operationId": "fedCatalogueListServices",
 				"summary": "Get a list of the service entries",

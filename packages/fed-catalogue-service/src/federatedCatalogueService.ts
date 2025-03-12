@@ -262,9 +262,14 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			);
 		}
 
-		const targetCredential = result.credentials.find(
-			credential => credential.credentialSubject.type === FederatedCatalogueTypes.DataSpaceConnector
-		) as IDataSpaceConnectorCredential;
+		const targetCredential = result.credentials.find(credential => {
+			if (Is.array(credential.credentialSubject.type)) {
+				return credential.credentialSubject.type.includes(
+					FederatedCatalogueTypes.DataSpaceConnector
+				);
+			}
+			return credential.credentialSubject.type === FederatedCatalogueTypes.DataSpaceConnector;
+		}) as IDataSpaceConnectorCredential;
 
 		const dataResourceCredentials = result.credentials.filter(
 			credential => credential.credentialSubject.type === GaiaXTypes.DataResource
@@ -277,19 +282,26 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			);
 		}
 
-		const dataspaceConnectorEntry = this.extractDataSpaceConnectorEntry(
+		const dataSpaceConnectorEntry = this.extractDataSpaceConnectorEntry(
 			complianceCredential,
 			result.credentials[0] as IDataSpaceConnectorCredential
 		);
-
-		await this._entityStorageDataSpaceConnectors.set(dataspaceConnectorEntry);
+		const theEntry = ObjectHelper.omit<IDataSpaceConnectorEntry>(dataSpaceConnectorEntry, [
+			"type",
+			"@context"
+		]);
+		await this._entityStorageDataSpaceConnectors.set(theEntry as IDataSpaceConnectorEntry);
 
 		for (const dataResourceCredential of dataResourceCredentials) {
 			const dataResourceEntry = this.extractDataResourceEntry(
 				complianceCredential,
 				dataResourceCredential
 			);
-			await this._entityStorageResources.set(dataResourceEntry);
+			const drEntry = ObjectHelper.omit<IDataResourceEntry>(dataResourceEntry, [
+				"type",
+				"@context"
+			]);
+			await this._entityStorageResources.set(drEntry as IDataResourceEntry);
 		}
 
 		await this._loggingService.log({
@@ -669,7 +681,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 		const result: IDataSpaceConnectorEntry = {
 			...deStructuredData,
-			offeredResource: offeredResource as string[],
+			offeredResource: Object.keys(offeredResource),
 			trustedIssuerId: complianceCredential.issuer as string,
 			validFrom: dsCredential.validFrom as string,
 			validUntil: dsCredential.validUntil as string,

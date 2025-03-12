@@ -1,5 +1,13 @@
 {
-	"credentialSubject": {},
+	"credentialSubject": {
+		"@context": [
+			"https://w3id.org/gaia-x/development",
+			{
+				"DataSpaceConnector": "https://w3id.org/twin/ds-connector/DataSpaceConnector"
+			}
+		],
+		"type": ["DataExchangeComponent", "DataSpaceConnector"]
+	},
 	"evidence": [
 		{
 			"type": "CompliantCredential",

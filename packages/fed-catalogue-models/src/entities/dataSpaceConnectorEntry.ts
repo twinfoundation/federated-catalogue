@@ -60,7 +60,7 @@ export class DataSpaceConnectorEntry {
 	 * The activity subscribe endpoint
 	 */
 	@property({ type: "object", optional: true })
-	public subscribeActivityEndpoint?: IEndpoint;
+	public subscriptionActivityEndpoint?: IEndpoint;
 
 	/**
 	 * The pull data endpoint
