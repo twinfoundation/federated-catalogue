@@ -1,33 +1,27 @@
 {
-    "id": "https://twinfoundation.github.io/federated-catalogue/public-web/test-credentials/data-space-connector-1.json",
-    "credentialSubject": {
-        "@context": [
-            "https://w3id.org/gaia-x/development",
-            "https://w3id.org/twin/ds-connector"
-        ],
-        "id": "https://my-ds-connectors.example.org/ds-connector-ABCD",
-        "type": [
-            "DataSpaceConnector",
-            "DataExchangeComponent"
-        ],
-        "identity": "did:iota:ebsi:0x7e5bb83a6c5e2a656e88fcce9460491431e18b302e4f72edac20309a4a1b2896",
-        "defaultEndpoint": {
-            "endpointURL": "https://my-twin-node.example.org:9000/twin-ds-connector"
-        },
-        "subscriptionActivityEndpoint": {
-            "endpointURL": "/subscriptions"
-        },
-        "pushActivityEndpoint": {
-            "endpointURL": "/notify"
-        },
-        "pullDataEndpoint": {
-            "endpointURL": "/data"
-        },
-        "offeredResource": {
-            "http://my-data-resource.example.org": {
-                "type": "DataResource",
-                "name": "Documents Resource"
-            }
-        }
-    }
+	"id": "https://twinfoundation.github.io/federated-catalogue/public-web/test-credentials/data-space-connector-1.json",
+	"credentialSubject": {
+		"@context": ["https://w3id.org/gaia-x/development", "https://w3id.org/twin/ds-connector"],
+		"id": "https://my-ds-connectors.example.org/ds-connector-ABCD",
+		"type": ["DataSpaceConnector", "DataExchangeComponent"],
+		"identity": "did:iota:ebsi:0x7e5bb83a6c5e2a656e88fcce9460491431e18b302e4f72edac20309a4a1b2896",
+		"defaultEndpoint": {
+			"endpointURL": "https://my-twin-node.example.org:9000/twin-ds-connector"
+		},
+		"subscriptionActivityEndpoint": {
+			"endpointURL": "/subscriptions"
+		},
+		"pushActivityEndpoint": {
+			"endpointURL": "/notify"
+		},
+		"pullDataEndpoint": {
+			"endpointURL": "/data"
+		},
+		"offeredResource": {
+			"http://my-data-resource.example.org": {
+				"type": "DataResource",
+				"name": "Documents Resource"
+			}
+		}
+	}
 }
