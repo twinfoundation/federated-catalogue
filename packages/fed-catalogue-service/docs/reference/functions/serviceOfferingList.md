@@ -1,8 +1,8 @@
-# Function: serviceDescriptionList()
+# Function: serviceOfferingList()
 
-> **serviceDescriptionList**(`httpRequestContext`, `factoryServiceName`, `request`): `Promise`\<`IServiceOfferingListResponse`\>
+> **serviceOfferingList**(`httpRequestContext`, `factoryServiceName`, `request`): `Promise`\<`IServiceOfferingListResponse`\>
 
-Get a list of the service description entries.
+Get a list of the service offering entries.
 
 ## Parameters
 

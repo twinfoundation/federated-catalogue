@@ -1,7 +1,7 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import { Guards, Is, StringHelper, UnprocessableError } from "@twin.org/core";
+import { Guards, Is, ObjectHelper, StringHelper, UnprocessableError } from "@twin.org/core";
 import { ComparisonOperator, type EntityCondition } from "@twin.org/entity";
 import {
 	EntityStorageConnectorFactory,
@@ -139,8 +139,6 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			});
 		}
 
-		console.log(result.credentials)
-
 		const targetCredential = result.credentials.find(
 			credential => credential.credentialSubject.type === GaiaXTypes.Participant
 		) as IParticipantCredential;
@@ -149,8 +147,8 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			throw new UnprocessableError(this.CLASS_NAME, "No Participant Credential evidence provided");
 		}
 		const participantEntry = this.extractParticipantEntry(complianceCredential, targetCredential);
-
-		await this._entityStorageParticipants.set(participantEntry);
+		const theEntry = ObjectHelper.omit<IParticipantEntry>(participantEntry, ["type", "@context"]);
+		await this._entityStorageParticipants.set(theEntry as IParticipantEntry);
 
 		await this._loggingService.log({
 			level: "info",
@@ -308,6 +306,71 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	}
 
 	/**
+	 * Registers a data resource Credential concerning a Data Space Connector.
+	 * @param credentialJwt The credential (wrapped into a presentation) as JWT.
+	 * @returns Nothing.
+	 */
+	public async registerDataResourceCredential(credentialJwt: string): Promise<void> {
+		Guards.string(this.CLASS_NAME, nameof(credentialJwt), credentialJwt);
+
+		// This will raise exceptions as it has been coded reusing code from Gaia-X
+		const complianceCredential = (await this._jwtVerifier.decodeJwt(
+			credentialJwt
+		)) as IComplianceCredential;
+
+		const result = await this._complianceCredentialVerifier.verify(complianceCredential);
+
+		if (!result.verified) {
+			this._loggingService.log({
+				level: "error",
+				source: this.CLASS_NAME,
+				ts: Date.now(),
+				message: "Compliance Data Resource credential cannot be verified",
+				data: { result }
+			});
+
+			throw new UnprocessableError(
+				this.CLASS_NAME,
+				"Compliance Data Resource credential cannot be verified",
+				{
+					reason: result.verificationFailureReason
+				}
+			);
+		}
+
+		const dataResourceCredentials = result.credentials.filter(
+			credential => credential.credentialSubject.type === GaiaXTypes.DataResource
+		) as IDataResourceCredential[];
+
+		if (dataResourceCredentials.length === 0) {
+			throw new UnprocessableError(
+				this.CLASS_NAME,
+				"Data Resource credential not referenced from Compliance Credential"
+			);
+		}
+
+		for (const dataResourceCredential of dataResourceCredentials) {
+			const dataResourceEntry = this.extractDataResourceEntry(
+				complianceCredential,
+				dataResourceCredential
+			);
+			await this._entityStorageResources.set(dataResourceEntry);
+		}
+
+		await this._loggingService.log({
+			level: "info",
+			source: this.CLASS_NAME,
+			ts: Date.now(),
+			message:
+				"Compliance credential verified and new Data Resource entry(ies) added to the Fed Catalogue",
+			data: {
+				participantId: complianceCredential.credentialSubject?.id,
+				trustedIssuer: complianceCredential.issuer
+			}
+		});
+	}
+
+	/**
 	 * Query the federated catalogue.
 	 * @param id The identity of the participant.
 	 * @param maintainer The DS Connector maintainer.
@@ -394,29 +457,31 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			);
 		}
 
-		const targetCredential = result.credentials.find(
+		const serviceOfferingCredentials = result.credentials.filter(
 			credential => credential.credentialSubject.type === GaiaXTypes.ServiceOffering
-		) as IServiceOfferingCredential;
+		) as IServiceOfferingCredential[];
 
 		const dataResourceCredentials = result.credentials.filter(
 			credential => credential.credentialSubject.type === GaiaXTypes.DataResource
 		) as IDataResourceCredential[];
 
-		if (Is.undefined(targetCredential)) {
+		if (serviceOfferingCredentials.length === 0) {
 			throw new UnprocessableError(
 				this.CLASS_NAME,
 				"Service Offering credential not referenced from Compliance Credential"
 			);
 		}
 
-		const serviceProvider = targetCredential.credentialSubject.providedBy;
-		await this.checkParticipantExists(serviceProvider as string);
+		for (const serviceOfferingCredential of serviceOfferingCredentials) {
+			const serviceProvider = serviceOfferingCredential.credentialSubject.providedBy;
+			await this.checkParticipantExists(serviceProvider as string);
 
-		const serviceOfferingEntry = this.extractServiceOfferingEntry(
-			sdComplianceCredential,
-			targetCredential
-		);
-		await this._entityStorageSOs.set(serviceOfferingEntry);
+			const serviceOfferingEntry = this.extractServiceOfferingEntry(
+				sdComplianceCredential,
+				serviceOfferingCredential
+			);
+			await this._entityStorageSOs.set(serviceOfferingEntry);
+		}
 
 		for (const dataResourceCredential of dataResourceCredentials) {
 			const dataResourceEntry = this.extractDataResourceEntry(
@@ -432,9 +497,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			ts: Date.now(),
 			message: "Service Offering credential verified and new entry added to the Fed Catalogue",
 			data: {
-				providedBy:
-					targetCredential?.credentialSubject["gx:providedBy"] ??
-					dataResourceCredentials[0].credentialSubject["gx:producedBy"],
+				providedBy: serviceOfferingCredentials[0].credentialSubject.providedBy,
 				trustedIssuer: sdComplianceCredential.issuer
 			}
 		});

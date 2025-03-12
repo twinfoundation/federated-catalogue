@@ -12,12 +12,13 @@ import type {
 	ICompliancePresentationRequest,
 	IDataResourceListRequest,
 	IDataResourceListResponse,
+	IDataSpaceConnectorListRequest,
+	IDataSpaceConnectorListResponse,
 	IFederatedCatalogue,
 	IParticipantListRequest,
 	IParticipantListResponse,
 	IServiceOfferingListRequest,
-	IServiceOfferingListResponse,
-	IServiceOfferingPresentationRequest
+	IServiceOfferingListResponse
 } from "@twin.org/federated-catalogue-models";
 import { nameof } from "@twin.org/nameof";
 import { HttpStatusCode } from "@twin.org/web";
@@ -75,20 +76,79 @@ export function generateRestRoutesFedCatalogue(
 		]
 	};
 
-	const createServiceRoute: IRestRoute<IServiceOfferingPresentationRequest, ICreatedResponse> = {
-		operationId: "serviceDescriptionPresentationRequest",
-		summary: "Present a Service Description Credential",
+	const createServiceRoute: IRestRoute<ICompliancePresentationRequest, ICreatedResponse> = {
+		operationId: "serviceOfferingPresentationRequest",
+		summary: "Present a Service Offering Credential",
 		tag: tagsFedCatalogue[0].name,
 		method: "POST",
 		path: `${baseRouteName}/service-credentials`,
 		handler: async (httpRequestContext, request) =>
-			serviceDescriptionCredentialPresentation(httpRequestContext, factoryServiceName, request),
+			serviceOfferingCredentialPresentation(httpRequestContext, factoryServiceName, request),
 		requestType: {
 			mimeType: "application/jwt",
-			type: nameof<IServiceOfferingPresentationRequest>(),
+			type: nameof<ICompliancePresentationRequest>(),
 			examples: [
 				{
 					id: "servicePresentationRequestExample",
+					request: {
+						body: "ey..."
+					}
+				}
+			]
+		},
+		responseType: [
+			{
+				type: nameof<ICreatedResponse>()
+			},
+			{ type: nameof<IUnprocessableEntityResponse>() }
+		]
+	};
+
+	const createDataSpaceConnectorRoute: IRestRoute<
+		ICompliancePresentationRequest,
+		ICreatedResponse
+	> = {
+		operationId: "dataspaceConnectorPresentationRequest",
+		summary: "Present a Data Space Connector Credential",
+		tag: tagsFedCatalogue[0].name,
+		method: "POST",
+		path: `${baseRouteName}/data-space-connectors`,
+		handler: async (httpRequestContext, request) =>
+			dataSpaceConnectorCredentialPresentation(httpRequestContext, factoryServiceName, request),
+		requestType: {
+			mimeType: "application/jwt",
+			type: nameof<ICompliancePresentationRequest>(),
+			examples: [
+				{
+					id: "dataSpaceConnectorPresentationRequestExample",
+					request: {
+						body: "ey..."
+					}
+				}
+			]
+		},
+		responseType: [
+			{
+				type: nameof<ICreatedResponse>()
+			},
+			{ type: nameof<IUnprocessableEntityResponse>() }
+		]
+	};
+
+	const createDataResourceRoute: IRestRoute<ICompliancePresentationRequest, ICreatedResponse> = {
+		operationId: "datasResourcePresentationRequest",
+		summary: "Present a Data Resource Credential",
+		tag: tagsFedCatalogue[0].name,
+		method: "POST",
+		path: `${baseRouteName}/data-resources`,
+		handler: async (httpRequestContext, request) =>
+			dataResourceCredentialPresentation(httpRequestContext, factoryServiceName, request),
+		requestType: {
+			mimeType: "application/jwt",
+			type: nameof<ICompliancePresentationRequest>(),
+			examples: [
+				{
+					id: "dataResourcePresentationRequestExample",
 					request: {
 						body: "ey..."
 					}
@@ -173,7 +233,7 @@ export function generateRestRoutesFedCatalogue(
 		method: "GET",
 		path: `${baseRouteName}/services`,
 		handler: async (httpRequestContext, request) =>
-			serviceDescriptionList(httpRequestContext, factoryServiceName, request),
+			serviceOfferingList(httpRequestContext, factoryServiceName, request),
 		requestType: {
 			type: nameof<IServiceOfferingListRequest>(),
 			examples: [
@@ -289,12 +349,88 @@ export function generateRestRoutesFedCatalogue(
 		]
 	};
 
+	const listDataSpaceConnectorsRoute: IRestRoute<
+		IDataSpaceConnectorListRequest,
+		IDataSpaceConnectorListResponse
+	> = {
+		operationId: "fedCatalogueListDataSpaceConnectors",
+		summary: "Get a list of the Data Space connectors entries",
+		tag: tagsFedCatalogue[0].name,
+		method: "GET",
+		path: `${baseRouteName}/data-space-connectors`,
+		handler: async (httpRequestContext, request) =>
+			dataSpaceConnectorList(httpRequestContext, factoryServiceName, request),
+		requestType: {
+			type: nameof<IDataSpaceConnectorListRequest>(),
+			examples: [
+				{
+					id: "resourceListRequestExample",
+					request: {
+						query: {
+							maintainedBy: "did:iota:1234"
+						}
+					}
+				}
+			]
+		},
+		responseType: [
+			{
+				type: nameof<IDataSpaceConnectorListResponse>(),
+				examples: [
+					{
+						id: "listResponseExample",
+						response: {
+							body: {
+								"@context": [
+									"https://w3id.org/gaia-x/development",
+									"https://schema.org",
+									"https://www.w3.org/ns/credentials/v2"
+								],
+								entities: [
+									{
+										"@context": [
+											"https://w3id.org/gaia-x/development#",
+											"https://w3id.org/twin/ds-connector"
+										],
+										id: "https://my-ds-connectors.example.org/ds-connector-ABCD",
+										type: "DataSpaceConnector",
+										identity: "did:iota:testnet:123456",
+										defaultEndpoint: {
+											endpointURL: "https://my-twin-node.example.org:9000/twin-ds-connector"
+										},
+										subscriptionActivityEndpoint: {
+											endpointURL: "/subscriptions"
+										},
+										pushActivityEndpoint: {
+											endpointURL: "/notify"
+										},
+										pullDataEndpoint: {
+											endpointURL: "/data"
+										},
+										trustedIssuerId: "did:iota:987654",
+										validFrom: "2024-08-01T12:00:00Z",
+										validUntil: "2025-08-01T12:00:00Z",
+										dateCreated: "2024-08-02T13:45:00Z",
+										evidences: ["https://credentials.example.org/1234567"]
+									}
+								],
+								cursor: "1"
+							}
+						}
+					}
+				]
+			}
+		]
+	};
 	return [
 		createParticipantRoute,
-		listParticipantsRoute,
 		createServiceRoute,
+		createDataResourceRoute,
+		createDataSpaceConnectorRoute,
+		listParticipantsRoute,
 		listServicesRoute,
-		listDataResourcesRoute
+		listDataResourcesRoute,
+		listDataSpaceConnectorsRoute
 	];
 }
 
@@ -358,13 +494,13 @@ export async function participantList(
 }
 
 /**
- * Register a new service description.
+ * Register a new service offering.
  * @param httpRequestContext The request context for the API.
  * @param factoryServiceName The name of the service to use in the routes.
  * @param request The request.
  * @returns The response object with additional http response properties.
  */
-export async function serviceDescriptionCredentialPresentation(
+export async function serviceOfferingCredentialPresentation(
 	httpRequestContext: IHttpRequestContext,
 	factoryServiceName: string,
 	request: ICompliancePresentationRequest
@@ -384,13 +520,13 @@ export async function serviceDescriptionCredentialPresentation(
 }
 
 /**
- * Get a list of the service description entries.
+ * Get a list of the service offering entries.
  * @param httpRequestContext The request context for the API.
  * @param factoryServiceName The name of the service to use in the routes.
  * @param request The request.
  * @returns The response object with additional http response properties.
  */
-export async function serviceDescriptionList(
+export async function serviceOfferingList(
 	httpRequestContext: IHttpRequestContext,
 	factoryServiceName: string,
 	request: IServiceOfferingListRequest
@@ -416,6 +552,32 @@ export async function serviceDescriptionList(
 }
 
 /**
+ * Register a new data resource.
+ * @param httpRequestContext The request context for the API.
+ * @param factoryServiceName The name of the service to use in the routes.
+ * @param request The request.
+ * @returns The response object with additional http response properties.
+ */
+export async function dataResourceCredentialPresentation(
+	httpRequestContext: IHttpRequestContext,
+	factoryServiceName: string,
+	request: ICompliancePresentationRequest
+): Promise<ICreatedResponse> {
+	Guards.object<ICompliancePresentationRequest>(ROUTES_SOURCE, nameof(request), request);
+	Guards.stringValue(ROUTES_SOURCE, nameof(request.body), request.body);
+
+	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+	await service.registerDataResourceCredential(request.body);
+
+	return {
+		headers: {
+			location: ""
+		},
+		statusCode: HttpStatusCode.created
+	};
+}
+
+/**
  * Get a list of the data resource entries.
  * @param httpRequestContext The request context for the API.
  * @param factoryServiceName The name of the service to use in the routes.
@@ -432,6 +594,64 @@ export async function dataResourceList(
 	const itemsAndCursor = await service.queryDataResources(
 		request?.query.id,
 		request?.query.producedBy,
+		request?.query.cursor,
+		Coerce.number(request?.query?.pageSize)
+	);
+	return {
+		body: {
+			"@context": [
+				"https://w3id.org/gaia-x/development",
+				"https://schema.org",
+				"https://www.w3.org/ns/credentials/v2"
+			],
+			...itemsAndCursor
+		}
+	};
+}
+
+/**
+ * Register a new data space connector.
+ * @param httpRequestContext The request context for the API.
+ * @param factoryServiceName The name of the service to use in the routes.
+ * @param request The request.
+ * @returns The response object with additional http response properties.
+ */
+export async function dataSpaceConnectorCredentialPresentation(
+	httpRequestContext: IHttpRequestContext,
+	factoryServiceName: string,
+	request: ICompliancePresentationRequest
+): Promise<ICreatedResponse> {
+	Guards.object<ICompliancePresentationRequest>(ROUTES_SOURCE, nameof(request), request);
+	Guards.stringValue(ROUTES_SOURCE, nameof(request.body), request.body);
+
+	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+	await service.registerDataSpaceConnectorCredential(request.body);
+
+	return {
+		headers: {
+			location: ""
+		},
+		statusCode: HttpStatusCode.created
+	};
+}
+
+/**
+ * Get a list of the data space connector entries.
+ * @param httpRequestContext The request context for the API.
+ * @param factoryServiceName The name of the service to use in the routes.
+ * @param request The request.
+ * @returns The response object with additional http response properties.
+ */
+export async function dataSpaceConnectorList(
+	httpRequestContext: IHttpRequestContext,
+	factoryServiceName: string,
+	request: IDataSpaceConnectorListRequest
+): Promise<IDataSpaceConnectorListResponse> {
+	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+
+	const itemsAndCursor = await service.queryDataSpaceConnectors(
+		request?.query.id,
+		request?.query.maintainedBy,
 		request?.query.cursor,
 		Coerce.number(request?.query?.pageSize)
 	);

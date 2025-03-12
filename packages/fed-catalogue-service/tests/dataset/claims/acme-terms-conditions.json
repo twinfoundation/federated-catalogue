@@ -3,6 +3,6 @@
 	"credentialSubject": {
 		"@context": "https://w3id.org/gaia-x/development",
 		"type": "TermsAndConditions",
-        "digestSRI": "sha256-0aXialGx6tzl9LQVIoVSkkDv6LCdYvJIcy4e5l7vNjU="
+		"digestSRI": "sha256-0aXialGx6tzl9LQVIoVSkkDv6LCdYvJIcy4e5l7vNjU="
 	}
 }

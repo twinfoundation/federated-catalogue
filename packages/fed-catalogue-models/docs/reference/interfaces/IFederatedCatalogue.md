@@ -170,6 +170,28 @@ Nothing.
 
 ***
 
+### registerDataResourceCredential()
+
+> **registerDataResourceCredential**(`credential`): `Promise`\<`void`\>
+
+Registers a data resource Credential to the service.
+
+#### Parameters
+
+##### credential
+
+`string`
+
+The credential as JWT.
+
+#### Returns
+
+`Promise`\<`void`\>
+
+Nothing.
+
+***
+
 ### queryServiceOfferings()
 
 > **queryServiceOfferings**(`id`?, `providedBy`?, `cursor`?, `pageSize`?): `Promise`\<\{ `entities`: [`IServiceOfferingEntry`](IServiceOfferingEntry.md)[]; `cursor`: `string`; \}\>

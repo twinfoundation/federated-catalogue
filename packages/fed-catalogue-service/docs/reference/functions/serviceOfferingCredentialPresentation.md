@@ -1,8 +1,8 @@
-# Function: serviceDescriptionCredentialPresentation()
+# Function: serviceOfferingCredentialPresentation()
 
-> **serviceDescriptionCredentialPresentation**(`httpRequestContext`, `factoryServiceName`, `request`): `Promise`\<`ICreatedResponse`\>
+> **serviceOfferingCredentialPresentation**(`httpRequestContext`, `factoryServiceName`, `request`): `Promise`\<`ICreatedResponse`\>
 
-Register a new service description.
+Register a new service offering.
 
 ## Parameters
 

@@ -147,6 +147,32 @@ Nothing.
 
 ***
 
+### registerDataResourceCredential()
+
+> **registerDataResourceCredential**(`credentialJwt`): `Promise`\<`void`\>
+
+Registers a data resource Credential concerning a Data Space Connector.
+
+#### Parameters
+
+##### credentialJwt
+
+`string`
+
+The credential (wrapped into a presentation) as JWT.
+
+#### Returns
+
+`Promise`\<`void`\>
+
+Nothing.
+
+#### Implementation of
+
+`IFederatedCatalogue.registerDataResourceCredential`
+
+***
+
 ### queryDataSpaceConnectors()
 
 > **queryDataSpaceConnectors**(`id`?, `maintainer`?, `cursor`?, `pageSize`?): `Promise`\<\{ `entities`: `IDataSpaceConnectorEntry`[]; `cursor`: `string`; \}\>

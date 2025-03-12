@@ -1,0 +1,11 @@
+{
+	"credentialSubject": {},
+	"evidence": [
+		{
+			"type": "CompliantCredential",
+			"id": "https://twinfoundation.github.io/federated-catalogue/public-web/test-credentials/data-space-connector-1.json",
+			"credentialType": "VerifiableCredential",
+			"digestSRI": ""
+		}
+	]
+}

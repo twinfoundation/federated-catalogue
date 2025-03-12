@@ -4,9 +4,7 @@
 		"https://w3id.org/security/suites/jws-2020/v1"
 	],
 	"id": "https://twinfoundation.github.io/federated-catalogue/public-web/test-credentials/acme-legal-entity.json",
-	"type": [
-		"VerifiableCredential"
-	],
+	"type": ["VerifiableCredential"],
 	"issuer": "did:iota:testnet:0xb0d60698c3ad801241881650176245556f90ca0c9ed7584ca250f312e9ec95c8",
 	"validFrom": "2025-03-11T14:45:41Z",
 	"validUntil": "2027-06-22T22:45:41Z",

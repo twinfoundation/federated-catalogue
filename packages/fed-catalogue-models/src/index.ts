@@ -2,13 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0.
 
 export * from "./models/api/ICompliancePresentationRequest";
-export * from "./models/api/IServiceOfferingPresentationRequest";
 export * from "./models/api/IParticipantListRequest";
 export * from "./models/api/IServiceOfferingListRequest";
 export * from "./models/api/IDataResourceListRequest";
 export * from "./models/api/IParticipantListResponse";
 export * from "./models/api/IServiceOfferingListResponse";
 export * from "./models/api/IDataResourceListResponse";
+
+export * from "./models/api/IDataSpaceConnectorListRequest";
+export * from "./models/api/IDataSpaceConnectorListResponse";
 
 export * from "./gaia-x/IDataExchangeComponent";
 export * from "./gaia-x/IAddress";

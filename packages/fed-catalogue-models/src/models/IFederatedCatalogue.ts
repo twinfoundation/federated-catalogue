@@ -86,6 +86,13 @@ export interface IFederatedCatalogue extends IComponent {
 	registerServiceOfferingCredential(credential: string): Promise<void>;
 
 	/**
+	 * Registers a data resource Credential to the service.
+	 * @param credential The credential as JWT.
+	 * @returns Nothing.
+	 */
+	registerDataResourceCredential(credential: string): Promise<void>;
+
+	/**
 	 * Query the federated catalogue.
 	 * @param id Service Offering id.
 	 * @param providedBy The identity of the participant providing the Offering.
