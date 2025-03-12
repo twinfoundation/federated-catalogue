@@ -354,7 +354,12 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 				complianceCredential,
 				dataResourceCredential
 			);
-			await this._entityStorageResources.set(dataResourceEntry);
+			const theEntry = ObjectHelper.omit<IDataResourceEntry>(dataResourceEntry, [
+				"type",
+				"@context"
+			]);
+
+			await this._entityStorageResources.set(theEntry as IDataResourceEntry);
 		}
 
 		await this._loggingService.log({
@@ -480,7 +485,10 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 				sdComplianceCredential,
 				serviceOfferingCredential
 			);
-			const theEntry = ObjectHelper.omit<IServiceOfferingEntry>(serviceOfferingEntry, ["type", "@context"]);
+			const theEntry = ObjectHelper.omit<IServiceOfferingEntry>(serviceOfferingEntry, [
+				"type",
+				"@context"
+			]);
 			await this._entityStorageSOs.set(theEntry as IServiceOfferingEntry);
 		}
 
