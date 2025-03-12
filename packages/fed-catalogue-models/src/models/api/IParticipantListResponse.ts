@@ -5,7 +5,7 @@ import type { IParticipant } from "../../gaia-x/IParticipant";
 import type { IParticipantEntry } from "../participant/IParticipantEntry";
 
 /**
- * Response for log entry list request.
+ * Response for participant list query
  */
 export interface IParticipantListResponse {
 	/**

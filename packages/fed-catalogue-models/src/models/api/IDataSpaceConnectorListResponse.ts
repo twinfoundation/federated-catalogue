@@ -5,7 +5,7 @@ import type { IDataSpaceConnector } from "../data-space-connector/IDataSpaceConn
 import type { IDataSpaceConnectorEntry } from "../data-space-connector/IDataSpaceConnectorEntry";
 
 /**
- * Response for Service Offering list
+ * Response for Data Space Connector list
  */
 export interface IDataSpaceConnectorListResponse {
 	/**

@@ -1,6 +1,6 @@
 # Interface: IDataSpaceConnectorListResponse
 
-Response for Service Offering list
+Response for Data Space Connector list
 
 ## Properties
 

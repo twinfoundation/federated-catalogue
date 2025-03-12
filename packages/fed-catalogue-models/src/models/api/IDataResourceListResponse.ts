@@ -5,7 +5,7 @@ import type { IDataResource } from "../../gaia-x/IDataResource";
 import type { IDataResourceEntry } from "../data-resource/IDataResourceEntry";
 
 /**
- * Response for log entry list request.
+ * Response fo data resource list.
  */
 export interface IDataResourceListResponse {
 	/**

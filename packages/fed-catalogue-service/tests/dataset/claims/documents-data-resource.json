@@ -4,16 +4,19 @@
 		"id": "https://document.services.example.org",
 		"type": "DataResource",
 		"producedBy": "did:iota:testnet:0x1a7bded4d22dc54722435d624e4323e10fcbc570cd57462eabbf3a5ab2ced24f",
-		"exposedThrough": "https://data-space-connector.services.example.org",
+		"exposedThrough": "https://my-ds-connectors.example.org/ds-connector-ABCD",
 		"copyrightOwnedBy": "did:iota:testnet:0x1a7bded4d22dc54722435d624e4323e10fcbc570cd57462eabbf3a5ab2ced24f",
 		"license": "http://licenses.example.org/tlip-invoice",
 		"resourcePolicy": {
-			"@context": "http://www.w3.org/ns/odrl.jsonld",
+			"@context": [
+				"http://www.w3.org/ns/odrl.jsonld",
+				"https://vocabulary.uncefact.org/unece-context.jsonld"
+			],
 			"@type": "Offer",
 			"uid": "http://example.com/policy:1010",
+			"assigner": "did:iota:testnet:0x1a7bded4d22dc54722435d624e4323e10fcbc570cd57462eabbf3a5ab2ced24f",
 			"permission": [
 				{
-					"assigner": "did:iota:testnet:0x1a7bded4d22dc54722435d624e4323e10fcbc570cd57462eabbf3a5ab2ced24f",
 					"target": {
 						"type": "Document"
 					},

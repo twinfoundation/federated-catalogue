@@ -1,6 +1,6 @@
 # Interface: IParticipantListResponse
 
-Response for log entry list request.
+Response for participant list query
 
 ## Properties
 

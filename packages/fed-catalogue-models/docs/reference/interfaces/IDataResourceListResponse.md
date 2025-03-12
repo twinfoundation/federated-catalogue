@@ -1,6 +1,6 @@
 # Interface: IDataResourceListResponse
 
-Response for log entry list request.
+Response fo data resource list.
 
 ## Properties
 

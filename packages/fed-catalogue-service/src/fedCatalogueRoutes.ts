@@ -388,12 +388,8 @@ export function generateRestRoutesFedCatalogue(
 								],
 								entities: [
 									{
-										"@context": [
-											"https://w3id.org/gaia-x/development#",
-											"https://w3id.org/twin/ds-connector"
-										],
 										id: "https://my-ds-connectors.example.org/ds-connector-ABCD",
-										type: "DataSpaceConnector",
+										type: ["DataSpaceConnector", "DataExchangeComponent"],
 										identity: "did:iota:testnet:123456",
 										defaultEndpoint: {
 											endpointURL: "https://my-twin-node.example.org:9000/twin-ds-connector"
@@ -407,6 +403,7 @@ export function generateRestRoutesFedCatalogue(
 										pullDataEndpoint: {
 											endpointURL: "/data"
 										},
+										offeredResource: ["https://my-data-resource.example.org"],
 										trustedIssuerId: "did:iota:987654",
 										validFrom: "2024-08-01T12:00:00Z",
 										validUntil: "2025-08-01T12:00:00Z",
