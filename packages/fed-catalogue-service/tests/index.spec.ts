@@ -1,7 +1,7 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import { StringHelper } from "@twin.org/core";
+import { EnvHelper, StringHelper } from "@twin.org/core";
 import { MemoryEntityStorageConnector } from "@twin.org/entity-storage-connector-memory";
 import { EntityStorageConnectorFactory } from "@twin.org/entity-storage-models";
 import type {
@@ -13,20 +13,31 @@ import type {
 import { ModuleHelper } from "@twin.org/modules";
 import { nameof } from "@twin.org/nameof";
 
-import { cleanupTestEnv, setupTestEnv } from "./setupTestEnv";
+import { FederatedCatalogueService } from "../src/federatedCatalogueService";
+import type { IFederatedCatalogueOptions } from "../src/IFederatedCatalogueOptions";
+import { initSchema } from "../src/schema";
+
+import dataResourceCredential from "./dataset/credentials/compliance/data-resource-credential.json" assert { type: "json" };
+import dataSpaceConnectorCredential from "./dataset/credentials/compliance/data-space-connector-credential.json" assert { type: "json" };
+import participantCredential from "./dataset/credentials/compliance/participant-credential.json" assert { type: "json" };
+import serviceOfferingCedential from "./dataset/credentials/compliance/service-offering-credential.json" assert { type: "json" };
 
 let participantStore: MemoryEntityStorageConnector<ParticipantEntry>;
 let dataResourceStore: MemoryEntityStorageConnector<DataResourceEntry>;
 let serviceOfferingStore: MemoryEntityStorageConnector<ServiceOfferingEntry>;
 let dataSpaceConnectorStore: MemoryEntityStorageConnector<DataSpaceConnectorEntry>;
 
-import { initSchema } from "../src/schema";
+let envVars: { [id: string]: string };
+
+import { cleanupTestEnv, setupTestEnv } from "./setupTestEnv";
+
+let options: IFederatedCatalogueOptions;
 
 describe("federated-catalogue-service", () => {
 	beforeAll(async () => {
 		await setupTestEnv();
 
-		initSchema();
+		envVars = EnvHelper.envToJson(process.env, "FED_CATALOG");
 
 		// Mock the module helper to execute the method in the same thread, so we don't have to create an engine
 		ModuleHelper.execModuleMethodThread = vi
@@ -34,6 +45,15 @@ describe("federated-catalogue-service", () => {
 			.mockImplementation(async (module, method, args) =>
 				ModuleHelper.execModuleMethod(module, method, args)
 			);
+
+		initSchema();
+
+		options = {
+			loggingConnectorType: "console",
+			didResolverEndpoint: envVars.resolverEndpoint,
+			// Check for support of multiple values from env vars
+			clearingHouseWhiteList: JSON.parse(envVars.clearingHouseWhitelist) as string[]
+		};
 	});
 
 	afterAll(async () => {
@@ -75,5 +95,56 @@ describe("federated-catalogue-service", () => {
 		);
 	});
 
-	test("This package currently has no tests", () => {});
+	test("It should register a compliant Participant", async () => {
+		const fedCatalogueService = new FederatedCatalogueService(options);
+		await fedCatalogueService.registerComplianceCredential(participantCredential.jwtCredential);
+		const queryResult = await fedCatalogueService.queryParticipants();
+		expect(queryResult.entities.length).toBe(1);
+
+		expect(queryResult.entities[0].id).toBe(participantCredential.credential.credentialSubject.id);
+	});
+
+	test("It should register a compliant Data Resource", async () => {
+		const fedCatalogueService = new FederatedCatalogueService(options);
+		// The Participant first must exist
+		await fedCatalogueService.registerComplianceCredential(participantCredential.jwtCredential);
+
+		await fedCatalogueService.registerDataResourceCredential(dataResourceCredential.jwtCredential);
+		const queryResult = await fedCatalogueService.queryDataResources();
+		expect(queryResult.entities.length).toBe(1);
+
+		expect(queryResult.entities[0].id).toBe(dataResourceCredential.credential.credentialSubject.id);
+	});
+
+	test("It should register a compliant Service Offering", async () => {
+		const fedCatalogueService = new FederatedCatalogueService(options);
+		// The Participant first must exist
+		await fedCatalogueService.registerComplianceCredential(participantCredential.jwtCredential);
+
+		await fedCatalogueService.registerServiceOfferingCredential(
+			serviceOfferingCedential.jwtCredential
+		);
+		const queryResult = await fedCatalogueService.queryServiceOfferings();
+		expect(queryResult.entities.length).toBe(1);
+
+		expect(queryResult.entities[0].id).toBe(
+			serviceOfferingCedential.credential.credentialSubject.id
+		);
+	});
+
+	test("It should register a compliant Data Space Connector", async () => {
+		const fedCatalogueService = new FederatedCatalogueService(options);
+		// The Participant first must exist
+		await fedCatalogueService.registerComplianceCredential(participantCredential.jwtCredential);
+
+		await fedCatalogueService.registerDataSpaceConnectorCredential(
+			dataSpaceConnectorCredential.jwtCredential
+		);
+		const queryResult = await fedCatalogueService.queryDataSpaceConnectors();
+		expect(queryResult.entities.length).toBe(1);
+
+		expect(queryResult.entities[0].id).toBe(
+			dataSpaceConnectorCredential.credential.credentialSubject.id
+		);
+	});
 });

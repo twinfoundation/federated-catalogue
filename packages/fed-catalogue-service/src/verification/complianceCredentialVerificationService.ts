@@ -27,16 +27,16 @@ import { HashingUtils } from "../utils/hashingUtils";
 export class ComplianceCredentialVerificationService {
 	public CLASS_NAME: string = nameof<ComplianceCredentialVerificationService>();
 
-	private readonly _logger: ILoggingConnector;
+	private readonly _logger?: ILoggingConnector;
 
 	private readonly _clearingHouseWhitelist: string[];
 
 	/**
 	 * Constructor.
-	 * @param logger The Logger Component.
 	 * @param clearingHouseWhitelist The white list of clearing house identities accepted.
+	 * @param logger The Logger Component.
 	 */
-	constructor(logger: ILoggingConnector, clearingHouseWhitelist: string[]) {
+	constructor(clearingHouseWhitelist: string[], logger?: ILoggingConnector) {
 		this._logger = logger;
 		this._clearingHouseWhitelist = clearingHouseWhitelist;
 	}
@@ -151,7 +151,7 @@ export class ComplianceCredentialVerificationService {
 		Guards.object<IComplianceEvidence>(this.CLASS_NAME, nameof<IComplianceEvidence>(), evidence);
 
 		const credentialUrl = evidence.id;
-		this._logger.log({
+		this._logger?.log({
 			source: this.CLASS_NAME,
 			level: "info",
 			message: `Verifying credential ${credentialUrl}`,
@@ -166,7 +166,7 @@ export class ComplianceCredentialVerificationService {
 			{ cacheTtlMs: 240000 }
 		);
 		if (!credentialResponse.ok) {
-			this._logger.log({
+			this._logger?.log({
 				source: this.CLASS_NAME,
 				level: "error",
 				message: `Credential ${credentialUrl} cannot be retrieved`,
@@ -219,7 +219,7 @@ export class ComplianceCredentialVerificationService {
 		try {
 			await verifier.verify(originalCredential);
 		} catch (error) {
-			this._logger.log({
+			this._logger?.log({
 				source: this.CLASS_NAME,
 				level: "error",
 				message: `Credential ${credentialUrl} verification error`,
@@ -232,7 +232,7 @@ export class ComplianceCredentialVerificationService {
 			};
 		}
 
-		this._logger.log({
+		this._logger?.log({
 			source: this.CLASS_NAME,
 			level: "info",
 			message: `Credential ${credentialUrl} verified`,

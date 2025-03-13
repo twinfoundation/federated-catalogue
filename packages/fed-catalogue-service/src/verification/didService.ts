@@ -27,14 +27,14 @@ export class DIDService {
 	/**
 	 * Logging service.
 	 */
-	private readonly _logger: ILoggingConnector;
+	private readonly _logger?: ILoggingConnector;
 
 	/**
 	 * Constructor.
 	 * @param didResolver DID Resolver.
 	 * @param logger Logging.
 	 */
-	constructor(didResolver: IIdentityResolverConnector, logger: ILoggingConnector) {
+	constructor(didResolver: IIdentityResolverConnector, logger?: ILoggingConnector) {
 		this._didResolver = didResolver;
 		this._logger = logger;
 	}
@@ -49,7 +49,7 @@ export class DIDService {
 		try {
 			didDocument = await this._didResolver.resolveDocument(did);
 		} catch (error) {
-			this._logger.log({
+			this._logger?.log({
 				level: "error",
 				source: this.CLASS_NAME,
 				ts: Date.now(),
@@ -63,7 +63,7 @@ export class DIDService {
 			!didDocument?.verificationMethod ||
 			didDocument?.verificationMethod?.constructor !== Array
 		) {
-			this._logger.log({
+			this._logger?.log({
 				level: "error",
 				source: this.CLASS_NAME,
 				ts: Date.now(),
@@ -148,7 +148,7 @@ export class DIDService {
 			const response = await FetchHelper.fetch(this.CLASS_NAME, url, "GET");
 			if (response.status === HttpStatusCode.ok) {
 				const data = await response.text();
-				this._logger.log({
+				this._logger?.log({
 					source: this.CLASS_NAME,
 					level: "info",
 					message: "X5U Certificate loaded",
@@ -160,7 +160,7 @@ export class DIDService {
 			// eslint-disable-next-line no-restricted-syntax
 			throw new Error(`HTTP Status: ${response.status}`);
 		} catch (error) {
-			this._logger.log({
+			this._logger?.log({
 				level: "warn",
 				source: this.CLASS_NAME,
 				ts: Date.now(),

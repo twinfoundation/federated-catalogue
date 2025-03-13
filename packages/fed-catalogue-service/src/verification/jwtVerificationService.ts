@@ -33,7 +33,7 @@ export class JwtVerificationService {
 	 * @param resolutionEndpoint Resolution endpoint (DIF Universal Resolver)
 	 * @param loggingService The logging service
 	 */
-	constructor(resolutionEndpoint: string, loggingService: ILoggingConnector) {
+	constructor(resolutionEndpoint: string, loggingService?: ILoggingConnector) {
 		this._didService = new DIDService(new UniversalDidResolver(resolutionEndpoint), loggingService);
 	}
 

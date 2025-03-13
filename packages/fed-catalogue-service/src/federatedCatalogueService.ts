@@ -43,7 +43,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	/**
 	 * Logging service.
 	 */
-	private readonly _loggingService: ILoggingConnector;
+	private readonly _loggingService?: ILoggingConnector;
 
 	/**
 	 * Storage service for participants.
@@ -82,7 +82,9 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	 * @param options The options for the connector.
 	 */
 	constructor(options: IFederatedCatalogueOptions) {
-		this._loggingService = LoggingConnectorFactory.get(options?.loggingConnectorType ?? "logging");
+		this._loggingService = LoggingConnectorFactory.getIfExists(
+			options?.loggingConnectorType ?? "logging"
+		);
 
 		this._entityStorageParticipants = EntityStorageConnectorFactory.get<
 			IEntityStorageConnector<ParticipantEntry>
@@ -105,8 +107,8 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			this._loggingService
 		);
 		this._complianceCredentialVerifier = new ComplianceCredentialVerificationService(
-			this._loggingService,
-			options.clearingHouseWhiteList
+			options.clearingHouseWhiteList,
+			this._loggingService
 		);
 	}
 
@@ -126,7 +128,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		const result = await this._complianceCredentialVerifier.verify(complianceCredential);
 
 		if (!result.verified) {
-			this._loggingService.log({
+			this._loggingService?.log({
 				level: "error",
 				source: this.CLASS_NAME,
 				ts: Date.now(),
@@ -150,7 +152,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		const theEntry = ObjectHelper.omit<IParticipantEntry>(participantEntry, ["type", "@context"]);
 		await this._entityStorageParticipants.set(theEntry as IParticipantEntry);
 
-		await this._loggingService.log({
+		await this._loggingService?.log({
 			level: "info",
 			source: this.CLASS_NAME,
 			ts: Date.now(),
@@ -245,7 +247,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		const result = await this._complianceCredentialVerifier.verify(complianceCredential);
 
 		if (!result.verified) {
-			this._loggingService.log({
+			this._loggingService?.log({
 				level: "error",
 				source: this.CLASS_NAME,
 				ts: Date.now(),
@@ -282,6 +284,8 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			);
 		}
 
+		await this.checkParticipantExists(targetCredential.issuer as string);
+
 		const dataSpaceConnectorEntry = this.extractDataSpaceConnectorEntry(
 			complianceCredential,
 			result.credentials[0] as IDataSpaceConnectorCredential
@@ -293,6 +297,8 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		await this._entityStorageDataSpaceConnectors.set(theEntry as IDataSpaceConnectorEntry);
 
 		for (const dataResourceCredential of dataResourceCredentials) {
+			await this.checkParticipantExists(dataResourceCredential.issuer as string);
+
 			const dataResourceEntry = this.extractDataResourceEntry(
 				complianceCredential,
 				dataResourceCredential
@@ -304,7 +310,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			await this._entityStorageResources.set(drEntry as IDataResourceEntry);
 		}
 
-		await this._loggingService.log({
+		await this._loggingService?.log({
 			level: "info",
 			source: this.CLASS_NAME,
 			ts: Date.now(),
@@ -333,7 +339,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		const result = await this._complianceCredentialVerifier.verify(complianceCredential);
 
 		if (!result.verified) {
-			this._loggingService.log({
+			this._loggingService?.log({
 				level: "error",
 				source: this.CLASS_NAME,
 				ts: Date.now(),
@@ -362,6 +368,8 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		}
 
 		for (const dataResourceCredential of dataResourceCredentials) {
+			await this.checkParticipantExists(dataResourceCredential.issuer as string);
+
 			const dataResourceEntry = this.extractDataResourceEntry(
 				complianceCredential,
 				dataResourceCredential
@@ -374,7 +382,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			await this._entityStorageResources.set(theEntry as IDataResourceEntry);
 		}
 
-		await this._loggingService.log({
+		await this._loggingService?.log({
 			level: "info",
 			source: this.CLASS_NAME,
 			ts: Date.now(),
@@ -457,7 +465,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		const result = await this._complianceCredentialVerifier.verify(sdComplianceCredential);
 
 		if (!result.verified) {
-			this._loggingService.log({
+			this._loggingService?.log({
 				level: "error",
 				source: this.CLASS_NAME,
 				ts: Date.now(),
@@ -490,8 +498,8 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		}
 
 		for (const serviceOfferingCredential of serviceOfferingCredentials) {
-			const serviceProvider = serviceOfferingCredential.credentialSubject.providedBy;
-			await this.checkParticipantExists(serviceProvider as string);
+			const serviceIssuer = serviceOfferingCredential.issuer;
+			await this.checkParticipantExists(serviceIssuer as string);
 
 			const serviceOfferingEntry = this.extractServiceOfferingEntry(
 				sdComplianceCredential,
@@ -505,6 +513,8 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		}
 
 		for (const dataResourceCredential of dataResourceCredentials) {
+			await this.checkParticipantExists(dataResourceCredential.issuer as string);
+
 			const dataResourceEntry = this.extractDataResourceEntry(
 				sdComplianceCredential,
 				dataResourceCredential
@@ -512,7 +522,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			await this._entityStorageResources.set(dataResourceEntry);
 		}
 
-		await this._loggingService.log({
+		await this._loggingService?.log({
 			level: "info",
 			source: this.CLASS_NAME,
 			ts: Date.now(),
@@ -758,7 +768,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	private async checkParticipantExists(participantId: string): Promise<void> {
 		const participantData = await this._entityStorageParticipants.get(participantId);
 		if (!participantData) {
-			this._loggingService.log({
+			this._loggingService?.log({
 				level: "error",
 				source: this.CLASS_NAME,
 				ts: Date.now(),
