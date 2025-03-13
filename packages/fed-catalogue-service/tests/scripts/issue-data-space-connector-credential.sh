@@ -1,5 +1,5 @@
 #!/bin/sh
-docker run -it -v ./dataset:/ext --rm onboardingcli/onboardingcli vc create \
+docker run -it -v "$(pwd)/../dataset:/ext" --rm onboardingcli/onboardingcli vc create \
 --claims-file /ext/claims/data-space-connector-1.json --template-file /ext/templates/template.json \
 --trusted-issuer-file /ext/identities/acme/acme.json --vc-version 2 \
 --subject-did ""https://my-ds-connectors.example.org/ds-connector-ABCD"" \

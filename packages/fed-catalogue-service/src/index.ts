@@ -5,3 +5,6 @@ export * from "./federatedCatalogueService";
 export * from "./restEntryPoints";
 
 export * from "./IFederatedCatalogueOptions";
+
+export * from "./schema";
+

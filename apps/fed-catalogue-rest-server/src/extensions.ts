@@ -9,13 +9,14 @@ import {
 	LoggingConnectorType,
 	type IEngineConfig
 } from "@twin.org/engine-types";
-import { EntitySchemaFactory, EntitySchemaHelper } from "@twin.org/entity";
-import {
+import type {
 	DataResourceEntry,
 	DataSpaceConnectorEntry,
 	ParticipantEntry,
 	ServiceOfferingEntry
 } from "@twin.org/federated-catalogue-models";
+
+import { initSchema } from "@twin.org/federated-catalogue-service";
 import { nameof } from "@twin.org/nameof";
 
 /**
@@ -23,21 +24,7 @@ import { nameof } from "@twin.org/nameof";
  * @param engineConfig The engine configuration.
  */
 export function extendEngineConfig(engineConfig: IEngineConfig): void {
-	EntitySchemaFactory.register(nameof<ParticipantEntry>(), () =>
-		EntitySchemaHelper.getSchema(ParticipantEntry)
-	);
-
-	EntitySchemaFactory.register(nameof<DataResourceEntry>(), () =>
-		EntitySchemaHelper.getSchema(DataResourceEntry)
-	);
-
-	EntitySchemaFactory.register(nameof<ServiceOfferingEntry>(), () =>
-		EntitySchemaHelper.getSchema(ServiceOfferingEntry)
-	);
-
-	EntitySchemaFactory.register(nameof<DataSpaceConnectorEntry>(), () =>
-		EntitySchemaHelper.getSchema(DataSpaceConnectorEntry)
-	);
+	initSchema();
 
 	engineConfig.types.entityStorageComponent ??= [];
 

@@ -24,3 +24,4 @@
 - [dataResourceList](functions/dataResourceList.md)
 - [dataSpaceConnectorCredentialPresentation](functions/dataSpaceConnectorCredentialPresentation.md)
 - [dataSpaceConnectorList](functions/dataSpaceConnectorList.md)
+- [initSchema](functions/initSchema.md)

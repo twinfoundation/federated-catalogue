@@ -1,5 +1,5 @@
 #!/bin/sh
-docker run -it -v ./dataset:/ext --rm onboardingcli/onboardingcli vc create \
+docker run -it -v "$(pwd)/../dataset:/ext" --rm onboardingcli/onboardingcli vc create \
 --claims-file /ext/claims/acme-terms-conditions.json --template-file /ext/templates/template.json \
 --trusted-issuer-file /ext/identities/acme/acme.json --vc-version 2 \
 --subject-did "https://twinfoundation.github.io/federated-catalogue/public-web/terms-and-conditions.json" \
