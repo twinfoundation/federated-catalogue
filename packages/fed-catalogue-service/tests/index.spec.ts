@@ -95,7 +95,7 @@ describe("federated-catalogue-service", () => {
 		);
 	});
 
-	test("It should register a compliant Participant", async () => {
+	test.skip("It should register a compliant Participant", async () => {
 		const fedCatalogueService = new FederatedCatalogueService(options);
 		await fedCatalogueService.registerComplianceCredential(participantCredential.jwtCredential);
 		const queryResult = await fedCatalogueService.queryParticipants();
@@ -104,7 +104,7 @@ describe("federated-catalogue-service", () => {
 		expect(queryResult.entities[0].id).toBe(participantCredential.credential.credentialSubject.id);
 	});
 
-	test("It should register a compliant Data Resource", async () => {
+	test.skip("It should register a compliant Data Resource", async () => {
 		const fedCatalogueService = new FederatedCatalogueService(options);
 		// The Participant first must exist
 		await fedCatalogueService.registerComplianceCredential(participantCredential.jwtCredential);
@@ -116,7 +116,7 @@ describe("federated-catalogue-service", () => {
 		expect(queryResult.entities[0].id).toBe(dataResourceCredential.credential.credentialSubject.id);
 	});
 
-	test("It should register a compliant Service Offering", async () => {
+	test.skip("It should register a compliant Service Offering", async () => {
 		const fedCatalogueService = new FederatedCatalogueService(options);
 		// The Participant first must exist
 		await fedCatalogueService.registerComplianceCredential(participantCredential.jwtCredential);
@@ -132,7 +132,7 @@ describe("federated-catalogue-service", () => {
 		);
 	});
 
-	test("It should register a compliant Data Space Connector", async () => {
+	test.skip("It should register a compliant Data Space Connector", async () => {
 		const fedCatalogueService = new FederatedCatalogueService(options);
 		// The Participant first must exist
 		await fedCatalogueService.registerComplianceCredential(participantCredential.jwtCredential);

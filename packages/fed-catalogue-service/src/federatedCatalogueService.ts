@@ -25,6 +25,10 @@ import {
 	GaiaXTypes,
 	type ParticipantEntry
 } from "@twin.org/federated-catalogue-models";
+import {
+	IdentityResolverConnectorFactory,
+	type IIdentityResolverConnector
+} from "@twin.org/identity-models";
 import { LoggingConnectorFactory, type ILoggingConnector } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
 import type { IFederatedCatalogueOptions } from "./IFederatedCatalogueOptions";
@@ -102,10 +106,10 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			IEntityStorageConnector<DataSpaceConnectorEntry>
 		>(StringHelper.kebabCase(nameof<DataSpaceConnectorEntry>()));
 
-		this._jwtVerifier = new JwtVerificationService(
-			options?.didResolverEndpoint,
-			this._loggingService
-		);
+		const resolver: IIdentityResolverConnector =
+			IdentityResolverConnectorFactory.get<IIdentityResolverConnector>("xx");
+
+		this._jwtVerifier = new JwtVerificationService(resolver, this._loggingService);
 		this._complianceCredentialVerifier = new ComplianceCredentialVerificationService(
 			options.clearingHouseWhiteList,
 			this._loggingService
