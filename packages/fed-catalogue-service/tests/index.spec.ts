@@ -1,6 +1,9 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
+import fs from "node:fs";
+import path from "node:path";
+
 import { EnvHelper, StringHelper } from "@twin.org/core";
 import { MemoryEntityStorageConnector } from "@twin.org/entity-storage-connector-memory";
 import { EntityStorageConnectorFactory } from "@twin.org/entity-storage-models";
@@ -45,6 +48,34 @@ describe("federated-catalogue-service", () => {
 			.mockImplementation(async (module, method, args) =>
 				ModuleHelper.execModuleMethod(module, method, args)
 			);
+
+		const originalFetch = globalThis.fetch;
+
+		globalThis.fetch = vi.fn().mockImplementation(async (request: { url: string } | string) => {
+			const url = typeof request === "string" ? request : request.url;
+			if (url.includes("uni-resolver") || url.includes("w3.org")) {
+				return originalFetch(url);
+			}
+			const fileName = path.basename(new URL(url).pathname);
+			const pathToFile = path.join(
+				__dirname,
+				"..",
+				"..",
+				"..",
+				"docs",
+				"public-web",
+				"test-credentials",
+				fileName
+			);
+			const contentBuffer = await fs.readFileSync(pathToFile);
+			const content = contentBuffer.toString();
+			return {
+				status: 200,
+				ok: true,
+				headers: { "Content-Type": "application/json", "Content-Length": content.length },
+				json: async () => new Promise(resolve => resolve(JSON.parse(content)))
+			};
+		});
 
 		initSchema();
 
