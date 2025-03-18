@@ -1,0 +1,26 @@
+{
+    "id": "did:iota:testnet:0xb0d60698c3ad801241881650176245556f90ca0c9ed7584ca250f312e9ec95c8",
+    "verificationMethod": [
+        {
+            "id": "did:iota:testnet:0xb0d60698c3ad801241881650176245556f90ca0c9ed7584ca250f312e9ec95c8#4LQ8esc5syDl5oLckS8_QJ8vZ99DEsm-uBxXN4OehXU",
+            "controller": "did:iota:testnet:0xb0d60698c3ad801241881650176245556f90ca0c9ed7584ca250f312e9ec95c8",
+            "type": "JsonWebKey2020",
+            "publicKeyJwk": {
+                "kty": "OKP",
+                "use": "sig",
+                "key_ops": [
+                    "verify"
+                ],
+                "alg": "EdDSA",
+                "crv": "Ed25519",
+                "x": "kusTpAOWRNOVmmPFRm2-c736nMX7M0N26oixfnxcOkQ"
+            }
+        }
+    ],
+    "authentication": [
+        "did:iota:testnet:0xb0d60698c3ad801241881650176245556f90ca0c9ed7584ca250f312e9ec95c8#4LQ8esc5syDl5oLckS8_QJ8vZ99DEsm-uBxXN4OehXU"
+    ],
+    "assertionMethod": [
+        "did:iota:testnet:0xb0d60698c3ad801241881650176245556f90ca0c9ed7584ca250f312e9ec95c8#4LQ8esc5syDl5oLckS8_QJ8vZ99DEsm-uBxXN4OehXU"
+    ]
+}

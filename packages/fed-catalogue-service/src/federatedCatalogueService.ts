@@ -39,7 +39,6 @@ import type { IFederatedCatalogueOptions } from "./IFederatedCatalogueOptions";
 import { ComplianceCredentialVerificationService } from "./verification/complianceCredentialVerificationService";
 import { JwtVerificationService } from "./verification/jwtVerificationService";
 
-
 /**
  * Service for performing logging operations to a connector.
  */
