@@ -12,16 +12,6 @@ export * from "./models/api/IDataResourceListResponse";
 export * from "./models/api/IDataSpaceConnectorListRequest";
 export * from "./models/api/IDataSpaceConnectorListResponse";
 
-export * from "./gaia-x/IDataExchangeComponent";
-export * from "./gaia-x/IAddress";
-export * from "./gaia-x/IDataResource";
-export * from "./gaia-x/IEndpoint";
-export * from "./gaia-x/IParticipant";
-export * from "./gaia-x/IRegistrationNumber";
-export * from "./gaia-x/IServiceOffering";
-export * from "./gaia-x/gaiaxTypes";
-export * from "./gaia-x/gaiaxContexts";
-
 export * from "./models/participant/IParticipantEntry";
 export * from "./models/participant/IParticipantCredential";
 

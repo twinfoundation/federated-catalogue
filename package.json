@@ -14,6 +14,7 @@
 	},
 	"scripts": {
 		"dist": "node ./scripts/workspaces.mjs dist",
+		"dist:no-test": "node ./scripts/workspaces.mjs dist:no-test",
 		"format": "prettier --config .prettierrc --write .",
 		"lint:format": "prettier --config .prettierrc --check .",
 		"lint:code": "eslint . --ext .js,.mjs,.ts,.svelte",

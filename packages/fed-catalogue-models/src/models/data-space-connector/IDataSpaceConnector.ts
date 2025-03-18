@@ -6,11 +6,13 @@ import type {
 	IJsonLdKeyword,
 	IJsonLdNodeObject
 } from "@twin.org/data-json-ld";
-import type { GaiaXContexts } from "../../gaia-x/gaiaxContexts";
-import type { GaiaXTypes } from "../../gaia-x/gaiaxTypes";
-import type { IDataExchangeComponent } from "../../gaia-x/IDataExchangeComponent";
-import type { IDataResource } from "../../gaia-x/IDataResource";
-import type { IEndpoint } from "../../gaia-x/IEndpoint";
+import type {
+	GaiaXContexts,
+	GaiaXTypes,
+	IDataExchangeComponent,
+	IDataResource,
+	IEndpoint
+} from "@twin.org/standards-gaia-x";
 import type { FederatedCatalogueTypes } from "../federatedCatalogueTypes";
 
 /**
@@ -20,7 +22,7 @@ export interface IDataSpaceConnector extends IDataExchangeComponent {
 	/**
 	 * The LD Context.
 	 */
-	"@context": [typeof GaiaXContexts.Gaia_X_LD_Context, ...IJsonLdContextDefinitionElement[]];
+	"@context": [typeof GaiaXContexts.GaiaXLdContext, ...IJsonLdContextDefinitionElement[]];
 
 	/**
 	 * A unique identifier given to this Data Space Connector

@@ -22,7 +22,7 @@ The Id of the credential, it is mandatory.
 
 ### credentialSubject
 
-> **credentialSubject**: [`IDataResource`](IDataResource.md)
+> **credentialSubject**: `IDataResource`
 
 The subject of the Credential
 

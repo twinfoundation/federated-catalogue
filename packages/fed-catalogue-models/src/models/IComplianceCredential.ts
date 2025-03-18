@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0.
 
 import type { IJsonLdKeyword } from "@twin.org/data-json-ld";
+import type { GaiaXContexts } from "@twin.org/standards-gaia-x";
 import type { DidContexts, DidTypes } from "@twin.org/standards-w3c-did";
 import type { FederatedCatalogueTypes } from "./federatedCatalogueTypes";
 import type { IComplianceEvidence } from "./IComplianceEvidence";
 import type { ICredential } from "./ICredential";
-import type { GaiaXContexts } from "../gaia-x/gaiaxContexts";
 
 /**
  * A Compliance credential.
@@ -17,8 +17,8 @@ export interface IComplianceCredential extends ICredential {
 	 */
 	"@context": [
 		typeof DidContexts.ContextVCv2,
-		typeof GaiaXContexts.Gaia_X_LD_Context,
-		typeof GaiaXContexts.W3Id_Security_JWS_LD_Context,
+		typeof GaiaXContexts.GaiaXLdContext,
+		typeof GaiaXContexts.W3IdSecurityJwsLdContext,
 		...IJsonLdKeyword["@type"][]
 	];
 

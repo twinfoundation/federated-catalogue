@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0.
 
 import { ConflictError, GeneralError, Is } from "@twin.org/core";
-import type { IIdentityResolverConnector } from "@twin.org/identity-models";
+import type { IIdentityResolverComponent } from "@twin.org/identity-models";
 import type { ILoggingConnector } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
 import type { IDidDocument, IDidDocumentVerificationMethod } from "@twin.org/standards-w3c-did";
@@ -22,7 +22,7 @@ export class DIDService {
 	/**
 	 * The DID Resolver being used.
 	 */
-	private readonly _didResolver: IIdentityResolverConnector;
+	private readonly _didResolver: IIdentityResolverComponent;
 
 	/**
 	 * Logging service.
@@ -34,7 +34,7 @@ export class DIDService {
 	 * @param didResolver DID Resolver.
 	 * @param logger Logging.
 	 */
-	constructor(didResolver: IIdentityResolverConnector, logger?: ILoggingConnector) {
+	constructor(didResolver: IIdentityResolverComponent, logger?: ILoggingConnector) {
 		this._didResolver = didResolver;
 		this._logger = logger;
 	}
@@ -47,7 +47,7 @@ export class DIDService {
 	public async getDIDDocumentFromDID(did: string): Promise<IDidDocument> {
 		let didDocument: IDidDocument;
 		try {
-			didDocument = await this._didResolver.resolveDocument(did);
+			didDocument = await this._didResolver.identityResolve(did);
 		} catch (error) {
 			this._logger?.log({
 				level: "error",

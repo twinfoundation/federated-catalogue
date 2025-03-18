@@ -32,7 +32,7 @@ The trusted issuer of the compliance credential
 
 ### registrationNumber
 
-> **registrationNumber**: [`IRegistrationNumber`](../interfaces/IRegistrationNumber.md)
+> **registrationNumber**: `IRegistrationNumber`
 
 The legal registration number.
 
@@ -48,7 +48,7 @@ The legal name.
 
 ### legalAddress
 
-> **legalAddress**: [`IAddress`](../interfaces/IAddress.md)
+> **legalAddress**: `IAddress`
 
 Address
 

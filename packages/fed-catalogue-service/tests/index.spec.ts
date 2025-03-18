@@ -81,7 +81,6 @@ describe("federated-catalogue-service", () => {
 
 		options = {
 			loggingConnectorType: "console",
-			didResolverEndpoint: envVars.resolverEndpoint,
 			// Check for support of multiple values from env vars
 			clearingHouseWhiteList: JSON.parse(envVars.clearingHouseWhitelist) as string[]
 		};
@@ -126,7 +125,7 @@ describe("federated-catalogue-service", () => {
 		);
 	});
 
-	test.skip("It should register a compliant Participant", async () => {
+	test("It should register a compliant Participant", async () => {
 		const fedCatalogueService = new FederatedCatalogueService(options);
 		await fedCatalogueService.registerComplianceCredential(participantCredential.jwtCredential);
 		const queryResult = await fedCatalogueService.queryParticipants();
@@ -135,7 +134,7 @@ describe("federated-catalogue-service", () => {
 		expect(queryResult.entities[0].id).toBe(participantCredential.credential.credentialSubject.id);
 	});
 
-	test.skip("It should register a compliant Data Resource", async () => {
+	test("It should register a compliant Data Resource", async () => {
 		const fedCatalogueService = new FederatedCatalogueService(options);
 		// The Participant first must exist
 		await fedCatalogueService.registerComplianceCredential(participantCredential.jwtCredential);
@@ -163,7 +162,7 @@ describe("federated-catalogue-service", () => {
 		);
 	});
 
-	test.skip("It should register a compliant Data Space Connector", async () => {
+	test("It should register a compliant Data Space Connector", async () => {
 		const fedCatalogueService = new FederatedCatalogueService(options);
 		// The Participant first must exist
 		await fedCatalogueService.registerComplianceCredential(participantCredential.jwtCredential);
