@@ -59,7 +59,7 @@ describe("federated-catalogue-service", () => {
 
 		globalThis.fetch = vi.fn().mockImplementation(async (request: { url: string } | string) => {
 			const url = typeof request === "string" ? request : request.url;
-			if (url.includes("uni-resolver") || url.includes("w3.org")) {
+			if (url.includes("w3.org")) {
 				return originalFetch(url);
 			}
 			const fileName = path.basename(new URL(url).pathname);
@@ -170,7 +170,7 @@ describe("federated-catalogue-service", () => {
 		expect(queryResult.entities[0].id).toBe(dataResourceCredential.credential.credentialSubject.id);
 	});
 
-	test.skip("It should register a compliant Service Offering", async () => {
+	test("It should register a compliant Service Offering", async () => {
 		const fedCatalogueService = new FederatedCatalogueService(options);
 		// The Participant first must exist
 		await fedCatalogueService.registerComplianceCredential(participantCredential.jwtCredential);
