@@ -4,97 +4,13 @@ Interface describing a SD.
 
 ## Extends
 
-- `ICatalogEntry`.[`IServiceOffering`](IServiceOffering.md)
+- `ICatalogEntry`.`IServiceOffering`
 
 ## Indexable
 
 \[`key`: `string`\]: `undefined` \| `null` \| `string` \| `number` \| `boolean` \| `string`[] \| `IJsonLdContextDefinition` \| `IJsonLdContextDefinitionElement`[] \| `IJsonLdIdMap` \| `IJsonLdNodeObject` \| `IJsonLdListObject` \| `object` & `object` \| `object` & `object` \| `object` & `object` \| `IJsonLdSetObject` \| `IJsonLdJsonObject` \| `IJsonLdIndexMap` \| `IJsonLdLanguageMap` \| `IJsonLdGraphObject` \| `IJsonLdNodeObject`[] \| `IJsonLdJsonObject`[] \| \{\} \| `IJsonLdTypeMap` \| `IJsonLdNodePrimitive`[]
 
 ## Properties
-
-### @context
-
-> **@context**: `"https://w3id.org/gaia-x/development"` \| \[`"https://w3id.org/gaia-x/development"`, `...IJsonLdContextDefinitionElement[]`\]
-
-The LD context
-
-#### Inherited from
-
-[`IServiceOffering`](IServiceOffering.md).[`@context`](IServiceOffering.md#@context)
-
-***
-
-### id
-
-> **id**: `string`
-
-Id
-
-#### Inherited from
-
-[`IServiceOffering`](IServiceOffering.md).[`id`](IServiceOffering.md#id)
-
-***
-
-### type
-
-> **type**: `"ServiceOffering"`
-
-Type
-
-#### Inherited from
-
-[`IServiceOffering`](IServiceOffering.md).[`type`](IServiceOffering.md#type)
-
-***
-
-### description?
-
-> `optional` **description**: `string`
-
-Description
-
-#### Inherited from
-
-[`IServiceOffering`](IServiceOffering.md).[`description`](IServiceOffering.md#description)
-
-***
-
-### name
-
-> **name**: `string`
-
-Name
-
-#### Inherited from
-
-[`IServiceOffering`](IServiceOffering.md).[`name`](IServiceOffering.md#name)
-
-***
-
-### servicePolicy
-
-> **servicePolicy**: `IJsonLdNodeObject`
-
-ODRL policy associated to the service offering
-
-#### Inherited from
-
-[`IServiceOffering`](IServiceOffering.md).[`servicePolicy`](IServiceOffering.md#servicepolicy)
-
-***
-
-### endpoint
-
-> **endpoint**: [`IEndpoint`](IEndpoint.md)
-
-The endpoint
-
-#### Inherited from
-
-[`IServiceOffering`](IServiceOffering.md).[`endpoint`](IServiceOffering.md#endpoint)
-
-***
 
 ### trustedIssuerId
 
@@ -164,7 +80,7 @@ Overwrites providedBy as we only store identifier as string
 
 #### Overrides
 
-[`IServiceOffering`](IServiceOffering.md).[`providedBy`](IServiceOffering.md#providedby)
+`IServiceOffering.providedBy`
 
 ***
 
@@ -176,4 +92,4 @@ Overwrites aggregationOfResources as we only store identifier as string
 
 #### Overrides
 
-[`IServiceOffering`](IServiceOffering.md).[`aggregationOfResources`](IServiceOffering.md#aggregationofresources)
+`IServiceOffering.aggregationOfResources`

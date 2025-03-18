@@ -1,7 +1,14 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import { Guards, Is, ObjectHelper, StringHelper, UnprocessableError } from "@twin.org/core";
+import {
+	ComponentFactory,
+	Guards,
+	Is,
+	ObjectHelper,
+	StringHelper,
+	UnprocessableError
+} from "@twin.org/core";
 import { ComparisonOperator, type EntityCondition } from "@twin.org/entity";
 import {
 	EntityStorageConnectorFactory,
@@ -22,11 +29,12 @@ import {
 	type IDataSpaceConnectorCredential,
 	type IParticipantCredential,
 	FederatedCatalogueTypes,
-	GaiaXTypes,
 	type ParticipantEntry
 } from "@twin.org/federated-catalogue-models";
+import type { IIdentityResolverComponent } from "@twin.org/identity-models";
 import { LoggingConnectorFactory, type ILoggingConnector } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
+import { GaiaXTypes } from "@twin.org/standards-gaia-x";
 import type { IFederatedCatalogueOptions } from "./IFederatedCatalogueOptions";
 import { ComplianceCredentialVerificationService } from "./verification/complianceCredentialVerificationService";
 import { JwtVerificationService } from "./verification/jwtVerificationService";
@@ -102,10 +110,10 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			IEntityStorageConnector<DataSpaceConnectorEntry>
 		>(StringHelper.kebabCase(nameof<DataSpaceConnectorEntry>()));
 
-		this._jwtVerifier = new JwtVerificationService(
-			options?.didResolverEndpoint,
-			this._loggingService
-		);
+		const resolver: IIdentityResolverComponent =
+			ComponentFactory.get<IIdentityResolverComponent>("identity-resolver");
+
+		this._jwtVerifier = new JwtVerificationService(resolver, this._loggingService);
 		this._complianceCredentialVerifier = new ComplianceCredentialVerificationService(
 			options.clearingHouseWhiteList,
 			this._loggingService

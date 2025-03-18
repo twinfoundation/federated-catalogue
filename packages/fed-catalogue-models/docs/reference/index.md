@@ -9,13 +9,6 @@
 
 ## Interfaces
 
-- [IAddress](interfaces/IAddress.md)
-- [IDataExchangeComponent](interfaces/IDataExchangeComponent.md)
-- [IDataResource](interfaces/IDataResource.md)
-- [IEndpoint](interfaces/IEndpoint.md)
-- [IParticipant](interfaces/IParticipant.md)
-- [IRegistrationNumber](interfaces/IRegistrationNumber.md)
-- [IServiceOffering](interfaces/IServiceOffering.md)
 - [IComplianceCredential](interfaces/IComplianceCredential.md)
 - [IComplianceEvidence](interfaces/IComplianceEvidence.md)
 - [IComplianceVerificationResult](interfaces/IComplianceVerificationResult.md)
@@ -43,6 +36,4 @@
 
 ## Variables
 
-- [GaiaXContexts](variables/GaiaXContexts.md)
-- [GaiaXTypes](variables/GaiaXTypes.md)
 - [FederatedCatalogueTypes](variables/FederatedCatalogueTypes.md)

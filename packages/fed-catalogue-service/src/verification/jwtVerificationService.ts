@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0.
 
 import { GeneralError, UnprocessableError } from "@twin.org/core";
+import type { IIdentityResolverComponent } from "@twin.org/identity-models";
 import type { ILoggingConnector } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
 import type { IDidDocument } from "@twin.org/standards-w3c-did";
@@ -14,7 +15,6 @@ import {
 	jwtVerify
 } from "jose";
 import { DIDService } from "./didService";
-import { UniversalDidResolver } from "../resolution/universalDidResolver";
 
 /**
  * Verifies a JWT
@@ -30,11 +30,11 @@ export class JwtVerificationService {
 
 	/**
 	 * Constructor.
-	 * @param resolutionEndpoint Resolution endpoint (DIF Universal Resolver)
+	 * @param resolver The resolver used
 	 * @param loggingService The logging service
 	 */
-	constructor(resolutionEndpoint: string, loggingService?: ILoggingConnector) {
-		this._didService = new DIDService(new UniversalDidResolver(resolutionEndpoint), loggingService);
+	constructor(resolver: IIdentityResolverComponent, loggingService?: ILoggingConnector) {
+		this._didService = new DIDService(resolver, loggingService);
 	}
 
 	/**

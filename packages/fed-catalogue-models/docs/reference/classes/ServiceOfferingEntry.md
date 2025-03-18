@@ -56,7 +56,7 @@ The provider Id
 
 ### endpoint
 
-> **endpoint**: [`IEndpoint`](../interfaces/IEndpoint.md)
+> **endpoint**: `IEndpoint`
 
 The REST endpoint
 

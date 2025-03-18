@@ -30,8 +30,8 @@
 		"prepare": "ts-patch install -s"
 	},
 	"dependencies": {
-		"@twin.org/engine-models": "next",
 		"@twin.org/engine": "next",
+		"@twin.org/engine-models": "next",
 		"@twin.org/engine-server": "next",
 		"@twin.org/engine-server-types": "next",
 		"@twin.org/engine-types": "next",
@@ -46,8 +46,8 @@
 		"@twin.org/nameof-transformer": "next",
 		"@twin.org/nameof-vitest-plugin": "next",
 		"@twin.org/ts-to-openapi": "next",
-		"@vitest/coverage-v8": "3.0.5",
 		"@types/node": "22.13.1",
+		"@vitest/coverage-v8": "3.0.5",
 		"concurrently": "9.1.2",
 		"copyfiles": "2.4.1",
 		"cross-env": "7.0.3",

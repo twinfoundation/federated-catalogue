@@ -1,7 +1,7 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 import { entity, property, SortDirection } from "@twin.org/entity";
-import type { IEndpoint } from "../gaia-x/IEndpoint";
+import type { IEndpoint } from "@twin.org/standards-gaia-x";
 
 /**
  * Service Offering Entry.

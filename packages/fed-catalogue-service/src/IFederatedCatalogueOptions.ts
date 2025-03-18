@@ -11,11 +11,6 @@ export interface IFederatedCatalogueOptions {
 	loggingConnectorType?: string;
 
 	/**
-	 * Resolver endpoint
-	 */
-	didResolverEndpoint: string;
-
-	/**
 	 * Clearing House white list
 	 */
 	clearingHouseWhiteList: string[];

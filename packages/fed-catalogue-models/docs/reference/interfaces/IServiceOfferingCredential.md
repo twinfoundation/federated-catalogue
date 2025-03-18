@@ -22,7 +22,7 @@ The Id of the credential, it is mandatory.
 
 ### credentialSubject
 
-> **credentialSubject**: [`IServiceOffering`](IServiceOffering.md)
+> **credentialSubject**: `IServiceOffering`
 
 The Credential Subject
 

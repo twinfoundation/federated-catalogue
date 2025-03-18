@@ -4,85 +4,13 @@ Interface describing a participant.
 
 ## Extends
 
-- [`IParticipant`](IParticipant.md).`ICatalogEntry`
+- `IParticipant`.`ICatalogEntry`
 
 ## Indexable
 
 \[`key`: `string`\]: `undefined` \| `null` \| `string` \| `number` \| `boolean` \| `string`[] \| `IJsonLdContextDefinition` \| `IJsonLdContextDefinitionElement`[] \| `IJsonLdIdMap` \| `IJsonLdNodeObject` \| `IJsonLdListObject` \| `object` & `object` \| `object` & `object` \| `object` & `object` \| `IJsonLdSetObject` \| `IJsonLdJsonObject` \| `IJsonLdIndexMap` \| `IJsonLdLanguageMap` \| `IJsonLdGraphObject` \| `IJsonLdNodeObject`[] \| `IJsonLdJsonObject`[] \| \{\} \| `IJsonLdTypeMap` \| `IJsonLdNodePrimitive`[]
 
 ## Properties
-
-### @context
-
-> **@context**: `"https://w3id.org/gaia-x/development"` \| \[`"https://w3id.org/gaia-x/development"`, `...IJsonLdContextDefinitionElement[]`\]
-
-The LD context
-
-#### Inherited from
-
-[`IParticipant`](IParticipant.md).[`@context`](IParticipant.md#@context)
-
-***
-
-### id
-
-> **id**: `string`
-
-The participant Id.
-
-#### Inherited from
-
-[`IParticipant`](IParticipant.md).[`id`](IParticipant.md#id)
-
-***
-
-### type
-
-> **type**: `"LegalPerson"`
-
-JSON-LD type.
-
-#### Inherited from
-
-[`IParticipant`](IParticipant.md).[`type`](IParticipant.md#type)
-
-***
-
-### registrationNumber
-
-> **registrationNumber**: [`IRegistrationNumber`](IRegistrationNumber.md)
-
-The legal registration number.
-
-#### Inherited from
-
-[`IParticipant`](IParticipant.md).[`registrationNumber`](IParticipant.md#registrationnumber)
-
-***
-
-### legalName
-
-> **legalName**: `string`
-
-The legal name.
-
-#### Inherited from
-
-[`IParticipant`](IParticipant.md).[`legalName`](IParticipant.md#legalname)
-
-***
-
-### legalAddress
-
-> **legalAddress**: [`IAddress`](IAddress.md)
-
-Legal Address
-
-#### Inherited from
-
-[`IParticipant`](IParticipant.md).[`legalAddress`](IParticipant.md#legaladdress)
-
-***
 
 ### trustedIssuerId
 

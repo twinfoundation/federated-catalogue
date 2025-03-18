@@ -158,7 +158,7 @@ A description of this Data Space Connector
 
 ### defaultEndpoint
 
-> **defaultEndpoint**: [`IEndpoint`](IEndpoint.md)
+> **defaultEndpoint**: `IEndpoint`
 
 The default endpoint of the Connector.
 This endpoint can be used as a base to guess other endpoints in case they are not explicitly declared.
@@ -171,7 +171,7 @@ This endpoint can be used as a base to guess other endpoints in case they are no
 
 ### subscriptionActivityEndpoint?
 
-> `optional` **subscriptionActivityEndpoint**: [`IEndpoint`](IEndpoint.md)
+> `optional` **subscriptionActivityEndpoint**: `IEndpoint`
 
 The endpoint used for data subscription by Consumers.
 If the endpoint URL is a relative reference to a URL then it should be resolved using the
@@ -185,7 +185,7 @@ default endpoint URL as a base URL.
 
 ### pushActivityEndpoint
 
-> **pushActivityEndpoint**: [`IEndpoint`](IEndpoint.md)
+> **pushActivityEndpoint**: `IEndpoint`
 
 The endpoint used by Providers to push data.
 If the endpoint URL is a relative reference to a URL then it should be resolved using the
@@ -199,7 +199,7 @@ default endpoint URL as a base URL.
 
 ### pullDataEndpoint
 
-> **pullDataEndpoint**: [`IEndpoint`](IEndpoint.md)
+> **pullDataEndpoint**: `IEndpoint`
 
 The endpoint used by Consumers to pull data from.
 If the endpoint URL is a relative reference to a URL then it should be resolved using the

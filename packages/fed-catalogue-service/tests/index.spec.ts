@@ -4,7 +4,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import { EnvHelper, StringHelper } from "@twin.org/core";
+import { ComponentFactory, EnvHelper, StringHelper, Urn } from "@twin.org/core";
 import { MemoryEntityStorageConnector } from "@twin.org/entity-storage-connector-memory";
 import { EntityStorageConnectorFactory } from "@twin.org/entity-storage-models";
 import type {
@@ -13,9 +13,15 @@ import type {
 	ParticipantEntry,
 	ServiceOfferingEntry
 } from "@twin.org/federated-catalogue-models";
+import {
+	IdentityResolverConnectorFactory,
+	type IIdentityResolverConnector
+} from "@twin.org/identity-models";
+import { IdentityResolverService } from "@twin.org/identity-service";
 import { ModuleHelper } from "@twin.org/modules";
 import { nameof } from "@twin.org/nameof";
 
+import type { IDidDocument } from "@twin.org/standards-w3c-did";
 import { FederatedCatalogueService } from "../src/federatedCatalogueService";
 import type { IFederatedCatalogueOptions } from "../src/IFederatedCatalogueOptions";
 import { initSchema } from "../src/schema";
@@ -53,7 +59,7 @@ describe("federated-catalogue-service", () => {
 
 		globalThis.fetch = vi.fn().mockImplementation(async (request: { url: string } | string) => {
 			const url = typeof request === "string" ? request : request.url;
-			if (url.includes("uni-resolver") || url.includes("w3.org")) {
+			if (url.includes("w3.org")) {
 				return originalFetch(url);
 			}
 			const fileName = path.basename(new URL(url).pathname);
@@ -79,9 +85,26 @@ describe("federated-catalogue-service", () => {
 
 		initSchema();
 
+		ComponentFactory.register("identity-resolver", () => new IdentityResolverService());
+		IdentityResolverConnectorFactory.register(
+			"universal",
+			() =>
+				({
+					resolveDocument: async (did: string): Promise<IDidDocument> => {
+						const didUrn = Urn.fromValidString(did);
+						const didId = didUrn.parts().pop() as string;
+
+						const contentBuffer = await fs.readFileSync(
+							path.join(__dirname, "dataset", "dids", didId)
+						);
+						const content = contentBuffer.toString();
+						return JSON.parse(content) as IDidDocument;
+					}
+				}) as IIdentityResolverConnector
+		);
+
 		options = {
 			loggingConnectorType: "console",
-			didResolverEndpoint: envVars.resolverEndpoint,
 			// Check for support of multiple values from env vars
 			clearingHouseWhiteList: JSON.parse(envVars.clearingHouseWhitelist) as string[]
 		};

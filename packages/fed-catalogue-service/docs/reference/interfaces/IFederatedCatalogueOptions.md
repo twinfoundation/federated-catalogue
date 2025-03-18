@@ -12,14 +12,6 @@ Logging connector type
 
 ***
 
-### didResolverEndpoint
-
-> **didResolverEndpoint**: `string`
-
-Resolver endpoint
-
-***
-
 ### clearingHouseWhiteList
 
 > **clearingHouseWhiteList**: `string`[]

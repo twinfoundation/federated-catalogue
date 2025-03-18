@@ -64,7 +64,7 @@ Who maintains the Data Space Connector
 
 ### defaultEndpoint
 
-> **defaultEndpoint**: [`IEndpoint`](../interfaces/IEndpoint.md)
+> **defaultEndpoint**: `IEndpoint`
 
 The default endpoint
 
@@ -72,7 +72,7 @@ The default endpoint
 
 ### pushActivityEndpoint
 
-> **pushActivityEndpoint**: [`IEndpoint`](../interfaces/IEndpoint.md)
+> **pushActivityEndpoint**: `IEndpoint`
 
 The activity push endpoint
 
@@ -80,7 +80,7 @@ The activity push endpoint
 
 ### subscriptionActivityEndpoint?
 
-> `optional` **subscriptionActivityEndpoint**: [`IEndpoint`](../interfaces/IEndpoint.md)
+> `optional` **subscriptionActivityEndpoint**: `IEndpoint`
 
 The activity subscribe endpoint
 
@@ -88,7 +88,7 @@ The activity subscribe endpoint
 
 ### pullDataEndpoint
 
-> **pullDataEndpoint**: [`IEndpoint`](../interfaces/IEndpoint.md)
+> **pullDataEndpoint**: `IEndpoint`
 
 The pull data endpoint
 

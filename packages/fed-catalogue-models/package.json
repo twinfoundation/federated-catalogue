@@ -35,7 +35,9 @@
 		"@twin.org/core": "next",
 		"@twin.org/data-json-ld": "next",
 		"@twin.org/entity": "next",
-		"@twin.org/nameof": "next"
+		"@twin.org/nameof": "next",
+		"@twin.org/standards-w3c-did": "next",
+		"@twin.org/standards-gaia-x": "next"
 	},
 	"devDependencies": {
 		"@rollup/plugin-json": "6.1.0",
