@@ -2,10 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0.
 
 import { GeneralError, UnprocessableError } from "@twin.org/core";
-import type {
-	IIdentityResolverComponent,
-	IIdentityResolverConnector
-} from "@twin.org/identity-models";
+import type { IIdentityResolverComponent } from "@twin.org/identity-models";
 import type { ILoggingConnector } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
 import type { IDidDocument } from "@twin.org/standards-w3c-did";
