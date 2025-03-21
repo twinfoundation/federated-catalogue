@@ -1,10 +1,6 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import {
-	JsonWebSignature2020Verifier,
-	type VerifiableCredential
-} from "@gaia-x/json-web-signature-2020";
 import { Guards, UnprocessableError, Is, type IError } from "@twin.org/core";
 import {
 	FederatedCatalogueTypes,
@@ -14,9 +10,10 @@ import {
 	type IComplianceVerificationResult,
 	type IVerificationResult
 } from "@twin.org/federated-catalogue-models";
+import { DocumentHelper, type IIdentityResolverComponent } from "@twin.org/identity-models";
 import type { ILoggingConnector } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
-import type { IDidVerifiableCredential } from "@twin.org/standards-w3c-did";
+import { ProofHelper, type IDidVerifiableCredential } from "@twin.org/standards-w3c-did";
 import { FetchHelper } from "@twin.org/web";
 import canonicalize from "canonicalize";
 import { HashingUtils } from "../utils/hashingUtils";
@@ -27,6 +24,8 @@ import { HashingUtils } from "../utils/hashingUtils";
 export class ComplianceCredentialVerificationService {
 	public CLASS_NAME: string = nameof<ComplianceCredentialVerificationService>();
 
+	private readonly _resolver: IIdentityResolverComponent;
+
 	private readonly _logger?: ILoggingConnector;
 
 	private readonly _clearingHouseWhitelist: string[];
@@ -34,11 +33,17 @@ export class ComplianceCredentialVerificationService {
 	/**
 	 * Constructor.
 	 * @param clearingHouseWhitelist The white list of clearing house identities accepted.
+	 * @param resolver The resolver used for DID.
 	 * @param logger The Logger Component.
 	 */
-	constructor(clearingHouseWhitelist: string[], logger?: ILoggingConnector) {
-		this._logger = logger;
+	constructor(
+		clearingHouseWhitelist: string[],
+		resolver: IIdentityResolverComponent,
+		logger?: ILoggingConnector
+	) {
 		this._clearingHouseWhitelist = clearingHouseWhitelist;
+		this._resolver = resolver;
+		this._logger = logger;
 	}
 
 	/**
@@ -180,8 +185,10 @@ export class ComplianceCredentialVerificationService {
 				verificationFailureReason: `Credential ${credentialUrl} cannot be retrieved. HTTP Status Code: ${credentialResponse.status}`
 			};
 		}
-		const responseData = await credentialResponse.json();
-		const theCredential = structuredClone(responseData);
+		const originalCredential = await credentialResponse.json();
+		const theCredential = structuredClone(originalCredential);
+
+		const proof = theCredential.proof;
 
 		// The proof is not taken into account to calculate the hash
 		delete theCredential.proof;
@@ -214,11 +221,21 @@ export class ComplianceCredentialVerificationService {
 			};
 		}
 
-		const verifier: JsonWebSignature2020Verifier = new JsonWebSignature2020Verifier();
-		const originalCredential = responseData as VerifiableCredential;
+		const verMethodComponents = proof.verificationMethod.split("#");
+		const documentId = theCredential.issuer ?? verMethodComponents[0];
+		Guards.stringValue(this.CLASS_NAME, nameof(documentId), documentId);
+
+		let verified: boolean = false;
 		try {
-			await verifier.verify(originalCredential);
+			const document = await this._resolver.identityResolve(documentId);
+			const jwk = DocumentHelper.getJwk(document, proof.verificationMethod);
+
+			console.log(originalCredential)
+
+			verified = await ProofHelper.verifyProof(originalCredential, proof, jwk);
 		} catch (error) {
+			console.log(error)
+
 			this._logger?.log({
 				source: this.CLASS_NAME,
 				level: "error",
@@ -227,7 +244,7 @@ export class ComplianceCredentialVerificationService {
 				error: error as IError
 			});
 			return {
-				verified: false,
+				verified,
 				verificationFailureReason: `Credential ${credentialUrl} verification error`
 			};
 		}

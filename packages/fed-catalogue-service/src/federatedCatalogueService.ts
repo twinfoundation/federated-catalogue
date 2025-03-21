@@ -113,9 +113,10 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		const resolver: IIdentityResolverComponent =
 			ComponentFactory.get<IIdentityResolverComponent>("identity-resolver");
 
-		this._jwtVerifier = new JwtVerificationService(resolver, this._loggingService);
+		this._jwtVerifier = new JwtVerificationService(resolver);
 		this._complianceCredentialVerifier = new ComplianceCredentialVerificationService(
 			options.clearingHouseWhiteList,
+			resolver,
 			this._loggingService
 		);
 	}
@@ -131,7 +132,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		// This will raise exceptions as it has been coded reusing code from Gaia-X
 		const complianceCredential = (await this._jwtVerifier.decodeJwt(
 			credentialJwt
-		)) as IComplianceCredential;
+		));
 
 		const result = await this._complianceCredentialVerifier.verify(complianceCredential);
 
@@ -250,7 +251,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		// This will raise exceptions as it has been coded reusing code from Gaia-X
 		const complianceCredential = (await this._jwtVerifier.decodeJwt(
 			credentialJwt
-		)) as IComplianceCredential;
+		));
 
 		const result = await this._complianceCredentialVerifier.verify(complianceCredential);
 
@@ -342,7 +343,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		// This will raise exceptions as it has been coded reusing code from Gaia-X
 		const complianceCredential = (await this._jwtVerifier.decodeJwt(
 			credentialJwt
-		)) as IComplianceCredential;
+		));
 
 		const result = await this._complianceCredentialVerifier.verify(complianceCredential);
 
@@ -468,7 +469,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		// This will raise exceptions as it has been coded reusing code from Gaia-X
 		const sdComplianceCredential = (await this._jwtVerifier.decodeJwt(
 			credentialJwt
-		)) as IComplianceCredential;
+		));
 
 		const result = await this._complianceCredentialVerifier.verify(sdComplianceCredential);
 

@@ -43,7 +43,6 @@
 		"@twin.org/identity-service": "next",
 		"@twin.org/standards-gaia-x": "next",
 		"jose": "^4.9.3",
-		"@gaia-x/json-web-signature-2020": "file:../../../../gaia-x/json-web-signature-2020-dev-iota",
 		"canonicalize": "^2.0.0"
 	},
 	"devDependencies": {

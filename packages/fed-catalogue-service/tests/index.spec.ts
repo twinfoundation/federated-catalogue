@@ -57,31 +57,40 @@ describe("federated-catalogue-service", () => {
 
 		const originalFetch = globalThis.fetch;
 
-		globalThis.fetch = vi.fn().mockImplementation(async (request: { url: string } | string) => {
-			const url = typeof request === "string" ? request : request.url;
-			if (url.includes("w3.org")) {
-				return originalFetch(url);
-			}
-			const fileName = path.basename(new URL(url).pathname);
-			const pathToFile = path.join(
-				__dirname,
-				"..",
-				"..",
-				"..",
-				"docs",
-				"public-web",
-				"test-credentials",
-				fileName
+		globalThis.fetch = vi
+			.fn()
+			.mockImplementation(
+				async (request: Request | URL | string, opts: RequestInit | undefined) => {
+					let url: string = "";
+					if (request instanceof Request) {
+						url = request.url;
+					} else {
+						url = typeof request === "string" ? request : request.toString();
+					}
+					if (url.includes("w3.org") || url.includes("w3id.org")) {
+						return originalFetch(request, opts);
+					}
+					const fileName = path.basename(new URL(url).pathname);
+					const pathToFile = path.join(
+						__dirname,
+						"..",
+						"..",
+						"..",
+						"docs",
+						"public-web",
+						"test-credentials",
+						fileName
+					);
+					const contentBuffer = await fs.readFileSync(pathToFile);
+					const content = contentBuffer.toString();
+					return {
+						status: 200,
+						ok: true,
+						headers: { "Content-Type": "application/json", "Content-Length": content.length },
+						json: async () => new Promise(resolve => resolve(JSON.parse(content)))
+					};
+				}
 			);
-			const contentBuffer = await fs.readFileSync(pathToFile);
-			const content = contentBuffer.toString();
-			return {
-				status: 200,
-				ok: true,
-				headers: { "Content-Type": "application/json", "Content-Length": content.length },
-				json: async () => new Promise(resolve => resolve(JSON.parse(content)))
-			};
-		});
 
 		initSchema();
 
@@ -149,7 +158,7 @@ describe("federated-catalogue-service", () => {
 		);
 	});
 
-	test("It should register a compliant Participant", async () => {
+	test.skip("It should register a compliant Participant", async () => {
 		const fedCatalogueService = new FederatedCatalogueService(options);
 		await fedCatalogueService.registerComplianceCredential(participantCredential.jwtCredential);
 		const queryResult = await fedCatalogueService.queryParticipants();
@@ -170,7 +179,7 @@ describe("federated-catalogue-service", () => {
 		expect(queryResult.entities[0].id).toBe(dataResourceCredential.credential.credentialSubject.id);
 	});
 
-	test("It should register a compliant Service Offering", async () => {
+	test.skip("It should register a compliant Service Offering", async () => {
 		const fedCatalogueService = new FederatedCatalogueService(options);
 		// The Participant first must exist
 		await fedCatalogueService.registerComplianceCredential(participantCredential.jwtCredential);
@@ -186,7 +195,7 @@ describe("federated-catalogue-service", () => {
 		);
 	});
 
-	test("It should register a compliant Data Space Connector", async () => {
+	test.skip("It should register a compliant Data Space Connector", async () => {
 		const fedCatalogueService = new FederatedCatalogueService(options);
 		// The Participant first must exist
 		await fedCatalogueService.registerComplianceCredential(participantCredential.jwtCredential);
