@@ -8,7 +8,7 @@
 			"type": "CompliantCredential",
 			"id": "https://twinfoundation.github.io/federated-catalogue/public-web/test-credentials/service-offering-1.json",
 			"credentialType": "VerifiableCredential",
-			"digestSRI": "sha256-DWCUfdUNlMGqLlUctvZJtB82o/nInqUtw4WWZHNXap0="
+			"digestSRI": "sha256-9SyxzvnwM1TCghggSe92/5UvRuSc3PqY36WjeXJK94I="
 		}
 	]
 }

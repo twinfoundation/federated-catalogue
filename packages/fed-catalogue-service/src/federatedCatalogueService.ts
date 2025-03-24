@@ -754,12 +754,13 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		const credentialData = dataResourceCredential.credentialSubject;
 		Guards.objectValue(this.CLASS_NAME, nameof(credentialData), credentialData);
 
-		const { producedBy, exposedThrough, ...deStructuredData } = credentialData;
+		const { producedBy, copyrightOwnedBy, exposedThrough, ...deStructuredData } = credentialData;
 
 		const result: IDataResourceEntry = {
 			...deStructuredData,
 			trustedIssuerId: complianceCredential.issuer as string,
-			producedBy: producedBy as string,
+			producedBy: (typeof producedBy === "string" ? producedBy : producedBy.id),
+			copyrightOwnedBy: (typeof copyrightOwnedBy === "string" ? copyrightOwnedBy : copyrightOwnedBy.id),
 			exposedThrough: exposedThrough as string,
 			validFrom: dataResourceCredential.validFrom as string,
 			validUntil: dataResourceCredential.validUntil as string,

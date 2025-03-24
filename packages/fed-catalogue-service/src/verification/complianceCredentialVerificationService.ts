@@ -189,7 +189,6 @@ export class ComplianceCredentialVerificationService {
 		const theCredential = structuredClone(originalCredential);
 
 		const proof = theCredential.proof;
-
 		// The proof is not taken into account to calculate the hash
 		delete theCredential.proof;
 
@@ -230,12 +229,8 @@ export class ComplianceCredentialVerificationService {
 			const document = await this._resolver.identityResolve(documentId);
 			const jwk = DocumentHelper.getJwk(document, proof.verificationMethod);
 
-			console.log(originalCredential)
-
-			verified = await ProofHelper.verifyProof(originalCredential, proof, jwk);
+			verified = await ProofHelper.verifyProof(theCredential, proof, jwk);
 		} catch (error) {
-			console.log(error)
-
 			this._logger?.log({
 				source: this.CLASS_NAME,
 				level: "error",

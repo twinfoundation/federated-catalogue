@@ -1,11 +1,11 @@
-# GTSC Logging Service
+# Federated Catalogue Service
 
-Logging contract implementation and REST endpoint definitions.
+Federated Catalogue contract implementation and REST endpoint definitions.
 
 ## Installation
 
 ```shell
-npm install @gtsc/logging-service
+npm install @twin.org/federated-catalogue-service
 ```
 
 ## Examples

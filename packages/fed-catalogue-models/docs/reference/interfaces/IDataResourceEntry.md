@@ -12,6 +12,90 @@ Interface describing a Data Resource entry.
 
 ## Properties
 
+### @context
+
+> **@context**: `"https://w3id.org/gaia-x/development"` \| \[`"https://w3id.org/gaia-x/development"`, `...IJsonLdContextDefinitionElement[]`\]
+
+The LD Context
+
+#### Inherited from
+
+`IDataResource.@context`
+
+***
+
+### id
+
+> **id**: `string`
+
+Subject Id
+
+#### Inherited from
+
+`IDataResource.id`
+
+***
+
+### type
+
+> **type**: `"DataResource"`
+
+Subject type
+
+#### Inherited from
+
+`IDataResource.type`
+
+***
+
+### description?
+
+> `optional` **description**: `string`
+
+Description
+
+#### Inherited from
+
+`IDataResource.description`
+
+***
+
+### name
+
+> **name**: `string`
+
+The Resource Name
+
+#### Inherited from
+
+`IDataResource.name`
+
+***
+
+### license
+
+> **license**: `string`
+
+Pointer (URL) to the license
+
+#### Inherited from
+
+`IDataResource.license`
+
+***
+
+### resourcePolicy
+
+> **resourcePolicy**: `IJsonLdNodeObject`
+
+ODRL Policy
+
+#### Inherited from
+
+`IDataResource.resourcePolicy`
+
+***
+
 ### trustedIssuerId
 
 > **trustedIssuerId**: `string`
@@ -81,6 +165,18 @@ Overwriting producedBy as we only store the identifier
 #### Overrides
 
 `IDataResource.producedBy`
+
+***
+
+### copyrightOwnedBy
+
+> **copyrightOwnedBy**: `string`
+
+Overwriting copyrightOwnedBy as we only store the identifier
+
+#### Overrides
+
+`IDataResource.copyrightOwnedBy`
 
 ***
 

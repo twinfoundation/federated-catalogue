@@ -3,9 +3,15 @@
 	"credentialSubject": {
 		"@context": "https://w3id.org/gaia-x/development",
 		"type": "DataResource",
-		"producedBy": "did:iota:testnet:0x1a7bded4d22dc54722435d624e4323e10fcbc570cd57462eabbf3a5ab2ced24f",
+		"producedBy": {
+			"id": "did:iota:testnet:0x1a7bded4d22dc54722435d624e4323e10fcbc570cd57462eabbf3a5ab2ced24f",
+			"type": "LegalPerson"
+		},
 		"exposedThrough": "https://my-ds-connectors.example.org/ds-connector-ABCD",
-		"copyrightOwnedBy": "did:iota:testnet:0x1a7bded4d22dc54722435d624e4323e10fcbc570cd57462eabbf3a5ab2ced24f",
+		"copyrightOwnedBy":  {
+			"id": "did:iota:testnet:0x1a7bded4d22dc54722435d624e4323e10fcbc570cd57462eabbf3a5ab2ced24f",
+			"type": "LegalPerson"
+		},
 		"license": "http://licenses.example.org/tlip-invoice",
 		"resourcePolicy": {
 			"@context": ["http://www.w3.org/ns/odrl.jsonld"],

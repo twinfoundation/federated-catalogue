@@ -12,6 +12,78 @@ Interface describing a participant.
 
 ## Properties
 
+### @context
+
+> **@context**: `"https://w3id.org/gaia-x/development"` \| \[`"https://w3id.org/gaia-x/development"`, `...IJsonLdContextDefinitionElement[]`\]
+
+The LD context
+
+#### Inherited from
+
+`IParticipant.@context`
+
+***
+
+### id
+
+> **id**: `string`
+
+The participant Id.
+
+#### Inherited from
+
+`IParticipant.id`
+
+***
+
+### type
+
+> **type**: `"LegalPerson"`
+
+JSON-LD type.
+
+#### Inherited from
+
+`IParticipant.type`
+
+***
+
+### registrationNumber
+
+> **registrationNumber**: `IRegistrationNumber`
+
+The legal registration number.
+
+#### Inherited from
+
+`IParticipant.registrationNumber`
+
+***
+
+### legalName
+
+> **legalName**: `string`
+
+The legal name.
+
+#### Inherited from
+
+`IParticipant.legalName`
+
+***
+
+### legalAddress
+
+> **legalAddress**: `IAddress`
+
+Legal Address
+
+#### Inherited from
+
+`IParticipant.legalAddress`
+
+***
+
 ### trustedIssuerId
 
 > **trustedIssuerId**: `string`

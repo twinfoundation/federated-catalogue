@@ -1,11 +1,11 @@
-# GTSC Logging Models
+# Federated Catalogue Models
 
-Models which define the structure of the logging contracts and connectors.
+Models which define the structure of the models used by the Federated Catalogue. 
 
 ## Installation
 
 ```shell
-npm install @gtsc/logging-models
+npm install @twin.org/federatated-catalogue-models
 ```
 
 ## Examples

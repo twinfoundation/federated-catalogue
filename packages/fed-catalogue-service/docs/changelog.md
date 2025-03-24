@@ -1,5 +1,5 @@
-# @gtsc/logging-service - Changelog
+# @twin.org/federated-catalogue-service - Changelog
 
-## v0.0.3
+## v0.0.1
 
 - Initial Release

@@ -12,6 +12,90 @@ Interface describing a SD.
 
 ## Properties
 
+### @context
+
+> **@context**: `"https://w3id.org/gaia-x/development"` \| \[`"https://w3id.org/gaia-x/development"`, `...IJsonLdContextDefinitionElement[]`\]
+
+The LD context
+
+#### Inherited from
+
+`IServiceOffering.@context`
+
+***
+
+### id
+
+> **id**: `string`
+
+Id
+
+#### Inherited from
+
+`IServiceOffering.id`
+
+***
+
+### type
+
+> **type**: `"ServiceOffering"`
+
+Type
+
+#### Inherited from
+
+`IServiceOffering.type`
+
+***
+
+### description?
+
+> `optional` **description**: `string`
+
+Description
+
+#### Inherited from
+
+`IServiceOffering.description`
+
+***
+
+### name
+
+> **name**: `string`
+
+Name
+
+#### Inherited from
+
+`IServiceOffering.name`
+
+***
+
+### servicePolicy
+
+> **servicePolicy**: `IJsonLdNodeObject`
+
+ODRL policy associated to the service offering
+
+#### Inherited from
+
+`IServiceOffering.servicePolicy`
+
+***
+
+### endpoint
+
+> **endpoint**: `IEndpoint`
+
+The endpoint
+
+#### Inherited from
+
+`IServiceOffering.endpoint`
+
+***
+
 ### trustedIssuerId
 
 > **trustedIssuerId**: `string`

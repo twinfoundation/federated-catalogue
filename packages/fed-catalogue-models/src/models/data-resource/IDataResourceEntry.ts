@@ -14,6 +14,11 @@ export interface IDataResourceEntry extends ICatalogEntry, IDataResource {
 	producedBy: string;
 
 	/**
+	 * Overwriting copyrightOwnedBy as we only store the identifier
+	 */
+	copyrightOwnedBy: string;
+
+	/**
 	 * Overwriting exposedThrough as we only store the id of the Data Exchange Component
 	 */
 	exposedThrough: string;

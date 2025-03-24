@@ -1,1 +1,1 @@
-# @gtsc/logging-service - Examples
+# @twin.org/federated-catalogue-service - Examples
