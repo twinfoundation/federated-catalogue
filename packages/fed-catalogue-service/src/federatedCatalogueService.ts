@@ -34,7 +34,7 @@ import {
 import type { IIdentityResolverComponent } from "@twin.org/identity-models";
 import { LoggingConnectorFactory, type ILoggingConnector } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
-import { GaiaXTypes } from "@twin.org/standards-gaia-x";
+import { GaiaXTypes, type IParticipant } from "@twin.org/standards-gaia-x";
 import type { IFederatedCatalogueOptions } from "./IFederatedCatalogueOptions";
 import { ComplianceCredentialVerificationService } from "./verification/complianceCredentialVerificationService";
 import { JwtVerificationService } from "./verification/jwtVerificationService";
@@ -130,9 +130,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		Guards.string(this.CLASS_NAME, nameof(credentialJwt), credentialJwt);
 
 		// This will raise exceptions as it has been coded reusing code from Gaia-X
-		const complianceCredential = (await this._jwtVerifier.decodeJwt(
-			credentialJwt
-		));
+		const complianceCredential = await this._jwtVerifier.decodeJwt(credentialJwt);
 
 		const result = await this._complianceCredentialVerifier.verify(complianceCredential);
 
@@ -249,9 +247,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		Guards.string(this.CLASS_NAME, nameof(credentialJwt), credentialJwt);
 
 		// This will raise exceptions as it has been coded reusing code from Gaia-X
-		const complianceCredential = (await this._jwtVerifier.decodeJwt(
-			credentialJwt
-		));
+		const complianceCredential = await this._jwtVerifier.decodeJwt(credentialJwt);
 
 		const result = await this._complianceCredentialVerifier.verify(complianceCredential);
 
@@ -341,9 +337,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		Guards.string(this.CLASS_NAME, nameof(credentialJwt), credentialJwt);
 
 		// This will raise exceptions as it has been coded reusing code from Gaia-X
-		const complianceCredential = (await this._jwtVerifier.decodeJwt(
-			credentialJwt
-		));
+		const complianceCredential = await this._jwtVerifier.decodeJwt(credentialJwt);
 
 		const result = await this._complianceCredentialVerifier.verify(complianceCredential);
 
@@ -467,9 +461,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		Guards.string(this.CLASS_NAME, nameof(credentialJwt), credentialJwt);
 
 		// This will raise exceptions as it has been coded reusing code from Gaia-X
-		const sdComplianceCredential = (await this._jwtVerifier.decodeJwt(
-			credentialJwt
-		));
+		const sdComplianceCredential = await this._jwtVerifier.decodeJwt(credentialJwt);
 
 		const result = await this._complianceCredentialVerifier.verify(sdComplianceCredential);
 
@@ -729,7 +721,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 		const result: IServiceOfferingEntry = {
 			...deStructuredData,
-			providedBy: providedBy as string,
+			providedBy: typeof providedBy === "string" ? providedBy : providedBy.id,
 			aggregationOfResources: aggregationOfResources as string[],
 			trustedIssuerId: complianceCredential.issuer as string,
 			validFrom: sdCredential.validFrom as string,
@@ -756,11 +748,21 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 		const { producedBy, copyrightOwnedBy, exposedThrough, ...deStructuredData } = credentialData;
 
+		let producedByValue = producedBy;
+		if (Is.object<IParticipant>(producedByValue)) {
+			producedByValue = producedByValue.id;
+		}
+
+		let copyrightOwnedByValue = copyrightOwnedBy;
+		if (Is.object<IParticipant>(copyrightOwnedByValue)) {
+			copyrightOwnedByValue = copyrightOwnedByValue.id;
+		}
+
 		const result: IDataResourceEntry = {
 			...deStructuredData,
 			trustedIssuerId: complianceCredential.issuer as string,
-			producedBy: (typeof producedBy === "string" ? producedBy : producedBy.id),
-			copyrightOwnedBy: (typeof copyrightOwnedBy === "string" ? copyrightOwnedBy : copyrightOwnedBy.id),
+			producedBy: producedByValue,
+			copyrightOwnedBy: copyrightOwnedByValue,
 			exposedThrough: exposedThrough as string,
 			validFrom: dataResourceCredential.validFrom as string,
 			validUntil: dataResourceCredential.validUntil as string,

@@ -6,8 +6,8 @@
 	"id": "https://twinfoundation.github.io/federated-catalogue/public-web/test-credentials/service-offering-1.json",
 	"type": ["VerifiableCredential"],
 	"issuer": "did:iota:testnet:0x1a7bded4d22dc54722435d624e4323e10fcbc570cd57462eabbf3a5ab2ced24f",
-	"validFrom": "2025-03-24T14:22:06Z",
-	"validUntil": "2027-07-05T22:22:06Z",
+	"validFrom": "2025-03-24T15:39:39Z",
+	"validUntil": "2027-07-05T23:39:39Z",
 	"credentialSubject": {
 		"@context": "https://w3id.org/gaia-x/development",
 		"endpoint": { "endpointURL": "https://endpoint.example.org/api", "type": "Endpoint" },
@@ -18,7 +18,10 @@
 			"type": "LegalPerson"
 		},
 		"servicePolicy": {
-			"@context": ["http://www.w3.org/ns/odrl.jsonld"],
+			"@context": [
+				"http://www.w3.org/ns/odrl.jsonld",
+				{ "jsonPathSelector": "twin:jsonPathSelector", "twin": "https://w3id.org/twin/odrl/" }
+			],
 			"@type": "Agreement",
 			"assignee": "did:iota:testnet:0x119adb64d01d3b0fa0d308c67db90ab1c6e0df6aebe5b7e0250783f57cd10c21",
 			"assigner": "did:iota:testnet:0x1a7bded4d22dc54722435d624e4323e10fcbc570cd57462eabbf3a5ab2ced24f",
@@ -28,10 +31,10 @@
 					"target": {
 						"refinement": {
 							"leftOperand": {
-								"@id": "twin:propertyValue",
+								"@id": "https://w3id.org/twin/odrl/propertyValue",
 								"jsonPathSelector": ".documentTypeCode"
 							},
-							"operand": "eq",
+							"operator": "eq",
 							"rightOperand": "https://vocabulary.uncefact.org/DocumentCodeList#331"
 						},
 						"type": "https://vocabulary.uncefact.org/Document"
@@ -44,9 +47,9 @@
 	},
 	"proof": {
 		"type": "JsonWebSignature2020",
-		"created": "2025-03-24T15:27:53.678+01:00",
+		"created": "2025-03-24T16:41:09.443+01:00",
 		"proofPurpose": "assertionMethod",
 		"verificationMethod": "did:iota:testnet:0x1a7bded4d22dc54722435d624e4323e10fcbc570cd57462eabbf3a5ab2ced24f#_PsKjSaPf_m10FKRIFY662IG4dM4jaJNV7pK7N1Zen0",
-		"jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..t7Pv108WSaklaAXovQRb6hPM1DP7HxTfSUBX1nI_TNemk2UfpbImfFsG6tu4q7pEPglsOJ6vqtXYW0AKHbe4Cg"
+		"jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..3FkLXKnMtLsyRqywvACzCpMAp_MWNTYFLJ7X8ezkbprVSrBovkdxHyG47y-BPWTI6Qz4-EEREG2pNp5wf0O-CQ"
 	}
 }

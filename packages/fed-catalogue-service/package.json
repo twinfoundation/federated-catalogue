@@ -41,8 +41,7 @@
 		"@twin.org/logging-models": "next",
 		"@twin.org/identity-models": "next",
 		"@twin.org/identity-service": "next",
-		"@twin.org/standards-gaia-x": "next",
-		"jose": "^4.9.3",
+		"@twin.org/standards-w3c-did": "next",
 		"canonicalize": "^2.0.0"
 	},
 	"devDependencies": {

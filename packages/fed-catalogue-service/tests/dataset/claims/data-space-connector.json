@@ -4,7 +4,7 @@
 		"@context": [
 			"https://w3id.org/gaia-x/development",
 			{
-				"twin": "https://w3id.org/twin/ds-connector",
+				"twin": "https://w3id.org/twin/ds-connector/",
 				"DataSpaceConnector": "twin:DataSpaceConnector",
 				"identity": "twin:identity",
 				"defaultEndpoint": "twin:defaultEndpoint",

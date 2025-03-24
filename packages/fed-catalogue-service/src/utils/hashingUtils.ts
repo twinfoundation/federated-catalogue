@@ -3,7 +3,8 @@
 
 /* eslint-disable jsdoc/require-jsdoc */
 
-import { createHash } from "node:crypto";
+import { Base64 } from "@twin.org/core";
+import { Sha256, Sha512 } from "@twin.org/crypto";
 
 export abstract class HashingUtils {
 	public static sha256(input: string): string | null {
@@ -11,7 +12,9 @@ export abstract class HashingUtils {
 			return null;
 		}
 
-		return createHash("sha256").update(input).digest("base64");
+		const data = Sha256.sum256(new TextEncoder().encode(input));
+
+		return Base64.encode(data);
 	}
 
 	public static sha512(input: string): string | null {
@@ -19,6 +22,8 @@ export abstract class HashingUtils {
 			return null;
 		}
 
-		return createHash("sha512").update(input).digest("base64");
+		const data = Sha512.sum512(new TextEncoder().encode(input));
+
+		return Base64.encode(data);
 	}
 }
