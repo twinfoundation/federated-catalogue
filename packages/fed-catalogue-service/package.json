@@ -42,6 +42,8 @@
 		"@twin.org/identity-models": "next",
 		"@twin.org/identity-service": "next",
 		"@twin.org/standards-w3c-did": "next",
+		"@twin.org/standards-gaia-x": "next",
+		"@twin.org/crypto": "next",
 		"canonicalize": "^2.0.0"
 	},
 	"devDependencies": {
