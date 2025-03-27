@@ -7,6 +7,7 @@ import { nameof } from "@twin.org/nameof";
 
 /**
  * Verifies a JWT
+ * @internal
  */
 export class JwtVerificationService {
 	public readonly CLASS_NAME: string = nameof<JwtVerificationService>();

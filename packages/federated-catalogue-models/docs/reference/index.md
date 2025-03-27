@@ -34,6 +34,11 @@
 - [IServiceOfferingCredential](interfaces/IServiceOfferingCredential.md)
 - [IServiceOfferingEntry](interfaces/IServiceOfferingEntry.md)
 
+## Type Aliases
+
+- [VerificationFailureReasons](type-aliases/VerificationFailureReasons.md)
+
 ## Variables
 
 - [FederatedCatalogueTypes](variables/FederatedCatalogueTypes.md)
+- [VerificationFailureReasons](variables/VerificationFailureReasons.md)

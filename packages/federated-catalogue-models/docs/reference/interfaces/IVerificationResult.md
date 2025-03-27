@@ -16,8 +16,8 @@ True if verified. False the opposite.
 
 ***
 
-### verificationFailureReason
+### verificationFailureReason?
 
-> **verificationFailureReason**: `string`
+> `optional` **verificationFailureReason**: `string`
 
 Verification failure reason.

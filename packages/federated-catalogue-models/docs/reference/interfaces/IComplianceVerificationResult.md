@@ -16,6 +16,22 @@ The credentials involved
 
 ***
 
+### evidenceVerificationResult?
+
+> `optional` **evidenceVerificationResult**: [`IVerificationResult`](IVerificationResult.md)
+
+Filled in case an evidence cannot be verified to provide the reason
+
+***
+
+### evidenceFailedToVerify?
+
+> `optional` **evidenceFailedToVerify**: `string`[]
+
+The evidences that failed to be verified.
+
+***
+
 ### verified
 
 > **verified**: `boolean`
@@ -28,9 +44,9 @@ True if verified. False the opposite.
 
 ***
 
-### verificationFailureReason
+### verificationFailureReason?
 
-> **verificationFailureReason**: `string`
+> `optional` **verificationFailureReason**: `string`
 
 Verification failure reason.
 

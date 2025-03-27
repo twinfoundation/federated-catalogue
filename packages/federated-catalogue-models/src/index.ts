@@ -40,3 +40,6 @@ export * from "./entities/participantEntry";
 export * from "./entities/dataResourceEntry";
 export * from "./entities/serviceOfferingEntry";
 export * from "./entities/dataSpaceConnectorEntry";
+
+export * from "./models/verificationFailureReasons";
+

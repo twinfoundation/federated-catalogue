@@ -45,6 +45,21 @@ import { cleanupTestEnv, setupTestEnv } from "./setupTestEnv";
 let options: IFederatedCatalogueOptions;
 
 describe("federated-catalogue-service", () => {
+	/**
+	 * Extracts the URL as string.
+	 * @param request The request.
+	 * @returns URL as string.
+	 */
+	function extractURL(request: Request | URL | string): string {
+		let url: string = "";
+		if (request instanceof Request) {
+			url = request.url;
+		} else {
+			url = typeof request === "string" ? request : request.toString();
+		}
+		return url;
+	}
+
 	beforeAll(async () => {
 		await setupTestEnv();
 
@@ -63,16 +78,7 @@ describe("federated-catalogue-service", () => {
 			.fn()
 			.mockImplementation(
 				async (request: Request | URL | string, opts: RequestInit | undefined) => {
-					let url: string = "";
-					if (request instanceof Request) {
-						url = request.url;
-					} else {
-						url = typeof request === "string" ? request : request.toString();
-					}
-
-					console.log(url);
-
-					const fileName = path.basename(new URL(url).pathname);
+					const fileName = path.basename(new URL(extractURL(request)).pathname);
 					const pathToFile = path.join(
 						__dirname,
 						"..",

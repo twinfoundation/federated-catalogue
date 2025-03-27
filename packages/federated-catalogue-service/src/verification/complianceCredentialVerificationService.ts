@@ -8,7 +8,8 @@ import {
 	type IComplianceCredential,
 	type IComplianceEvidence,
 	type IComplianceVerificationResult,
-	type IVerificationResult
+	type IVerificationResult,
+	VerificationFailureReasons
 } from "@twin.org/federated-catalogue-models";
 import { DocumentHelper, type IIdentityResolverComponent } from "@twin.org/identity-models";
 import type { ILoggingConnector } from "@twin.org/logging-models";
@@ -58,7 +59,7 @@ export class ComplianceCredentialVerificationService {
 		) {
 			return {
 				verified: false,
-				verificationFailureReason: "Invalid credential type",
+				verificationFailureReason: VerificationFailureReasons.InvalidCredentialType,
 				credentials: []
 			};
 		}
@@ -66,7 +67,7 @@ export class ComplianceCredentialVerificationService {
 		if (!this._clearingHouseWhitelist.includes(credential.issuer as string)) {
 			return {
 				verified: false,
-				verificationFailureReason: `Credential's Issuer is not the clearing house: ${this._clearingHouseWhitelist}`,
+				verificationFailureReason: VerificationFailureReasons.InvalidIssuer,
 				credentials: []
 			};
 		}
@@ -75,7 +76,7 @@ export class ComplianceCredentialVerificationService {
 		if (Is.undefined(validFrom)) {
 			return {
 				verified: false,
-				verificationFailureReason: "Not valid yet",
+				verificationFailureReason: VerificationFailureReasons.NotValidYet,
 				credentials: []
 			};
 		}
@@ -83,7 +84,7 @@ export class ComplianceCredentialVerificationService {
 		if (validFromDate > Date.now()) {
 			return {
 				verified: false,
-				verificationFailureReason: "Not valid yet",
+				verificationFailureReason: VerificationFailureReasons.NotValidYet,
 				credentials: []
 			};
 		}
@@ -92,7 +93,7 @@ export class ComplianceCredentialVerificationService {
 		if (Is.undefined(validUntil)) {
 			return {
 				verified: false,
-				verificationFailureReason: "No validity end period provided",
+				verificationFailureReason: VerificationFailureReasons.NoValidityEndPeriod,
 				credentials: []
 			};
 		}
@@ -100,7 +101,7 @@ export class ComplianceCredentialVerificationService {
 		if (validUntilDate <= Date.now()) {
 			return {
 				verified: false,
-				verificationFailureReason: "Expired",
+				verificationFailureReason: VerificationFailureReasons.Expired,
 				credentials: []
 			};
 		}
@@ -109,7 +110,7 @@ export class ComplianceCredentialVerificationService {
 		if (!subject) {
 			return {
 				verified: false,
-				verificationFailureReason: "Missing subject",
+				verificationFailureReason: VerificationFailureReasons.MissingSubject,
 				credentials: []
 			};
 		}
@@ -118,14 +119,13 @@ export class ComplianceCredentialVerificationService {
 		if (evidences.length === 0) {
 			return {
 				verified: false,
-				verificationFailureReason: "Missing evidences",
+				verificationFailureReason: VerificationFailureReasons.MissingEvidences,
 				credentials: []
 			};
 		}
 
 		const finalResult: IComplianceVerificationResult = {
 			verified: true,
-			verificationFailureReason: "",
 			credentials: []
 		};
 
@@ -134,8 +134,10 @@ export class ComplianceCredentialVerificationService {
 			if (!verResult.verified) {
 				return {
 					verified: false,
-					verificationFailureReason: `Evidence failure: ${verResult.verificationFailureReason}`,
-					credentials: []
+					verificationFailureReason: VerificationFailureReasons.EvidenceCannotBeVerified,
+					evidenceVerificationResult: verResult,
+					credentials: [],
+					evidenceFailedToVerify: [evidence.id]
 				};
 			}
 			finalResult.credentials.push(verResult.credential as ICredential);
@@ -159,8 +161,11 @@ export class ComplianceCredentialVerificationService {
 		this._logger?.log({
 			source: this.CLASS_NAME,
 			level: "info",
-			message: `Verifying credential ${credentialUrl}`,
-			ts: Date.now()
+			message: "verifyingEvidenceCredential",
+			ts: Date.now(),
+			data: {
+				credentialUrl
+			}
 		});
 
 		const credentialResponse = await FetchHelper.fetch(
@@ -174,15 +179,16 @@ export class ComplianceCredentialVerificationService {
 			this._logger?.log({
 				source: this.CLASS_NAME,
 				level: "error",
-				message: `Credential ${credentialUrl} cannot be retrieved`,
+				message: "credentialCannotBeRetrieved",
 				ts: Date.now(),
 				data: {
+					credentialUrl,
 					statusCode: credentialResponse.status
 				}
 			});
 			return {
 				verified: false,
-				verificationFailureReason: `Credential ${credentialUrl} cannot be retrieved. HTTP Status Code: ${credentialResponse.status}`
+				verificationFailureReason: VerificationFailureReasons.EvidenceCannotBeRetrieved
 			};
 		}
 		const originalCredential = await credentialResponse.json();
@@ -191,15 +197,6 @@ export class ComplianceCredentialVerificationService {
 		const proof = theCredential.proof;
 		// The proof is not taken into account to calculate the hash
 		delete theCredential.proof;
-
-		// Below code no longer needed:
-
-		// Workaround to reflect the fact that the original enveloped credential contained the "iat" claim
-		// and was actually used by the Compliance Service to calculate the hash, probably it shouldn't as it refers
-		// to the JWT wrapping the credential, not the credential itself
-		// if (!theCredential.iat) {
-		//	theCredential.iat = Date.parse(theCredential.validFrom) / 1000;
-		// }
 
 		// Checking the hash
 		const canonicalized = canonicalize(theCredential) as string;
@@ -211,12 +208,12 @@ export class ComplianceCredentialVerificationService {
 		} else if (hashingAlg === "sha512") {
 			hashToCheck = HashingUtils.sha512(canonicalized);
 		} else {
-			throw new UnprocessableError(this.CLASS_NAME, `Unknown hashing algorithm: ${hashingAlg}`);
+			throw new UnprocessableError(this.CLASS_NAME, "unknownHashingAlgorithm", { hashingAlg });
 		}
 		if (hashToCheck !== hash) {
 			return {
 				verified: false,
-				verificationFailureReason: `Credential ${credentialUrl} fingerprint does not match`
+				verificationFailureReason: VerificationFailureReasons.IntegrityCheckFailed
 			};
 		}
 
@@ -234,26 +231,31 @@ export class ComplianceCredentialVerificationService {
 			this._logger?.log({
 				source: this.CLASS_NAME,
 				level: "error",
-				message: `Credential ${credentialUrl} verification error`,
+				message: "credentialVerificationError",
 				ts: Date.now(),
-				error: error as IError
+				error: error as IError,
+				data: {
+					credentialUrl
+				}
 			});
 			return {
 				verified,
-				verificationFailureReason: `Credential ${credentialUrl} verification error`
+				verificationFailureReason: VerificationFailureReasons.GeneralVerificationError
 			};
 		}
 
 		this._logger?.log({
 			source: this.CLASS_NAME,
 			level: "info",
-			message: `Credential ${credentialUrl} verified`,
-			ts: Date.now()
+			message: "credentialEvidenceVerified",
+			ts: Date.now(),
+			data: {
+				credentialUrl
+			}
 		});
 
 		return {
 			verified: true,
-			verificationFailureReason: "",
 			credential: originalCredential as IDidVerifiableCredential
 		};
 	}

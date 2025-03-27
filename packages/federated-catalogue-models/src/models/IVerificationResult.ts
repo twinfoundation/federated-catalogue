@@ -12,5 +12,5 @@ export interface IVerificationResult {
 	/**
 	 * Verification failure reason.
 	 */
-	verificationFailureReason: string;
+	verificationFailureReason?: string;
 }

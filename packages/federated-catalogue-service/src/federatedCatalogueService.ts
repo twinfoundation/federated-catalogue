@@ -44,6 +44,12 @@ import { JwtVerificationService } from "./verification/jwtVerificationService";
  */
 export class FederatedCatalogueService implements IFederatedCatalogue {
 	/**
+	 * Fields to skip when persisting entries to the Catalogue
+	 * @internal
+	 */
+	private static readonly _FIELDS_TO_SKIP = ["@context", "type"];
+
+	/**
 	 * Runtime name for the class.
 	 */
 	public readonly CLASS_NAME: string = nameof<FederatedCatalogueService>();
@@ -139,11 +145,11 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 				level: "error",
 				source: this.CLASS_NAME,
 				ts: Date.now(),
-				message: "Compliance credential cannot be verified",
+				message: "complianceCredentialNotVerified",
 				data: { result }
 			});
 
-			throw new UnprocessableError(this.CLASS_NAME, "Compliance credential cannot be verified", {
+			throw new UnprocessableError(this.CLASS_NAME, "complianceCredentialNotVerified", {
 				reason: result.verificationFailureReason
 			});
 		}
@@ -153,18 +159,20 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		) as IParticipantCredential;
 
 		if (Is.undefined(targetCredential)) {
-			throw new UnprocessableError(this.CLASS_NAME, "No Participant Credential evidence provided");
+			throw new UnprocessableError(this.CLASS_NAME, "noEvidence");
 		}
 		const participantEntry = this.extractParticipantEntry(complianceCredential, targetCredential);
-		const theEntry = ObjectHelper.omit<IParticipantEntry>(participantEntry, ["type", "@context"]);
+		const theEntry = ObjectHelper.omit<IParticipantEntry>(
+			participantEntry,
+			FederatedCatalogueService._FIELDS_TO_SKIP
+		);
 		await this._entityStorageParticipants.set(theEntry as IParticipantEntry);
 
 		await this._loggingService?.log({
 			level: "info",
 			source: this.CLASS_NAME,
 			ts: Date.now(),
-			message:
-				"Compliance credential verified and new Participant entry added to the Fed Catalogue",
+			message: "complianceCredentialVerified",
 			data: {
 				participantId: complianceCredential.credentialSubject?.id,
 				trustedIssuer: complianceCredential.issuer
@@ -256,17 +264,13 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 				level: "error",
 				source: this.CLASS_NAME,
 				ts: Date.now(),
-				message: "Compliance DS Connector credential cannot be verified",
+				message: "complianceCredentialNotVerified",
 				data: { result }
 			});
 
-			throw new UnprocessableError(
-				this.CLASS_NAME,
-				"Compliance DS Connector credential cannot be verified",
-				{
-					reason: result.verificationFailureReason
-				}
-			);
+			throw new UnprocessableError(this.CLASS_NAME, "complianceCredentialNotVerified", {
+				reason: result.verificationFailureReason
+			});
 		}
 
 		const targetCredential = result.credentials.find(credential => {
@@ -283,10 +287,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		) as IDataResourceCredential[];
 
 		if (Is.undefined(targetCredential)) {
-			throw new UnprocessableError(
-				this.CLASS_NAME,
-				"Data Space Connector credential not referenced from Compliance Credential"
-			);
+			throw new UnprocessableError(this.CLASS_NAME, "noEvidence");
 		}
 
 		await this.checkParticipantExists(targetCredential.issuer as string);
@@ -295,10 +296,10 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			complianceCredential,
 			result.credentials[0] as IDataSpaceConnectorCredential
 		);
-		const theEntry = ObjectHelper.omit<IDataSpaceConnectorEntry>(dataSpaceConnectorEntry, [
-			"type",
-			"@context"
-		]);
+		const theEntry = ObjectHelper.omit<IDataSpaceConnectorEntry>(
+			dataSpaceConnectorEntry,
+			FederatedCatalogueService._FIELDS_TO_SKIP
+		);
 		await this._entityStorageDataSpaceConnectors.set(theEntry as IDataSpaceConnectorEntry);
 
 		for (const dataResourceCredential of dataResourceCredentials) {
@@ -308,10 +309,10 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 				complianceCredential,
 				dataResourceCredential
 			);
-			const drEntry = ObjectHelper.omit<IDataResourceEntry>(dataResourceEntry, [
-				"type",
-				"@context"
-			]);
+			const drEntry = ObjectHelper.omit<IDataResourceEntry>(
+				dataResourceEntry,
+				FederatedCatalogueService._FIELDS_TO_SKIP
+			);
 			await this._entityStorageResources.set(drEntry as IDataResourceEntry);
 		}
 
@@ -319,8 +320,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			level: "info",
 			source: this.CLASS_NAME,
 			ts: Date.now(),
-			message:
-				"Compliance credential verified and new Data Space Connector entry added to the Fed Catalogue",
+			message: "complianceCredentialVerified",
 			data: {
 				participantId: complianceCredential.credentialSubject?.id,
 				trustedIssuer: complianceCredential.issuer
@@ -346,13 +346,13 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 				level: "error",
 				source: this.CLASS_NAME,
 				ts: Date.now(),
-				message: "Compliance Data Resource credential cannot be verified",
+				message: "complianceCredentialNotVerified",
 				data: { result }
 			});
 
 			throw new UnprocessableError(
 				this.CLASS_NAME,
-				"Compliance Data Resource credential cannot be verified",
+				"complianceCredentialNotVerified",
 				{
 					reason: result.verificationFailureReason
 				}
@@ -366,7 +366,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		if (dataResourceCredentials.length === 0) {
 			throw new UnprocessableError(
 				this.CLASS_NAME,
-				"Data Resource credential not referenced from Compliance Credential"
+				"noEvidence"
 			);
 		}
 
@@ -377,10 +377,10 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 				complianceCredential,
 				dataResourceCredential
 			);
-			const theEntry = ObjectHelper.omit<IDataResourceEntry>(dataResourceEntry, [
-				"type",
-				"@context"
-			]);
+			const theEntry = ObjectHelper.omit<IDataResourceEntry>(
+				dataResourceEntry,
+				FederatedCatalogueService._FIELDS_TO_SKIP
+			);
 
 			await this._entityStorageResources.set(theEntry as IDataResourceEntry);
 		}
@@ -390,7 +390,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			source: this.CLASS_NAME,
 			ts: Date.now(),
 			message:
-				"Compliance credential verified and new Data Resource entry(ies) added to the Fed Catalogue",
+				"complianceCredentialVerified",
 			data: {
 				participantId: complianceCredential.credentialSubject?.id,
 				trustedIssuer: complianceCredential.issuer
@@ -470,13 +470,13 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 				level: "error",
 				source: this.CLASS_NAME,
 				ts: Date.now(),
-				message: "Service Description credential cannot be verified",
+				message: "complianceCredentialNotVerified",
 				data: { result }
 			});
 
 			throw new UnprocessableError(
 				this.CLASS_NAME,
-				"Service Offering credential cannot be verified",
+				"complianceCredentialNotVerified",
 				{
 					reason: result.verificationFailureReason
 				}
@@ -494,7 +494,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		if (serviceOfferingCredentials.length === 0) {
 			throw new UnprocessableError(
 				this.CLASS_NAME,
-				"Service Offering credential not referenced from Compliance Credential"
+				"noEvidence"
 			);
 		}
 
@@ -506,10 +506,10 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 				sdComplianceCredential,
 				serviceOfferingCredential
 			);
-			const theEntry = ObjectHelper.omit<IServiceOfferingEntry>(serviceOfferingEntry, [
-				"type",
-				"@context"
-			]);
+			const theEntry = ObjectHelper.omit<IServiceOfferingEntry>(
+				serviceOfferingEntry,
+				FederatedCatalogueService._FIELDS_TO_SKIP
+			);
 			await this._entityStorageSOs.set(theEntry as IServiceOfferingEntry);
 		}
 
@@ -527,7 +527,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			level: "info",
 			source: this.CLASS_NAME,
 			ts: Date.now(),
-			message: "Service Offering credential verified and new entry added to the Fed Catalogue",
+			message: "complianceCredentialVerified",
 			data: {
 				providedBy: serviceOfferingCredentials[0].credentialSubject.providedBy,
 				trustedIssuer: sdComplianceCredential.issuer
@@ -784,11 +784,11 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 				level: "error",
 				source: this.CLASS_NAME,
 				ts: Date.now(),
-				message: "Provider is not known as participant",
+				message: "providerIsNotParticipant",
 				data: { providedBy: participantId }
 			});
 
-			throw new UnprocessableError(this.CLASS_NAME, "Provider is not known as participant", {
+			throw new UnprocessableError(this.CLASS_NAME, "providerIsNotParticipant", {
 				providedBy: participantId
 			});
 		}
