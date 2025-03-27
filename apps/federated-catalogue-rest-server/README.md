@@ -1,6 +1,10 @@
 # Federated Catalogue REST Server
 
-A REST server implementation support the routes from various packages.
+A REST server implementation support the Federated Catalogue routes.
+
+## Open API
+
+The Open API Spec is [here](./docs/open-api/spec.json)
 
 ## Building and running the application
 
