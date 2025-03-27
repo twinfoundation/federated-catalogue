@@ -4,7 +4,9 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import { ComponentFactory, EnvHelper, StringHelper, Urn } from "@twin.org/core";
+import { addAllContextsToDocumentCache, LD_CONTEXTS } from "@twin.org/standards-ld-contexts";
+
+import { ComponentFactory, EnvHelper, Is, StringHelper, Urn } from "@twin.org/core";
 import { MemoryEntityStorageConnector } from "@twin.org/entity-storage-connector-memory";
 import { EntityStorageConnectorFactory } from "@twin.org/entity-storage-models";
 import type {
@@ -55,7 +57,7 @@ describe("federated-catalogue-service", () => {
 				ModuleHelper.execModuleMethod(module, method, args)
 			);
 
-		const originalFetch = globalThis.fetch;
+		addAllContextsToDocumentCache();
 
 		globalThis.fetch = vi
 			.fn()
@@ -67,9 +69,9 @@ describe("federated-catalogue-service", () => {
 					} else {
 						url = typeof request === "string" ? request : request.toString();
 					}
-					if (url.includes("w3.org") || url.includes("w3id.org")) {
-						return originalFetch(request, opts);
-					}
+
+					console.log(url);
+
 					const fileName = path.basename(new URL(url).pathname);
 					const pathToFile = path.join(
 						__dirname,
