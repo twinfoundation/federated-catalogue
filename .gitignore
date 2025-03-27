@@ -12,7 +12,9 @@ coverage
 vitest.config.ts.timestamp*
 
 .env
-.env.*
+.env.local
+packages/federated-catalogue-service/tests/**/.env.*
+.env.local.*
 .local-data
 .local-data-docker
 
