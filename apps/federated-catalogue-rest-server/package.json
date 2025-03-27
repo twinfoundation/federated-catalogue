@@ -1,11 +1,11 @@
 {
-	"name": "@twin.org/fed-catalogue-rest-server",
+	"name": "@twin.org/federated-catalogue-rest-server",
 	"version": "0.0.1-next.1",
 	"description": "Serve APIs using the specified configuration",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/twinfoundation/federated-catalogue.git",
-		"directory": "apps/fed-catalogue-rest-server"
+		"directory": "apps/federated-catalogue-rest-server"
 	},
 	"author": "jose.cantera@iota.org",
 	"license": "Apache-2.0",

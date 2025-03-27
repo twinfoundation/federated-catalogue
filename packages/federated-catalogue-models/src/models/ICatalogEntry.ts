@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0.
 
 /**
- * A Catalog entry
+ * A Catalogue entry
  */
 export interface ICatalogEntry {
 	/**

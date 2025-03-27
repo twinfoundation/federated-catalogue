@@ -1,11 +1,11 @@
-# Fed Catalogue Models
+# Federated Catalogue Models
 
-Models which define the structure of the Federated Catalogo.
+Models which define the structure of the Federated Catalogue. 
 
 ## Installation
 
 ```shell
-npm install @twin.org/federated-catalog-models
+npm install @twin.org/federated-catalogue-models
 ```
 
 ## Examples
