@@ -8,4 +8,4 @@ This mono-repository contains the TWIN Federated Catalogue.
 
 ## Contributing
 
-To contribute to this package see the guidelines for building and publishing in [CONTRIBUTING](./CONTRIBUTING.md)
+To contribute to this package see the guidelines for building and publishing in [CONTRIBUTING](./CONTRIBUTING.md).
