@@ -25,4 +25,4 @@ docker build --no-cache  -f ./apps/federated-catalogue-rest-server/deploy/Docker
 
 3. Run the Docker image
 
-docker compose -f 
+docker compose -f
