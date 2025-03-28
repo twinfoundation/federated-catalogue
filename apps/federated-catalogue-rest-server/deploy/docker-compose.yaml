@@ -1,7 +1,7 @@
 version: '3.5'
 services:
   federated-catalogue:
-    image: twin.org/federated-catalogue:1.1
+    image: twin.org/federated-catalogue:latest
     env_file:
       - ../.env.local
     ports:
