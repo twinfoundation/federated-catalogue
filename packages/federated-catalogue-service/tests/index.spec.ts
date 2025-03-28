@@ -4,9 +4,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import { addAllContextsToDocumentCache, LD_CONTEXTS } from "@twin.org/standards-ld-contexts";
-
-import { ComponentFactory, EnvHelper, Is, StringHelper, Urn } from "@twin.org/core";
+import { ComponentFactory, EnvHelper, StringHelper, Urn } from "@twin.org/core";
 import { MemoryEntityStorageConnector } from "@twin.org/entity-storage-connector-memory";
 import { EntityStorageConnectorFactory } from "@twin.org/entity-storage-models";
 import type {
@@ -22,6 +20,7 @@ import {
 import { IdentityResolverService } from "@twin.org/identity-service";
 import { ModuleHelper } from "@twin.org/modules";
 import { nameof } from "@twin.org/nameof";
+import { addAllContextsToDocumentCache } from "@twin.org/standards-ld-contexts";
 
 import type { IDidDocument } from "@twin.org/standards-w3c-did";
 import { FederatedCatalogueService } from "../src/federatedCatalogueService";
@@ -43,23 +42,21 @@ let envVars: { [id: string]: string };
 import { cleanupTestEnv, setupTestEnv } from "./setupTestEnv";
 
 let options: IFederatedCatalogueOptions;
-
-describe("federated-catalogue-service", () => {
-	/**
-	 * Extracts the URL as string.
-	 * @param request The request.
-	 * @returns URL as string.
-	 */
-	function extractURL(request: Request | URL | string): string {
-		let url: string = "";
-		if (request instanceof Request) {
-			url = request.url;
-		} else {
-			url = typeof request === "string" ? request : request.toString();
-		}
-		return url;
+/**
+ * Extracts the URL as string.
+ * @param request The request.
+ * @returns URL as string.
+ */
+function extractURL(request: Request | URL | string): string {
+	let url: string = "";
+	if (request instanceof Request) {
+		url = request.url;
+	} else {
+		url = typeof request === "string" ? request : request.toString();
 	}
-
+	return url;
+}
+describe("federated-catalogue-service", () => {
 	beforeAll(async () => {
 		await setupTestEnv();
 
