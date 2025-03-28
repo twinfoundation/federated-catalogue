@@ -4,14 +4,12 @@ import { mkdir, rm } from "node:fs/promises";
 import path from "node:path";
 import { RandomHelper } from "@twin.org/core";
 import * as dotenv from "dotenv";
-import * as dotenvExpand from "dotenv-expand";
 
 console.debug("Setting up test environment from .env and .env.dev files");
 
-const dotEnvConfig = dotenv.config({
+dotenv.config({
 	path: [path.join(__dirname, ".env-test"), path.join(__dirname, ".env.dev")]
 });
-dotenvExpand.expand(dotEnvConfig);
 
 const TEST_FOLDER = "./tests/.tmp";
 
