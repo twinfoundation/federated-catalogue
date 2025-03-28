@@ -42,4 +42,3 @@ export * from "./entities/serviceOfferingEntry";
 export * from "./entities/dataSpaceConnectorEntry";
 
 export * from "./models/verificationFailureReasons";
-

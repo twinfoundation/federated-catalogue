@@ -350,13 +350,9 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 				data: { result }
 			});
 
-			throw new UnprocessableError(
-				this.CLASS_NAME,
-				"complianceCredentialNotVerified",
-				{
-					reason: result.verificationFailureReason
-				}
-			);
+			throw new UnprocessableError(this.CLASS_NAME, "complianceCredentialNotVerified", {
+				reason: result.verificationFailureReason
+			});
 		}
 
 		const dataResourceCredentials = result.credentials.filter(
@@ -364,10 +360,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		) as IDataResourceCredential[];
 
 		if (dataResourceCredentials.length === 0) {
-			throw new UnprocessableError(
-				this.CLASS_NAME,
-				"noEvidence"
-			);
+			throw new UnprocessableError(this.CLASS_NAME, "noEvidence");
 		}
 
 		for (const dataResourceCredential of dataResourceCredentials) {
@@ -389,8 +382,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			level: "info",
 			source: this.CLASS_NAME,
 			ts: Date.now(),
-			message:
-				"complianceCredentialVerified",
+			message: "complianceCredentialVerified",
 			data: {
 				participantId: complianceCredential.credentialSubject?.id,
 				trustedIssuer: complianceCredential.issuer
@@ -474,13 +466,9 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 				data: { result }
 			});
 
-			throw new UnprocessableError(
-				this.CLASS_NAME,
-				"complianceCredentialNotVerified",
-				{
-					reason: result.verificationFailureReason
-				}
-			);
+			throw new UnprocessableError(this.CLASS_NAME, "complianceCredentialNotVerified", {
+				reason: result.verificationFailureReason
+			});
 		}
 
 		const serviceOfferingCredentials = result.credentials.filter(
@@ -492,10 +480,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		) as IDataResourceCredential[];
 
 		if (serviceOfferingCredentials.length === 0) {
-			throw new UnprocessableError(
-				this.CLASS_NAME,
-				"noEvidence"
-			);
+			throw new UnprocessableError(this.CLASS_NAME, "noEvidence");
 		}
 
 		for (const serviceOfferingCredential of serviceOfferingCredentials) {

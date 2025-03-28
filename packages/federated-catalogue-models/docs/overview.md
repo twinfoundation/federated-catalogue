@@ -1,6 +1,6 @@
 # Federated Catalogue Models
 
-Models which define the structure of the models used by the Federated Catalogue. 
+Models which define the structure of the models used by the Federated Catalogue.
 
 ## Installation
 

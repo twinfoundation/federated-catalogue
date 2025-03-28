@@ -8,7 +8,7 @@
 			"type": "LegalPerson"
 		},
 		"exposedThrough": "https://my-ds-connectors.example.org/ds-connector-ABCD",
-		"copyrightOwnedBy":  {
+		"copyrightOwnedBy": {
 			"id": "did:iota:testnet:0x1a7bded4d22dc54722435d624e4323e10fcbc570cd57462eabbf3a5ab2ced24f",
 			"type": "LegalPerson"
 		},

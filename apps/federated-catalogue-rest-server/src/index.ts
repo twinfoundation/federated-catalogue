@@ -26,7 +26,10 @@ try {
 	});
 	dotenvExpand.expand(dotEnvConfig);
 
-	const envVars = EnvHelper.envToJson<IFederatedCatalogVariables>(process.env, "FEDERATED_CATALOGUE");
+	const envVars = EnvHelper.envToJson<IFederatedCatalogVariables>(
+		process.env,
+		"FEDERATED_CATALOGUE"
+	);
 
 	const startResult = await start(serverInfo, envVars, rootPackageFolder);
 
