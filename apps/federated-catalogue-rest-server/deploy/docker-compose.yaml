@@ -1,9 +1,9 @@
 version: '3.5'
 services:
-  federation-service:
-    image: iotazebra/fed-catalogue-service
+  federated-catalogue:
+    image: twin.org/federated-catalogue:1.1
     env_file:
-      - ./packages/fed-catalogue-rest-server/.env
+      - ../.env.local
     ports:
       - 3020:3020
     volumes:
