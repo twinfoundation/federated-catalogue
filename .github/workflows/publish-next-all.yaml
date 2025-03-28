@@ -13,11 +13,9 @@ jobs:
       matrix:
         package:
           [
-            logging-models,
-            logging-connector-console,
-            logging-connector-entity-storage,
-            logging-service,
-            logging-rest-client
+            federated-catalogue-models,
+            federated-catalogue-service,
+            federated-catalogue-rest-server
           ]
 
     steps:
