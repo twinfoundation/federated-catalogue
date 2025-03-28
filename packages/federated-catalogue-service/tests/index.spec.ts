@@ -60,7 +60,7 @@ describe("federated-catalogue-service", () => {
 	beforeAll(async () => {
 		await setupTestEnv();
 
-		envVars = EnvHelper.envToJson(process.env, "FED_CATALOG");
+		envVars = EnvHelper.envToJson(process.env, "FEDERATED_CATALOGUE");
 
 		// Mock the module helper to execute the method in the same thread, so we don't have to create an engine
 		ModuleHelper.execModuleMethodThread = vi

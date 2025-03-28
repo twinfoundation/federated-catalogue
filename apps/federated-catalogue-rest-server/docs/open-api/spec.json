@@ -276,7 +276,7 @@
 				}
 			}
 		},
-		"/fedcatalogue/participant-credentials": {
+		"/federated-catalogue/participant-credentials": {
 			"post": {
 				"operationId": "compliancePresentationRequest",
 				"summary": "Present a Compliance Credential",
@@ -386,7 +386,7 @@
 				}
 			}
 		},
-		"/fedcatalogue/service-offering-credentials": {
+		"/federated-catalogue/service-offering-credentials": {
 			"post": {
 				"operationId": "serviceOfferingPresentationRequest",
 				"summary": "Present a Service Offering Credential",
@@ -496,9 +496,9 @@
 				}
 			}
 		},
-		"/fedcatalogue/data-resource-credentials": {
+		"/federated-catalogue/data-resource-credentials": {
 			"post": {
-				"operationId": "datasResourcePresentationRequest",
+				"operationId": "dataResourcePresentationRequest",
 				"summary": "Present a Data Resource Credential",
 				"tags": [
 					"Federated Catalogue"
@@ -606,9 +606,9 @@
 				}
 			}
 		},
-		"/fedcatalogue/data-space-connector-credentials": {
+		"/federated-catalogue/data-space-connector-credentials": {
 			"post": {
-				"operationId": "dataspaceConnectorPresentationRequest",
+				"operationId": "dataSpaceConnectorPresentationRequest",
 				"summary": "Present a Data Space Connector Credential",
 				"tags": [
 					"Federated Catalogue"
@@ -716,7 +716,7 @@
 				}
 			}
 		},
-		"/fedcatalogue/participants": {
+		"/federated-catalogue/participants": {
 			"get": {
 				"operationId": "fedCatalogueListParticipants",
 				"summary": "Get a list of the participant entries",
@@ -881,7 +881,7 @@
 				}
 			}
 		},
-		"/fedcatalogue/service-offerings": {
+		"/federated-catalogue/service-offerings": {
 			"get": {
 				"operationId": "fedCatalogueListServices",
 				"summary": "Get a list of the service entries",
@@ -1034,7 +1034,7 @@
 				}
 			}
 		},
-		"/fedcatalogue/data-resources": {
+		"/federated-catalogue/data-resources": {
 			"get": {
 				"operationId": "fedCatalogueListResources",
 				"summary": "Get a list of the data resource entries",
@@ -1189,7 +1189,7 @@
 				}
 			}
 		},
-		"/fedcatalogue/data-space-connectors": {
+		"/federated-catalogue/data-space-connectors": {
 			"get": {
 				"operationId": "fedCatalogueListDataSpaceConnectors",
 				"summary": "Get a list of the Data Space connectors entries",

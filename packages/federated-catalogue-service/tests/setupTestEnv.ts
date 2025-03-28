@@ -9,7 +9,7 @@ import * as dotenvExpand from "dotenv-expand";
 console.debug("Setting up test environment from .env and .env.dev files");
 
 const dotEnvConfig = dotenv.config({
-	path: [path.join(__dirname, ".env"), path.join(__dirname, ".env.dev")]
+	path: [path.join(__dirname, ".env-test"), path.join(__dirname, ".env.dev")]
 });
 dotenvExpand.expand(dotEnvConfig);
 
