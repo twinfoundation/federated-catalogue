@@ -5,8 +5,8 @@ import { generateRestRoutesFedCatalogue, tagsFedCatalogue } from "./federatedCat
 
 export const restEntryPoints: IRestRouteEntryPoint[] = [
 	{
-		name: "fedcatalogue",
-		defaultBaseRoute: "fedcatalogue",
+		name: "federated-catalogue",
+		defaultBaseRoute: "federated-catalogue",
 		tags: tagsFedCatalogue,
 		generateRoutes: generateRestRoutesFedCatalogue
 	}

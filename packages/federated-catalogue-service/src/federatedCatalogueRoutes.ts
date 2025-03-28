@@ -108,7 +108,7 @@ export function generateRestRoutesFedCatalogue(
 		ICompliancePresentationRequest,
 		ICreatedResponse
 	> = {
-		operationId: "dataspaceConnectorPresentationRequest",
+		operationId: "dataSpaceConnectorPresentationRequest",
 		summary: "Present a Data Space Connector Credential",
 		tag: tagsFedCatalogue[0].name,
 		method: "POST",
@@ -136,7 +136,7 @@ export function generateRestRoutesFedCatalogue(
 	};
 
 	const createDataResourceRoute: IRestRoute<ICompliancePresentationRequest, ICreatedResponse> = {
-		operationId: "datasResourcePresentationRequest",
+		operationId: "dataResourcePresentationRequest",
 		summary: "Present a Data Resource Credential",
 		tag: tagsFedCatalogue[0].name,
 		method: "POST",

@@ -75,7 +75,7 @@ export async function start(
 			options: {
 				loggingConnectorType: LoggingConnectorType.Console,
 				didResolverEndpoint: envVars.resolverEndpoint,
-				// Check for support of multiple values from env vars
+				// Check for support of multiple values from env variables
 				clearingHouseWhiteList: JSON.parse(envVars.clearingHouseWhitelist) as string[]
 			}
 		}

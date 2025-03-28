@@ -20,7 +20,7 @@ export interface IComplianceEvidence extends IJsonLdNodeObject {
 
 	/**
 	 * One or more cryptographic digests, as defined by the hash-expression
-	 * ABNF grammar defined in the Subresource Integrity specification,
+	 * ABNF grammar defined in the Sub-resource Integrity specification,
 	 * Section 3.5: The integrity attribute.
 	 */
 	digestSRI: string;
