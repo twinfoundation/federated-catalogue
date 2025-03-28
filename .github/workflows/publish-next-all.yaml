@@ -12,11 +12,7 @@ jobs:
       max-parallel: 1
       matrix:
         package:
-          [
-            federated-catalogue-models,
-            federated-catalogue-service,
-            federated-catalogue-rest-server
-          ]
+          [federated-catalogue-models, federated-catalogue-service, federated-catalogue-rest-server]
 
     steps:
       - name: Checkout
