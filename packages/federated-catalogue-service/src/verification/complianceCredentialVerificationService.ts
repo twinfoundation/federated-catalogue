@@ -8,8 +8,10 @@ import {
 	type IError,
 	Coerce,
 	ObjectHelper,
-	JsonHelper
+	JsonHelper,
+	Converter
 } from "@twin.org/core";
+import { Sha256, Sha512 } from "@twin.org/crypto";
 import {
 	FederatedCatalogueTypes,
 	type ICredential,
@@ -24,7 +26,6 @@ import type { ILoggingConnector } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
 import { ProofHelper, type IDidVerifiableCredential } from "@twin.org/standards-w3c-did";
 import { FetchHelper } from "@twin.org/web";
-import { HashingUtils } from "../utils/hashingUtils";
 
 /**
  * Compliance Credential Verification Service.
@@ -215,9 +216,9 @@ export class ComplianceCredentialVerificationService {
 		const [hashingAlg, hash] = hashingDetails.split("-");
 		let hashToCheck: string | null = "";
 		if (hashingAlg === "sha256") {
-			hashToCheck = HashingUtils.sha256(canonicalized);
+			hashToCheck = Converter.bytesToBase64(Sha256.sum256(Converter.utf8ToBytes(canonicalized)));
 		} else if (hashingAlg === "sha512") {
-			hashToCheck = HashingUtils.sha512(canonicalized);
+			hashToCheck = Converter.bytesToBase64(Sha512.sum512(Converter.utf8ToBytes(canonicalized)));
 		} else {
 			throw new UnprocessableError(this.CLASS_NAME, "unknownHashingAlgorithm", { hashingAlg });
 		}
@@ -228,8 +229,8 @@ export class ComplianceCredentialVerificationService {
 			};
 		}
 
-		const verMethodComponents = proof.verificationMethod.split("#");
-		const documentId = theCredential.issuer ?? verMethodComponents[0];
+		const { id } = DocumentHelper.parseId(proof.verificationMethod);
+		const documentId = theCredential.issuer ?? id;
 		Guards.stringValue(this.CLASS_NAME, nameof(documentId), documentId);
 
 		let verified: boolean = false;

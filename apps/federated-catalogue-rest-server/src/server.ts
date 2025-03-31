@@ -49,7 +49,7 @@ export async function start(
 			Is.empty(stateStorage)) &&
 		!Is.stringValue(envVars.storageFileRoot)
 	) {
-		throw new GeneralError("Federated_Catalogue", "storageFileRootNotSet");
+		throw new GeneralError("federatedCatalogue", "storageFileRootNotSet");
 	}
 
 	// Build the engine configuration from the environment variables.
