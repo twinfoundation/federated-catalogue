@@ -13,5 +13,5 @@ export interface IFederatedCatalogueOptions {
 	/**
 	 * Clearing House approved list
 	 */
-	clearingHouseApprovedList: string[];
+	clearingHouseApproverList: string[];
 }

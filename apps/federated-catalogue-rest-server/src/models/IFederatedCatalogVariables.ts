@@ -10,7 +10,7 @@ export interface IFederatedCatalogVariables
 	extends IEngineEnvironmentVariables,
 		IEngineServerEnvironmentVariables {
 	/**
-	 * The DIDs of the Clearing Houses that are approved
+	 * The DIDs of the Clearing Houses that can approve
 	 */
-	clearingHouseApprovedList: string;
+	clearingHouseApproverList: string;
 }

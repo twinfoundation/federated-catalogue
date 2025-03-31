@@ -120,7 +120,7 @@ describe("federated-catalogue-service", () => {
 		options = {
 			loggingConnectorType: "console",
 			// Check for support of multiple values from env vars
-			clearingHouseApprovedList: JSON.parse(envVars.clearingHouseApprovedList) as string[]
+			clearingHouseApproverList: JSON.parse(envVars.clearingHouseApproverList) as string[]
 		};
 	});
 

@@ -74,8 +74,7 @@ export async function start(
 			restPath: REST_PATH,
 			options: {
 				loggingConnectorType: LoggingConnectorType.Console,
-				// Check for support of multiple values from env variables
-				clearingHouseApprovedList: JSON.parse(envVars.clearingHouseApprovedList) as string[]
+				clearingHouseApproverList: JSON.parse(envVars.clearingHouseApproverList) as string[]
 			}
 		}
 	];
