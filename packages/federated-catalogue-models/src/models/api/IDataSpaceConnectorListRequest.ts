@@ -9,7 +9,11 @@ export interface IDataSpaceConnectorListRequest {
 	 * The query parameters.
 	 */
 	query: {
+		/**
+		 * The id of the Data Space Connector.
+		 */
 		id?: string;
+
 		/**
 		 * The maintainer
 		 */

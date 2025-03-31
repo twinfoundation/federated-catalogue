@@ -4,7 +4,7 @@
 /**
  * A Catalogue entry
  */
-export interface ICatalogEntry {
+export interface ICatalogueEntry {
 	/**
 	 * The trusted issuer of the compliance credential
 	 */

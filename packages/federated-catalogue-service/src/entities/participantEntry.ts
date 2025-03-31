@@ -23,13 +23,13 @@ export class ParticipantEntry {
 	/**
 	 * The legal registration number.
 	 */
-	@property({ type: "object" })
+	@property({ type: "object", isSecondary: true })
 	public registrationNumber!: IRegistrationNumber;
 
 	/**
 	 * The legal name.
 	 */
-	@property({ type: "string" })
+	@property({ type: "string", isSecondary: true })
 	public legalName!: string;
 
 	/**
@@ -57,7 +57,7 @@ export class ParticipantEntry {
 	public dateCreated!: string;
 
 	/**
-	 * Date created
+	 * Evidences
 	 */
 	@property({ type: "array" })
 	public evidences!: string[];

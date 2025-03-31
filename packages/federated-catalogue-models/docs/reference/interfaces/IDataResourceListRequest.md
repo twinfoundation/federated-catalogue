@@ -14,6 +14,8 @@ The query parameters.
 
 > `optional` **id**: `string`
 
+The Id of the Data Resource.
+
 #### producedBy?
 
 > `optional` **producedBy**: `string`

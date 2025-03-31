@@ -1,13 +1,13 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import type { ICatalogEntry } from "../ICatalogEntry";
+import type { ICatalogueEntry } from "../ICatalogueEntry";
 import type { IDataSpaceConnector } from "./IDataSpaceConnector";
 
 /**
  * Interface describing a participant.
  */
-export interface IDataSpaceConnectorEntry extends IDataSpaceConnector, ICatalogEntry {
+export interface IDataSpaceConnectorEntry extends IDataSpaceConnector, ICatalogueEntry {
 	/**
 	 * Offered resources. Probably in the future this wll be separated in a different entry so
 	 * that a  Data Space Connector entry does not need to be modified when a new Data Resource

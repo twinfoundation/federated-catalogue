@@ -34,7 +34,7 @@ export class DataResourceEntry {
 	/**
 	 * The Id of the producer of the data described by this Data Resource.
 	 */
-	@property({ type: "string" })
+	@property({ type: "string", isSecondary: true })
 	public producedBy!: string;
 
 	/**

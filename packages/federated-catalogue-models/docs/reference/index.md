@@ -29,6 +29,7 @@
 
 ## Type Aliases
 
+- [FederatedCatalogueTypes](type-aliases/FederatedCatalogueTypes.md)
 - [VerificationFailureReasons](type-aliases/VerificationFailureReasons.md)
 
 ## Variables

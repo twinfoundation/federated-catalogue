@@ -14,7 +14,7 @@ The query parameters.
 
 > `optional` **id**: `string`
 
-Id.
+The Service Offering Id.
 
 #### providedBy?
 

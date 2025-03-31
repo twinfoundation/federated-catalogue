@@ -6,14 +6,20 @@ The types concerning the Federated Catalogue.
 
 ## Type declaration
 
-### CompliantCredential\_Evidence
+### CompliantCredential
 
-> `readonly` **CompliantCredential\_Evidence**: `"CompliantCredential"` = `"CompliantCredential"`
+> `readonly` **CompliantCredential**: `"CompliantCredential"` = `"CompliantCredential"`
+
+A Credential that is compliant.
 
 ### ComplianceCredential
 
 > `readonly` **ComplianceCredential**: `"ComplianceCredential"` = `"ComplianceCredential"`
 
+A Compliance Credential.
+
 ### DataSpaceConnector
 
 > `readonly` **DataSpaceConnector**: `"DataSpaceConnector"` = `"DataSpaceConnector"`
+
+A Data Space Connector.

@@ -10,9 +10,10 @@ export interface IServiceOfferingListRequest {
 	 */
 	query: {
 		/**
-		 * Id.
+		 * The Service Offering Id.
 		 */
 		id?: string;
+
 		/**
 		 * The service provider.
 		 */

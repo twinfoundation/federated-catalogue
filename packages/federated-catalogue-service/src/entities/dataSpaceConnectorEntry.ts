@@ -41,7 +41,7 @@ export class DataSpaceConnectorEntry {
 	/**
 	 * Who maintains the Data Space Connector
 	 */
-	@property({ type: "string" })
+	@property({ type: "string", isSecondary: true })
 	public maintainer!: string;
 
 	/**

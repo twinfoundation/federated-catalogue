@@ -16,7 +16,7 @@ export interface IComplianceEvidence extends IJsonLdNodeObject {
 	/**
 	 * Type of evidence.
 	 */
-	type: typeof FederatedCatalogueTypes.CompliantCredential_Evidence;
+	type: typeof FederatedCatalogueTypes.CompliantCredential;
 
 	/**
 	 * One or more cryptographic digests, as defined by the hash-expression

@@ -82,4 +82,4 @@ Date created
 
 > **evidences**: `string`[]
 
-Date created
+Evidences

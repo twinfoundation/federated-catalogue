@@ -16,6 +16,7 @@ export interface IDataResourceListResponse {
 		 * The LD @context.
 		 */
 		"@context": IDataResource["@context"];
+
 		/**
 		 * The entities, which can be partial if a limited keys list was provided.
 		 */

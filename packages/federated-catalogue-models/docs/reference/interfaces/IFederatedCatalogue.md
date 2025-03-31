@@ -1,6 +1,6 @@
 # Interface: IFederatedCatalogue
 
-Interface describing a Fed Catalogue Contract.
+Interface describing a Federated Catalogue Contract.
 
 ## Extends
 

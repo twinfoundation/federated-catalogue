@@ -9,7 +9,11 @@ export interface IDataResourceListRequest {
 	 * The query parameters.
 	 */
 	query: {
+		/**
+		 * The Id of the Data Resource.
+		 */
 		id?: string;
+
 		/**
 		 * The service provider.
 		 */

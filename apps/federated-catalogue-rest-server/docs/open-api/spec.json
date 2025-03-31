@@ -891,7 +891,7 @@
 				"parameters": [
 					{
 						"name": "id",
-						"description": "Id.",
+						"description": "The Service Offering Id.",
 						"in": "query",
 						"required": false,
 						"schema": {
@@ -1044,6 +1044,7 @@
 				"parameters": [
 					{
 						"name": "id",
+						"description": "The Id of the Data Resource.",
 						"in": "query",
 						"required": false,
 						"schema": {
@@ -1199,6 +1200,7 @@
 				"parameters": [
 					{
 						"name": "id",
+						"description": "The id of the Data Space Connector.",
 						"in": "query",
 						"required": false,
 						"schema": {

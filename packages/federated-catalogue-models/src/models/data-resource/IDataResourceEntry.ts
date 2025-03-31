@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0.
 
 import type { IDataResource } from "@twin.org/standards-gaia-x";
-import type { ICatalogEntry } from "../ICatalogEntry";
+import type { ICatalogueEntry } from "../ICatalogueEntry";
 
 /**
  * Interface describing a Data Resource entry.
  */
-export interface IDataResourceEntry extends ICatalogEntry, IDataResource {
+export interface IDataResourceEntry extends ICatalogueEntry, IDataResource {
 	/**
 	 * Overwriting producedBy as we only store the identifier
 	 */

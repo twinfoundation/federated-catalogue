@@ -14,6 +14,8 @@ The query parameters.
 
 > `optional` **id**: `string`
 
+The id of the Data Space Connector.
+
 #### maintainedBy?
 
 > `optional` **maintainedBy**: `string`

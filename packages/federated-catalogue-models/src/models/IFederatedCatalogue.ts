@@ -7,7 +7,7 @@ import type { IParticipantEntry } from "./participant/IParticipantEntry";
 import type { IServiceOfferingEntry } from "./service-offering/IServiceOfferingEntry";
 
 /**
- * Interface describing a Fed Catalogue Contract.
+ * Interface describing a Federated Catalogue Contract.
  */
 export interface IFederatedCatalogue extends IComponent {
 	/**
