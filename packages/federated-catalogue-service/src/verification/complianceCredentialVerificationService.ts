@@ -42,6 +42,11 @@ export class ComplianceCredentialVerificationService {
 	private readonly _resolver: IIdentityResolverComponent;
 
 	/**
+	 * Resolver component.
+	 */
+	private readonly _subResourceCacheTtlMs: number | undefined;
+
+	/**
 	 * Logging Component.
 	 */
 	private readonly _logger?: ILoggingConnector;
@@ -55,15 +60,18 @@ export class ComplianceCredentialVerificationService {
 	 * Constructor.
 	 * @param clearingHouseApproverList The list of clearing house identities approved.
 	 * @param resolver The resolver used for DID.
+	 * @param subResourceCacheTtlMs The time to live (in ms) of sub-resource objects in the cache. undefined means no cache. 0 means live in cache forever.
 	 * @param logger The Logger Component.
 	 */
 	constructor(
 		clearingHouseApproverList: string[],
 		resolver: IIdentityResolverComponent,
+		subResourceCacheTtlMs?: number,
 		logger?: ILoggingConnector
 	) {
 		this._clearingHouseApproverList = clearingHouseApproverList;
 		this._resolver = resolver;
+		this._subResourceCacheTtlMs = subResourceCacheTtlMs;
 		this._logger = logger;
 	}
 
@@ -197,7 +205,7 @@ export class ComplianceCredentialVerificationService {
 			credentialUrl,
 			"GET",
 			undefined,
-			{ cacheTtlMs: 240000 }
+			{ cacheTtlMs: this._subResourceCacheTtlMs }
 		);
 		if (!credentialResponse.ok) {
 			this._logger?.log({

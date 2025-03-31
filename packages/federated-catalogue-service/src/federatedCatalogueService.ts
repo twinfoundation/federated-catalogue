@@ -121,6 +121,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		this._complianceCredentialVerifier = new ComplianceCredentialVerificationService(
 			options.clearingHouseApproverList,
 			this._resolver,
+			options.subResourceCacheTtlMs,
 			this._loggingService
 		);
 	}
