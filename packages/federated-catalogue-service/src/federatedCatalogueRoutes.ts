@@ -21,17 +21,17 @@ import type {
 	IServiceOfferingListResponse
 } from "@twin.org/federated-catalogue-models";
 import { nameof } from "@twin.org/nameof";
-import { HttpStatusCode } from "@twin.org/web";
+import { HttpStatusCode, MimeTypes } from "@twin.org/web";
 
 /**
  * The source used when communicating about these routes.
  */
-const ROUTES_SOURCE = "fedCatalogueRoutes";
+const ROUTES_SOURCE = "federatedCatalogueRoutes";
 
 /**
  * The tag to associate with the routes.
  */
-export const tagsFedCatalogue: ITag[] = [
+export const tagsFederatedCatalogue: ITag[] = [
 	{
 		name: "Federated Catalogue",
 		description: "Endpoints to access a Federated Catalogue."
@@ -44,20 +44,20 @@ export const tagsFedCatalogue: ITag[] = [
  * @param factoryServiceName The name of the service to use in the routes store in the ServiceFactory.
  * @returns The generated routes.
  */
-export function generateRestRoutesFedCatalogue(
+export function generateRestRoutesFederatedCatalogue(
 	baseRouteName: string,
 	factoryServiceName: string
 ): IRestRoute[] {
 	const createParticipantRoute: IRestRoute<ICompliancePresentationRequest, ICreatedResponse> = {
 		operationId: "compliancePresentationRequest",
 		summary: "Present a Compliance Credential",
-		tag: tagsFedCatalogue[0].name,
+		tag: tagsFederatedCatalogue[0].name,
 		method: "POST",
 		path: `${baseRouteName}/participant-credentials`,
 		handler: async (httpRequestContext, request) =>
 			complianceCredentialPresentation(httpRequestContext, factoryServiceName, request),
 		requestType: {
-			mimeType: "application/jwt",
+			mimeType: MimeTypes.Jwt,
 			type: nameof<ICompliancePresentationRequest>(),
 			examples: [
 				{
@@ -79,17 +79,17 @@ export function generateRestRoutesFedCatalogue(
 	const createServiceRoute: IRestRoute<ICompliancePresentationRequest, ICreatedResponse> = {
 		operationId: "serviceOfferingPresentationRequest",
 		summary: "Present a Service Offering Credential",
-		tag: tagsFedCatalogue[0].name,
+		tag: tagsFederatedCatalogue[0].name,
 		method: "POST",
 		path: `${baseRouteName}/service-offering-credentials`,
 		handler: async (httpRequestContext, request) =>
 			serviceOfferingCredentialPresentation(httpRequestContext, factoryServiceName, request),
 		requestType: {
-			mimeType: "application/jwt",
+			mimeType: MimeTypes.Jwt,
 			type: nameof<ICompliancePresentationRequest>(),
 			examples: [
 				{
-					id: "servicePresentationRequestExample",
+					id: "serviceOfferingPresentationRequestExample",
 					request: {
 						body: "ey..."
 					}
@@ -110,13 +110,13 @@ export function generateRestRoutesFedCatalogue(
 	> = {
 		operationId: "dataSpaceConnectorPresentationRequest",
 		summary: "Present a Data Space Connector Credential",
-		tag: tagsFedCatalogue[0].name,
+		tag: tagsFederatedCatalogue[0].name,
 		method: "POST",
 		path: `${baseRouteName}/data-space-connector-credentials`,
 		handler: async (httpRequestContext, request) =>
 			dataSpaceConnectorCredentialPresentation(httpRequestContext, factoryServiceName, request),
 		requestType: {
-			mimeType: "application/jwt",
+			mimeType: MimeTypes.Jwt,
 			type: nameof<ICompliancePresentationRequest>(),
 			examples: [
 				{
@@ -138,13 +138,13 @@ export function generateRestRoutesFedCatalogue(
 	const createDataResourceRoute: IRestRoute<ICompliancePresentationRequest, ICreatedResponse> = {
 		operationId: "dataResourcePresentationRequest",
 		summary: "Present a Data Resource Credential",
-		tag: tagsFedCatalogue[0].name,
+		tag: tagsFederatedCatalogue[0].name,
 		method: "POST",
 		path: `${baseRouteName}/data-resource-credentials`,
 		handler: async (httpRequestContext, request) =>
 			dataResourceCredentialPresentation(httpRequestContext, factoryServiceName, request),
 		requestType: {
-			mimeType: "application/jwt",
+			mimeType: MimeTypes.Jwt,
 			type: nameof<ICompliancePresentationRequest>(),
 			examples: [
 				{
@@ -164,9 +164,9 @@ export function generateRestRoutesFedCatalogue(
 	};
 
 	const listParticipantsRoute: IRestRoute<IParticipantListRequest, IParticipantListResponse> = {
-		operationId: "fedCatalogueListParticipants",
+		operationId: "federatedCatalogueListParticipants",
 		summary: "Get a list of the participant entries",
-		tag: tagsFedCatalogue[0].name,
+		tag: tagsFederatedCatalogue[0].name,
 		method: "GET",
 		path: `${baseRouteName}/participants`,
 		handler: async (httpRequestContext, request) =>
@@ -189,7 +189,7 @@ export function generateRestRoutesFedCatalogue(
 				type: nameof<IParticipantListResponse>(),
 				examples: [
 					{
-						id: "listResponseExample",
+						id: "participantListResponseExample",
 						response: {
 							body: {
 								"@context": [
@@ -227,9 +227,9 @@ export function generateRestRoutesFedCatalogue(
 	};
 
 	const listServicesRoute: IRestRoute<IServiceOfferingListRequest, IServiceOfferingListResponse> = {
-		operationId: "fedCatalogueListServices",
+		operationId: "federatedCatalogueListServices",
 		summary: "Get a list of the service entries",
-		tag: tagsFedCatalogue[0].name,
+		tag: tagsFederatedCatalogue[0].name,
 		method: "GET",
 		path: `${baseRouteName}/service-offerings`,
 		handler: async (httpRequestContext, request) =>
@@ -238,7 +238,7 @@ export function generateRestRoutesFedCatalogue(
 			type: nameof<IServiceOfferingListRequest>(),
 			examples: [
 				{
-					id: "serviceListRequestExample",
+					id: "serviceOfferingListRequestExample",
 					request: {
 						query: {
 							providedBy: "did:iota:1234"
@@ -252,7 +252,7 @@ export function generateRestRoutesFedCatalogue(
 				type: nameof<IServiceOfferingListResponse>(),
 				examples: [
 					{
-						id: "listResponseExample",
+						id: "serviceOfferingListResponseExample",
 						response: {
 							body: {
 								"@context": [
@@ -287,9 +287,9 @@ export function generateRestRoutesFedCatalogue(
 	};
 
 	const listDataResourcesRoute: IRestRoute<IDataResourceListRequest, IDataResourceListResponse> = {
-		operationId: "fedCatalogueListResources",
+		operationId: "federatedCatalogueListResources",
 		summary: "Get a list of the data resource entries",
-		tag: tagsFedCatalogue[0].name,
+		tag: tagsFederatedCatalogue[0].name,
 		method: "GET",
 		path: `${baseRouteName}/data-resources`,
 		handler: async (httpRequestContext, request) =>
@@ -298,7 +298,7 @@ export function generateRestRoutesFedCatalogue(
 			type: nameof<IDataResourceListRequest>(),
 			examples: [
 				{
-					id: "resourceListRequestExample",
+					id: "dataResourceListRequestExample",
 					request: {
 						query: {
 							producedBy: "did:iota:1234"
@@ -312,7 +312,7 @@ export function generateRestRoutesFedCatalogue(
 				type: nameof<IDataResourceListResponse>(),
 				examples: [
 					{
-						id: "listResponseExample",
+						id: "dataResourceListResponseExample",
 						response: {
 							body: {
 								"@context": [
@@ -353,9 +353,9 @@ export function generateRestRoutesFedCatalogue(
 		IDataSpaceConnectorListRequest,
 		IDataSpaceConnectorListResponse
 	> = {
-		operationId: "fedCatalogueListDataSpaceConnectors",
+		operationId: "federatedCatalogueListDataSpaceConnectors",
 		summary: "Get a list of the Data Space connectors entries",
-		tag: tagsFedCatalogue[0].name,
+		tag: tagsFederatedCatalogue[0].name,
 		method: "GET",
 		path: `${baseRouteName}/data-space-connectors`,
 		handler: async (httpRequestContext, request) =>
@@ -364,7 +364,7 @@ export function generateRestRoutesFedCatalogue(
 			type: nameof<IDataSpaceConnectorListRequest>(),
 			examples: [
 				{
-					id: "resourceListRequestExample",
+					id: "dataSpaceConnectorListRequestExample",
 					request: {
 						query: {
 							maintainedBy: "did:iota:1234"
@@ -378,7 +378,7 @@ export function generateRestRoutesFedCatalogue(
 				type: nameof<IDataSpaceConnectorListResponse>(),
 				examples: [
 					{
-						id: "listResponseExample",
+						id: "dataSpaceConnectorListResponseExample",
 						response: {
 							body: {
 								"@context": [

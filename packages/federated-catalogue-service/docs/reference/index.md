@@ -14,12 +14,12 @@
 
 ## Variables
 
-- [tagsFedCatalogue](variables/tagsFedCatalogue.md)
+- [tagsFederatedCatalogue](variables/tagsFederatedCatalogue.md)
 - [restEntryPoints](variables/restEntryPoints.md)
 
 ## Functions
 
-- [generateRestRoutesFedCatalogue](functions/generateRestRoutesFedCatalogue.md)
+- [generateRestRoutesFederatedCatalogue](functions/generateRestRoutesFederatedCatalogue.md)
 - [complianceCredentialPresentation](functions/complianceCredentialPresentation.md)
 - [participantList](functions/participantList.md)
 - [serviceOfferingCredentialPresentation](functions/serviceOfferingCredentialPresentation.md)

@@ -152,7 +152,7 @@
 								"$ref": "#/components/schemas/CompliancePresentationRequest"
 							},
 							"examples": {
-								"servicePresentationRequestExample": {
+								"serviceOfferingPresentationRequestExample": {
 									"value": "ey..."
 								}
 							}
@@ -463,7 +463,7 @@
 		},
 		"/federated-catalogue/participants": {
 			"get": {
-				"operationId": "fedCatalogueListParticipants",
+				"operationId": "federatedCatalogueListParticipants",
 				"summary": "Get a list of the participant entries",
 				"tags": [
 					"Federated Catalogue"
@@ -530,7 +530,7 @@
 									"$ref": "#/components/schemas/ParticipantListResponse"
 								},
 								"examples": {
-									"listResponseExample": {
+									"participantListResponseExample": {
 										"value": {
 											"@context": [
 												"https://w3id.org/gaia-x/development",
@@ -628,7 +628,7 @@
 		},
 		"/federated-catalogue/service-offerings": {
 			"get": {
-				"operationId": "fedCatalogueListServices",
+				"operationId": "federatedCatalogueListServices",
 				"summary": "Get a list of the service entries",
 				"tags": [
 					"Federated Catalogue"
@@ -686,7 +686,7 @@
 									"$ref": "#/components/schemas/ServiceOfferingListResponse"
 								},
 								"examples": {
-									"listResponseExample": {
+									"serviceOfferingListResponseExample": {
 										"value": {
 											"@context": [
 												"https://w3id.org/gaia-x/development",
@@ -781,7 +781,7 @@
 		},
 		"/federated-catalogue/data-resources": {
 			"get": {
-				"operationId": "fedCatalogueListResources",
+				"operationId": "federatedCatalogueListResources",
 				"summary": "Get a list of the data resource entries",
 				"tags": [
 					"Federated Catalogue"
@@ -839,7 +839,7 @@
 									"$ref": "#/components/schemas/DataResourceListResponse"
 								},
 								"examples": {
-									"listResponseExample": {
+									"dataResourceListResponseExample": {
 										"value": {
 											"@context": [
 												"https://w3id.org/gaia-x/development",
@@ -937,7 +937,7 @@
 		},
 		"/federated-catalogue/data-space-connectors": {
 			"get": {
-				"operationId": "fedCatalogueListDataSpaceConnectors",
+				"operationId": "federatedCatalogueListDataSpaceConnectors",
 				"summary": "Get a list of the Data Space connectors entries",
 				"tags": [
 					"Federated Catalogue"
@@ -995,7 +995,7 @@
 									"$ref": "#/components/schemas/DataSpaceConnectorListResponse"
 								},
 								"examples": {
-									"listResponseExample": {
+									"dataSpaceConnectorListResponseExample": {
 										"value": {
 											"@context": [
 												"https://w3id.org/gaia-x/development",

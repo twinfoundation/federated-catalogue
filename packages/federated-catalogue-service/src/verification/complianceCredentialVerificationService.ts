@@ -1,7 +1,15 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import { Guards, UnprocessableError, Is, type IError } from "@twin.org/core";
+import {
+	Guards,
+	UnprocessableError,
+	Is,
+	type IError,
+	Coerce,
+	ObjectHelper,
+	JsonHelper
+} from "@twin.org/core";
 import {
 	FederatedCatalogueTypes,
 	type ICredential,
@@ -16,33 +24,44 @@ import type { ILoggingConnector } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
 import { ProofHelper, type IDidVerifiableCredential } from "@twin.org/standards-w3c-did";
 import { FetchHelper } from "@twin.org/web";
-import canonicalize from "canonicalize";
 import { HashingUtils } from "../utils/hashingUtils";
 
 /**
  * Compliance Credential Verification Service.
  */
 export class ComplianceCredentialVerificationService {
+	/**
+	 * Class name
+	 */
 	public CLASS_NAME: string = nameof<ComplianceCredentialVerificationService>();
 
+	/**
+	 * Resolver component.
+	 */
 	private readonly _resolver: IIdentityResolverComponent;
 
+	/**
+	 * Logging Component.
+	 */
 	private readonly _logger?: ILoggingConnector;
 
-	private readonly _clearingHouseWhitelist: string[];
+	/**
+	 * Approved list of clearing houses
+	 */
+	private readonly _clearingHouseApprovedList: string[];
 
 	/**
 	 * Constructor.
-	 * @param clearingHouseWhitelist The white list of clearing house identities accepted.
+	 * @param clearingHouseApprovedList The list of clearing house identities approved.
 	 * @param resolver The resolver used for DID.
 	 * @param logger The Logger Component.
 	 */
 	constructor(
-		clearingHouseWhitelist: string[],
+		clearingHouseApprovedList: string[],
 		resolver: IIdentityResolverComponent,
 		logger?: ILoggingConnector
 	) {
-		this._clearingHouseWhitelist = clearingHouseWhitelist;
+		this._clearingHouseApprovedList = clearingHouseApprovedList;
 		this._resolver = resolver;
 		this._logger = logger;
 	}
@@ -54,7 +73,7 @@ export class ComplianceCredentialVerificationService {
 	 */
 	public async verify(credential: IComplianceCredential): Promise<IComplianceVerificationResult> {
 		if (
-			!Array.isArray(credential.type) ||
+			!Is.arrayValue(credential.type) ||
 			!credential.type.includes(FederatedCatalogueTypes.ComplianceCredential)
 		) {
 			return {
@@ -64,7 +83,7 @@ export class ComplianceCredentialVerificationService {
 			};
 		}
 
-		if (!this._clearingHouseWhitelist.includes(credential.issuer as string)) {
+		if (!this._clearingHouseApprovedList.includes(credential.issuer as string)) {
 			return {
 				verified: false,
 				verificationFailureReason: VerificationFailureReasons.InvalidIssuer,
@@ -73,15 +92,8 @@ export class ComplianceCredentialVerificationService {
 		}
 
 		const validFrom = credential.validFrom;
-		if (Is.undefined(validFrom)) {
-			return {
-				verified: false,
-				verificationFailureReason: VerificationFailureReasons.NotValidYet,
-				credentials: []
-			};
-		}
-		const validFromDate = Date.parse(validFrom);
-		if (validFromDate > Date.now()) {
+		const validFromDate = Coerce.dateTime(validFrom);
+		if (Is.undefined(validFromDate) || validFromDate.getTime() > Date.now()) {
 			return {
 				verified: false,
 				verificationFailureReason: VerificationFailureReasons.NotValidYet,
@@ -89,16 +101,15 @@ export class ComplianceCredentialVerificationService {
 			};
 		}
 
-		const validUntil = credential.validUntil;
-		if (Is.undefined(validUntil)) {
+		const validUntilDate = Coerce.dateTime(credential.validUntil);
+		if (Is.undefined(validUntilDate)) {
 			return {
 				verified: false,
 				verificationFailureReason: VerificationFailureReasons.NoValidityEndPeriod,
 				credentials: []
 			};
 		}
-		const validUntilDate = Date.parse(validUntil);
-		if (validUntilDate <= Date.now()) {
+		if (validUntilDate.getTime() <= Date.now()) {
 			return {
 				verified: false,
 				verificationFailureReason: VerificationFailureReasons.Expired,
@@ -192,14 +203,14 @@ export class ComplianceCredentialVerificationService {
 			};
 		}
 		const originalCredential = await credentialResponse.json();
-		const theCredential = structuredClone(originalCredential);
+		const theCredential = ObjectHelper.clone(originalCredential);
 
 		const proof = theCredential.proof;
 		// The proof is not taken into account to calculate the hash
 		delete theCredential.proof;
 
 		// Checking the hash
-		const canonicalized = canonicalize(theCredential) as string;
+		const canonicalized = JsonHelper.canonicalize(theCredential) as string;
 		const hashingDetails = evidence.digestSRI;
 		const [hashingAlg, hash] = hashingDetails.split("-");
 		let hashToCheck: string | null = "";

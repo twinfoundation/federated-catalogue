@@ -1,6 +1,6 @@
-# Function: generateRestRoutesFedCatalogue()
+# Function: generateRestRoutesFederatedCatalogue()
 
-> **generateRestRoutesFedCatalogue**(`baseRouteName`, `factoryServiceName`): `IRestRoute`\<`any`, `any`\>[]
+> **generateRestRoutesFederatedCatalogue**(`baseRouteName`, `factoryServiceName`): `IRestRoute`\<`any`, `any`\>[]
 
 The REST routes for Federated Catalogue.
 

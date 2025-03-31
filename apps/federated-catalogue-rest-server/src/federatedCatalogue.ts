@@ -6,7 +6,7 @@ import type { IEngineCore, IEngineCoreContext } from "@twin.org/engine-models";
 import type { IFederatedCatalogue } from "@twin.org/federated-catalogue-models";
 import {
 	FederatedCatalogueService,
-	generateRestRoutesFedCatalogue,
+	generateRestRoutesFederatedCatalogue,
 	type IFederatedCatalogueOptions
 } from "@twin.org/federated-catalogue-service";
 import { nameof } from "@twin.org/nameof";
@@ -41,5 +41,5 @@ export function federatedCatalogueTypeInitialiser(
  * @returns The rest routes.
  */
 export function generateRestRoutes(baseRouteName: string, componentName: string): IRestRoute[] {
-	return generateRestRoutesFedCatalogue(baseRouteName, componentName);
+	return generateRestRoutesFederatedCatalogue(baseRouteName, componentName);
 }
