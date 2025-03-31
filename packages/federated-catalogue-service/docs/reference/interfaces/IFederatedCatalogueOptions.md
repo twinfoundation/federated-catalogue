@@ -16,4 +16,4 @@ Logging connector type
 
 > **clearingHouseApproverList**: `string`[]
 
-Clearing House approved list
+Clearing House approver list

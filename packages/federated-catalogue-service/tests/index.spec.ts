@@ -4,7 +4,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import { ComponentFactory, EnvHelper, StringHelper, Urn } from "@twin.org/core";
+import { ComponentFactory, StringHelper, Urn } from "@twin.org/core";
 import { MemoryEntityStorageConnector } from "@twin.org/entity-storage-connector-memory";
 import { EntityStorageConnectorFactory } from "@twin.org/entity-storage-models";
 import {
@@ -30,8 +30,6 @@ let participantStore: MemoryEntityStorageConnector<ParticipantEntry>;
 let dataResourceStore: MemoryEntityStorageConnector<DataResourceEntry>;
 let serviceOfferingStore: MemoryEntityStorageConnector<ServiceOfferingEntry>;
 let dataSpaceConnectorStore: MemoryEntityStorageConnector<DataSpaceConnectorEntry>;
-
-let envVars: { [id: string]: string };
 
 import { cleanupTestEnv, setupTestEnv } from "./setupTestEnv";
 import type { ParticipantEntry } from "../src/entities/participantEntry";
@@ -59,9 +57,7 @@ function extractURL(request: Request | URL | string): string {
 }
 describe("federated-catalogue-service", () => {
 	beforeAll(async () => {
-		await setupTestEnv();
-
-		envVars = EnvHelper.envToJson(process.env, "FEDERATED_CATALOGUE");
+		const clearingHouseApproverList = await setupTestEnv();
 
 		// Mock the module helper to execute the method in the same thread, so we don't have to create an engine
 		ModuleHelper.execModuleMethodThread = vi
@@ -121,7 +117,7 @@ describe("federated-catalogue-service", () => {
 		options = {
 			loggingConnectorType: "console",
 			// Check for support of multiple values from env vars
-			clearingHouseApproverList: JSON.parse(envVars.clearingHouseApproverList) as string[]
+			clearingHouseApproverList
 		};
 	});
 

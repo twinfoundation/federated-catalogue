@@ -47,22 +47,22 @@ export class ComplianceCredentialVerificationService {
 	private readonly _logger?: ILoggingConnector;
 
 	/**
-	 * Approved list of clearing houses
+	 * List of clearing houses tha are approvers.
 	 */
-	private readonly _clearingHouseApprovedList: string[];
+	private readonly _clearingHouseApproverList: string[];
 
 	/**
 	 * Constructor.
-	 * @param clearingHouseApprovedList The list of clearing house identities approved.
+	 * @param clearingHouseApproverList The list of clearing house identities approved.
 	 * @param resolver The resolver used for DID.
 	 * @param logger The Logger Component.
 	 */
 	constructor(
-		clearingHouseApprovedList: string[],
+		clearingHouseApproverList: string[],
 		resolver: IIdentityResolverComponent,
 		logger?: ILoggingConnector
 	) {
-		this._clearingHouseApprovedList = clearingHouseApprovedList;
+		this._clearingHouseApproverList = clearingHouseApproverList;
 		this._resolver = resolver;
 		this._logger = logger;
 	}
@@ -84,7 +84,19 @@ export class ComplianceCredentialVerificationService {
 			};
 		}
 
-		if (!this._clearingHouseApprovedList.includes(credential.issuer as string)) {
+		const issuer = Is.string(credential.issuer)
+			? credential.issuer
+			: Coerce.object<{ id: string }>(credential.issuer)?.id;
+
+		if (Is.undefined(issuer)) {
+			return {
+				verified: false,
+				verificationFailureReason: VerificationFailureReasons.InvalidIssuer,
+				credentials: []
+			};
+		}
+
+		if (!this._clearingHouseApproverList.includes(issuer)) {
 			return {
 				verified: false,
 				verificationFailureReason: VerificationFailureReasons.InvalidIssuer,

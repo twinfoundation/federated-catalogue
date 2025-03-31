@@ -237,7 +237,13 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			conditions.push(condition);
 		}
 
-		const entries = await this._entityStorageParticipants.query({ conditions });
+		const entries = await this._entityStorageParticipants.query(
+			{ conditions },
+			undefined,
+			undefined,
+			cursor,
+			pageSize
+		);
 		return {
 			entities: entries.entities as IParticipantEntry[],
 			cursor: entries.cursor
@@ -435,7 +441,13 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			conditions.push(condition);
 		}
 
-		const entries = await this._entityStorageDataSpaceConnectors.query({ conditions });
+		const entries = await this._entityStorageDataSpaceConnectors.query(
+			{ conditions },
+			undefined,
+			undefined,
+			cursor,
+			pageSize
+		);
 		return {
 			entities: entries.entities as IDataSpaceConnectorEntry[],
 			cursor: entries.cursor
@@ -565,7 +577,13 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			conditions.push(condition);
 		}
 
-		const entries = await this._entityStorageServiceOfferings.query({ conditions });
+		const entries = await this._entityStorageServiceOfferings.query(
+			{ conditions },
+			undefined,
+			undefined,
+			cursor,
+			pageSize
+		);
 		return {
 			entities: entries.entities as IServiceOfferingEntry[],
 			cursor: entries.cursor
@@ -619,7 +637,13 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			conditions.push(condition);
 		}
 
-		const entries = await this._entityStorageDataResources.query({ conditions });
+		const entries = await this._entityStorageDataResources.query(
+			{ conditions },
+			undefined,
+			undefined,
+			cursor,
+			pageSize
+		);
 		return {
 			entities: entries.entities as IDataResourceEntry[],
 			cursor: entries.cursor
@@ -634,6 +658,19 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	private async decodeJwt(jwt: string): Promise<IComplianceCredential> {
 		const { payload } = await VerificationHelper.verifyJwt(this._resolver, jwt);
 		return payload as unknown as IComplianceCredential;
+	}
+
+	/**
+	 * Returns the trusted Issuer id.
+	 * @param complianceCredential The compliance credential.
+	 * @returns The trusted issuer.
+	 */
+	private getTrustedIssuerId(complianceCredential: IComplianceCredential): string {
+		const trustedIssuerId = Is.object<{ id: string }>(complianceCredential.issuer)
+			? complianceCredential.issuer.id
+			: (complianceCredential.issuer as string);
+
+		return trustedIssuerId;
 	}
 
 	/**
@@ -657,7 +694,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 		const result: IParticipantEntry = {
 			...participantData,
-			trustedIssuerId: complianceCredential.issuer as string,
+			trustedIssuerId: this.getTrustedIssuerId(complianceCredential),
 			validFrom: complianceCredential.validFrom as string,
 			validUntil: complianceCredential.validUntil as string,
 			dateCreated: new Date().toISOString(),
@@ -686,7 +723,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		const result: IDataSpaceConnectorEntry = {
 			...deStructuredData,
 			offeredResource: Object.keys(offeredResource),
-			trustedIssuerId: complianceCredential.issuer as string,
+			trustedIssuerId: this.getTrustedIssuerId(complianceCredential),
 			validFrom: dataSpaceConnectorCredential.validFrom as string,
 			validUntil: dataSpaceConnectorCredential.validUntil as string,
 			dateCreated: new Date().toISOString(),
@@ -716,7 +753,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			...deStructuredData,
 			providedBy: Is.string(providedBy) ? providedBy : providedBy.id,
 			aggregationOfResources: aggregationOfResources as string[],
-			trustedIssuerId: complianceCredential.issuer as string,
+			trustedIssuerId: this.getTrustedIssuerId(complianceCredential),
 			validFrom: serviceOfferingCredential.validFrom as string,
 			validUntil: serviceOfferingCredential.validUntil as string,
 			dateCreated: new Date().toISOString(),
@@ -753,7 +790,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 		const result: IDataResourceEntry = {
 			...deStructuredData,
-			trustedIssuerId: complianceCredential.issuer as string,
+			trustedIssuerId: this.getTrustedIssuerId(complianceCredential),
 			producedBy: producedByValue,
 			copyrightOwnedBy: copyrightOwnedByValue,
 			exposedThrough: exposedThrough as string,
