@@ -8,14 +8,14 @@ import {
 	LoggingConnectorType,
 	type IEngineConfig
 } from "@twin.org/engine-types";
-import type {
-	DataResourceEntry,
-	DataSpaceConnectorEntry,
-	ParticipantEntry,
-	ServiceOfferingEntry
-} from "@twin.org/federated-catalogue-models";
 
-import { initSchema } from "@twin.org/federated-catalogue-service";
+import {
+	type DataResourceEntry,
+	type DataSpaceConnectorEntry,
+	initSchema,
+	type ParticipantEntry,
+	type ServiceOfferingEntry
+} from "@twin.org/federated-catalogue-service";
 import { nameof } from "@twin.org/nameof";
 
 /**

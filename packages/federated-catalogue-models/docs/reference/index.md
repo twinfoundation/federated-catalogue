@@ -1,12 +1,5 @@
 # @twin.org/federated-catalogue-models
 
-## Classes
-
-- [DataResourceEntry](classes/DataResourceEntry.md)
-- [DataSpaceConnectorEntry](classes/DataSpaceConnectorEntry.md)
-- [ParticipantEntry](classes/ParticipantEntry.md)
-- [ServiceOfferingEntry](classes/ServiceOfferingEntry.md)
-
 ## Interfaces
 
 - [IComplianceCredential](interfaces/IComplianceCredential.md)

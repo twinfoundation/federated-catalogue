@@ -7,3 +7,8 @@ export * from "./restEntryPoints";
 export * from "./IFederatedCatalogueOptions";
 
 export * from "./schema";
+
+export * from "./entities/dataResourceEntry";
+export * from "./entities/serviceOfferingEntry";
+export * from "./entities/participantEntry";
+export * from "./entities/dataSpaceConnectorEntry";

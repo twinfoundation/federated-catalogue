@@ -15,8 +15,6 @@ import {
 	type IEntityStorageConnector
 } from "@twin.org/entity-storage-models";
 import {
-	type DataResourceEntry,
-	type DataSpaceConnectorEntry,
 	type IComplianceCredential,
 	type IDataResourceCredential,
 	type IDataResourceEntry,
@@ -24,17 +22,19 @@ import {
 	type IParticipantEntry,
 	type IServiceOfferingCredential,
 	type IServiceOfferingEntry,
-	type ServiceOfferingEntry,
 	type IDataSpaceConnectorEntry,
 	type IDataSpaceConnectorCredential,
 	type IParticipantCredential,
-	FederatedCatalogueTypes,
-	type ParticipantEntry
+	FederatedCatalogueTypes
 } from "@twin.org/federated-catalogue-models";
 import type { IIdentityResolverComponent } from "@twin.org/identity-models";
 import { LoggingConnectorFactory, type ILoggingConnector } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
 import { GaiaXTypes, type IParticipant } from "@twin.org/standards-gaia-x";
+import type { DataResourceEntry } from "./entities/dataResourceEntry";
+import type { DataSpaceConnectorEntry } from "./entities/dataSpaceConnectorEntry";
+import type { ParticipantEntry } from "./entities/participantEntry";
+import type { ServiceOfferingEntry } from "./entities/serviceOfferingEntry";
 import type { IFederatedCatalogueOptions } from "./IFederatedCatalogueOptions";
 import { ComplianceCredentialVerificationService } from "./verification/complianceCredentialVerificationService";
 import { JwtVerificationService } from "./verification/jwtVerificationService";

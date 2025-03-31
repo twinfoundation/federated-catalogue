@@ -2,13 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0.
 
 import { EntitySchemaFactory, EntitySchemaHelper } from "@twin.org/entity";
-import {
-	DataResourceEntry,
-	DataSpaceConnectorEntry,
-	ParticipantEntry,
-	ServiceOfferingEntry
-} from "@twin.org/federated-catalogue-models";
 import { nameof } from "@twin.org/nameof";
+import { DataResourceEntry } from "./entities/dataResourceEntry";
+import { DataSpaceConnectorEntry } from "./entities/dataSpaceConnectorEntry";
+import { ParticipantEntry } from "./entities/participantEntry";
+import { ServiceOfferingEntry } from "./entities/serviceOfferingEntry";
 
 /**
  * Inits schemas.

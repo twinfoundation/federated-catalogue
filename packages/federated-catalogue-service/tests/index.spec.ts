@@ -7,12 +7,6 @@ import path from "node:path";
 import { ComponentFactory, EnvHelper, StringHelper, Urn } from "@twin.org/core";
 import { MemoryEntityStorageConnector } from "@twin.org/entity-storage-connector-memory";
 import { EntityStorageConnectorFactory } from "@twin.org/entity-storage-models";
-import type {
-	DataResourceEntry,
-	DataSpaceConnectorEntry,
-	ParticipantEntry,
-	ServiceOfferingEntry
-} from "@twin.org/federated-catalogue-models";
 import {
 	IdentityResolverConnectorFactory,
 	type IIdentityResolverConnector
@@ -40,6 +34,13 @@ let dataSpaceConnectorStore: MemoryEntityStorageConnector<DataSpaceConnectorEntr
 let envVars: { [id: string]: string };
 
 import { cleanupTestEnv, setupTestEnv } from "./setupTestEnv";
+import type { ParticipantEntry } from "../src/entities/participantEntry";
+// eslint-disable-next-line import/order
+import type { DataResourceEntry } from "../src/entities/dataResourceEntry";
+// eslint-disable-next-line import/order
+import type { ServiceOfferingEntry } from "../src/entities/serviceOfferingEntry";
+// eslint-disable-next-line import/order
+import type { DataSpaceConnectorEntry } from "../src/entities/dataSpaceConnectorEntry";
 
 let options: IFederatedCatalogueOptions;
 /**
