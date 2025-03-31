@@ -11,7 +11,7 @@ export interface IFederatedCatalogueOptions {
 	loggingConnectorType?: string;
 
 	/**
-	 * Clearing House white list
+	 * Clearing House approved list
 	 */
-	clearingHouseWhiteList: string[];
+	clearingHouseApprovedList: string[];
 }

@@ -10,12 +10,7 @@ export interface IFederatedCatalogVariables
 	extends IEngineEnvironmentVariables,
 		IEngineServerEnvironmentVariables {
 	/**
-	 * The DIF universal resolver endpoint.
+	 * The DIDs of the Clearing Houses that are approved
 	 */
-	resolverEndpoint: string;
-
-	/**
-	 * The DIDs of the Clearing Houses that are whitelisted
-	 */
-	clearingHouseWhitelist: string;
+	clearingHouseApprovedList: string;
 }

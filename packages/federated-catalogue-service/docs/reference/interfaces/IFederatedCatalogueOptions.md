@@ -12,8 +12,8 @@ Logging connector type
 
 ***
 
-### clearingHouseWhiteList
+### clearingHouseApprovedList
 
-> **clearingHouseWhiteList**: `string`[]
+> **clearingHouseApprovedList**: `string`[]
 
-Clearing House white list
+Clearing House approved list

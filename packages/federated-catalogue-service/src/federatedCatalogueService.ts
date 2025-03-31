@@ -121,7 +121,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 		this._jwtVerifier = new JwtVerificationService(resolver);
 		this._complianceCredentialVerifier = new ComplianceCredentialVerificationService(
-			options.clearingHouseWhiteList,
+			options.clearingHouseApprovedList,
 			resolver,
 			this._loggingService
 		);
