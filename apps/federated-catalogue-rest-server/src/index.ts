@@ -21,7 +21,7 @@ try {
 	await initialiseLocales(rootPackageFolder);
 
 	dotenv.config({
-		path: [path.join(rootPackageFolder, ".env")]
+		path: [path.join(rootPackageFolder, ".env"), path.join(rootPackageFolder, ".env.local")]
 	});
 
 	const envVars = EnvHelper.envToJson<IFederatedCatalogVariables>(
