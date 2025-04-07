@@ -1,8 +1,8 @@
-# Function: participantGet()
+# Function: dataResourceGet()
 
-> **participantGet**(`httpRequestContext`, `factoryServiceName`, `request`): `Promise`\<`IParticipantGetResponse` \| `INotFoundResponse`\>
+> **dataResourceGet**(`httpRequestContext`, `factoryServiceName`, `request`): `Promise`\<`INotFoundResponse` \| `IDataResourceGetResponse`\>
 
-Get a Participant entry.
+Get a Data Resource entry.
 
 ## Parameters
 
@@ -26,6 +26,6 @@ The request.
 
 ## Returns
 
-`Promise`\<`IParticipantGetResponse` \| `INotFoundResponse`\>
+`Promise`\<`INotFoundResponse` \| `IDataResourceGetResponse`\>
 
 The response object with additional http response properties.

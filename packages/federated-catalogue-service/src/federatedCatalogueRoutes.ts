@@ -9,19 +9,23 @@ import type {
 	IUnprocessableEntityResponse
 } from "@twin.org/api-models";
 import { Coerce, ComponentFactory, Guards, Is } from "@twin.org/core";
-import type {
-	ICompliancePresentationRequest,
-	IDataResourceListRequest,
-	IDataResourceListResponse,
-	IDataSpaceConnectorListRequest,
-	IDataSpaceConnectorListResponse,
-	IFederatedCatalogue,
-	IParticipantGetRequest,
-	IParticipantGetResponse,
-	IParticipantListRequest,
-	IParticipantListResponse,
-	IServiceOfferingListRequest,
-	IServiceOfferingListResponse
+import {
+	type ICompliancePresentationRequest,
+	type IDataResourceListRequest,
+	type IDataResourceListResponse,
+	type IDataSpaceConnectorListRequest,
+	type IDataSpaceConnectorListResponse,
+	type IFederatedCatalogue,
+	type ICatalogueEntryGetRequest,
+	type IParticipantGetResponse,
+	type IParticipantListRequest,
+	type IParticipantListResponse,
+	type IServiceOfferingListRequest,
+	type IServiceOfferingListResponse,
+	type IServiceOfferingGetResponse,
+	type IDataResourceGetResponse,
+	type IDataSpaceConnectorGetResponse,
+	FederatedCatalogueTypes
 } from "@twin.org/federated-catalogue-models";
 import { nameof } from "@twin.org/nameof";
 import { GaiaXTypes } from "@twin.org/standards-gaia-x";
@@ -271,7 +275,7 @@ export function generateRestRoutesFederatedCatalogue(
 	};
 
 	const getParticipantRoute: IRestRoute<
-		IParticipantGetRequest,
+		ICatalogueEntryGetRequest,
 		IParticipantGetResponse | INotFoundResponse
 	> = {
 		operationId: "federatedCatalogueGetParticipant",
@@ -282,7 +286,7 @@ export function generateRestRoutesFederatedCatalogue(
 		handler: async (httpRequestContext, request) =>
 			participantGet(httpRequestContext, factoryServiceName, request),
 		requestType: {
-			type: nameof<IParticipantGetRequest>(),
+			type: nameof<ICatalogueEntryGetRequest>(),
 			examples: [
 				{
 					id: "participantGetRequestExample",
@@ -375,6 +379,7 @@ export function generateRestRoutesFederatedCatalogue(
 											type: "Endpoint",
 											endpointURL: "https://endpoint.example.org/api"
 										},
+										trustedIssuerId: "did:iota:1234",
 										providedBy: "did:iota:1234567",
 										validFrom: "2024-08-01T12:00:00Z",
 										validUntil: "2025-08-01T12:00:00Z",
@@ -383,6 +388,65 @@ export function generateRestRoutesFederatedCatalogue(
 									}
 								],
 								cursor: "1"
+							}
+						}
+					}
+				]
+			}
+		]
+	};
+
+	const getServiceRoute: IRestRoute<
+		ICatalogueEntryGetRequest,
+		IServiceOfferingGetResponse | INotFoundResponse
+	> = {
+		operationId: "federatedCatalogueGetService",
+		summary: "Get a Service Offering entry",
+		tag: tagsFederatedCatalogue[0].name,
+		method: "GET",
+		path: `${baseRouteName}/${SERVICE_OFFERING_ROUTE}/:id`,
+		handler: async (httpRequestContext, request) =>
+			serviceOfferingGet(httpRequestContext, factoryServiceName, request),
+		requestType: {
+			type: nameof<ICatalogueEntryGetRequest>(),
+			examples: [
+				{
+					id: "serviceOfferingGetRequestExample",
+					request: {
+						pathParams: {
+							id: "https://my-services.example.org/service1"
+						}
+					}
+				}
+			]
+		},
+		responseType: [
+			{
+				type: nameof<IServiceOfferingGetResponse>(),
+				examples: [
+					{
+						id: "serviceOfferingGetResponseExample",
+						response: {
+							body: {
+								"@context": [
+									"https://w3id.org/gaia-x/development",
+									"https://schema.org",
+									"https://www.w3.org/ns/credentials/v2"
+								],
+								id: "http://example.org/is123456",
+								name: "Service 1",
+								type: "ServiceOffering",
+								servicePolicy: {},
+								endpoint: {
+									type: "Endpoint",
+									endpointURL: "https://endpoint.example.org/api"
+								},
+								trustedIssuerId: "did:iota:7890",
+								providedBy: "did:iota:1234567",
+								validFrom: "2024-08-01T12:00:00Z",
+								validUntil: "2025-08-01T12:00:00Z",
+								dateCreated: "2024-08-02T13:45:00Z",
+								evidences: ["https://credentials.example.org/1234567"]
 							}
 						}
 					}
@@ -446,6 +510,64 @@ export function generateRestRoutesFederatedCatalogue(
 									}
 								],
 								cursor: "1"
+							}
+						}
+					}
+				]
+			}
+		]
+	};
+
+	const getDataResourceRoute: IRestRoute<
+		ICatalogueEntryGetRequest,
+		IDataResourceGetResponse | INotFoundResponse
+	> = {
+		operationId: "federatedCatalogueGetDataResource",
+		summary: "Get a Data Resource entry",
+		tag: tagsFederatedCatalogue[0].name,
+		method: "GET",
+		path: `${baseRouteName}/${DATA_RESOURCE_ROUTE}/:id`,
+		handler: async (httpRequestContext, request) =>
+			dataResourceGet(httpRequestContext, factoryServiceName, request),
+		requestType: {
+			type: nameof<IDataResourceListRequest>(),
+			examples: [
+				{
+					id: "dataResourceListRequestExample",
+					request: {
+						pathParams: {
+							id: "https://data-resources.example.org/drs1"
+						}
+					}
+				}
+			]
+		},
+		responseType: [
+			{
+				type: nameof<IDataResourceGetResponse>(),
+				examples: [
+					{
+						id: "dataResourceGetResponseExample",
+						response: {
+							body: {
+								"@context": [
+									"https://w3id.org/gaia-x/development",
+									"https://schema.org",
+									"https://www.w3.org/ns/credentials/v2"
+								],
+								id: "http://example.org/is123456",
+								name: "Data Resource 1",
+								type: "DataResource",
+								copyrightOwnedBy: "did:iota:1234",
+								license: "http://licenses.example.org/12345",
+								resourcePolicy: {},
+								exposedThrough: "https://ds-connectors.example.org/ds1",
+								producedBy: "did:iota:1234567",
+								trustedIssuerId: "did:iota:987654",
+								validFrom: "2024-08-01T12:00:00Z",
+								validUntil: "2025-08-01T12:00:00Z",
+								dateCreated: "2024-08-02T13:45:00Z",
+								evidences: ["https://credentials.example.org/1234567"]
 							}
 						}
 					}
@@ -524,6 +646,78 @@ export function generateRestRoutesFederatedCatalogue(
 			}
 		]
 	};
+
+	const getDataSpaceConnectorRoute: IRestRoute<
+		ICatalogueEntryGetRequest,
+		IDataSpaceConnectorGetResponse | INotFoundResponse
+	> = {
+		operationId: "federatedCatalogueGetDataSpaceConnector",
+		summary: "Get a Data Space Connector entry",
+		tag: tagsFederatedCatalogue[0].name,
+		method: "GET",
+		path: `${baseRouteName}/${DATA_SPACE_CONNECTOR_ROUTE}/:id`,
+		handler: async (httpRequestContext, request) =>
+			dataSpaceConnectorGet(httpRequestContext, factoryServiceName, request),
+		requestType: {
+			type: nameof<ICatalogueEntryGetRequest>(),
+			examples: [
+				{
+					id: "dataSpaceConnectorGetRequestExample",
+					request: {
+						pathParams: {
+							id: "https://ds-connectors.example.org/ds1"
+						}
+					}
+				}
+			]
+		},
+		responseType: [
+			{
+				type: nameof<IDataSpaceConnectorGetResponse>(),
+				examples: [
+					{
+						id: "dataSpaceConnectorGetResponseExample",
+						response: {
+							body: {
+								"@context": [
+									"https://w3id.org/gaia-x/development",
+									"https://schema.org",
+									"https://www.w3.org/ns/credentials/v2"
+								],
+								id: "https://my-ds-connectors.example.org/ds-connector-ABCD",
+								type: ["DataExchangeComponent", "DataSpaceConnector"],
+								identity: "did:iota:testnet:123456",
+								defaultEndpoint: {
+									type: "Endpoint",
+									endpointURL: "https://my-twin-node.example.org:9000/twin-ds-connector"
+								},
+								subscriptionActivityEndpoint: {
+									type: "Endpoint",
+									endpointURL: "/subscriptions"
+								},
+								pushActivityEndpoint: {
+									type: "Endpoint",
+									endpointURL: "/notify"
+								},
+								pullDataEndpoint: {
+									type: "Endpoint",
+									endpointURL: "/data"
+								},
+								maintainer: "did:iota:99999",
+								offeredResource: ["https://my-data-resource.example.org"],
+								trustedIssuerId: "did:iota:987654",
+								validFrom: "2024-08-01T12:00:00Z",
+								validUntil: "2025-08-01T12:00:00Z",
+								dateCreated: "2024-08-02T13:45:00Z",
+								evidences: ["https://credentials.example.org/1234567"]
+							}
+						}
+					}
+				]
+			}
+		]
+	};
+
 	return [
 		createParticipantRoute,
 		createServiceOfferingRoute,
@@ -532,8 +726,11 @@ export function generateRestRoutesFederatedCatalogue(
 		listParticipantsRoute,
 		getParticipantRoute,
 		listServicesRoute,
+		getServiceRoute,
 		listDataResourcesRoute,
-		listDataSpaceConnectorsRoute
+		getDataResourceRoute,
+		listDataSpaceConnectorsRoute,
+		getDataSpaceConnectorRoute
 	];
 }
 
@@ -559,7 +756,7 @@ export async function complianceCredentialPresentation(
 
 	return {
 		headers: {
-			location: `${baseRouteName}/${PARTICIPANTS_ROUTE}/${participantId}`
+			location: `${baseRouteName}/${PARTICIPANTS_ROUTE}/${encodeURIComponent(participantId)}`
 		},
 		statusCode: HttpStatusCode.created
 	};
@@ -608,7 +805,7 @@ export async function participantList(
 export async function participantGet(
 	httpRequestContext: IHttpRequestContext,
 	factoryServiceName: string,
-	request: IParticipantGetRequest
+	request: ICatalogueEntryGetRequest
 ): Promise<IParticipantGetResponse | INotFoundResponse> {
 	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
 
@@ -663,7 +860,7 @@ export async function serviceOfferingCredentialPresentation(
 
 	return {
 		headers: {
-			location: `${baseRouteName}/${SERVICE_OFFERING_ROUTE}/${serviceOfferingsCreated[0]}`
+			location: `${baseRouteName}/${SERVICE_OFFERING_ROUTE}/${encodeURIComponent(serviceOfferingsCreated[0])}`
 		},
 		statusCode: HttpStatusCode.created
 	};
@@ -702,6 +899,49 @@ export async function serviceOfferingList(
 }
 
 /**
+ * Get a Service Offering entry.
+ * @param httpRequestContext The request context for the API.
+ * @param factoryServiceName The name of the service to use in the routes.
+ * @param request The request.
+ * @returns The response object with additional http response properties.
+ */
+export async function serviceOfferingGet(
+	httpRequestContext: IHttpRequestContext,
+	factoryServiceName: string,
+	request: ICatalogueEntryGetRequest
+): Promise<IServiceOfferingGetResponse | INotFoundResponse> {
+	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+
+	const id = request?.pathParams.id;
+	Guards.stringValue(ROUTES_SOURCE, nameof(id), id);
+
+	const itemsAndCursor = await service.queryServiceOfferings(request?.pathParams.id);
+
+	if (Is.arrayValue(itemsAndCursor.entities)) {
+		return {
+			body: {
+				...itemsAndCursor.entities[0],
+				type: GaiaXTypes.ServiceOffering,
+				"@context": [
+					"https://w3id.org/gaia-x/development",
+					"https://schema.org",
+					"https://www.w3.org/ns/credentials/v2"
+				]
+			}
+		};
+	}
+
+	return {
+		statusCode: HttpStatusCode.notFound,
+		body: {
+			name: "notFoundEntry",
+			message: "notFoundEntry",
+			notFoundId: id
+		}
+	};
+}
+
+/**
  * Register a new data resource.
  * @param baseRouteName The base route name.
  * @param httpRequestContext The request context for the API.
@@ -723,7 +963,7 @@ export async function dataResourceCredentialPresentation(
 
 	return {
 		headers: {
-			location: `${baseRouteName}/${DATA_RESOURCE_ROUTE}/${dataResourcesCreated[0]}`
+			location: `${baseRouteName}/${DATA_RESOURCE_ROUTE}/${encodeURIComponent(dataResourcesCreated[0])}`
 		},
 		statusCode: HttpStatusCode.created
 	};
@@ -762,6 +1002,49 @@ export async function dataResourceList(
 }
 
 /**
+ * Get a Data Resource entry.
+ * @param httpRequestContext The request context for the API.
+ * @param factoryServiceName The name of the service to use in the routes.
+ * @param request The request.
+ * @returns The response object with additional http response properties.
+ */
+export async function dataResourceGet(
+	httpRequestContext: IHttpRequestContext,
+	factoryServiceName: string,
+	request: ICatalogueEntryGetRequest
+): Promise<IDataResourceGetResponse | INotFoundResponse> {
+	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+
+	const id = request?.pathParams.id;
+	Guards.stringValue(ROUTES_SOURCE, nameof(id), id);
+
+	const itemsAndCursor = await service.queryDataResources(request?.pathParams.id);
+
+	if (Is.arrayValue(itemsAndCursor.entities)) {
+		return {
+			body: {
+				...itemsAndCursor.entities[0],
+				type: GaiaXTypes.DataResource,
+				"@context": [
+					"https://w3id.org/gaia-x/development",
+					"https://schema.org",
+					"https://www.w3.org/ns/credentials/v2"
+				]
+			}
+		};
+	}
+
+	return {
+		statusCode: HttpStatusCode.notFound,
+		body: {
+			name: "notFoundEntry",
+			message: "notFoundEntry",
+			notFoundId: id
+		}
+	};
+}
+
+/**
  * Register a new data space connector.
  * @param baseRouteName the base route name.
  * @param httpRequestContext The request context for the API.
@@ -783,7 +1066,7 @@ export async function dataSpaceConnectorCredentialPresentation(
 
 	return {
 		headers: {
-			location: `${baseRouteName}/${DATA_SPACE_CONNECTOR_ROUTE}/${dataSpaceConnectorId}`
+			location: `${baseRouteName}/${DATA_SPACE_CONNECTOR_ROUTE}/${encodeURIComponent(dataSpaceConnectorId)}`
 		},
 		statusCode: HttpStatusCode.created
 	};
@@ -817,6 +1100,49 @@ export async function dataSpaceConnectorList(
 				"https://www.w3.org/ns/credentials/v2"
 			],
 			...itemsAndCursor
+		}
+	};
+}
+
+/**
+ * Get a Data Space Connector entry.
+ * @param httpRequestContext The request context for the API.
+ * @param factoryServiceName The name of the service to use in the routes.
+ * @param request The request.
+ * @returns The response object with additional http response properties.
+ */
+export async function dataSpaceConnectorGet(
+	httpRequestContext: IHttpRequestContext,
+	factoryServiceName: string,
+	request: ICatalogueEntryGetRequest
+): Promise<IDataSpaceConnectorGetResponse | INotFoundResponse> {
+	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+
+	const id = request?.pathParams.id;
+	Guards.stringValue(ROUTES_SOURCE, nameof(id), id);
+
+	const itemsAndCursor = await service.queryDataSpaceConnectors(request?.pathParams.id);
+
+	if (Is.arrayValue(itemsAndCursor.entities)) {
+		return {
+			body: {
+				...itemsAndCursor.entities[0],
+				type: [GaiaXTypes.DataExchangeComponent, FederatedCatalogueTypes.DataSpaceConnector],
+				"@context": [
+					"https://w3id.org/gaia-x/development",
+					"https://schema.org",
+					"https://www.w3.org/ns/credentials/v2"
+				]
+			}
+		};
+	}
+
+	return {
+		statusCode: HttpStatusCode.notFound,
+		body: {
+			name: "notFoundEntry",
+			message: "notFoundEntry",
+			notFoundId: id
 		}
 	};
 }

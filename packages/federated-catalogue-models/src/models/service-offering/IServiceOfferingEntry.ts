@@ -16,5 +16,5 @@ export interface IServiceOfferingEntry extends ICatalogueEntry, IServiceOffering
 	/**
 	 * Overwrites aggregationOfResources as we only store identifier as string
 	 */
-	aggregationOfResources: string[];
+	aggregationOfResources?: string[];
 }

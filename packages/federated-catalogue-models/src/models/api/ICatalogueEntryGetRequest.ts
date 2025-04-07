@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0.
 
 /**
- * Get the a list of the participant entries.
+ * Get a Catalogue Entry.
  */
-export interface IParticipantGetRequest {
+export interface ICatalogueEntryGetRequest {
 	/**
 	 * The parameters from the path.
 	 */

@@ -1,8 +1,8 @@
-# Function: participantGet()
+# Function: dataSpaceConnectorGet()
 
-> **participantGet**(`httpRequestContext`, `factoryServiceName`, `request`): `Promise`\<`IParticipantGetResponse` \| `INotFoundResponse`\>
+> **dataSpaceConnectorGet**(`httpRequestContext`, `factoryServiceName`, `request`): `Promise`\<`INotFoundResponse` \| `IDataSpaceConnectorGetResponse`\>
 
-Get a Participant entry.
+Get a Data Space Connector entry.
 
 ## Parameters
 
@@ -26,6 +26,6 @@ The request.
 
 ## Returns
 
-`Promise`\<`IParticipantGetResponse` \| `INotFoundResponse`\>
+`Promise`\<`INotFoundResponse` \| `IDataSpaceConnectorGetResponse`\>
 
 The response object with additional http response properties.

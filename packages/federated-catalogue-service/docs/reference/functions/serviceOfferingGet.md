@@ -1,8 +1,8 @@
-# Function: participantGet()
+# Function: serviceOfferingGet()
 
-> **participantGet**(`httpRequestContext`, `factoryServiceName`, `request`): `Promise`\<`IParticipantGetResponse` \| `INotFoundResponse`\>
+> **serviceOfferingGet**(`httpRequestContext`, `factoryServiceName`, `request`): `Promise`\<`INotFoundResponse` \| `IServiceOfferingGetResponse`\>
 
-Get a Participant entry.
+Get a Service Offering entry.
 
 ## Parameters
 
@@ -26,6 +26,6 @@ The request.
 
 ## Returns
 
-`Promise`\<`IParticipantGetResponse` \| `INotFoundResponse`\>
+`Promise`\<`INotFoundResponse` \| `IServiceOfferingGetResponse`\>
 
 The response object with additional http response properties.

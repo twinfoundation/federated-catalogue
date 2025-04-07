@@ -1,6 +1,6 @@
-# Interface: IParticipantGetRequest
+# Interface: ICatalogueEntryGetRequest
 
-Get the a list of the participant entries.
+Get a Catalogue Entry.
 
 ## Properties
 

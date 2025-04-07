@@ -88,7 +88,7 @@ The LD Context.
 
 > **id**: `string`
 
-A unique identifier given to this Data Space Connector
+A unique identifier given to this Data Space Connector.
 
 #### Inherited from
 
@@ -112,7 +112,7 @@ A Connector is a Data Exchange Component
 
 > **identity**: `string`
 
-Connector's Identity that allows to know public key of this Connector
+Connector's Identity that allows to know public key of this Connector.
 
 #### Inherited from
 

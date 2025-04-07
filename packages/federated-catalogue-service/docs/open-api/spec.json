@@ -653,7 +653,7 @@
 				],
 				"responses": {
 					"200": {
-						"description": "Response for participant list query",
+						"description": "Response for a Participant Entry.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -828,6 +828,7 @@
 														"type": "Endpoint",
 														"endpointURL": "https://endpoint.example.org/api"
 													},
+													"trustedIssuerId": "did:iota:1234",
 													"providedBy": "did:iota:1234567",
 													"validFrom": "2024-08-01T12:00:00Z",
 													"validUntil": "2025-08-01T12:00:00Z",
@@ -838,6 +839,129 @@
 												}
 											],
 											"cursor": "1"
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "component.error",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/federated-catalogue/service-offerings/{id}": {
+			"get": {
+				"operationId": "federatedCatalogueGetService",
+				"summary": "Get a Service Offering entry",
+				"tags": [
+					"Federated Catalogue"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"description": "",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "https://my-services.example.org/service1"
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Service Offering response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ServiceOfferingEntry"
+								},
+								"examples": {
+									"serviceOfferingGetResponseExample": {
+										"value": {
+											"@context": [
+												"https://w3id.org/gaia-x/development",
+												"https://schema.org",
+												"https://www.w3.org/ns/credentials/v2"
+											],
+											"id": "http://example.org/is123456",
+											"name": "Service 1",
+											"type": "ServiceOffering",
+											"servicePolicy": {},
+											"endpoint": {
+												"type": "Endpoint",
+												"endpointURL": "https://endpoint.example.org/api"
+											},
+											"trustedIssuerId": "did:iota:7890",
+											"providedBy": "did:iota:1234567",
+											"validFrom": "2024-08-01T12:00:00Z",
+											"validUntil": "2025-08-01T12:00:00Z",
+											"dateCreated": "2024-08-02T13:45:00Z",
+											"evidences": [
+												"https://credentials.example.org/1234567"
+											]
 										}
 									}
 								}
@@ -994,6 +1118,128 @@
 												}
 											],
 											"cursor": "1"
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "component.error",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/federated-catalogue/data-resources/{id}": {
+			"get": {
+				"operationId": "federatedCatalogueGetDataResource",
+				"summary": "Get a Data Resource entry",
+				"tags": [
+					"Federated Catalogue"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"description": "",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "https://data-resources.example.org/drs1"
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Service Offering response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DataResourceEntry"
+								},
+								"examples": {
+									"dataResourceGetResponseExample": {
+										"value": {
+											"@context": [
+												"https://w3id.org/gaia-x/development",
+												"https://schema.org",
+												"https://www.w3.org/ns/credentials/v2"
+											],
+											"id": "http://example.org/is123456",
+											"name": "Data Resource 1",
+											"type": "DataResource",
+											"copyrightOwnedBy": "did:iota:1234",
+											"license": "http://licenses.example.org/12345",
+											"resourcePolicy": {},
+											"exposedThrough": "https://ds-connectors.example.org/ds1",
+											"producedBy": "did:iota:1234567",
+											"trustedIssuerId": "did:iota:987654",
+											"validFrom": "2024-08-01T12:00:00Z",
+											"validUntil": "2025-08-01T12:00:00Z",
+											"dateCreated": "2024-08-02T13:45:00Z",
+											"evidences": [
+												"https://credentials.example.org/1234567"
+											]
 										}
 									}
 								}
@@ -1225,6 +1471,146 @@
 					}
 				}
 			}
+		},
+		"/federated-catalogue/data-space-connectors/{id}": {
+			"get": {
+				"operationId": "federatedCatalogueGetDataSpaceConnector",
+				"summary": "Get a Data Space Connector entry",
+				"tags": [
+					"Federated Catalogue"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"description": "",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "https://ds-connectors.example.org/ds1"
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Service Offering response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DataSpaceConnectorEntry"
+								},
+								"examples": {
+									"dataSpaceConnectorGetResponseExample": {
+										"value": {
+											"@context": [
+												"https://w3id.org/gaia-x/development",
+												"https://schema.org",
+												"https://www.w3.org/ns/credentials/v2"
+											],
+											"id": "https://my-ds-connectors.example.org/ds-connector-ABCD",
+											"type": [
+												"DataExchangeComponent",
+												"DataSpaceConnector"
+											],
+											"identity": "did:iota:testnet:123456",
+											"defaultEndpoint": {
+												"type": "Endpoint",
+												"endpointURL": "https://my-twin-node.example.org:9000/twin-ds-connector"
+											},
+											"subscriptionActivityEndpoint": {
+												"type": "Endpoint",
+												"endpointURL": "/subscriptions"
+											},
+											"pushActivityEndpoint": {
+												"type": "Endpoint",
+												"endpointURL": "/notify"
+											},
+											"pullDataEndpoint": {
+												"type": "Endpoint",
+												"endpointURL": "/data"
+											},
+											"maintainer": "did:iota:99999",
+											"offeredResource": [
+												"https://my-data-resource.example.org"
+											],
+											"trustedIssuerId": "did:iota:987654",
+											"validFrom": "2024-08-01T12:00:00Z",
+											"validUntil": "2025-08-01T12:00:00Z",
+											"dateCreated": "2024-08-02T13:45:00Z",
+											"evidences": [
+												"https://credentials.example.org/1234567"
+											]
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "component.error",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	},
 	"components": {
@@ -1336,6 +1722,188 @@
 				"type": "string",
 				"description": "The data to be used in the create."
 			},
+			"DataResourceEntry": {
+				"type": "object",
+				"properties": {
+					"@context": {
+						"anyOf": [
+							{
+								"type": "string",
+								"const": "https://w3id.org/gaia-x/development"
+							},
+							{
+								"type": "array",
+								"minItems": 1,
+								"items": [
+									{
+										"type": "string",
+										"const": "https://w3id.org/gaia-x/development"
+									}
+								],
+								"additionalItems": {
+									"$ref": "https://schema.twindev.org/json-ld/JsonLdContextDefinitionElement"
+								}
+							}
+						],
+						"description": "The LD Context"
+					},
+					"@id": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+					},
+					"@included": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+					},
+					"@graph": {
+						"anyOf": [
+							{
+								"$ref": "https://schema.twindev.org/json-ld/JsonLdNodeObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "https://schema.twindev.org/json-ld/JsonLdNodeObject"
+								}
+							}
+						]
+					},
+					"@nest": {
+						"anyOf": [
+							{
+								"$ref": "https://schema.twindev.org/json-ld/JsonLdJsonObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "https://schema.twindev.org/json-ld/JsonLdJsonObject"
+								}
+							}
+						]
+					},
+					"@type": {
+						"anyOf": [
+							{
+								"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+								}
+							}
+						]
+					},
+					"@reverse": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+						}
+					},
+					"@index": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+					},
+					"id": {
+						"type": "string",
+						"description": "Subject Id"
+					},
+					"type": {
+						"type": "string",
+						"const": "DataResource",
+						"description": "Subject type"
+					},
+					"description": {
+						"type": "string",
+						"description": "Description"
+					},
+					"name": {
+						"type": "string",
+						"description": "The Resource Name"
+					},
+					"exposedThrough": {
+						"type": "string",
+						"description": "Overwriting exposedThrough as we only store the id of the Data Exchange Component"
+					},
+					"producedBy": {
+						"type": "string",
+						"description": "Overwriting producedBy as we only store the identifier"
+					},
+					"license": {
+						"type": "string",
+						"description": "Pointer (URL) to the license"
+					},
+					"copyrightOwnedBy": {
+						"type": "string",
+						"description": "Overwriting copyrightOwnedBy as we only store the identifier"
+					},
+					"resourcePolicy": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdNodeObject"
+					},
+					"trustedIssuerId": {
+						"type": "string",
+						"description": "The trusted issuer of the compliance credential"
+					},
+					"validFrom": {
+						"type": "string",
+						"description": "Valid from (as per W3C VC Data Model v2)"
+					},
+					"validUntil": {
+						"type": "string",
+						"description": "Valid until (as per W3C VC Data Model v2)"
+					},
+					"dateCreated": {
+						"type": "string",
+						"description": "The creation date."
+					},
+					"evidences": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						},
+						"description": "The evidences concerning the data resource."
+					}
+				},
+				"required": [
+					"@context",
+					"copyrightOwnedBy",
+					"dateCreated",
+					"evidences",
+					"exposedThrough",
+					"id",
+					"license",
+					"name",
+					"producedBy",
+					"resourcePolicy",
+					"trustedIssuerId",
+					"type",
+					"validFrom",
+					"validUntil"
+				],
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdNodePrimitive"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdLanguageMap"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdIndexMap"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdIncludedBlock"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdIdMap"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdTypeMap"
+						},
+						{
+							"type": "array"
+						}
+					]
+				},
+				"description": "Interface describing a Data Resource entry."
+			},
 			"DataResourceListResponse": {
 				"type": "object",
 				"properties": {
@@ -1380,6 +1948,201 @@
 				"additionalProperties": false,
 				"description": "The response payload."
 			},
+			"DataSpaceConnectorEntry": {
+				"type": "object",
+				"properties": {
+					"trustedIssuerId": {
+						"type": "string",
+						"description": "The trusted issuer of the compliance credential"
+					},
+					"validFrom": {
+						"type": "string",
+						"description": "Valid from (as per W3C VC Data Model v2)"
+					},
+					"validUntil": {
+						"type": "string",
+						"description": "Valid until (as per W3C VC Data Model v2)"
+					},
+					"dateCreated": {
+						"type": "string",
+						"description": "The creation date."
+					},
+					"evidences": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						},
+						"description": "The evidences concerning the data resource."
+					},
+					"@context": {
+						"type": "array",
+						"minItems": 1,
+						"items": [
+							{
+								"type": "string",
+								"const": "https://w3id.org/gaia-x/development"
+							}
+						],
+						"additionalItems": {
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdContextDefinitionElement"
+						},
+						"description": "The LD Context."
+					},
+					"@id": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+					},
+					"@included": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+					},
+					"@graph": {
+						"anyOf": [
+							{
+								"$ref": "https://schema.twindev.org/json-ld/JsonLdNodeObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "https://schema.twindev.org/json-ld/JsonLdNodeObject"
+								}
+							}
+						]
+					},
+					"@nest": {
+						"anyOf": [
+							{
+								"$ref": "https://schema.twindev.org/json-ld/JsonLdJsonObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "https://schema.twindev.org/json-ld/JsonLdJsonObject"
+								}
+							}
+						]
+					},
+					"@type": {
+						"anyOf": [
+							{
+								"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+								}
+							}
+						]
+					},
+					"@reverse": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+						}
+					},
+					"@index": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+					},
+					"type": {
+						"type": "array",
+						"minItems": 2,
+						"items": [
+							{
+								"type": "string",
+								"const": "DataExchangeComponent"
+							},
+							{
+								"type": "string",
+								"const": "DataSpaceConnector"
+							}
+						],
+						"additionalItems": {
+							"type": "string"
+						},
+						"description": "A Connector is a Data Exchange Component"
+					},
+					"id": {
+						"type": "string",
+						"description": "A unique identifier given to this Data Space Connector."
+					},
+					"identity": {
+						"type": "string",
+						"description": "Connector's Identity that allows to know public key of this Connector."
+					},
+					"maintainer": {
+						"type": "string",
+						"description": "Who maintains this Data Space Connector."
+					},
+					"name": {
+						"type": "string",
+						"description": "The name of this Data Space Connector"
+					},
+					"description": {
+						"type": "string",
+						"description": "A description of this Data Space Connector"
+					},
+					"defaultEndpoint": {
+						"$ref": "#/components/schemas/Endpoint"
+					},
+					"subscriptionActivityEndpoint": {
+						"$ref": "#/components/schemas/Endpoint"
+					},
+					"pushActivityEndpoint": {
+						"$ref": "#/components/schemas/Endpoint"
+					},
+					"pullDataEndpoint": {
+						"$ref": "#/components/schemas/Endpoint"
+					},
+					"offeredResource": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						},
+						"description": "Offered resources. Probably in the future this wll be separated in a different entry so that a  Data Space Connector entry does not need to be modified when a new Data Resource is offered."
+					}
+				},
+				"required": [
+					"@context",
+					"dateCreated",
+					"defaultEndpoint",
+					"evidences",
+					"id",
+					"identity",
+					"maintainer",
+					"offeredResource",
+					"pullDataEndpoint",
+					"pushActivityEndpoint",
+					"trustedIssuerId",
+					"type",
+					"validFrom",
+					"validUntil"
+				],
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdNodePrimitive"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdLanguageMap"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdIndexMap"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdIncludedBlock"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdIdMap"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdTypeMap"
+						},
+						{
+							"type": "array"
+						}
+					]
+				},
+				"description": "Interface describing a participant."
+			},
 			"DataSpaceConnectorListResponse": {
 				"type": "object",
 				"properties": {
@@ -1415,6 +2178,113 @@
 				],
 				"additionalProperties": false,
 				"description": "The response payload."
+			},
+			"Endpoint": {
+				"type": "object",
+				"properties": {
+					"@context": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+					},
+					"@id": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+					},
+					"@included": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+					},
+					"@graph": {
+						"anyOf": [
+							{
+								"$ref": "https://schema.twindev.org/json-ld/JsonLdNodeObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "https://schema.twindev.org/json-ld/JsonLdNodeObject"
+								}
+							}
+						]
+					},
+					"@nest": {
+						"anyOf": [
+							{
+								"$ref": "https://schema.twindev.org/json-ld/JsonLdJsonObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "https://schema.twindev.org/json-ld/JsonLdJsonObject"
+								}
+							}
+						]
+					},
+					"@type": {
+						"anyOf": [
+							{
+								"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+								}
+							}
+						]
+					},
+					"@reverse": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+						}
+					},
+					"@index": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+					},
+					"type": {
+						"type": "string",
+						"const": "Endpoint",
+						"description": "The type of JSON-LD node. In this case it is allowed to be omitted as it is usually a child node."
+					},
+					"endpointURL": {
+						"type": "string",
+						"description": "The endpoint URL"
+					},
+					"formalDescription": {
+						"type": "string",
+						"description": "The formal description"
+					},
+					"standardConformity": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdNodeObject"
+					}
+				},
+				"required": [
+					"endpointURL"
+				],
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdNodePrimitive"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdLanguageMap"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdIndexMap"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdIncludedBlock"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdIdMap"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdTypeMap"
+						},
+						{
+							"type": "array"
+						}
+					]
+				},
+				"description": "Endpoint as defined by the Gaia-X ontology. https://docs.gaia-x.eu/ontology/development/classes/Endpoint"
 			},
 			"Error": {
 				"type": "object",
@@ -1796,6 +2666,184 @@
 					]
 				},
 				"description": "Registration Number as defined by the Gaia-X ontology. https://docs.gaia-x.eu/ontology/development/classes/RegistrationNumber/"
+			},
+			"ServiceOfferingEntry": {
+				"type": "object",
+				"properties": {
+					"@context": {
+						"anyOf": [
+							{
+								"type": "string",
+								"const": "https://w3id.org/gaia-x/development"
+							},
+							{
+								"type": "array",
+								"minItems": 1,
+								"items": [
+									{
+										"type": "string",
+										"const": "https://w3id.org/gaia-x/development"
+									}
+								],
+								"additionalItems": {
+									"$ref": "https://schema.twindev.org/json-ld/JsonLdContextDefinitionElement"
+								}
+							}
+						],
+						"description": "The LD context"
+					},
+					"@id": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+					},
+					"@included": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+					},
+					"@graph": {
+						"anyOf": [
+							{
+								"$ref": "https://schema.twindev.org/json-ld/JsonLdNodeObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "https://schema.twindev.org/json-ld/JsonLdNodeObject"
+								}
+							}
+						]
+					},
+					"@nest": {
+						"anyOf": [
+							{
+								"$ref": "https://schema.twindev.org/json-ld/JsonLdJsonObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "https://schema.twindev.org/json-ld/JsonLdJsonObject"
+								}
+							}
+						]
+					},
+					"@type": {
+						"anyOf": [
+							{
+								"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+								}
+							}
+						]
+					},
+					"@reverse": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+						}
+					},
+					"@index": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+					},
+					"id": {
+						"type": "string",
+						"description": "Id"
+					},
+					"type": {
+						"type": "string",
+						"const": "ServiceOffering",
+						"description": "Type"
+					},
+					"description": {
+						"type": "string",
+						"description": "Description"
+					},
+					"name": {
+						"type": "string",
+						"description": "Name"
+					},
+					"providedBy": {
+						"type": "string",
+						"description": "Overwrites providedBy as we only store identifier as string"
+					},
+					"servicePolicy": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdNodeObject"
+					},
+					"aggregationOfResources": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						},
+						"description": "Overwrites aggregationOfResources as we only store identifier as string"
+					},
+					"endpoint": {
+						"$ref": "#/components/schemas/Endpoint"
+					},
+					"trustedIssuerId": {
+						"type": "string",
+						"description": "The trusted issuer of the compliance credential"
+					},
+					"validFrom": {
+						"type": "string",
+						"description": "Valid from (as per W3C VC Data Model v2)"
+					},
+					"validUntil": {
+						"type": "string",
+						"description": "Valid until (as per W3C VC Data Model v2)"
+					},
+					"dateCreated": {
+						"type": "string",
+						"description": "The creation date."
+					},
+					"evidences": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						},
+						"description": "The evidences concerning the data resource."
+					}
+				},
+				"required": [
+					"@context",
+					"dateCreated",
+					"endpoint",
+					"evidences",
+					"id",
+					"name",
+					"providedBy",
+					"servicePolicy",
+					"trustedIssuerId",
+					"type",
+					"validFrom",
+					"validUntil"
+				],
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdNodePrimitive"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdLanguageMap"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdIndexMap"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdIncludedBlock"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdIdMap"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdTypeMap"
+						},
+						{
+							"type": "array"
+						}
+					]
+				},
+				"description": "Interface describing a SD."
 			},
 			"ServiceOfferingListResponse": {
 				"type": "object",

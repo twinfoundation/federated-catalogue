@@ -84,9 +84,9 @@ Overwrites providedBy as we only store identifier as string
 
 ***
 
-### aggregationOfResources
+### aggregationOfResources?
 
-> **aggregationOfResources**: `string`[]
+> `optional` **aggregationOfResources**: `string`[]
 
 Overwrites aggregationOfResources as we only store identifier as string
 

@@ -25,7 +25,7 @@ export interface IDataSpaceConnector extends IDataExchangeComponent {
 	"@context": [typeof GaiaXContexts.GaiaXLdContext, ...IJsonLdContextDefinitionElement[]];
 
 	/**
-	 * A unique identifier given to this Data Space Connector
+	 * A unique identifier given to this Data Space Connector.
 	 */
 	id: string;
 
@@ -39,7 +39,7 @@ export interface IDataSpaceConnector extends IDataExchangeComponent {
 	];
 
 	/**
-	 * Connector's Identity that allows to know public key of this Connector
+	 * Connector's Identity that allows to know public key of this Connector.
 	 */
 	identity: string;
 

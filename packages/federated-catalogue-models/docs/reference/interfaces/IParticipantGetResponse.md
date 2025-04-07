@@ -1,6 +1,6 @@
 # Interface: IParticipantGetResponse
 
-Response for participant list query
+Response for a Participant Entry.
 
 ## Properties
 

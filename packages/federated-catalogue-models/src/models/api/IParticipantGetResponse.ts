@@ -4,7 +4,7 @@
 import type { IParticipantEntry } from "../participant/IParticipantEntry";
 
 /**
- * Response for participant list query
+ * Response for a Participant Entry.
  */
 export interface IParticipantGetResponse {
 	/**
