@@ -10,7 +10,7 @@ Interface describing a Federated Catalogue Contract.
 
 ### registerComplianceCredential()
 
-> **registerComplianceCredential**(`credential`): `Promise`\<`void`\>
+> **registerComplianceCredential**(`credential`): `Promise`\<`string`\>
 
 Registers a Participant's compliance Credential to the service.
 
@@ -24,9 +24,9 @@ The credential as JWT.
 
 #### Returns
 
-`Promise`\<`void`\>
+`Promise`\<`string`\>
 
-Nothing.
+The participant Id (usually a DID).
 
 ***
 
@@ -83,7 +83,7 @@ NotImplementedError if the implementation does not support retrieval.
 
 ### registerDataSpaceConnectorCredential()
 
-> **registerDataSpaceConnectorCredential**(`credential`): `Promise`\<`void`\>
+> **registerDataSpaceConnectorCredential**(`credential`): `Promise`\<`string`\>
 
 Registers a Data Space Connector to the service.
 
@@ -97,9 +97,9 @@ The credential as JWT.
 
 #### Returns
 
-`Promise`\<`void`\>
+`Promise`\<`string`\>
 
-Nothing.
+The Data Space Connector Id registered.
 
 ***
 
@@ -150,7 +150,7 @@ NotImplementedError if the implementation does not support retrieval.
 
 ### registerServiceOfferingCredential()
 
-> **registerServiceOfferingCredential**(`credential`): `Promise`\<`void`\>
+> **registerServiceOfferingCredential**(`credential`): `Promise`\<`string`[]\>
 
 Registers a service offering Credential to the service.
 
@@ -164,15 +164,15 @@ The credential as JWT.
 
 #### Returns
 
-`Promise`\<`void`\>
+`Promise`\<`string`[]\>
 
-Nothing.
+The Id of the Service Offerings registered.
 
 ***
 
 ### registerDataResourceCredential()
 
-> **registerDataResourceCredential**(`credential`): `Promise`\<`void`\>
+> **registerDataResourceCredential**(`credential`): `Promise`\<`string`[]\>
 
 Registers a data resource Credential to the service.
 
@@ -186,9 +186,9 @@ The credential as JWT.
 
 #### Returns
 
-`Promise`\<`void`\>
+`Promise`\<`string`[]\>
 
-Nothing.
+The Id of the Data Resources registered.
 
 ***
 

@@ -22,6 +22,7 @@
 - [generateRestRoutesFederatedCatalogue](functions/generateRestRoutesFederatedCatalogue.md)
 - [complianceCredentialPresentation](functions/complianceCredentialPresentation.md)
 - [participantList](functions/participantList.md)
+- [participantGet](functions/participantGet.md)
 - [serviceOfferingCredentialPresentation](functions/serviceOfferingCredentialPresentation.md)
 - [serviceOfferingList](functions/serviceOfferingList.md)
 - [dataResourceCredentialPresentation](functions/dataResourceCredentialPresentation.md)

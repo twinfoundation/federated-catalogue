@@ -1,10 +1,16 @@
 # Function: dataSpaceConnectorCredentialPresentation()
 
-> **dataSpaceConnectorCredentialPresentation**(`httpRequestContext`, `factoryServiceName`, `request`): `Promise`\<`ICreatedResponse`\>
+> **dataSpaceConnectorCredentialPresentation**(`baseRouteName`, `httpRequestContext`, `factoryServiceName`, `request`): `Promise`\<`ICreatedResponse`\>
 
 Register a new data space connector.
 
 ## Parameters
+
+### baseRouteName
+
+`string`
+
+the base route name.
 
 ### httpRequestContext
 

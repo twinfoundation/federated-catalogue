@@ -1,10 +1,16 @@
 # Function: dataResourceCredentialPresentation()
 
-> **dataResourceCredentialPresentation**(`httpRequestContext`, `factoryServiceName`, `request`): `Promise`\<`ICreatedResponse`\>
+> **dataResourceCredentialPresentation**(`baseRouteName`, `httpRequestContext`, `factoryServiceName`, `request`): `Promise`\<`ICreatedResponse`\>
 
 Register a new data resource.
 
 ## Parameters
+
+### baseRouteName
+
+`string`
+
+The base route name.
 
 ### httpRequestContext
 

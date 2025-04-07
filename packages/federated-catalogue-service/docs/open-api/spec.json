@@ -626,6 +626,131 @@
 				}
 			}
 		},
+		"/federated-catalogue/participants/{id}": {
+			"get": {
+				"operationId": "federatedCatalogueGetParticipant",
+				"summary": "Get a participant",
+				"tags": [
+					"Federated Catalogue"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"description": "The id of Participant to get.",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "did:iota:123456"
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Response for participant list query",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ParticipantEntry"
+								},
+								"examples": {
+									"participantGetResponseExample": {
+										"value": {
+											"@context": [
+												"https://w3id.org/gaia-x/development",
+												"https://schema.org",
+												"https://www.w3.org/ns/credentials/v2"
+											],
+											"id": "did:iota:xxx",
+											"type": "LegalPerson",
+											"registrationNumber": {
+												"type": "LocalRegistrationNumber",
+												"local": "P1234567"
+											},
+											"legalName": "A Inc.",
+											"trustedIssuerId": "did:iota:zzz",
+											"legalAddress": {
+												"type": "Address",
+												"countryCode": "KE"
+											},
+											"validFrom": "2024-08-01T12:00:00Z",
+											"validUntil": "2025-08-01T12:00:00Z",
+											"dateCreated": "2024-08-02T13:45:00Z",
+											"evidences": [
+												"https://credentials.example.org/1234567"
+											]
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "component.error",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
 		"/federated-catalogue/service-offerings": {
 			"get": {
 				"operationId": "federatedCatalogueListServices",
@@ -1104,6 +1229,109 @@
 	},
 	"components": {
 		"schemas": {
+			"Address": {
+				"type": "object",
+				"properties": {
+					"@context": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+					},
+					"@id": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+					},
+					"@included": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+					},
+					"@graph": {
+						"anyOf": [
+							{
+								"$ref": "https://schema.twindev.org/json-ld/JsonLdNodeObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "https://schema.twindev.org/json-ld/JsonLdNodeObject"
+								}
+							}
+						]
+					},
+					"@nest": {
+						"anyOf": [
+							{
+								"$ref": "https://schema.twindev.org/json-ld/JsonLdJsonObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "https://schema.twindev.org/json-ld/JsonLdJsonObject"
+								}
+							}
+						]
+					},
+					"@type": {
+						"anyOf": [
+							{
+								"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+								}
+							}
+						]
+					},
+					"@reverse": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+						}
+					},
+					"@index": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+					},
+					"type": {
+						"type": "string",
+						"const": "Address",
+						"description": "JSON-LD @ type. In this case it is allowed to be omitted as it is usually a child node."
+					},
+					"countryCode": {
+						"type": [
+							"string",
+							"number"
+						],
+						"description": "Country code in ISO 3166-1 alpha2, alpha-3 or numeric format"
+					}
+				},
+				"required": [
+					"countryCode"
+				],
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdNodePrimitive"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdLanguageMap"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdIndexMap"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdIncludedBlock"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdIdMap"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdTypeMap"
+						},
+						{
+							"type": "array"
+						}
+					]
+				},
+				"description": "Address as defined by Gaia-X https://docs.gaia-x.eu/ontology/development/classes/Address/"
+			},
 			"CompliancePresentationRequest": {
 				"type": "string",
 				"description": "The data to be used in the create."
@@ -1127,7 +1355,7 @@
 									}
 								],
 								"additionalItems": {
-									"$ref": "#/components/schemas/JsonLdContextDefinitionElement"
+									"$ref": "https://schema.twindev.org/json-ld/JsonLdContextDefinitionElement"
 								}
 							}
 						],
@@ -1165,7 +1393,7 @@
 							}
 						],
 						"additionalItems": {
-							"$ref": "#/components/schemas/JsonLdContextDefinitionElement"
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdContextDefinitionElement"
 						},
 						"description": "The LD"
 					},
@@ -1223,6 +1451,168 @@
 				"additionalProperties": false,
 				"description": "Model to describe serialized error."
 			},
+			"ParticipantEntry": {
+				"type": "object",
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdNodePrimitive"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdLanguageMap"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdIndexMap"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdIncludedBlock"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdIdMap"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdTypeMap"
+						},
+						{
+							"type": "array"
+						}
+					]
+				},
+				"properties": {
+					"trustedIssuerId": {
+						"type": "string",
+						"description": "The trusted issuer of the compliance credential"
+					},
+					"validFrom": {
+						"type": "string",
+						"description": "Valid from (as per W3C VC Data Model v2)"
+					},
+					"validUntil": {
+						"type": "string",
+						"description": "Valid until (as per W3C VC Data Model v2)"
+					},
+					"dateCreated": {
+						"type": "string",
+						"description": "The creation date."
+					},
+					"evidences": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						},
+						"description": "The evidences concerning the data resource."
+					},
+					"@context": {
+						"anyOf": [
+							{
+								"type": "string",
+								"const": "https://w3id.org/gaia-x/development"
+							},
+							{
+								"type": "array",
+								"minItems": 1,
+								"items": [
+									{
+										"type": "string",
+										"const": "https://w3id.org/gaia-x/development"
+									}
+								],
+								"additionalItems": {
+									"$ref": "https://schema.twindev.org/json-ld/JsonLdContextDefinitionElement"
+								}
+							}
+						],
+						"description": "The LD context"
+					},
+					"@id": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+					},
+					"@included": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+					},
+					"@graph": {
+						"anyOf": [
+							{
+								"$ref": "https://schema.twindev.org/json-ld/JsonLdNodeObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "https://schema.twindev.org/json-ld/JsonLdNodeObject"
+								}
+							}
+						]
+					},
+					"@nest": {
+						"anyOf": [
+							{
+								"$ref": "https://schema.twindev.org/json-ld/JsonLdJsonObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "https://schema.twindev.org/json-ld/JsonLdJsonObject"
+								}
+							}
+						]
+					},
+					"@type": {
+						"anyOf": [
+							{
+								"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+								}
+							}
+						]
+					},
+					"@reverse": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+						}
+					},
+					"@index": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+					},
+					"id": {
+						"type": "string",
+						"description": "The participant Id."
+					},
+					"type": {
+						"type": "string",
+						"const": "LegalPerson",
+						"description": "JSON-LD type."
+					},
+					"registrationNumber": {
+						"$ref": "#/components/schemas/RegistrationNumber"
+					},
+					"legalName": {
+						"type": "string",
+						"description": "The legal name."
+					},
+					"legalAddress": {
+						"$ref": "#/components/schemas/Address"
+					}
+				},
+				"required": [
+					"@context",
+					"dateCreated",
+					"evidences",
+					"id",
+					"legalAddress",
+					"legalName",
+					"registrationNumber",
+					"trustedIssuerId",
+					"type",
+					"validFrom",
+					"validUntil"
+				],
+				"description": "Interface describing a participant."
+			},
 			"ParticipantListResponse": {
 				"type": "object",
 				"properties": {
@@ -1242,7 +1632,7 @@
 									}
 								],
 								"additionalItems": {
-									"$ref": "#/components/schemas/JsonLdContextDefinitionElement"
+									"$ref": "https://schema.twindev.org/json-ld/JsonLdContextDefinitionElement"
 								}
 							}
 						],
@@ -1267,6 +1657,146 @@
 				"additionalProperties": false,
 				"description": "The response payload."
 			},
+			"RegistrationNumber": {
+				"type": "object",
+				"properties": {
+					"@context": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+					},
+					"@id": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+					},
+					"@included": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+					},
+					"@graph": {
+						"anyOf": [
+							{
+								"$ref": "https://schema.twindev.org/json-ld/JsonLdNodeObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "https://schema.twindev.org/json-ld/JsonLdNodeObject"
+								}
+							}
+						]
+					},
+					"@nest": {
+						"anyOf": [
+							{
+								"$ref": "https://schema.twindev.org/json-ld/JsonLdJsonObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "https://schema.twindev.org/json-ld/JsonLdJsonObject"
+								}
+							}
+						]
+					},
+					"@type": {
+						"anyOf": [
+							{
+								"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+								}
+							}
+						]
+					},
+					"@reverse": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+						}
+					},
+					"@index": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+					},
+					"type": {
+						"type": "string",
+						"enum": [
+							"RegistrationNumber",
+							"LocalRegistrationNumber",
+							"EORI",
+							"EUID",
+							"LeiCode",
+							"TaxID",
+							"VatID"
+						],
+						"description": "JSON-LD Type."
+					},
+					"local": {
+						"type": "string",
+						"description": "Local Registration."
+					},
+					"countryCode": {
+						"type": "string",
+						"description": "Country code. See https://docs.gaia-x.eu/ontology/development/enums/CountryNameAlpha2/"
+					},
+					"subdivisionCountryCode": {
+						"type": "string",
+						"description": "Subdivision country code. See https://docs.gaia-x.eu/ontology/development/enums/RegionCode/"
+					},
+					"vatID": {
+						"type": "string",
+						"description": "The VAT identification number."
+					},
+					"leiCode": {
+						"type": "string",
+						"description": "Unique LEI number as defined by GLEIF."
+					},
+					"eori": {
+						"type": "string",
+						"description": "The Economic Operators Registration and Identification number (EORI)."
+					},
+					"country": {
+						"type": "string",
+						"description": "The country where the EORI is registered written in plain english"
+					},
+					"euid": {
+						"type": "string",
+						"description": "The European Unique Identifier (EUID) for business located in the European Ec."
+					},
+					"taxId": {
+						"type": "string",
+						"description": "The company tax ID."
+					}
+				},
+				"required": [
+					"type"
+				],
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdNodePrimitive"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdLanguageMap"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdIndexMap"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdIncludedBlock"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdIdMap"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdTypeMap"
+						},
+						{
+							"type": "array"
+						}
+					]
+				},
+				"description": "Registration Number as defined by the Gaia-X ontology. https://docs.gaia-x.eu/ontology/development/classes/RegistrationNumber/"
+			},
 			"ServiceOfferingListResponse": {
 				"type": "object",
 				"properties": {
@@ -1286,7 +1816,7 @@
 									}
 								],
 								"additionalItems": {
-									"$ref": "#/components/schemas/JsonLdContextDefinitionElement"
+									"$ref": "https://schema.twindev.org/json-ld/JsonLdContextDefinitionElement"
 								}
 							}
 						],

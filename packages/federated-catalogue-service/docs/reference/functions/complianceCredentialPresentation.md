@@ -1,10 +1,16 @@
 # Function: complianceCredentialPresentation()
 
-> **complianceCredentialPresentation**(`httpRequestContext`, `factoryServiceName`, `request`): `Promise`\<`ICreatedResponse`\>
+> **complianceCredentialPresentation**(`baseRouteName`, `httpRequestContext`, `factoryServiceName`, `request`): `Promise`\<`ICreatedResponse`\>
 
 Register a new participant.
 
 ## Parameters
+
+### baseRouteName
+
+`string`
+
+The base route name.
 
 ### httpRequestContext
 

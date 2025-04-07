@@ -9,6 +9,9 @@ export * from "./models/api/IParticipantListResponse";
 export * from "./models/api/IServiceOfferingListResponse";
 export * from "./models/api/IDataResourceListResponse";
 
+export * from "./models/api/IParticipantGetRequest";
+export * from "./models/api/IParticipantGetResponse";
+
 export * from "./models/api/IDataSpaceConnectorListRequest";
 export * from "./models/api/IDataSpaceConnectorListResponse";
 

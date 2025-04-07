@@ -3,11 +3,12 @@
 import type {
 	ICreatedResponse,
 	IHttpRequestContext,
+	INotFoundResponse,
 	IRestRoute,
 	ITag,
 	IUnprocessableEntityResponse
 } from "@twin.org/api-models";
-import { Coerce, ComponentFactory, Guards } from "@twin.org/core";
+import { Coerce, ComponentFactory, Guards, Is } from "@twin.org/core";
 import type {
 	ICompliancePresentationRequest,
 	IDataResourceListRequest,
@@ -15,18 +16,41 @@ import type {
 	IDataSpaceConnectorListRequest,
 	IDataSpaceConnectorListResponse,
 	IFederatedCatalogue,
+	IParticipantGetRequest,
+	IParticipantGetResponse,
 	IParticipantListRequest,
 	IParticipantListResponse,
 	IServiceOfferingListRequest,
 	IServiceOfferingListResponse
 } from "@twin.org/federated-catalogue-models";
 import { nameof } from "@twin.org/nameof";
+import { GaiaXTypes } from "@twin.org/standards-gaia-x";
 import { HttpStatusCode, MimeTypes } from "@twin.org/web";
 
 /**
  * The source used when communicating about these routes.
  */
 const ROUTES_SOURCE = "federatedCatalogueRoutes";
+
+/**
+ * Participants route.
+ */
+const PARTICIPANTS_ROUTE = "participants";
+
+/**
+ * Service offering route.
+ */
+const SERVICE_OFFERING_ROUTE = "service-offerings";
+
+/**
+ * Data Resource route.
+ */
+const DATA_RESOURCE_ROUTE = "data-resources";
+
+/**
+ * Data Space Connector route.
+ */
+const DATA_SPACE_CONNECTOR_ROUTE = "data-space-connectors";
 
 /**
  * The tag to associate with the routes.
@@ -55,7 +79,12 @@ export function generateRestRoutesFederatedCatalogue(
 		method: "POST",
 		path: `${baseRouteName}/participant-credentials`,
 		handler: async (httpRequestContext, request) =>
-			complianceCredentialPresentation(httpRequestContext, factoryServiceName, request),
+			complianceCredentialPresentation(
+				baseRouteName,
+				httpRequestContext,
+				factoryServiceName,
+				request
+			),
 		requestType: {
 			mimeType: MimeTypes.Jwt,
 			type: nameof<ICompliancePresentationRequest>(),
@@ -76,14 +105,19 @@ export function generateRestRoutesFederatedCatalogue(
 		]
 	};
 
-	const createServiceRoute: IRestRoute<ICompliancePresentationRequest, ICreatedResponse> = {
+	const createServiceOfferingRoute: IRestRoute<ICompliancePresentationRequest, ICreatedResponse> = {
 		operationId: "serviceOfferingPresentationRequest",
 		summary: "Present a Service Offering Credential",
 		tag: tagsFederatedCatalogue[0].name,
 		method: "POST",
 		path: `${baseRouteName}/service-offering-credentials`,
 		handler: async (httpRequestContext, request) =>
-			serviceOfferingCredentialPresentation(httpRequestContext, factoryServiceName, request),
+			serviceOfferingCredentialPresentation(
+				baseRouteName,
+				httpRequestContext,
+				factoryServiceName,
+				request
+			),
 		requestType: {
 			mimeType: MimeTypes.Jwt,
 			type: nameof<ICompliancePresentationRequest>(),
@@ -114,7 +148,12 @@ export function generateRestRoutesFederatedCatalogue(
 		method: "POST",
 		path: `${baseRouteName}/data-space-connector-credentials`,
 		handler: async (httpRequestContext, request) =>
-			dataSpaceConnectorCredentialPresentation(httpRequestContext, factoryServiceName, request),
+			dataSpaceConnectorCredentialPresentation(
+				baseRouteName,
+				httpRequestContext,
+				factoryServiceName,
+				request
+			),
 		requestType: {
 			mimeType: MimeTypes.Jwt,
 			type: nameof<ICompliancePresentationRequest>(),
@@ -142,7 +181,12 @@ export function generateRestRoutesFederatedCatalogue(
 		method: "POST",
 		path: `${baseRouteName}/data-resource-credentials`,
 		handler: async (httpRequestContext, request) =>
-			dataResourceCredentialPresentation(httpRequestContext, factoryServiceName, request),
+			dataResourceCredentialPresentation(
+				baseRouteName,
+				httpRequestContext,
+				factoryServiceName,
+				request
+			),
 		requestType: {
 			mimeType: MimeTypes.Jwt,
 			type: nameof<ICompliancePresentationRequest>(),
@@ -168,7 +212,7 @@ export function generateRestRoutesFederatedCatalogue(
 		summary: "Get a list of the participant entries",
 		tag: tagsFederatedCatalogue[0].name,
 		method: "GET",
-		path: `${baseRouteName}/participants`,
+		path: `${baseRouteName}/${PARTICIPANTS_ROUTE}`,
 		handler: async (httpRequestContext, request) =>
 			participantList(httpRequestContext, factoryServiceName, request),
 		requestType: {
@@ -226,12 +270,73 @@ export function generateRestRoutesFederatedCatalogue(
 		]
 	};
 
+	const getParticipantRoute: IRestRoute<
+		IParticipantGetRequest,
+		IParticipantGetResponse | INotFoundResponse
+	> = {
+		operationId: "federatedCatalogueGetParticipant",
+		summary: "Get a participant",
+		tag: tagsFederatedCatalogue[0].name,
+		method: "GET",
+		path: `${baseRouteName}/${PARTICIPANTS_ROUTE}/:id`,
+		handler: async (httpRequestContext, request) =>
+			participantGet(httpRequestContext, factoryServiceName, request),
+		requestType: {
+			type: nameof<IParticipantGetRequest>(),
+			examples: [
+				{
+					id: "participantGetRequestExample",
+					request: {
+						pathParams: {
+							id: "did:iota:123456"
+						}
+					}
+				}
+			]
+		},
+		responseType: [
+			{
+				type: nameof<IParticipantGetResponse>(),
+				examples: [
+					{
+						id: "participantGetResponseExample",
+						response: {
+							body: {
+								"@context": [
+									"https://w3id.org/gaia-x/development",
+									"https://schema.org",
+									"https://www.w3.org/ns/credentials/v2"
+								],
+								id: "did:iota:xxx",
+								type: "LegalPerson",
+								registrationNumber: {
+									type: "LocalRegistrationNumber",
+									local: "P1234567"
+								},
+								legalName: "A Inc.",
+								trustedIssuerId: "did:iota:zzz",
+								legalAddress: {
+									type: "Address",
+									countryCode: "KE"
+								},
+								validFrom: "2024-08-01T12:00:00Z",
+								validUntil: "2025-08-01T12:00:00Z",
+								dateCreated: "2024-08-02T13:45:00Z",
+								evidences: ["https://credentials.example.org/1234567"]
+							}
+						}
+					}
+				]
+			}
+		]
+	};
+
 	const listServicesRoute: IRestRoute<IServiceOfferingListRequest, IServiceOfferingListResponse> = {
 		operationId: "federatedCatalogueListServices",
 		summary: "Get a list of the service entries",
 		tag: tagsFederatedCatalogue[0].name,
 		method: "GET",
-		path: `${baseRouteName}/service-offerings`,
+		path: `${baseRouteName}/${SERVICE_OFFERING_ROUTE}`,
 		handler: async (httpRequestContext, request) =>
 			serviceOfferingList(httpRequestContext, factoryServiceName, request),
 		requestType: {
@@ -291,7 +396,7 @@ export function generateRestRoutesFederatedCatalogue(
 		summary: "Get a list of the data resource entries",
 		tag: tagsFederatedCatalogue[0].name,
 		method: "GET",
-		path: `${baseRouteName}/data-resources`,
+		path: `${baseRouteName}/${DATA_RESOURCE_ROUTE}`,
 		handler: async (httpRequestContext, request) =>
 			dataResourceList(httpRequestContext, factoryServiceName, request),
 		requestType: {
@@ -357,7 +462,7 @@ export function generateRestRoutesFederatedCatalogue(
 		summary: "Get a list of the Data Space connectors entries",
 		tag: tagsFederatedCatalogue[0].name,
 		method: "GET",
-		path: `${baseRouteName}/data-space-connectors`,
+		path: `${baseRouteName}/${DATA_SPACE_CONNECTOR_ROUTE}`,
 		handler: async (httpRequestContext, request) =>
 			dataSpaceConnectorList(httpRequestContext, factoryServiceName, request),
 		requestType: {
@@ -421,10 +526,11 @@ export function generateRestRoutesFederatedCatalogue(
 	};
 	return [
 		createParticipantRoute,
-		createServiceRoute,
+		createServiceOfferingRoute,
 		createDataResourceRoute,
 		createDataSpaceConnectorRoute,
 		listParticipantsRoute,
+		getParticipantRoute,
 		listServicesRoute,
 		listDataResourcesRoute,
 		listDataSpaceConnectorsRoute
@@ -433,12 +539,14 @@ export function generateRestRoutesFederatedCatalogue(
 
 /**
  * Register a new participant.
+ * @param baseRouteName The base route name.
  * @param httpRequestContext The request context for the API.
  * @param factoryServiceName The name of the service to use in the routes.
  * @param request The request.
  * @returns The response object with additional http response properties.
  */
 export async function complianceCredentialPresentation(
+	baseRouteName: string,
 	httpRequestContext: IHttpRequestContext,
 	factoryServiceName: string,
 	request: ICompliancePresentationRequest
@@ -447,18 +555,18 @@ export async function complianceCredentialPresentation(
 	Guards.stringValue(ROUTES_SOURCE, nameof(request.body), request.body);
 
 	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
-	await service.registerComplianceCredential(request.body);
+	const participantId = await service.registerComplianceCredential(request.body);
 
 	return {
 		headers: {
-			location: ""
+			location: `${baseRouteName}/${PARTICIPANTS_ROUTE}/${participantId}`
 		},
 		statusCode: HttpStatusCode.created
 	};
 }
 
 /**
- * Get a list of the logging participant entries.
+ * Get a list of the participant entries.
  * @param httpRequestContext The request context for the API.
  * @param factoryServiceName The name of the service to use in the routes.
  * @param request The request.
@@ -491,13 +599,58 @@ export async function participantList(
 }
 
 /**
+ * Get a Participant entry.
+ * @param httpRequestContext The request context for the API.
+ * @param factoryServiceName The name of the service to use in the routes.
+ * @param request The request.
+ * @returns The response object with additional http response properties.
+ */
+export async function participantGet(
+	httpRequestContext: IHttpRequestContext,
+	factoryServiceName: string,
+	request: IParticipantGetRequest
+): Promise<IParticipantGetResponse | INotFoundResponse> {
+	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+
+	const id = request?.pathParams.id;
+	Guards.stringValue(ROUTES_SOURCE, nameof(id), id);
+
+	const itemsAndCursor = await service.queryParticipants(request?.pathParams.id);
+
+	if (Is.arrayValue(itemsAndCursor.entities)) {
+		return {
+			body: {
+				...itemsAndCursor.entities[0],
+				type: GaiaXTypes.Participant,
+				"@context": [
+					"https://w3id.org/gaia-x/development",
+					"https://schema.org",
+					"https://www.w3.org/ns/credentials/v2"
+				]
+			}
+		};
+	}
+
+	return {
+		statusCode: HttpStatusCode.notFound,
+		body: {
+			name: "notFoundEntry",
+			message: "notFoundEntry",
+			notFoundId: id
+		}
+	};
+}
+
+/**
  * Register a new service offering.
+ * @param baseRouteName The base route used.
  * @param httpRequestContext The request context for the API.
  * @param factoryServiceName The name of the service to use in the routes.
  * @param request The request.
  * @returns The response object with additional http response properties.
  */
 export async function serviceOfferingCredentialPresentation(
+	baseRouteName: string,
 	httpRequestContext: IHttpRequestContext,
 	factoryServiceName: string,
 	request: ICompliancePresentationRequest
@@ -506,11 +659,11 @@ export async function serviceOfferingCredentialPresentation(
 	Guards.stringValue(ROUTES_SOURCE, nameof(request.body), request.body);
 
 	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
-	await service.registerServiceOfferingCredential(request.body);
+	const serviceOfferingsCreated = await service.registerServiceOfferingCredential(request.body);
 
 	return {
 		headers: {
-			location: ""
+			location: `${baseRouteName}/${SERVICE_OFFERING_ROUTE}/${serviceOfferingsCreated[0]}`
 		},
 		statusCode: HttpStatusCode.created
 	};
@@ -550,12 +703,14 @@ export async function serviceOfferingList(
 
 /**
  * Register a new data resource.
+ * @param baseRouteName The base route name.
  * @param httpRequestContext The request context for the API.
  * @param factoryServiceName The name of the service to use in the routes.
  * @param request The request.
  * @returns The response object with additional http response properties.
  */
 export async function dataResourceCredentialPresentation(
+	baseRouteName: string,
 	httpRequestContext: IHttpRequestContext,
 	factoryServiceName: string,
 	request: ICompliancePresentationRequest
@@ -564,11 +719,11 @@ export async function dataResourceCredentialPresentation(
 	Guards.stringValue(ROUTES_SOURCE, nameof(request.body), request.body);
 
 	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
-	await service.registerDataResourceCredential(request.body);
+	const dataResourcesCreated = await service.registerDataResourceCredential(request.body);
 
 	return {
 		headers: {
-			location: ""
+			location: `${baseRouteName}/${DATA_RESOURCE_ROUTE}/${dataResourcesCreated[0]}`
 		},
 		statusCode: HttpStatusCode.created
 	};
@@ -608,12 +763,14 @@ export async function dataResourceList(
 
 /**
  * Register a new data space connector.
+ * @param baseRouteName the base route name.
  * @param httpRequestContext The request context for the API.
  * @param factoryServiceName The name of the service to use in the routes.
  * @param request The request.
  * @returns The response object with additional http response properties.
  */
 export async function dataSpaceConnectorCredentialPresentation(
+	baseRouteName: string,
 	httpRequestContext: IHttpRequestContext,
 	factoryServiceName: string,
 	request: ICompliancePresentationRequest
@@ -622,11 +779,11 @@ export async function dataSpaceConnectorCredentialPresentation(
 	Guards.stringValue(ROUTES_SOURCE, nameof(request.body), request.body);
 
 	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
-	await service.registerDataSpaceConnectorCredential(request.body);
+	const dataSpaceConnectorId = await service.registerDataSpaceConnectorCredential(request.body);
 
 	return {
 		headers: {
-			location: ""
+			location: `${baseRouteName}/${DATA_SPACE_CONNECTOR_ROUTE}/${dataSpaceConnectorId}`
 		},
 		statusCode: HttpStatusCode.created
 	};

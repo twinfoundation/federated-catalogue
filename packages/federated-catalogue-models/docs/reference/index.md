@@ -13,6 +13,8 @@
 - [IDataResourceListResponse](interfaces/IDataResourceListResponse.md)
 - [IDataSpaceConnectorListRequest](interfaces/IDataSpaceConnectorListRequest.md)
 - [IDataSpaceConnectorListResponse](interfaces/IDataSpaceConnectorListResponse.md)
+- [IParticipantGetRequest](interfaces/IParticipantGetRequest.md)
+- [IParticipantGetResponse](interfaces/IParticipantGetResponse.md)
 - [IParticipantListRequest](interfaces/IParticipantListRequest.md)
 - [IParticipantListResponse](interfaces/IParticipantListResponse.md)
 - [IServiceOfferingListRequest](interfaces/IServiceOfferingListRequest.md)

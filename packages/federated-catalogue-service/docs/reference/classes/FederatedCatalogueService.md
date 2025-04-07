@@ -42,9 +42,9 @@ Runtime name for the class.
 
 ### registerComplianceCredential()
 
-> **registerComplianceCredential**(`credentialJwt`): `Promise`\<`void`\>
+> **registerComplianceCredential**(`credentialJwt`): `Promise`\<`string`\>
 
-Registers a compliance Credential to the service.
+Registers a Participant's compliance Credential.
 
 #### Parameters
 
@@ -56,9 +56,9 @@ The credential (wrapped into a presentation) as JWT.
 
 #### Returns
 
-`Promise`\<`void`\>
+`Promise`\<`string`\>
 
-Nothing.
+The Id of the Participant (DID usually).
 
 #### Implementation of
 
@@ -123,7 +123,7 @@ NotImplementedError if the implementation does not support retrieval.
 
 ### registerDataSpaceConnectorCredential()
 
-> **registerDataSpaceConnectorCredential**(`credentialJwt`): `Promise`\<`void`\>
+> **registerDataSpaceConnectorCredential**(`credentialJwt`): `Promise`\<`string`\>
 
 Registers a compliance Credential concerning a Data Space Connector.
 
@@ -137,9 +137,9 @@ The credential (wrapped into a presentation) as JWT.
 
 #### Returns
 
-`Promise`\<`void`\>
+`Promise`\<`string`\>
 
-Nothing.
+The identifier of the Data Space Connector registered.
 
 #### Implementation of
 
@@ -149,7 +149,7 @@ Nothing.
 
 ### registerDataResourceCredential()
 
-> **registerDataResourceCredential**(`credentialJwt`): `Promise`\<`void`\>
+> **registerDataResourceCredential**(`credentialJwt`): `Promise`\<`string`[]\>
 
 Registers a data resource Credential concerning a Data Space Connector.
 
@@ -163,9 +163,9 @@ The credential (wrapped into a presentation) as JWT.
 
 #### Returns
 
-`Promise`\<`void`\>
+`Promise`\<`string`[]\>
 
-Nothing.
+The list of Data Resources created.
 
 #### Implementation of
 
@@ -224,7 +224,7 @@ NotImplementedError if the implementation does not support retrieval.
 
 ### registerServiceOfferingCredential()
 
-> **registerServiceOfferingCredential**(`credentialJwt`): `Promise`\<`void`\>
+> **registerServiceOfferingCredential**(`credentialJwt`): `Promise`\<`string`[]\>
 
 Registers a Service Offering Credential.
 
@@ -238,7 +238,7 @@ The credential (wrapped into a presentation) as JWT.
 
 #### Returns
 
-`Promise`\<`void`\>
+`Promise`\<`string`[]\>
 
 Nothing.
 

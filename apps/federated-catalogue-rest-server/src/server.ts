@@ -3,7 +3,7 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import type { IServerInfo } from "@twin.org/api-models";
-import { GeneralError, Is } from "@twin.org/core";
+import { Coerce, GeneralError, Is } from "@twin.org/core";
 import { buildEngineConfiguration, Engine } from "@twin.org/engine";
 import { FileStateStorage } from "@twin.org/engine-core";
 import {
@@ -74,7 +74,8 @@ export async function start(
 			restPath: REST_PATH,
 			options: {
 				loggingConnectorType: LoggingConnectorType.Console,
-				clearingHouseApproverList: JSON.parse(envVars.clearingHouseApproverList) as string[]
+				clearingHouseApproverList: JSON.parse(envVars.clearingHouseApproverList) as string[],
+				subResourceCacheTtlMs: Coerce.number(envVars.subResourceCacheTtlMs)
 			}
 		}
 	];

@@ -127,11 +127,11 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	}
 
 	/**
-	 * Registers a compliance Credential to the service.
+	 * Registers a Participant's compliance Credential.
 	 * @param credentialJwt The credential (wrapped into a presentation) as JWT.
-	 * @returns Nothing.
+	 * @returns The Id of the Participant (DID usually).
 	 */
-	public async registerComplianceCredential(credentialJwt: string): Promise<void> {
+	public async registerComplianceCredential(credentialJwt: string): Promise<string> {
 		Guards.string(this.CLASS_NAME, nameof(credentialJwt), credentialJwt);
 
 		// This will raise exceptions as it has been coded reusing code from Gaia-X
@@ -177,6 +177,8 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 				trustedIssuer: complianceCredential.issuer
 			}
 		});
+
+		return participantEntry.id;
 	}
 
 	/**
@@ -254,9 +256,9 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	/**
 	 * Registers a compliance Credential concerning a Data Space Connector.
 	 * @param credentialJwt The credential (wrapped into a presentation) as JWT.
-	 * @returns Nothing.
+	 * @returns The identifier of the Data Space Connector registered.
 	 */
-	public async registerDataSpaceConnectorCredential(credentialJwt: string): Promise<void> {
+	public async registerDataSpaceConnectorCredential(credentialJwt: string): Promise<string> {
 		Guards.string(this.CLASS_NAME, nameof(credentialJwt), credentialJwt);
 
 		// This will raise exceptions as it has been coded reusing code from Gaia-X
@@ -327,18 +329,20 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			ts: Date.now(),
 			message: "complianceCredentialVerified",
 			data: {
-				participantId: complianceCredential.credentialSubject?.id,
+				dataSpaceConnectorId: complianceCredential.credentialSubject?.id,
 				trustedIssuer: complianceCredential.issuer
 			}
 		});
+
+		return dataSpaceConnectorEntry.id;
 	}
 
 	/**
 	 * Registers a data resource Credential concerning a Data Space Connector.
 	 * @param credentialJwt The credential (wrapped into a presentation) as JWT.
-	 * @returns Nothing.
+	 * @returns The list of Data Resources created.
 	 */
-	public async registerDataResourceCredential(credentialJwt: string): Promise<void> {
+	public async registerDataResourceCredential(credentialJwt: string): Promise<string[]> {
 		Guards.string(this.CLASS_NAME, nameof(credentialJwt), credentialJwt);
 
 		// This will raise exceptions as it has been coded reusing code from Gaia-X
@@ -368,6 +372,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			throw new UnprocessableError(this.CLASS_NAME, "noEvidence");
 		}
 
+		const dataResourceIds: string[] = [];
 		for (const dataResourceCredential of dataResourceCredentials) {
 			await this.checkParticipantExists(dataResourceCredential.issuer as string);
 
@@ -381,6 +386,8 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			);
 
 			await this._entityStorageDataResources.set(theEntry as IDataResourceEntry);
+
+			dataResourceIds.push(dataResourceEntry.id);
 		}
 
 		await this._loggingService?.log({
@@ -389,10 +396,12 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			ts: Date.now(),
 			message: "complianceCredentialVerified",
 			data: {
-				participantId: complianceCredential.credentialSubject?.id,
+				dataResourceIds,
 				trustedIssuer: complianceCredential.issuer
 			}
 		});
+
+		return dataResourceIds;
 	}
 
 	/**
@@ -460,7 +469,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	 * @param credentialJwt The credential (wrapped into a presentation) as JWT.
 	 * @returns Nothing.
 	 */
-	public async registerServiceOfferingCredential(credentialJwt: string): Promise<void> {
+	public async registerServiceOfferingCredential(credentialJwt: string): Promise<string[]> {
 		Guards.string(this.CLASS_NAME, nameof(credentialJwt), credentialJwt);
 
 		// This will raise exceptions as it has been coded reusing code from Gaia-X
@@ -494,6 +503,8 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			throw new UnprocessableError(this.CLASS_NAME, "noEvidence");
 		}
 
+		const serviceOfferingIds: string[] = [];
+
 		for (const serviceOfferingCredential of serviceOfferingCredentials) {
 			const serviceIssuer = serviceOfferingCredential.issuer;
 			await this.checkParticipantExists(serviceIssuer as string);
@@ -507,6 +518,8 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 				FederatedCatalogueService._FIELDS_TO_SKIP
 			);
 			await this._entityStorageServiceOfferings.set(theEntry as IServiceOfferingEntry);
+
+			serviceOfferingIds.push(serviceOfferingEntry.id);
 		}
 
 		for (const dataResourceCredential of dataResourceCredentials) {
@@ -525,10 +538,12 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			ts: Date.now(),
 			message: "complianceCredentialVerified",
 			data: {
-				providedBy: serviceOfferingCredentials[0].credentialSubject.providedBy,
+				serviceOfferingIds,
 				trustedIssuer: sdComplianceCredential.issuer
 			}
 		});
+
+		return serviceOfferingIds;
 	}
 
 	/**

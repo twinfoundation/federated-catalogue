@@ -13,9 +13,9 @@ export interface IFederatedCatalogue extends IComponent {
 	/**
 	 * Registers a Participant's compliance Credential to the service.
 	 * @param credential The credential as JWT.
-	 * @returns Nothing.
+	 * @returns The participant Id (usually a DID).
 	 */
-	registerComplianceCredential(credential: string): Promise<void>;
+	registerComplianceCredential(credential: string): Promise<string>;
 
 	/**
 	 * Query the federated catalogue.
@@ -48,9 +48,9 @@ export interface IFederatedCatalogue extends IComponent {
 	/**
 	 * Registers a Data Space Connector to the service.
 	 * @param credential The credential as JWT.
-	 * @returns Nothing.
+	 * @returns The Data Space Connector Id registered.
 	 */
-	registerDataSpaceConnectorCredential(credential: string): Promise<void>;
+	registerDataSpaceConnectorCredential(credential: string): Promise<string>;
 
 	/**
 	 * Query the federated catalogue.
@@ -81,16 +81,16 @@ export interface IFederatedCatalogue extends IComponent {
 	/**
 	 * Registers a service offering Credential to the service.
 	 * @param credential The credential as JWT.
-	 * @returns Nothing.
+	 * @returns The Id of the Service Offerings registered.
 	 */
-	registerServiceOfferingCredential(credential: string): Promise<void>;
+	registerServiceOfferingCredential(credential: string): Promise<string[]>;
 
 	/**
 	 * Registers a data resource Credential to the service.
 	 * @param credential The credential as JWT.
-	 * @returns Nothing.
+	 * @returns The Id of the Data Resources registered.
 	 */
-	registerDataResourceCredential(credential: string): Promise<void>;
+	registerDataResourceCredential(credential: string): Promise<string[]>;
 
 	/**
 	 * Query the federated catalogue.

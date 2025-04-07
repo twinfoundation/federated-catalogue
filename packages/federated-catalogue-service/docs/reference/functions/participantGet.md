@@ -1,8 +1,8 @@
-# Function: participantList()
+# Function: participantGet()
 
-> **participantList**(`httpRequestContext`, `factoryServiceName`, `request`): `Promise`\<`IParticipantListResponse`\>
+> **participantGet**(`httpRequestContext`, `factoryServiceName`, `request`): `Promise`\<`IParticipantGetResponse` \| `INotFoundResponse`\>
 
-Get a list of the participant entries.
+Get a Participant entry.
 
 ## Parameters
 
@@ -20,12 +20,12 @@ The name of the service to use in the routes.
 
 ### request
 
-`IParticipantListRequest`
+`IParticipantGetRequest`
 
 The request.
 
 ## Returns
 
-`Promise`\<`IParticipantListResponse`\>
+`Promise`\<`IParticipantGetResponse` \| `INotFoundResponse`\>
 
 The response object with additional http response properties.

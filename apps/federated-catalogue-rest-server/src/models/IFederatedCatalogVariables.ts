@@ -13,4 +13,9 @@ export interface IFederatedCatalogVariables
 	 * The DIDs of the Clearing Houses that can approve
 	 */
 	clearingHouseApproverList: string;
+
+	/**
+	 * Sub-resource cache TTL in milliseconds
+	 */
+	subResourceCacheTtlMs: string | undefined;
 }

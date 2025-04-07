@@ -1,10 +1,16 @@
 # Function: serviceOfferingCredentialPresentation()
 
-> **serviceOfferingCredentialPresentation**(`httpRequestContext`, `factoryServiceName`, `request`): `Promise`\<`ICreatedResponse`\>
+> **serviceOfferingCredentialPresentation**(`baseRouteName`, `httpRequestContext`, `factoryServiceName`, `request`): `Promise`\<`ICreatedResponse`\>
 
 Register a new service offering.
 
 ## Parameters
+
+### baseRouteName
+
+`string`
+
+The base route used.
 
 ### httpRequestContext
 
