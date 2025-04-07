@@ -18,7 +18,7 @@ Create a new instance of FederatedCatalogue service.
 
 ##### options
 
-[`IFederatedCatalogueOptions`](../interfaces/IFederatedCatalogueOptions.md)
+[`IFederatedCatalogueConstructorOptions`](../interfaces/IFederatedCatalogueConstructorOptions.md)
 
 The options for the connector.
 

@@ -7,7 +7,7 @@ import type { IFederatedCatalogue } from "@twin.org/federated-catalogue-models";
 import {
 	FederatedCatalogueService,
 	generateRestRoutesFederatedCatalogue,
-	type IFederatedCatalogueOptions
+	type IFederatedCatalogueConstructorOptions
 } from "@twin.org/federated-catalogue-service";
 import { nameof } from "@twin.org/nameof";
 
@@ -23,7 +23,7 @@ import { nameof } from "@twin.org/nameof";
 export function federatedCatalogueTypeInitialiser(
 	core: IEngineCore,
 	context: IEngineCoreContext,
-	instanceConfig: { options: IFederatedCatalogueOptions },
+	instanceConfig: { options: IFederatedCatalogueConstructorOptions },
 	overrideInstanceType: string
 ): string {
 	const componentName = StringHelper.kebabCase(nameof<IFederatedCatalogue>(), true);

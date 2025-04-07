@@ -18,7 +18,7 @@ import { addAllContextsToDocumentCache } from "@twin.org/standards-ld-contexts";
 
 import type { IDidDocument } from "@twin.org/standards-w3c-did";
 import { FederatedCatalogueService } from "../src/federatedCatalogueService";
-import type { IFederatedCatalogueOptions } from "../src/IFederatedCatalogueOptions";
+import type { IFederatedCatalogueConstructorOptions } from "../src/IFederatedCatalogueConstructorOptions";
 import { initSchema } from "../src/schema";
 
 import dataResourceCredential from "./dataset/credentials/compliance/data-resource-credential.json" assert { type: "json" };
@@ -40,7 +40,7 @@ import type { ServiceOfferingEntry } from "../src/entities/serviceOfferingEntry"
 // eslint-disable-next-line import/order
 import type { DataSpaceConnectorEntry } from "../src/entities/dataSpaceConnectorEntry";
 
-let options: IFederatedCatalogueOptions;
+let options: IFederatedCatalogueConstructorOptions;
 /**
  * Extracts the URL as string.
  * @param request The request.
@@ -117,7 +117,7 @@ describe("federated-catalogue-service", () => {
 		options = {
 			loggingConnectorType: "console",
 			// Check for support of multiple values from env vars
-			clearingHouseApproverList
+			config: { clearingHouseApproverList }
 		};
 	});
 

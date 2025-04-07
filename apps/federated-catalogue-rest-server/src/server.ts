@@ -74,8 +74,10 @@ export async function start(
 			restPath: REST_PATH,
 			options: {
 				loggingConnectorType: LoggingConnectorType.Console,
-				clearingHouseApproverList: JSON.parse(envVars.clearingHouseApproverList) as string[],
-				subResourceCacheTtlMs: Coerce.number(envVars.subResourceCacheTtlMs)
+				config: {
+					clearingHouseApproverList: JSON.parse(envVars.clearingHouseApproverList) as string[],
+					subResourceCacheTtlMs: Coerce.number(envVars.subResourceCacheTtlMs)
+				}
 			}
 		}
 	];

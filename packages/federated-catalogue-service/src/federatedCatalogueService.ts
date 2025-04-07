@@ -35,7 +35,7 @@ import type { DataResourceEntry } from "./entities/dataResourceEntry";
 import type { DataSpaceConnectorEntry } from "./entities/dataSpaceConnectorEntry";
 import type { ParticipantEntry } from "./entities/participantEntry";
 import type { ServiceOfferingEntry } from "./entities/serviceOfferingEntry";
-import type { IFederatedCatalogueOptions } from "./IFederatedCatalogueOptions";
+import type { IFederatedCatalogueConstructorOptions } from "./IFederatedCatalogueConstructorOptions";
 import { ComplianceCredentialVerificationService } from "./verification/complianceCredentialVerificationService";
 
 /**
@@ -95,7 +95,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	 * Create a new instance of FederatedCatalogue service.
 	 * @param options The options for the connector.
 	 */
-	constructor(options: IFederatedCatalogueOptions) {
+	constructor(options: IFederatedCatalogueConstructorOptions) {
 		this._loggingService = LoggingConnectorFactory.getIfExists(
 			options?.loggingConnectorType ?? "logging"
 		);
@@ -116,12 +116,14 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			IEntityStorageConnector<DataSpaceConnectorEntry>
 		>(StringHelper.kebabCase(nameof<DataSpaceConnectorEntry>()));
 
-		this._resolver = ComponentFactory.get<IIdentityResolverComponent>("identity-resolver");
+		this._resolver = ComponentFactory.get<IIdentityResolverComponent>(
+			options.identityResolverComponent ?? "identity-resolver"
+		);
 
 		this._complianceCredentialVerifier = new ComplianceCredentialVerificationService(
-			options.clearingHouseApproverList,
+			options.config.clearingHouseApproverList,
 			this._resolver,
-			options.subResourceCacheTtlMs,
+			options.config.subResourceCacheTtlMs,
 			this._loggingService
 		);
 	}

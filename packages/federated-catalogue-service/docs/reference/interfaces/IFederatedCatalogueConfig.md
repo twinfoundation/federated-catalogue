@@ -1,6 +1,6 @@
-# Interface: IFederatedCatalogueOptions
+# Interface: IFederatedCatalogueConfig
 
-Federated Catalogue service options
+Federated Catalogue service configuration
 
 ## Properties
 
@@ -11,14 +11,6 @@ Federated Catalogue service options
 The number of ms that sub-resources can live in the fetch cache.
 0 means they can live forever.
 undefined means they are never cached.
-
-***
-
-### loggingConnectorType?
-
-> `optional` **loggingConnectorType**: `string`
-
-Logging connector type
 
 ***
 
