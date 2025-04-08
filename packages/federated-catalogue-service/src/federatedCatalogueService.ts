@@ -35,7 +35,7 @@ import type { DataResourceEntry } from "./entities/dataResourceEntry";
 import type { DataSpaceConnectorEntry } from "./entities/dataSpaceConnectorEntry";
 import type { ParticipantEntry } from "./entities/participantEntry";
 import type { ServiceOfferingEntry } from "./entities/serviceOfferingEntry";
-import type { IFederatedCatalogueConstructorOptions } from "./IFederatedCatalogueConstructorOptions";
+import type { IFederatedCatalogueConstructorOptions } from "./models/IFederatedCatalogueConstructorOptions";
 import { ComplianceCredentialVerificationService } from "./verification/complianceCredentialVerificationService";
 
 /**

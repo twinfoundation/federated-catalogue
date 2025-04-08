@@ -14,4 +14,4 @@ The parameters from the path.
 
 > **id**: `string`
 
-The id of Participant to get.
+The ID of the entry (Participant, Service, etc.) to get.

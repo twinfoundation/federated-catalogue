@@ -636,7 +636,7 @@
 				"parameters": [
 					{
 						"name": "id",
-						"description": "The id of Participant to get.",
+						"description": "The ID of the entry (Participant, Service, etc.) to get.",
 						"in": "path",
 						"required": true,
 						"schema": {

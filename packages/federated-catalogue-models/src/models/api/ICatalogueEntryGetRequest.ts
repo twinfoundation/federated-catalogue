@@ -10,7 +10,7 @@ export interface ICatalogueEntryGetRequest {
 	 */
 	pathParams: {
 		/**
-		 * The id of Participant to get.
+		 * The ID of the entry (Participant, Service, etc.) to get.
 		 */
 		id: string;
 	};

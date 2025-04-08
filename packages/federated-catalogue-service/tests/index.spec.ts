@@ -18,7 +18,7 @@ import { addAllContextsToDocumentCache } from "@twin.org/standards-ld-contexts";
 
 import type { IDidDocument } from "@twin.org/standards-w3c-did";
 import { FederatedCatalogueService } from "../src/federatedCatalogueService";
-import type { IFederatedCatalogueConstructorOptions } from "../src/IFederatedCatalogueConstructorOptions";
+import type { IFederatedCatalogueConstructorOptions } from "../src/models/IFederatedCatalogueConstructorOptions";
 import { initSchema } from "../src/schema";
 
 import dataResourceCredential from "./dataset/credentials/compliance/data-resource-credential.json" assert { type: "json" };
