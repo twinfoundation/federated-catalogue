@@ -4,13 +4,13 @@ Participant entry.
 
 ## Constructors
 
-### new ParticipantEntry()
+### Constructor
 
-> **new ParticipantEntry**(): [`ParticipantEntry`](ParticipantEntry.md)
+> **new ParticipantEntry**(): `ParticipantEntry`
 
 #### Returns
 
-[`ParticipantEntry`](ParticipantEntry.md)
+`ParticipantEntry`
 
 ## Properties
 

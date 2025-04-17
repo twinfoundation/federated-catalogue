@@ -4,13 +4,13 @@ Service Offering Entry.
 
 ## Constructors
 
-### new ServiceOfferingEntry()
+### Constructor
 
-> **new ServiceOfferingEntry**(): [`ServiceOfferingEntry`](ServiceOfferingEntry.md)
+> **new ServiceOfferingEntry**(): `ServiceOfferingEntry`
 
 #### Returns
 
-[`ServiceOfferingEntry`](ServiceOfferingEntry.md)
+`ServiceOfferingEntry`
 
 ## Properties
 

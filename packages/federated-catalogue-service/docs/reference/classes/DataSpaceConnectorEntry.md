@@ -4,13 +4,13 @@ Data Space Connector Entry.
 
 ## Constructors
 
-### new DataSpaceConnectorEntry()
+### Constructor
 
-> **new DataSpaceConnectorEntry**(): [`DataSpaceConnectorEntry`](DataSpaceConnectorEntry.md)
+> **new DataSpaceConnectorEntry**(): `DataSpaceConnectorEntry`
 
 #### Returns
 
-[`DataSpaceConnectorEntry`](DataSpaceConnectorEntry.md)
+`DataSpaceConnectorEntry`
 
 ## Properties
 

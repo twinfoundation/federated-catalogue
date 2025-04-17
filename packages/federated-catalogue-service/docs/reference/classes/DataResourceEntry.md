@@ -4,13 +4,13 @@ Data Resource Entry.
 
 ## Constructors
 
-### new DataResourceEntry()
+### Constructor
 
-> **new DataResourceEntry**(): [`DataResourceEntry`](DataResourceEntry.md)
+> **new DataResourceEntry**(): `DataResourceEntry`
 
 #### Returns
 
-[`DataResourceEntry`](DataResourceEntry.md)
+`DataResourceEntry`
 
 ## Properties
 

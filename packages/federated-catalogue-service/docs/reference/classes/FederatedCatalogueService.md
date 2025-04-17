@@ -8,9 +8,9 @@ Service for performing logging operations to a connector.
 
 ## Constructors
 
-### new FederatedCatalogueService()
+### Constructor
 
-> **new FederatedCatalogueService**(`options`): [`FederatedCatalogueService`](FederatedCatalogueService.md)
+> **new FederatedCatalogueService**(`options`): `FederatedCatalogueService`
 
 Create a new instance of FederatedCatalogue service.
 
@@ -24,7 +24,7 @@ The options for the connector.
 
 #### Returns
 
-[`FederatedCatalogueService`](FederatedCatalogueService.md)
+`FederatedCatalogueService`
 
 ## Properties
 
@@ -68,7 +68,7 @@ The Id of the Participant (DID usually).
 
 ### queryParticipants()
 
-> **queryParticipants**(`id`?, `legalRegistrationNumber`?, `lrnType`?, `cursor`?, `pageSize`?): `Promise`\<\{ `entities`: `IParticipantEntry`[]; `cursor`: `string`; \}\>
+> **queryParticipants**(`id?`, `legalRegistrationNumber?`, `lrnType?`, `cursor?`, `pageSize?`): `Promise`\<\{ `entities`: `IParticipantEntry`[]; `cursor`: `string`; \}\>
 
 Query the federated catalogue.
 
@@ -175,7 +175,7 @@ The list of Data Resources created.
 
 ### queryDataSpaceConnectors()
 
-> **queryDataSpaceConnectors**(`id`?, `maintainer`?, `cursor`?, `pageSize`?): `Promise`\<\{ `entities`: `IDataSpaceConnectorEntry`[]; `cursor`: `string`; \}\>
+> **queryDataSpaceConnectors**(`id?`, `maintainer?`, `cursor?`, `pageSize?`): `Promise`\<\{ `entities`: `IDataSpaceConnectorEntry`[]; `cursor`: `string`; \}\>
 
 Query the federated catalogue.
 
@@ -250,7 +250,7 @@ Nothing.
 
 ### queryServiceOfferings()
 
-> **queryServiceOfferings**(`id`?, `providedBy`?, `cursor`?, `pageSize`?): `Promise`\<\{ `entities`: `IServiceOfferingEntry`[]; `cursor`: `string`; \}\>
+> **queryServiceOfferings**(`id?`, `providedBy?`, `cursor?`, `pageSize?`): `Promise`\<\{ `entities`: `IServiceOfferingEntry`[]; `cursor`: `string`; \}\>
 
 Query the federated catalogue.
 
@@ -299,7 +299,7 @@ NotImplementedError if the implementation does not support retrieval.
 
 ### queryDataResources()
 
-> **queryDataResources**(`id`?, `producedBy`?, `cursor`?, `pageSize`?): `Promise`\<\{ `entities`: `IDataResourceEntry`[]; `cursor`: `string`; \}\>
+> **queryDataResources**(`id?`, `producedBy?`, `cursor?`, `pageSize?`): `Promise`\<\{ `entities`: `IDataResourceEntry`[]; `cursor`: `string`; \}\>
 
 Query the federated catalogue.
 
