@@ -72,17 +72,10 @@ describe("federated-catalogue-service", () => {
 			.fn()
 			.mockImplementation(
 				async (request: Request | URL | string, opts: RequestInit | undefined) => {
-					const fileName = path.basename(new URL(extractURL(request)).pathname);
-					const pathToFile = path.join(
-						__dirname,
-						"..",
-						"..",
-						"..",
-						"docs",
-						"public-web",
-						"test-credentials",
-						fileName
-					);
+					const url = new URL(extractURL(request));
+					const filePath = url.pathname;
+					const domainName = url.host;
+					const pathToFile = path.join(__dirname, "published-datasets", domainName, filePath);
 					const contentBuffer = await fs.readFileSync(pathToFile);
 					const content = contentBuffer.toString();
 					return {

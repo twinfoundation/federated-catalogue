@@ -29,7 +29,8 @@
 		"ABNF",
 		"EORI",
 		"VATID",
-		"GLEIF"
+		"GLEIF",
+		"twinfoundation"
 	],
 	"ignoreRegExpList": [
 		"/from\\s+(['\"]).*\\1/",
