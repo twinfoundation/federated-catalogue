@@ -18,7 +18,7 @@ import {
 	EntityStorageConnectorType,
 	LoggingConnectorType
 } from "@twin.org/engine-types";
-import { extendEngineConfig, extendServerConfig } from "./extensions.js";
+import { extendEngineConfig } from "./extensions.js";
 import type { IFederatedCatalogVariables } from "./models/IFederatedCatalogVariables.js";
 
 const FEDERATED_CATALOGUE_TYPE = "federated-catalogue-type";
@@ -60,7 +60,6 @@ export async function start(
 
 	const specFile = path.resolve(path.join(rootPackageFolder, "docs", "open-api", "spec.json"));
 	const serverConfig = buildEngineServerConfiguration(envVars, engineConfig, serverInfo, specFile);
-	extendServerConfig(serverConfig);
 
 	// Create the engine instance using file state storage
 	const engine = new Engine<IEngineServerConfig>({

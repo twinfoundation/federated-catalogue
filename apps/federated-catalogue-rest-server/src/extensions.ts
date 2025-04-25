@@ -1,13 +1,6 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-/* eslint-disable no-console */
-import type { IEngineServerConfig } from "@twin.org/engine-server-types";
-import {
-	EntityStorageComponentType,
-	LoggingComponentType,
-	LoggingConnectorType,
-	type IEngineConfig
-} from "@twin.org/engine-types";
+import { EntityStorageComponentType, type IEngineConfig } from "@twin.org/engine-types";
 
 import {
 	type DataResourceEntry,
@@ -53,20 +46,5 @@ export function extendEngineConfig(engineConfig: IEngineConfig): void {
 		options: {
 			entityStorageType: nameof<DataSpaceConnectorEntry>()
 		}
-	});
-}
-
-/**
- * Extends server config to customize it.
- * @param serverConfig The server config to be extended
- */
-export function extendServerConfig(serverConfig: IEngineServerConfig): void {
-	serverConfig.types.loggingConnector ??= [];
-	serverConfig.types.loggingConnector.push({ type: LoggingConnectorType.Console, config: {} });
-
-	serverConfig.types.loggingComponent ??= [];
-	serverConfig.types.loggingComponent.push({
-		type: LoggingComponentType.Service,
-		options: { loggingConnectorType: LoggingConnectorType.Console }
 	});
 }
