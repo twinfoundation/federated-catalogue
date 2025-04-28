@@ -10,6 +10,7 @@
 		"noEmitHelpers": true,
 		"experimentalDecorators": true,
 		"emitDecoratorMetadata": true,
+		"erasableSyntaxOnly": true,
 		"sourceMap": true,
 		"sourceRoot": "./src",
 		"declaration": true,
