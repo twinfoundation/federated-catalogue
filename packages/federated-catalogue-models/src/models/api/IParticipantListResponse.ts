@@ -1,8 +1,7 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import type { IParticipant } from "@twin.org/standards-gaia-x";
-import type { IParticipantEntry } from "../participant/IParticipantEntry";
+import type { IParticipantList } from "../participant/IParticipantList";
 
 /**
  * Response for participant list query
@@ -13,14 +12,9 @@ export interface IParticipantListResponse {
 	 */
 	body: {
 		/**
-		 * The LD @context.
+		 * The entities as a Participant list
 		 */
-		"@context": IParticipant["@context"];
-
-		/**
-		 * The entities, which can be partial if a limited keys list was provided.
-		 */
-		entities: Omit<IParticipantEntry, "@context">[];
+		entities: IParticipantList;
 
 		/**
 		 * An optional cursor, when defined can be used to call find to get more entities.

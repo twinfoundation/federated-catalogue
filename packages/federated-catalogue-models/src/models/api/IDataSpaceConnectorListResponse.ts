@@ -1,8 +1,7 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import type { IDataSpaceConnector } from "../data-space-connector/IDataSpaceConnector";
-import type { IDataSpaceConnectorEntry } from "../data-space-connector/IDataSpaceConnectorEntry";
+import type { IDataSpaceConnectorList } from "../data-space-connector/IDataSpaceConnectorList";
 
 /**
  * Response for Data Space Connector list
@@ -13,14 +12,9 @@ export interface IDataSpaceConnectorListResponse {
 	 */
 	body: {
 		/**
-		 * The LD @context.
+		 * The entities as a Data Space Connector list
 		 */
-		"@context": IDataSpaceConnector["@context"];
-		/**
-		 * The entities, which can be partial if a limited keys list was provided.
-		 */
-		entities: Omit<IDataSpaceConnectorEntry, "@context">[];
-
+		entities: IDataSpaceConnectorList;
 		/**
 		 * An optional cursor, when defined can be used to call find to get more entities.
 		 */

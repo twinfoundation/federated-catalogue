@@ -1,8 +1,7 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import type { IServiceOffering } from "@twin.org/standards-gaia-x";
-import type { IServiceOfferingEntry } from "../service-offering/IServiceOfferingEntry";
+import type { IServiceOfferingList } from "../service-offering/IServiceOfferingList";
 
 /**
  * Response for Service Offering list
@@ -13,13 +12,9 @@ export interface IServiceOfferingListResponse {
 	 */
 	body: {
 		/**
-		 * The LD @context.
+		 * The list of service offerings.
 		 */
-		"@context": IServiceOffering["@context"];
-		/**
-		 * The entities, which can be partial if a limited keys list was provided.
-		 */
-		entities: Omit<IServiceOfferingEntry, "@context">[];
+		entities: IServiceOfferingList;
 
 		/**
 		 * An optional cursor, when defined can be used to call find to get more entities.

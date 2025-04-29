@@ -10,17 +10,11 @@ Response fo data resource list.
 
 The response payload.
 
-#### @context
-
-> **@context**: `"https://w3id.org/gaia-x/development"` \| \[`"https://w3id.org/gaia-x/development"`, `...IJsonLdContextDefinitionElement[]`\]
-
-The LD @context.
-
 #### entities
 
-> **entities**: `Omit`\<[`IDataResourceEntry`](IDataResourceEntry.md), `"@context"`\>[]
+> **entities**: [`IDataResourceList`](IDataResourceList.md)
 
-The entities, which can be partial if a limited keys list was provided.
+The list of Data Resources.
 
 #### cursor?
 

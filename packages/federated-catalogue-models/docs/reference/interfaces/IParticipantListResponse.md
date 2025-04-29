@@ -10,17 +10,11 @@ Response for participant list query
 
 The response payload.
 
-#### @context
-
-> **@context**: `"https://w3id.org/gaia-x/development"` \| \[`"https://w3id.org/gaia-x/development"`, `...IJsonLdContextDefinitionElement[]`\]
-
-The LD @context.
-
 #### entities
 
-> **entities**: `Omit`\<[`IParticipantEntry`](IParticipantEntry.md), `"@context"`\>[]
+> **entities**: [`IParticipantList`](IParticipantList.md)
 
-The entities, which can be partial if a limited keys list was provided.
+The entities as a Participant list
 
 #### cursor?
 

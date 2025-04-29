@@ -19,16 +19,20 @@ export * from "./models/api/IDataSpaceConnectorListRequest";
 export * from "./models/api/IDataSpaceConnectorListResponse";
 
 export * from "./models/participant/IParticipantEntry";
+export * from "./models/participant/IParticipantList";
 export * from "./models/participant/IParticipantCredential";
 
 export * from "./models/data-resource/IDataResourceEntry";
+export * from "./models/data-resource/IDataResourceList";
 export * from "./models/data-resource/IDataResourceCredential";
 
 export * from "./models/service-offering/IServiceOfferingEntry";
+export * from "./models/service-offering/IServiceOfferingList";
 export * from "./models/service-offering/IServiceOfferingCredential";
 
 export * from "./models/data-space-connector/IDataSpaceConnector";
 export * from "./models/data-space-connector/IDataSpaceConnectorEntry";
+export * from "./models/data-space-connector/IDataSpaceConnectorList";
 export * from "./models/data-space-connector/IDataSpaceConnectorCredential";
 
 export * from "./models/IFederatedCatalogue";

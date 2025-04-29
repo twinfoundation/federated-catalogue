@@ -10,17 +10,11 @@ Response for Data Space Connector list
 
 The response payload.
 
-#### @context
-
-> **@context**: \[`"https://w3id.org/gaia-x/development"`, `...IJsonLdContextDefinitionElement[]`\]
-
-The LD @context.
-
 #### entities
 
-> **entities**: `Omit`\<[`IDataSpaceConnectorEntry`](IDataSpaceConnectorEntry.md), `"@context"`\>[]
+> **entities**: [`IDataSpaceConnectorList`](IDataSpaceConnectorList.md)
 
-The entities, which can be partial if a limited keys list was provided.
+The entities as a Data Space Connector list
 
 #### cursor?
 

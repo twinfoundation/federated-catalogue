@@ -10,17 +10,11 @@ Response for Service Offering list
 
 The response payload.
 
-#### @context
-
-> **@context**: `"https://w3id.org/gaia-x/development"` \| \[`"https://w3id.org/gaia-x/development"`, `...IJsonLdContextDefinitionElement[]`\]
-
-The LD @context.
-
 #### entities
 
-> **entities**: `Omit`\<[`IServiceOfferingEntry`](IServiceOfferingEntry.md), `"@context"`\>[]
+> **entities**: [`IServiceOfferingList`](IServiceOfferingList.md)
 
-The entities, which can be partial if a limited keys list was provided.
+The list of service offerings.
 
 #### cursor?
 

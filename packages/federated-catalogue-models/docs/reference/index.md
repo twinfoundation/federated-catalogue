@@ -24,13 +24,17 @@
 - [IServiceOfferingListResponse](interfaces/IServiceOfferingListResponse.md)
 - [IDataResourceCredential](interfaces/IDataResourceCredential.md)
 - [IDataResourceEntry](interfaces/IDataResourceEntry.md)
+- [IDataResourceList](interfaces/IDataResourceList.md)
 - [IDataSpaceConnector](interfaces/IDataSpaceConnector.md)
 - [IDataSpaceConnectorCredential](interfaces/IDataSpaceConnectorCredential.md)
 - [IDataSpaceConnectorEntry](interfaces/IDataSpaceConnectorEntry.md)
+- [IDataSpaceConnectorList](interfaces/IDataSpaceConnectorList.md)
 - [IParticipantCredential](interfaces/IParticipantCredential.md)
 - [IParticipantEntry](interfaces/IParticipantEntry.md)
+- [IParticipantList](interfaces/IParticipantList.md)
 - [IServiceOfferingCredential](interfaces/IServiceOfferingCredential.md)
 - [IServiceOfferingEntry](interfaces/IServiceOfferingEntry.md)
+- [IServiceOfferingList](interfaces/IServiceOfferingList.md)
 
 ## Type Aliases
 
