@@ -157,9 +157,9 @@ describe("federated-catalogue-service", () => {
 		const fedCatalogueService = new FederatedCatalogueService(options);
 		await fedCatalogueService.registerComplianceCredential(participantCredential.jwtCredential);
 		const queryResult = await fedCatalogueService.queryParticipants();
-		expect(queryResult.entities.length).toBe(1);
+		expect(queryResult.data.hasPart.length).toBe(1);
 
-		expect(queryResult.entities[0].id).toBe(participantCredential.credential.credentialSubject.id);
+		expect(queryResult.data.hasPart[0].id).toBe(participantCredential.credential.credentialSubject.id);
 	});
 
 	test("It should register a compliant Data Resource", async () => {
@@ -169,9 +169,9 @@ describe("federated-catalogue-service", () => {
 
 		await fedCatalogueService.registerDataResourceCredential(dataResourceCredential.jwtCredential);
 		const queryResult = await fedCatalogueService.queryDataResources();
-		expect(queryResult.entities.length).toBe(1);
+		expect(queryResult.data.hasPart.length).toBe(1);
 
-		expect(queryResult.entities[0].id).toBe(dataResourceCredential.credential.credentialSubject.id);
+		expect(queryResult.data.hasPart[0].id).toBe(dataResourceCredential.credential.credentialSubject.id);
 	});
 
 	test("It should register a compliant Service Offering", async () => {
@@ -183,9 +183,9 @@ describe("federated-catalogue-service", () => {
 			serviceOfferingCedential.jwtCredential
 		);
 		const queryResult = await fedCatalogueService.queryServiceOfferings();
-		expect(queryResult.entities.length).toBe(1);
+		expect(queryResult.data.hasPart.length).toBe(1);
 
-		expect(queryResult.entities[0].id).toBe(
+		expect(queryResult.data.hasPart[0].id).toBe(
 			serviceOfferingCedential.credential.credentialSubject.id
 		);
 	});
@@ -199,9 +199,9 @@ describe("federated-catalogue-service", () => {
 			dataSpaceConnectorCredential.jwtCredential
 		);
 		const queryResult = await fedCatalogueService.queryDataSpaceConnectors();
-		expect(queryResult.entities.length).toBe(1);
+		expect(queryResult.data.hasPart.length).toBe(1);
 
-		expect(queryResult.entities[0].id).toBe(
+		expect(queryResult.data.hasPart[0].id).toBe(
 			dataSpaceConnectorCredential.credential.credentialSubject.id
 		);
 	});

@@ -14,7 +14,7 @@ export interface IDataSpaceConnectorListResponse {
 		/**
 		 * The entities as a Data Space Connector list
 		 */
-		entities: IDataSpaceConnectorList;
+		data: IDataSpaceConnectorList;
 		/**
 		 * An optional cursor, when defined can be used to call find to get more entities.
 		 */

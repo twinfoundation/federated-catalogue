@@ -10,9 +10,9 @@ Response for Data Space Connector list
 
 The response payload.
 
-#### entities
+#### data
 
-> **entities**: [`IDataSpaceConnectorList`](IDataSpaceConnectorList.md)
+> **data**: [`IDataSpaceConnectorList`](IDataSpaceConnectorList.md)
 
 The entities as a Data Space Connector list
 

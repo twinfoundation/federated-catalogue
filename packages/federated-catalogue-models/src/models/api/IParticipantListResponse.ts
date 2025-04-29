@@ -14,7 +14,7 @@ export interface IParticipantListResponse {
 		/**
 		 * The entities as a Participant list
 		 */
-		entities: IParticipantList;
+		data: IParticipantList;
 
 		/**
 		 * An optional cursor, when defined can be used to call find to get more entities.

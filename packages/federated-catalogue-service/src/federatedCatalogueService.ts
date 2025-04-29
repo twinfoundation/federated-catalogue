@@ -25,12 +25,19 @@ import {
 	type IDataSpaceConnectorEntry,
 	type IDataSpaceConnectorCredential,
 	type IParticipantCredential,
-	FederatedCatalogueTypes
+	FederatedCatalogueTypes,
+	type IParticipantList,
+	type IDataResourceList,
+	type IDataSpaceConnectorList,
+	type IServiceOfferingList
 } from "@twin.org/federated-catalogue-models";
 import { VerificationHelper, type IIdentityResolverComponent } from "@twin.org/identity-models";
 import { LoggingConnectorFactory, type ILoggingConnector } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
-import { GaiaXTypes, type IParticipant } from "@twin.org/standards-gaia-x";
+import { DublinCoreClasses, DublinCoreContexts } from "@twin.org/standards-dublin-core";
+import { GaiaXContexts, GaiaXTypes, type IParticipant } from "@twin.org/standards-gaia-x";
+import { SchemaOrgContexts } from "@twin.org/standards-schema-org";
+import { DidContexts } from "@twin.org/standards-w3c-did";
 import type { DataResourceEntry } from "./entities/dataResourceEntry";
 import type { DataSpaceConnectorEntry } from "./entities/dataSpaceConnectorEntry";
 import type { ParticipantEntry } from "./entities/participantEntry";
@@ -47,6 +54,13 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	 * @internal
 	 */
 	private static readonly _FIELDS_TO_SKIP = ["@context", "type"];
+
+	private static readonly _LD_CONTEXT_LIST_RESPONSE = [
+		SchemaOrgContexts.ContextRoot,
+		DublinCoreContexts.Context,
+		GaiaXContexts.GaiaXLdContext,
+		DidContexts.ContextVCv2
+	];
 
 	/**
 	 * Runtime name for the class.
@@ -202,9 +216,9 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		pageSize?: number
 	): Promise<{
 		/**
-		 * The entities, which can be partial if a limited keys list was provided.
+		 * The participant list.
 		 */
-		entities: IParticipantEntry[];
+		data: IParticipantList;
 		/**
 		 * An optional cursor, when defined can be used to call find to get more entities.
 		 */
@@ -250,7 +264,16 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			pageSize
 		);
 		return {
-			entities: entries.entities as IParticipantEntry[],
+			data: {
+				"@context": [
+					SchemaOrgContexts.ContextRoot,
+					DublinCoreContexts.Context,
+					GaiaXContexts.GaiaXLdContext,
+					DidContexts.ContextVCv2
+				],
+				type: DublinCoreClasses.Collection,
+				hasPart: entries.entities as IParticipantEntry[]
+			},
 			cursor: entries.cursor
 		};
 	}
@@ -423,9 +446,10 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		pageSize?: number
 	): Promise<{
 		/**
-		 * The entities, which can be partial if a limited keys list was provided.
+		 * Collection of DS Connectors.
 		 */
-		entities: IDataSpaceConnectorEntry[];
+		data: IDataSpaceConnectorList;
+
 		/**
 		 * An optional cursor, when defined can be used to call find to get more entities.
 		 */
@@ -461,7 +485,16 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			pageSize
 		);
 		return {
-			entities: entries.entities as IDataSpaceConnectorEntry[],
+			data: {
+				"@context": [
+					SchemaOrgContexts.ContextRoot,
+					DublinCoreContexts.Context,
+					GaiaXContexts.GaiaXLdContext,
+					DidContexts.ContextVCv2
+				],
+				type: DublinCoreClasses.Collection,
+				hasPart: entries.entities as IDataSpaceConnectorEntry[]
+			},
 			cursor: entries.cursor
 		};
 	}
@@ -564,10 +597,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		cursor?: string,
 		pageSize?: number
 	): Promise<{
-		/**
-		 * The entities, which can be partial if a limited keys list was provided.
-		 */
-		entities: IServiceOfferingEntry[];
+		data: IServiceOfferingList;
 		/**
 		 * An optional cursor, when defined can be used to call find to get more entities.
 		 */
@@ -603,7 +633,16 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			pageSize
 		);
 		return {
-			entities: entries.entities as IServiceOfferingEntry[],
+			data: {
+				"@context": [
+					SchemaOrgContexts.ContextRoot,
+					DublinCoreContexts.Context,
+					GaiaXContexts.GaiaXLdContext,
+					DidContexts.ContextVCv2
+				],
+				type: DublinCoreClasses.Collection,
+				hasPart: entries.entities as IServiceOfferingEntry[]
+			},
 			cursor: entries.cursor
 		};
 	}
@@ -624,10 +663,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		cursor?: string,
 		pageSize?: number
 	): Promise<{
-		/**
-		 * The entities, which can be partial if a limited keys list was provided.
-		 */
-		entities: IDataResourceEntry[];
+		data: IDataResourceList;
 		/**
 		 * An optional cursor, when defined can be used to call find to get more entities.
 		 */
@@ -663,7 +699,16 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			pageSize
 		);
 		return {
-			entities: entries.entities as IDataResourceEntry[],
+			data: {
+				"@context": [
+					SchemaOrgContexts.ContextRoot,
+					DublinCoreContexts.Context,
+					GaiaXContexts.GaiaXLdContext,
+					DidContexts.ContextVCv2
+				],
+				type: DublinCoreClasses.Collection,
+				hasPart: entries.entities as IDataResourceEntry[]
+			},
 			cursor: entries.cursor
 		};
 	}

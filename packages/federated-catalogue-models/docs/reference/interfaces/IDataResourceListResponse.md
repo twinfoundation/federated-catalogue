@@ -10,9 +10,9 @@ Response fo data resource list.
 
 The response payload.
 
-#### entities
+#### data
 
-> **entities**: [`IDataResourceList`](IDataResourceList.md)
+> **data**: [`IDataResourceList`](IDataResourceList.md)
 
 The list of Data Resources.
 

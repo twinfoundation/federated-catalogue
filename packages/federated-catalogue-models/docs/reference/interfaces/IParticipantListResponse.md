@@ -10,9 +10,9 @@ Response for participant list query
 
 The response payload.
 
-#### entities
+#### data
 
-> **entities**: [`IParticipantList`](IParticipantList.md)
+> **data**: [`IParticipantList`](IParticipantList.md)
 
 The entities as a Participant list
 

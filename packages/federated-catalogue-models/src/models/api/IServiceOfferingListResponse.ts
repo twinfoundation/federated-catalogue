@@ -14,7 +14,7 @@ export interface IServiceOfferingListResponse {
 		/**
 		 * The list of service offerings.
 		 */
-		entities: IServiceOfferingList;
+		data: IServiceOfferingList;
 
 		/**
 		 * An optional cursor, when defined can be used to call find to get more entities.

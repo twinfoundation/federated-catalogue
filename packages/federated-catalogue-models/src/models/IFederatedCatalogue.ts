@@ -36,9 +36,9 @@ export interface IFederatedCatalogue extends IComponent {
 		pageSize?: number
 	): Promise<{
 		/**
-		 * The entities, which can be partial if a limited keys list was provided.
+		 * The participant list represented as a Collection, which can be partial if a limited keys list was provided.
 		 */
-		entities: IParticipantList;
+		data: IParticipantList;
 		/**
 		 * An optional cursor, when defined can be used to call find to get more entities.
 		 */
@@ -69,9 +69,9 @@ export interface IFederatedCatalogue extends IComponent {
 		pageSize?: number
 	): Promise<{
 		/**
-		 * The entities, which can be partial if a limited keys list was provided.
+		 * The DS Connector list, which can be partial if a limited keys list was provided.
 		 */
-		entities: IDataSpaceConnectorList[];
+		data: IDataSpaceConnectorList;
 		/**
 		 * An optional cursor, when defined can be used to call find to get more entities.
 		 */
@@ -109,9 +109,9 @@ export interface IFederatedCatalogue extends IComponent {
 		pageSize?: number
 	): Promise<{
 		/**
-		 * The entities, which can be partial if a limited keys list was provided.
+		 * The Service Offering List as a Collection, which can be partial if a limited keys list was provided.
 		 */
-		entities: IServiceOfferingList;
+		data: IServiceOfferingList;
 		/**
 		 * An optional cursor, when defined can be used to call find to get more entities.
 		 */
@@ -135,9 +135,9 @@ export interface IFederatedCatalogue extends IComponent {
 		pageSize?: number
 	): Promise<{
 		/**
-		 * The entities, which can be partial if a limited keys list was provided.
+		 * The Data Resource List, as a Collection, which can be partial if a limited keys list was provided.
 		 */
-		entities: IDataResourceList[];
+		data: IDataResourceList;
 		/**
 		 * An optional cursor, when defined can be used to call find to get more entities.
 		 */

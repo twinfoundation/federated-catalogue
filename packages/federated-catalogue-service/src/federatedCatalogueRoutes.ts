@@ -25,7 +25,11 @@ import {
 	type IServiceOfferingGetResponse,
 	type IDataResourceGetResponse,
 	type IDataSpaceConnectorGetResponse,
-	FederatedCatalogueTypes
+	FederatedCatalogueTypes,
+	type IParticipantEntry,
+	type IServiceOfferingEntry,
+	type IDataResourceEntry,
+	type IDataSpaceConnectorEntry
 } from "@twin.org/federated-catalogue-models";
 import { nameof } from "@twin.org/nameof";
 import { GaiaXTypes } from "@twin.org/standards-gaia-x";
@@ -240,31 +244,35 @@ export function generateRestRoutesFederatedCatalogue(
 						id: "participantListResponseExample",
 						response: {
 							body: {
-								"@context": [
-									"https://w3id.org/gaia-x/development",
-									"https://schema.org",
-									"https://www.w3.org/ns/credentials/v2"
-								],
-								entities: [
-									{
-										id: "did:iota:xxx",
-										type: "LegalPerson",
-										registrationNumber: {
-											type: "LocalRegistrationNumber",
-											local: "P1234567"
-										},
-										legalName: "A Inc.",
-										trustedIssuerId: "did:iota:zzz",
-										legalAddress: {
-											type: "Address",
-											countryCode: "KE"
-										},
-										validFrom: "2024-08-01T12:00:00Z",
-										validUntil: "2025-08-01T12:00:00Z",
-										dateCreated: "2024-08-02T13:45:00Z",
-										evidences: ["https://credentials.example.org/1234567"]
-									}
-								],
+								data: {
+									"@context": [
+										"https://schema.org",
+										"http://purl.org/dc/terms/",
+										"https://w3id.org/gaia-x/development",
+										"https://www.w3.org/ns/credentials/v2"
+									],
+									type: "Collection",
+									hasPart: [
+										{
+											id: "did:iota:xxx",
+											type: "LegalPerson",
+											registrationNumber: {
+												type: "LocalRegistrationNumber",
+												local: "P1234567"
+											},
+											legalName: "A Inc.",
+											trustedIssuerId: "did:iota:zzz",
+											legalAddress: {
+												type: "Address",
+												countryCode: "KE"
+											},
+											validFrom: "2024-08-01T12:00:00Z",
+											validUntil: "2025-08-01T12:00:00Z",
+											dateCreated: "2024-08-02T13:45:00Z",
+											evidences: ["https://credentials.example.org/1234567"]
+										}
+									]
+								},
 								cursor: "1"
 							}
 						}
@@ -364,29 +372,33 @@ export function generateRestRoutesFederatedCatalogue(
 						id: "serviceOfferingListResponseExample",
 						response: {
 							body: {
-								"@context": [
-									"https://w3id.org/gaia-x/development",
-									"https://schema.org",
-									"https://www.w3.org/ns/credentials/v2"
-								],
-								entities: [
-									{
-										id: "http://example.org/is123456",
-										name: "Service 1",
-										type: "ServiceOffering",
-										servicePolicy: {},
-										endpoint: {
-											type: "Endpoint",
-											endpointURL: "https://endpoint.example.org/api"
-										},
-										trustedIssuerId: "did:iota:1234",
-										providedBy: "did:iota:1234567",
-										validFrom: "2024-08-01T12:00:00Z",
-										validUntil: "2025-08-01T12:00:00Z",
-										dateCreated: "2024-08-02T13:45:00Z",
-										evidences: ["https://credentials.example.org/1234567"]
-									}
-								],
+								data: {
+									"@context": [
+										"https://schema.org",
+										"http://purl.org/dc/terms/",
+										"https://w3id.org/gaia-x/development",
+										"https://www.w3.org/ns/credentials/v2"
+									],
+									type: "Collection",
+									hasPart: [
+										{
+											id: "http://example.org/is123456",
+											name: "Service 1",
+											type: "ServiceOffering",
+											servicePolicy: {},
+											endpoint: {
+												type: "Endpoint",
+												endpointURL: "https://endpoint.example.org/api"
+											},
+											trustedIssuerId: "did:iota:1234",
+											providedBy: "did:iota:1234567",
+											validFrom: "2024-08-01T12:00:00Z",
+											validUntil: "2025-08-01T12:00:00Z",
+											dateCreated: "2024-08-02T13:45:00Z",
+											evidences: ["https://credentials.example.org/1234567"]
+										}
+									]
+								},
 								cursor: "1"
 							}
 						}
@@ -484,31 +496,35 @@ export function generateRestRoutesFederatedCatalogue(
 						id: "dataResourceListResponseExample",
 						response: {
 							body: {
-								"@context": [
-									"https://w3id.org/gaia-x/development",
-									"https://schema.org",
-									"https://www.w3.org/ns/credentials/v2"
-								],
-								entities: [
-									{
-										id: "http://example.org/is123456",
-										name: "Data Resource 1",
-										type: "DataResource",
-										copyrightOwnedBy: "did:iota:1234",
-										license: "http://licenses.example.org/12345",
-										resourcePolicy: {},
-										exposedThrough: {
-											"@id": "https://endpoint.example.org/api",
-											type: "DataExchangeComponent"
-										},
-										producedBy: "did:iota:1234567",
-										trustedIssuerId: "did:iota:987654",
-										validFrom: "2024-08-01T12:00:00Z",
-										validUntil: "2025-08-01T12:00:00Z",
-										dateCreated: "2024-08-02T13:45:00Z",
-										evidences: ["https://credentials.example.org/1234567"]
-									}
-								],
+								data: {
+									"@context": [
+										"https://schema.org",
+										"http://purl.org/dc/terms/",
+										"https://w3id.org/gaia-x/development",
+										"https://www.w3.org/ns/credentials/v2"
+									],
+									type: "Collection",
+									hasPart: [
+										{
+											id: "http://example.org/is123456",
+											name: "Data Resource 1",
+											type: "DataResource",
+											copyrightOwnedBy: "did:iota:1234",
+											license: "http://licenses.example.org/12345",
+											resourcePolicy: {},
+											exposedThrough: {
+												"@id": "https://endpoint.example.org/api",
+												type: "DataExchangeComponent"
+											},
+											producedBy: "did:iota:1234567",
+											trustedIssuerId: "did:iota:987654",
+											validFrom: "2024-08-01T12:00:00Z",
+											validUntil: "2025-08-01T12:00:00Z",
+											dateCreated: "2024-08-02T13:45:00Z",
+											evidences: ["https://credentials.example.org/1234567"]
+										}
+									]
+								},
 								cursor: "1"
 							}
 						}
@@ -608,36 +624,40 @@ export function generateRestRoutesFederatedCatalogue(
 						id: "dataSpaceConnectorListResponseExample",
 						response: {
 							body: {
-								"@context": [
-									"https://w3id.org/gaia-x/development",
-									"https://schema.org",
-									"https://www.w3.org/ns/credentials/v2"
-								],
-								entities: [
-									{
-										id: "https://my-ds-connectors.example.org/ds-connector-ABCD",
-										type: ["DataSpaceConnector", "DataExchangeComponent"],
-										identity: "did:iota:testnet:123456",
-										defaultEndpoint: {
-											endpointURL: "https://my-twin-node.example.org:9000/twin-ds-connector"
-										},
-										subscriptionActivityEndpoint: {
-											endpointURL: "/subscriptions"
-										},
-										pushActivityEndpoint: {
-											endpointURL: "/notify"
-										},
-										pullDataEndpoint: {
-											endpointURL: "/data"
-										},
-										offeredResource: ["https://my-data-resource.example.org"],
-										trustedIssuerId: "did:iota:987654",
-										validFrom: "2024-08-01T12:00:00Z",
-										validUntil: "2025-08-01T12:00:00Z",
-										dateCreated: "2024-08-02T13:45:00Z",
-										evidences: ["https://credentials.example.org/1234567"]
-									}
-								],
+								data: {
+									"@context": [
+										"https://schema.org",
+										"http://purl.org/dc/terms/",
+										"https://w3id.org/gaia-x/development",
+										"https://www.w3.org/ns/credentials/v2"
+									],
+									type: "Collection",
+									hasPart: [
+										{
+											id: "https://my-ds-connectors.example.org/ds-connector-ABCD",
+											type: ["DataSpaceConnector", "DataExchangeComponent"],
+											identity: "did:iota:testnet:123456",
+											defaultEndpoint: {
+												endpointURL: "https://my-twin-node.example.org:9000/twin-ds-connector"
+											},
+											subscriptionActivityEndpoint: {
+												endpointURL: "/subscriptions"
+											},
+											pushActivityEndpoint: {
+												endpointURL: "/notify"
+											},
+											pullDataEndpoint: {
+												endpointURL: "/data"
+											},
+											offeredResource: ["https://my-data-resource.example.org"],
+											trustedIssuerId: "did:iota:987654",
+											validFrom: "2024-08-01T12:00:00Z",
+											validUntil: "2025-08-01T12:00:00Z",
+											dateCreated: "2024-08-02T13:45:00Z",
+											evidences: ["https://credentials.example.org/1234567"]
+										}
+									]
+								},
 								cursor: "1"
 							}
 						}
@@ -785,11 +805,6 @@ export async function participantList(
 	);
 	return {
 		body: {
-			"@context": [
-				"https://w3id.org/gaia-x/development",
-				"https://schema.org",
-				"https://www.w3.org/ns/credentials/v2"
-			],
 			...itemsAndCursor
 		}
 	};
@@ -814,17 +829,17 @@ export async function participantGet(
 
 	const itemsAndCursor = await service.queryParticipants(request?.pathParams.id);
 
-	if (Is.arrayValue(itemsAndCursor.entities)) {
+	if (Is.arrayValue(itemsAndCursor.data.hasPart)) {
 		return {
 			body: {
-				...itemsAndCursor.entities[0],
 				type: GaiaXTypes.Participant,
 				"@context": [
 					"https://w3id.org/gaia-x/development",
 					"https://schema.org",
 					"https://www.w3.org/ns/credentials/v2"
-				]
-			}
+				],
+				...itemsAndCursor.data.hasPart[0]
+			} as unknown as IParticipantEntry
 		};
 	}
 
@@ -888,11 +903,6 @@ export async function serviceOfferingList(
 	);
 	return {
 		body: {
-			"@context": [
-				"https://w3id.org/gaia-x/development",
-				"https://schema.org",
-				"https://www.w3.org/ns/credentials/v2"
-			],
 			...itemsAndCursor
 		}
 	};
@@ -917,17 +927,17 @@ export async function serviceOfferingGet(
 
 	const itemsAndCursor = await service.queryServiceOfferings(request?.pathParams.id);
 
-	if (Is.arrayValue(itemsAndCursor.entities)) {
+	if (Is.arrayValue(itemsAndCursor.data.hasPart)) {
 		return {
 			body: {
-				...itemsAndCursor.entities[0],
+				...itemsAndCursor.data.hasPart[0],
 				type: GaiaXTypes.ServiceOffering,
 				"@context": [
 					"https://w3id.org/gaia-x/development",
 					"https://schema.org",
 					"https://www.w3.org/ns/credentials/v2"
 				]
-			}
+			} as unknown as IServiceOfferingEntry
 		};
 	}
 
@@ -991,11 +1001,6 @@ export async function dataResourceList(
 	);
 	return {
 		body: {
-			"@context": [
-				"https://w3id.org/gaia-x/development",
-				"https://schema.org",
-				"https://www.w3.org/ns/credentials/v2"
-			],
 			...itemsAndCursor
 		}
 	};
@@ -1020,17 +1025,17 @@ export async function dataResourceGet(
 
 	const itemsAndCursor = await service.queryDataResources(request?.pathParams.id);
 
-	if (Is.arrayValue(itemsAndCursor.entities)) {
+	if (Is.arrayValue(itemsAndCursor.data.hasPart)) {
 		return {
 			body: {
-				...itemsAndCursor.entities[0],
+				...itemsAndCursor.data.hasPart[0],
 				type: GaiaXTypes.DataResource,
 				"@context": [
 					"https://w3id.org/gaia-x/development",
 					"https://schema.org",
 					"https://www.w3.org/ns/credentials/v2"
 				]
-			}
+			} as unknown as IDataResourceEntry
 		};
 	}
 
@@ -1094,11 +1099,6 @@ export async function dataSpaceConnectorList(
 	);
 	return {
 		body: {
-			"@context": [
-				"https://w3id.org/gaia-x/development",
-				"https://schema.org",
-				"https://www.w3.org/ns/credentials/v2"
-			],
 			...itemsAndCursor
 		}
 	};
@@ -1123,17 +1123,17 @@ export async function dataSpaceConnectorGet(
 
 	const itemsAndCursor = await service.queryDataSpaceConnectors(request?.pathParams.id);
 
-	if (Is.arrayValue(itemsAndCursor.entities)) {
+	if (Is.arrayValue(itemsAndCursor.data.hasPart)) {
 		return {
 			body: {
-				...itemsAndCursor.entities[0],
+				...itemsAndCursor.data.hasPart[0],
 				type: [GaiaXTypes.DataExchangeComponent, FederatedCatalogueTypes.DataSpaceConnector],
 				"@context": [
 					"https://w3id.org/gaia-x/development",
 					"https://schema.org",
 					"https://www.w3.org/ns/credentials/v2"
 				]
-			}
+			} as unknown as IDataSpaceConnectorEntry
 		};
 	}
 

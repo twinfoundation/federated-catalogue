@@ -10,9 +10,9 @@ Response for Service Offering list
 
 The response payload.
 
-#### entities
+#### data
 
-> **entities**: [`IServiceOfferingList`](IServiceOfferingList.md)
+> **data**: [`IServiceOfferingList`](IServiceOfferingList.md)
 
 The list of service offerings.
 
