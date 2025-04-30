@@ -8,9 +8,9 @@ import type { IFederatedCatalogueConfig } from "./IFederatedCatalogueConfig";
  */
 export interface IFederatedCatalogueConstructorOptions {
 	/**
-	 * The name of the identity resolver component used.
+	 * The identity resolver component used.
 	 */
-	identityResolverComponent?: string;
+	identityResolverComponentType?: string;
 
 	/**
 	 * Logging connector type

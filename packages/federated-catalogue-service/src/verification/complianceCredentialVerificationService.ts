@@ -38,21 +38,25 @@ export class ComplianceCredentialVerificationService {
 
 	/**
 	 * Resolver component.
+	 * @internal
 	 */
 	private readonly _resolver: IIdentityResolverComponent;
 
 	/**
 	 * Resolver component.
+	 * @internal
 	 */
 	private readonly _subResourceCacheTtlMs: number | undefined;
 
 	/**
 	 * Logging Component.
+	 * @internal
 	 */
 	private readonly _logger?: ILoggingConnector;
 
 	/**
 	 * List of clearing houses tha are approvers.
+	 * @internal
 	 */
 	private readonly _clearingHouseApproverList: string[];
 

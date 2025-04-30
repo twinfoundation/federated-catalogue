@@ -67,6 +67,10 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	 */
 	public readonly CLASS_NAME: string = nameof<FederatedCatalogueService>();
 
+	/**
+	 * The identity resolver used to dereference DIDs.
+	 * @internal
+	 */
 	private readonly _resolver: IIdentityResolverComponent;
 
 	/**
@@ -131,7 +135,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		>(StringHelper.kebabCase(nameof<DataSpaceConnectorEntry>()));
 
 		this._resolver = ComponentFactory.get<IIdentityResolverComponent>(
-			options.identityResolverComponent ?? "identity-resolver"
+			options.identityResolverComponentType ?? "identity-resolver"
 		);
 
 		this._complianceCredentialVerifier = new ComplianceCredentialVerificationService(

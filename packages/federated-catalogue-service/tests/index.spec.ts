@@ -159,7 +159,9 @@ describe("federated-catalogue-service", () => {
 		const queryResult = await fedCatalogueService.queryParticipants();
 		expect(queryResult.data.hasPart.length).toBe(1);
 
-		expect(queryResult.data.hasPart[0].id).toBe(participantCredential.credential.credentialSubject.id);
+		expect(queryResult.data.hasPart[0].id).toBe(
+			participantCredential.credential.credentialSubject.id
+		);
 	});
 
 	test("It should register a compliant Data Resource", async () => {
@@ -171,7 +173,9 @@ describe("federated-catalogue-service", () => {
 		const queryResult = await fedCatalogueService.queryDataResources();
 		expect(queryResult.data.hasPart.length).toBe(1);
 
-		expect(queryResult.data.hasPart[0].id).toBe(dataResourceCredential.credential.credentialSubject.id);
+		expect(queryResult.data.hasPart[0].id).toBe(
+			dataResourceCredential.credential.credentialSubject.id
+		);
 	});
 
 	test("It should register a compliant Service Offering", async () => {

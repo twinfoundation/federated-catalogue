@@ -5,7 +5,7 @@ import type { IServiceOffering } from "@twin.org/standards-gaia-x";
 import type { ICatalogueEntry } from "../ICatalogueEntry";
 
 /**
- * Interface describing a SD.
+ * Interface describing a Service Offering.
  */
 export interface IServiceOfferingEntry extends ICatalogueEntry, IServiceOffering {
 	/**
