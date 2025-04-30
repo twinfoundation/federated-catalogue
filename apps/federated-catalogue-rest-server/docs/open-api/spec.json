@@ -787,33 +787,42 @@
 								"examples": {
 									"participantListResponseExample": {
 										"value": {
-											"@context": [
-												"https://w3id.org/gaia-x/development",
-												"https://schema.org",
-												"https://www.w3.org/ns/credentials/v2"
-											],
-											"entities": [
-												{
-													"id": "did:iota:xxx",
-													"type": "LegalPerson",
-													"registrationNumber": {
-														"type": "LocalRegistrationNumber",
-														"local": "P1234567"
-													},
-													"legalName": "A Inc.",
-													"trustedIssuerId": "did:iota:zzz",
-													"legalAddress": {
-														"type": "Address",
-														"countryCode": "KE"
-													},
-													"validFrom": "2024-08-01T12:00:00Z",
-													"validUntil": "2025-08-01T12:00:00Z",
-													"dateCreated": "2024-08-02T13:45:00Z",
-													"evidences": [
-														"https://credentials.example.org/1234567"
-													]
-												}
-											],
+											"data": {
+												"@context": [
+													"https://schema.org",
+													"http://purl.org/dc/terms/",
+													"https://w3id.org/gaia-x/development",
+													"https://www.w3.org/ns/credentials/v2"
+												],
+												"type": "Collection",
+												"hasPart": [
+													{
+														"@context": [
+															"https://w3id.org/gaia-x/development",
+															"https://schema.org",
+															"https://www.w3.org/ns/credentials/v2"
+														],
+														"id": "did:iota:xxx",
+														"type": "LegalPerson",
+														"registrationNumber": {
+															"type": "LocalRegistrationNumber",
+															"local": "P1234567"
+														},
+														"legalName": "A Inc.",
+														"trustedIssuerId": "did:iota:zzz",
+														"legalAddress": {
+															"type": "Address",
+															"countryCode": "KE"
+														},
+														"validFrom": "2024-08-01T12:00:00Z",
+														"validUntil": "2025-08-01T12:00:00Z",
+														"dateCreated": "2024-08-02T13:45:00Z",
+														"evidences": [
+															"https://credentials.example.org/1234567"
+														]
+													}
+												]
+											},
 											"cursor": "1"
 										}
 									}
@@ -1068,31 +1077,40 @@
 								"examples": {
 									"serviceOfferingListResponseExample": {
 										"value": {
-											"@context": [
-												"https://w3id.org/gaia-x/development",
-												"https://schema.org",
-												"https://www.w3.org/ns/credentials/v2"
-											],
-											"entities": [
-												{
-													"id": "http://example.org/is123456",
-													"name": "Service 1",
-													"type": "ServiceOffering",
-													"servicePolicy": {},
-													"endpoint": {
-														"type": "Endpoint",
-														"endpointURL": "https://endpoint.example.org/api"
-													},
-													"trustedIssuerId": "did:iota:1234",
-													"providedBy": "did:iota:1234567",
-													"validFrom": "2024-08-01T12:00:00Z",
-													"validUntil": "2025-08-01T12:00:00Z",
-													"dateCreated": "2024-08-02T13:45:00Z",
-													"evidences": [
-														"https://credentials.example.org/1234567"
-													]
-												}
-											],
+											"data": {
+												"@context": [
+													"https://schema.org",
+													"http://purl.org/dc/terms/",
+													"https://w3id.org/gaia-x/development",
+													"https://www.w3.org/ns/credentials/v2"
+												],
+												"type": "Collection",
+												"hasPart": [
+													{
+														"@context": [
+															"https://w3id.org/gaia-x/development",
+															"https://schema.org",
+															"https://www.w3.org/ns/credentials/v2"
+														],
+														"id": "http://example.org/is123456",
+														"name": "Service 1",
+														"type": "ServiceOffering",
+														"servicePolicy": {},
+														"endpoint": {
+															"type": "Endpoint",
+															"endpointURL": "https://endpoint.example.org/api"
+														},
+														"trustedIssuerId": "did:iota:7890",
+														"providedBy": "did:iota:1234567",
+														"validFrom": "2024-08-01T12:00:00Z",
+														"validUntil": "2025-08-01T12:00:00Z",
+														"dateCreated": "2024-08-02T13:45:00Z",
+														"evidences": [
+															"https://credentials.example.org/1234567"
+														]
+													}
+												]
+											},
 											"cursor": "1"
 										}
 									}
@@ -1345,33 +1363,39 @@
 								"examples": {
 									"dataResourceListResponseExample": {
 										"value": {
-											"@context": [
-												"https://w3id.org/gaia-x/development",
-												"https://schema.org",
-												"https://www.w3.org/ns/credentials/v2"
-											],
-											"entities": [
-												{
-													"id": "http://example.org/is123456",
-													"name": "Data Resource 1",
-													"type": "DataResource",
-													"copyrightOwnedBy": "did:iota:1234",
-													"license": "http://licenses.example.org/12345",
-													"resourcePolicy": {},
-													"exposedThrough": {
-														"@id": "https://endpoint.example.org/api",
-														"type": "DataExchangeComponent"
-													},
-													"producedBy": "did:iota:1234567",
-													"trustedIssuerId": "did:iota:987654",
-													"validFrom": "2024-08-01T12:00:00Z",
-													"validUntil": "2025-08-01T12:00:00Z",
-													"dateCreated": "2024-08-02T13:45:00Z",
-													"evidences": [
-														"https://credentials.example.org/1234567"
-													]
-												}
-											],
+											"data": {
+												"@context": [
+													"https://schema.org",
+													"http://purl.org/dc/terms/",
+													"https://w3id.org/gaia-x/development",
+													"https://www.w3.org/ns/credentials/v2"
+												],
+												"type": "Collection",
+												"hasPart": [
+													{
+														"@context": [
+															"https://w3id.org/gaia-x/development",
+															"https://schema.org",
+															"https://www.w3.org/ns/credentials/v2"
+														],
+														"id": "http://example.org/is123456",
+														"name": "Data Resource 1",
+														"type": "DataResource",
+														"copyrightOwnedBy": "did:iota:1234",
+														"license": "http://licenses.example.org/12345",
+														"resourcePolicy": {},
+														"exposedThrough": "https://ds-connectors.example.org/ds1",
+														"producedBy": "did:iota:1234567",
+														"trustedIssuerId": "did:iota:987654",
+														"validFrom": "2024-08-01T12:00:00Z",
+														"validUntil": "2025-08-01T12:00:00Z",
+														"dateCreated": "2024-08-02T13:45:00Z",
+														"evidences": [
+															"https://credentials.example.org/1234567"
+														]
+													}
+												]
+											},
 											"cursor": "1"
 										}
 									}
@@ -1623,43 +1647,57 @@
 								"examples": {
 									"dataSpaceConnectorListResponseExample": {
 										"value": {
-											"@context": [
-												"https://w3id.org/gaia-x/development",
-												"https://schema.org",
-												"https://www.w3.org/ns/credentials/v2"
-											],
-											"entities": [
-												{
-													"id": "https://my-ds-connectors.example.org/ds-connector-ABCD",
-													"type": [
-														"DataSpaceConnector",
-														"DataExchangeComponent"
-													],
-													"identity": "did:iota:testnet:123456",
-													"defaultEndpoint": {
-														"endpointURL": "https://my-twin-node.example.org:9000/twin-ds-connector"
-													},
-													"subscriptionActivityEndpoint": {
-														"endpointURL": "/subscriptions"
-													},
-													"pushActivityEndpoint": {
-														"endpointURL": "/notify"
-													},
-													"pullDataEndpoint": {
-														"endpointURL": "/data"
-													},
-													"offeredResource": [
-														"https://my-data-resource.example.org"
-													],
-													"trustedIssuerId": "did:iota:987654",
-													"validFrom": "2024-08-01T12:00:00Z",
-													"validUntil": "2025-08-01T12:00:00Z",
-													"dateCreated": "2024-08-02T13:45:00Z",
-													"evidences": [
-														"https://credentials.example.org/1234567"
-													]
-												}
-											],
+											"data": {
+												"@context": [
+													"https://schema.org",
+													"http://purl.org/dc/terms/",
+													"https://w3id.org/gaia-x/development",
+													"https://www.w3.org/ns/credentials/v2"
+												],
+												"type": "Collection",
+												"hasPart": [
+													{
+														"@context": [
+															"https://w3id.org/gaia-x/development",
+															"https://schema.org",
+															"https://www.w3.org/ns/credentials/v2"
+														],
+														"id": "https://my-ds-connectors.example.org/ds-connector-ABCD",
+														"type": [
+															"DataExchangeComponent",
+															"DataSpaceConnector"
+														],
+														"identity": "did:iota:testnet:123456",
+														"defaultEndpoint": {
+															"type": "Endpoint",
+															"endpointURL": "https://my-twin-node.example.org:9000/twin-ds-connector"
+														},
+														"subscriptionActivityEndpoint": {
+															"type": "Endpoint",
+															"endpointURL": "/subscriptions"
+														},
+														"pushActivityEndpoint": {
+															"type": "Endpoint",
+															"endpointURL": "/notify"
+														},
+														"pullDataEndpoint": {
+															"type": "Endpoint",
+															"endpointURL": "/data"
+														},
+														"maintainer": "did:iota:99999",
+														"offeredResource": [
+															"https://my-data-resource.example.org"
+														],
+														"trustedIssuerId": "did:iota:987654",
+														"validFrom": "2024-08-01T12:00:00Z",
+														"validUntil": "2025-08-01T12:00:00Z",
+														"dateCreated": "2024-08-02T13:45:00Z",
+														"evidences": [
+															"https://credentials.example.org/1234567"
+														]
+													}
+												]
+											},
 											"cursor": "1"
 										}
 									}
@@ -2159,37 +2197,59 @@
 				},
 				"description": "Interface describing a Data Resource entry."
 			},
-			"DataResourceListResponse": {
+			"DataResourceList": {
 				"type": "object",
 				"properties": {
 					"@context": {
-						"anyOf": [
+						"type": "array",
+						"minItems": 4,
+						"items": [
+							{
+								"type": "string",
+								"const": "https://schema.org"
+							},
+							{
+								"type": "string",
+								"const": "http://purl.org/dc/terms/"
+							},
 							{
 								"type": "string",
 								"const": "https://w3id.org/gaia-x/development"
 							},
 							{
-								"type": "array",
-								"minItems": 1,
-								"items": [
-									{
-										"type": "string",
-										"const": "https://w3id.org/gaia-x/development"
-									}
-								],
-								"additionalItems": {
-									"$ref": "#/components/schemas/JsonLdContextDefinitionElement"
-								}
+								"type": "string",
+								"const": "https://www.w3.org/ns/credentials/v2"
 							}
 						],
-						"description": "The LD"
+						"maxItems": 4,
+						"description": "The LD Context."
 					},
-					"entities": {
+					"type": {
+						"type": "string",
+						"const": "Collection",
+						"description": "The type"
+					},
+					"hasPart": {
 						"type": "array",
 						"items": {
 							"$ref": "#/components/schemas/Omit%3CIDataResourceEntry%2C%22%40context%22%3E"
 						},
-						"description": "The entities, which can be partial if a limited keys list was provided."
+						"description": "The components of the Collection"
+					}
+				},
+				"required": [
+					"@context",
+					"type",
+					"hasPart"
+				],
+				"additionalProperties": false,
+				"description": "Interface describing a list of Data Resource entries."
+			},
+			"DataResourceListResponse": {
+				"type": "object",
+				"properties": {
+					"data": {
+						"$ref": "#/components/schemas/DataResourceList"
 					},
 					"cursor": {
 						"type": "string",
@@ -2197,8 +2257,7 @@
 					}
 				},
 				"required": [
-					"@context",
-					"entities"
+					"data"
 				],
 				"additionalProperties": false,
 				"description": "The response payload."
@@ -2398,29 +2457,59 @@
 				},
 				"description": "Interface describing a participant."
 			},
-			"DataSpaceConnectorListResponse": {
+			"DataSpaceConnectorList": {
 				"type": "object",
 				"properties": {
 					"@context": {
 						"type": "array",
-						"minItems": 1,
+						"minItems": 4,
 						"items": [
 							{
 								"type": "string",
+								"const": "https://schema.org"
+							},
+							{
+								"type": "string",
+								"const": "http://purl.org/dc/terms/"
+							},
+							{
+								"type": "string",
 								"const": "https://w3id.org/gaia-x/development"
+							},
+							{
+								"type": "string",
+								"const": "https://www.w3.org/ns/credentials/v2"
 							}
 						],
-						"additionalItems": {
-							"$ref": "#/components/schemas/JsonLdContextDefinitionElement"
-						},
-						"description": "The LD"
+						"maxItems": 4,
+						"description": "The LD Context."
 					},
-					"entities": {
+					"type": {
+						"type": "string",
+						"const": "Collection",
+						"description": "The type"
+					},
+					"hasPart": {
 						"type": "array",
 						"items": {
 							"$ref": "#/components/schemas/Omit%3CIDataSpaceConnectorEntry%2C%22%40context%22%3E"
 						},
-						"description": "The entities, which can be partial if a limited keys list was provided."
+						"description": "The components of the Collection"
+					}
+				},
+				"required": [
+					"@context",
+					"type",
+					"hasPart"
+				],
+				"additionalProperties": false,
+				"description": "Interface describing a list of Data Space Connectors."
+			},
+			"DataSpaceConnectorListResponse": {
+				"type": "object",
+				"properties": {
+					"data": {
+						"$ref": "#/components/schemas/DataSpaceConnectorList"
 					},
 					"cursor": {
 						"type": "string",
@@ -2428,8 +2517,7 @@
 					}
 				},
 				"required": [
-					"@context",
-					"entities"
+					"data"
 				],
 				"additionalProperties": false,
 				"description": "The response payload."
@@ -3808,37 +3896,59 @@
 				],
 				"description": "Interface describing a participant."
 			},
-			"ParticipantListResponse": {
+			"ParticipantList": {
 				"type": "object",
 				"properties": {
 					"@context": {
-						"anyOf": [
+						"type": "array",
+						"minItems": 4,
+						"items": [
+							{
+								"type": "string",
+								"const": "https://schema.org"
+							},
+							{
+								"type": "string",
+								"const": "http://purl.org/dc/terms/"
+							},
 							{
 								"type": "string",
 								"const": "https://w3id.org/gaia-x/development"
 							},
 							{
-								"type": "array",
-								"minItems": 1,
-								"items": [
-									{
-										"type": "string",
-										"const": "https://w3id.org/gaia-x/development"
-									}
-								],
-								"additionalItems": {
-									"$ref": "#/components/schemas/JsonLdContextDefinitionElement"
-								}
+								"type": "string",
+								"const": "https://www.w3.org/ns/credentials/v2"
 							}
 						],
-						"description": "The LD"
+						"maxItems": 4,
+						"description": "The LD Context."
 					},
-					"entities": {
+					"type": {
+						"type": "string",
+						"const": "Collection",
+						"description": "The type"
+					},
+					"hasPart": {
 						"type": "array",
 						"items": {
 							"$ref": "#/components/schemas/Omit%3CIParticipantEntry%2C%22%40context%22%3E"
 						},
-						"description": "The entities, which can be partial if a limited keys list was provided."
+						"description": "The components of the Collection"
+					}
+				},
+				"required": [
+					"@context",
+					"type",
+					"hasPart"
+				],
+				"additionalProperties": false,
+				"description": "Interface describing a participant entry list."
+			},
+			"ParticipantListResponse": {
+				"type": "object",
+				"properties": {
+					"data": {
+						"$ref": "#/components/schemas/ParticipantList"
 					},
 					"cursor": {
 						"type": "string",
@@ -3846,8 +3956,7 @@
 					}
 				},
 				"required": [
-					"@context",
-					"entities"
+					"data"
 				],
 				"additionalProperties": false,
 				"description": "The response payload."
@@ -4190,39 +4299,61 @@
 						}
 					]
 				},
-				"description": "Interface describing a SD."
+				"description": "Interface describing a Service Offering."
 			},
-			"ServiceOfferingListResponse": {
+			"ServiceOfferingList": {
 				"type": "object",
 				"properties": {
 					"@context": {
-						"anyOf": [
+						"type": "array",
+						"minItems": 4,
+						"items": [
+							{
+								"type": "string",
+								"const": "https://schema.org"
+							},
+							{
+								"type": "string",
+								"const": "http://purl.org/dc/terms/"
+							},
 							{
 								"type": "string",
 								"const": "https://w3id.org/gaia-x/development"
 							},
 							{
-								"type": "array",
-								"minItems": 1,
-								"items": [
-									{
-										"type": "string",
-										"const": "https://w3id.org/gaia-x/development"
-									}
-								],
-								"additionalItems": {
-									"$ref": "#/components/schemas/JsonLdContextDefinitionElement"
-								}
+								"type": "string",
+								"const": "https://www.w3.org/ns/credentials/v2"
 							}
 						],
-						"description": "The LD"
+						"maxItems": 4,
+						"description": "The LD Context."
 					},
-					"entities": {
+					"type": {
+						"type": "string",
+						"const": "Collection",
+						"description": "The type"
+					},
+					"hasPart": {
 						"type": "array",
 						"items": {
 							"$ref": "#/components/schemas/Omit%3CIServiceOfferingEntry%2C%22%40context%22%3E"
 						},
-						"description": "The entities, which can be partial if a limited keys list was provided."
+						"description": "The components of the Collection"
+					}
+				},
+				"required": [
+					"@context",
+					"type",
+					"hasPart"
+				],
+				"additionalProperties": false,
+				"description": "Interface describing a list of Service Offering Entries."
+			},
+			"ServiceOfferingListResponse": {
+				"type": "object",
+				"properties": {
+					"data": {
+						"$ref": "#/components/schemas/ServiceOfferingList"
 					},
 					"cursor": {
 						"type": "string",
@@ -4230,8 +4361,7 @@
 					}
 				},
 				"required": [
-					"@context",
-					"entities"
+					"data"
 				],
 				"additionalProperties": false,
 				"description": "The response payload."
