@@ -1,6 +1,6 @@
 # Interface: IServiceOfferingEntry
 
-Interface describing a SD.
+Interface describing a Service Offering.
 
 ## Extends
 

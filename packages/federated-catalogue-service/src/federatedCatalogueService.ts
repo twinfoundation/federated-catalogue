@@ -762,8 +762,8 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		const result: IParticipantEntry = {
 			...participantData,
 			trustedIssuerId: this.getTrustedIssuerId(complianceCredential),
-			validFrom: complianceCredential.validFrom as string,
-			validUntil: complianceCredential.validUntil as string,
+			validFrom: complianceCredential.validFrom,
+			validUntil: complianceCredential.validUntil,
 			dateCreated: new Date().toISOString(),
 			evidences
 		};
@@ -791,8 +791,8 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			...deStructuredData,
 			offeredResource: Object.keys(offeredResource),
 			trustedIssuerId: this.getTrustedIssuerId(complianceCredential),
-			validFrom: dataSpaceConnectorCredential.validFrom as string,
-			validUntil: dataSpaceConnectorCredential.validUntil as string,
+			validFrom: complianceCredential.validFrom,
+			validUntil: complianceCredential.validUntil,
 			dateCreated: new Date().toISOString(),
 			evidences: [dataSpaceConnectorCredential.id]
 		};
@@ -821,8 +821,8 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			providedBy: Is.string(providedBy) ? providedBy : providedBy.id,
 			aggregationOfResources: aggregationOfResources as string[],
 			trustedIssuerId: this.getTrustedIssuerId(complianceCredential),
-			validFrom: serviceOfferingCredential.validFrom as string,
-			validUntil: serviceOfferingCredential.validUntil as string,
+			validFrom: complianceCredential.validFrom,
+			validUntil: complianceCredential.validUntil,
 			dateCreated: new Date().toISOString(),
 			evidences: [serviceOfferingCredential.id as string]
 		};
@@ -861,8 +861,8 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			producedBy: producedByValue,
 			copyrightOwnedBy: copyrightOwnedByValue,
 			exposedThrough: exposedThrough as string,
-			validFrom: dataResourceCredential.validFrom as string,
-			validUntil: dataResourceCredential.validUntil as string,
+			validFrom: complianceCredential.validFrom,
+			validUntil: complianceCredential.validUntil,
 			dateCreated: new Date().toISOString(),
 			evidences: [dataResourceCredential.id as string]
 		};

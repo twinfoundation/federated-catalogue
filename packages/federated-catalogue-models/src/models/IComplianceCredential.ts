@@ -33,6 +33,16 @@ export interface IComplianceCredential extends ICredential {
 	type: [typeof DidTypes.VerifiableCredential, typeof FederatedCatalogueTypes.ComplianceCredential];
 
 	/**
+	 * A compliance credential requires a validity period
+	 */
+	validFrom: string;
+
+	/**
+	 * A compliance credential requires a validity period
+	 */
+	validUntil: string;
+
+	/**
 	 * Compliance evidence. It is mandatory.
 	 *
 	 */

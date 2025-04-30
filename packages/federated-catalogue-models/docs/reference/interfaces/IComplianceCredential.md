@@ -44,6 +44,30 @@ Type of Credential.
 
 ***
 
+### validFrom
+
+> **validFrom**: `string`
+
+A compliance credential requires a validity period
+
+#### Overrides
+
+`ICredential.validFrom`
+
+***
+
+### validUntil
+
+> **validUntil**: `string`
+
+A compliance credential requires a validity period
+
+#### Overrides
+
+`ICredential.validUntil`
+
+***
+
 ### evidence
 
 > **evidence**: [`IComplianceEvidence`](IComplianceEvidence.md)[]
