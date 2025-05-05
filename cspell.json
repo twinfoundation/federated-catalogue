@@ -31,7 +31,7 @@
 		"VATID",
 		"GLEIF",
 		"twinfoundation",
-		""
+		"buildx"
 	],
 	"ignoreRegExpList": [
 		"/from\\s+(['\"]).*\\1/",
