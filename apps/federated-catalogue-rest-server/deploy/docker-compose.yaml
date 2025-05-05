@@ -1,11 +1,18 @@
 version: '3.5'
 services:
   federated-catalogue:
+    container_name: federated-catalogue
     image: twin.org/federated-catalogue:latest
     env_file:
       - ../.env.local
     ports:
       - 3020:3020
+    restart: always
+
+    # Use these properties for testing, otherwise you can comment them out
+    network_mode: host
+    extra_hosts:
+      - 'twinfoundation.github.io:127.0.0.1'
     volumes:
       - ./.local-data-docker:/usr/src/app/.local-data
-    restart: always
+      - './rootCA.pem:/usr/local/share/ca-certificates/rootCA.pem'
