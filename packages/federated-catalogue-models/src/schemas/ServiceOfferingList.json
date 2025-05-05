@@ -1,0 +1,48 @@
+{
+	"type": "object",
+	"properties": {
+		"@context": {
+			"type": "array",
+			"minItems": 4,
+			"items": [
+				{
+					"type": "string",
+					"const": "https://schema.org"
+				},
+				{
+					"type": "string",
+					"const": "http://purl.org/dc/terms/"
+				},
+				{
+					"type": "string",
+					"const": "https://w3id.org/gaia-x/development"
+				},
+				{
+					"type": "string",
+					"const": "https://www.w3.org/ns/credentials/v2"
+				}
+			],
+			"maxItems": 4,
+			"description": "The LD Context."
+		},
+		"type": {
+			"type": "string",
+			"const": "Collection",
+			"description": "The type"
+		},
+		"hasPart": {
+			"type": "array",
+			"items": {
+				"$ref": "https://schema.twindev.org/federated-catalogue/Omit%3CIServiceOfferingEntry%2C%22%40context%22%3E"
+			},
+			"description": "The components of the Collection"
+		}
+	},
+	"required": [
+		"@context",
+		"type",
+		"hasPart"
+	],
+	"additionalProperties": false,
+	"description": "Interface describing a list of Service Offering Entries."
+}
