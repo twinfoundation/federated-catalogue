@@ -45,7 +45,8 @@
 		"@twin.org/standards-gaia-x": "next",
 		"@twin.org/standards-schema-org": "next",
 		"@twin.org/standards-dublin-core": "next",
-		"@twin.org/crypto": "next"
+		"@twin.org/crypto": "next",
+		"@twin.org/data-json-ld": "next"
 	},
 	"devDependencies": {
 		"@twin.org/standards-ld-contexts": "next",

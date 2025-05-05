@@ -9,6 +9,7 @@ import {
 	StringHelper,
 	UnprocessableError
 } from "@twin.org/core";
+import { JsonLdProcessor } from "@twin.org/data-json-ld";
 import { ComparisonOperator, type EntityCondition } from "@twin.org/entity";
 import {
 	EntityStorageConnectorFactory,
@@ -55,7 +56,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	 */
 	private static readonly _FIELDS_TO_SKIP = ["@context", "type"];
 
-	private static readonly _LD_CONTEXT_LIST_RESPONSE = [
+	private static readonly _LD_CONTEXT_LIST_RESPONSE: IParticipantList["@context"] = [
 		SchemaOrgContexts.ContextRoot,
 		DublinCoreContexts.Context,
 		GaiaXContexts.GaiaXLdContext,
@@ -267,17 +268,18 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			cursor,
 			pageSize
 		);
+
+		const result = {
+			"@context": FederatedCatalogueService._LD_CONTEXT_LIST_RESPONSE,
+			type: DublinCoreClasses.Collection,
+			hasPart: entries.entities as IParticipantEntry[]
+		};
+
 		return {
-			data: {
-				"@context": [
-					SchemaOrgContexts.ContextRoot,
-					DublinCoreContexts.Context,
-					GaiaXContexts.GaiaXLdContext,
-					DidContexts.ContextVCv2
-				],
-				type: DublinCoreClasses.Collection,
-				hasPart: entries.entities as IParticipantEntry[]
-			},
+			data: await JsonLdProcessor.compact(
+				result,
+				FederatedCatalogueService._LD_CONTEXT_LIST_RESPONSE
+			),
 			cursor: entries.cursor
 		};
 	}
@@ -488,17 +490,18 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			cursor,
 			pageSize
 		);
+
+		const result = {
+			"@context": FederatedCatalogueService._LD_CONTEXT_LIST_RESPONSE,
+			type: DublinCoreClasses.Collection,
+			hasPart: entries.entities as IDataSpaceConnectorEntry[]
+		};
+
 		return {
-			data: {
-				"@context": [
-					SchemaOrgContexts.ContextRoot,
-					DublinCoreContexts.Context,
-					GaiaXContexts.GaiaXLdContext,
-					DidContexts.ContextVCv2
-				],
-				type: DublinCoreClasses.Collection,
-				hasPart: entries.entities as IDataSpaceConnectorEntry[]
-			},
+			data: await JsonLdProcessor.compact(
+				result,
+				FederatedCatalogueService._LD_CONTEXT_LIST_RESPONSE
+			),
 			cursor: entries.cursor
 		};
 	}
@@ -636,17 +639,18 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			cursor,
 			pageSize
 		);
+
+		const result = {
+			"@context": FederatedCatalogueService._LD_CONTEXT_LIST_RESPONSE,
+			type: DublinCoreClasses.Collection,
+			hasPart: entries.entities as IServiceOfferingEntry[]
+		};
+
 		return {
-			data: {
-				"@context": [
-					SchemaOrgContexts.ContextRoot,
-					DublinCoreContexts.Context,
-					GaiaXContexts.GaiaXLdContext,
-					DidContexts.ContextVCv2
-				],
-				type: DublinCoreClasses.Collection,
-				hasPart: entries.entities as IServiceOfferingEntry[]
-			},
+			data: await JsonLdProcessor.compact(
+				result,
+				FederatedCatalogueService._LD_CONTEXT_LIST_RESPONSE
+			),
 			cursor: entries.cursor
 		};
 	}
@@ -702,17 +706,18 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			cursor,
 			pageSize
 		);
+
+		const result = {
+			"@context": FederatedCatalogueService._LD_CONTEXT_LIST_RESPONSE,
+			type: DublinCoreClasses.Collection,
+			hasPart: entries.entities as IDataResourceEntry[]
+		};
+
 		return {
-			data: {
-				"@context": [
-					SchemaOrgContexts.ContextRoot,
-					DublinCoreContexts.Context,
-					GaiaXContexts.GaiaXLdContext,
-					DidContexts.ContextVCv2
-				],
-				type: DublinCoreClasses.Collection,
-				hasPart: entries.entities as IDataResourceEntry[]
-			},
+			data: await JsonLdProcessor.compact(
+				result,
+				FederatedCatalogueService._LD_CONTEXT_LIST_RESPONSE
+			),
 			cursor: entries.cursor
 		};
 	}
