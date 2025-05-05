@@ -30,7 +30,8 @@
 		"EORI",
 		"VATID",
 		"GLEIF",
-		"twinfoundation"
+		"twinfoundation",
+		""
 	],
 	"ignoreRegExpList": [
 		"/from\\s+(['\"]).*\\1/",
