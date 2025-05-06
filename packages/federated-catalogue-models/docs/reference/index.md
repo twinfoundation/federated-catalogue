@@ -1,5 +1,9 @@
 # @twin.org/federated-catalogue-models
 
+## Classes
+
+- [FederatedCatalogueContextInstances](classes/FederatedCatalogueContextInstances.md)
+
 ## Interfaces
 
 - [IComplianceCredential](interfaces/IComplianceCredential.md)
@@ -38,10 +42,12 @@
 
 ## Type Aliases
 
+- [FederatedCatalogueContexts](type-aliases/FederatedCatalogueContexts.md)
 - [FederatedCatalogueTypes](type-aliases/FederatedCatalogueTypes.md)
 - [VerificationFailureReasons](type-aliases/VerificationFailureReasons.md)
 
 ## Variables
 
+- [FederatedCatalogueContexts](variables/FederatedCatalogueContexts.md)
 - [FederatedCatalogueTypes](variables/FederatedCatalogueTypes.md)
 - [VerificationFailureReasons](variables/VerificationFailureReasons.md)

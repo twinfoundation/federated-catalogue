@@ -18,7 +18,7 @@ export class ServiceOfferingEntry {
 	 * The trusted issuer of the compliance credential associated with
 	 */
 	@property({ type: "string" })
-	public trustedIssuerId!: string;
+	public issuer!: string;
 
 	/**
 	 * The service name.
@@ -78,5 +78,5 @@ export class ServiceOfferingEntry {
 	 * Evidences
 	 */
 	@property({ type: "array" })
-	public evidences!: string[];
+	public evidence!: string[];
 }

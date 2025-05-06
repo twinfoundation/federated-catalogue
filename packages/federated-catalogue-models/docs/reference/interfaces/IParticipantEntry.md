@@ -12,15 +12,15 @@ Interface describing a participant.
 
 ## Properties
 
-### trustedIssuerId
+### issuer
 
-> **trustedIssuerId**: `string`
+> **issuer**: `string`
 
 The trusted issuer of the compliance credential
 
 #### Inherited from
 
-`ICatalogueEntry.trustedIssuerId`
+`ICatalogueEntry.issuer`
 
 ***
 
@@ -60,12 +60,24 @@ The creation date.
 
 ***
 
-### evidences
+### evidence
 
-> **evidences**: `string`[]
+> **evidence**: `string`[]
 
 The evidences concerning the data resource.
 
 #### Inherited from
 
-`ICatalogueEntry.evidences`
+`ICatalogueEntry.evidence`
+
+***
+
+### @context
+
+> **@context**: \[`"https://w3id.org/gaia-x/development"`, `"https://schema.org"`, `"https://www.w3.org/ns/credentials/v2"`\]
+
+The LD Context
+
+#### Overrides
+
+`IParticipant.@context`

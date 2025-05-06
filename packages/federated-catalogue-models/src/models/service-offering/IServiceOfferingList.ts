@@ -15,9 +15,10 @@ export interface IServiceOfferingList {
 	 * The LD Context.
 	 */
 	"@context": [
-		typeof SchemaOrgContexts.ContextRoot,
-		typeof DublinCoreContexts.Context,
 		typeof GaiaXContexts.GaiaXLdContext,
+		typeof SchemaOrgContexts.ContextRoot,
+		typeof DublinCoreContexts.ContextTerms,
+		typeof DublinCoreContexts.ContextDcmiType,
 		typeof DidContexts.ContextVCv2
 	];
 

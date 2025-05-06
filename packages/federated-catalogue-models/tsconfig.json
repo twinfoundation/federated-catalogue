@@ -15,7 +15,11 @@
 		"declaration": true,
 		"declarationDir": "dist/types",
 		"types": [],
-		"plugins": [{ "transform": "@twin.org/nameof-transformer" }]
+		"plugins": [
+			{
+				"transform": "@twin.org/nameof-transformer"
+			}
+		]
 	},
-	"include": ["src/**/*.ts"]
+	"include": ["src/**/*.ts", "src/models/federatedCatalogueContextInstances.ts"]
 }

@@ -8,7 +8,7 @@ export interface ICatalogueEntry {
 	/**
 	 * The trusted issuer of the compliance credential
 	 */
-	trustedIssuerId: string;
+	issuer: string;
 
 	/**
 	 * Valid from (as per W3C VC Data Model v2)
@@ -28,5 +28,5 @@ export interface ICatalogueEntry {
 	/**
 	 * The evidences concerning the data resource.
 	 */
-	evidences: string[];
+	evidence: string[];
 }

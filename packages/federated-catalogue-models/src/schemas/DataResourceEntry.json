@@ -2,25 +2,23 @@
 	"type": "object",
 	"properties": {
 		"@context": {
-			"anyOf": [
+			"type": "array",
+			"minItems": 3,
+			"items": [
 				{
 					"type": "string",
 					"const": "https://w3id.org/gaia-x/development"
 				},
 				{
-					"type": "array",
-					"minItems": 1,
-					"items": [
-						{
-							"type": "string",
-							"const": "https://w3id.org/gaia-x/development"
-						}
-					],
-					"additionalItems": {
-						"$ref": "https://schema.twindev.org/json-ld/JsonLdContextDefinitionElement"
-					}
+					"type": "string",
+					"const": "https://schema.org"
+				},
+				{
+					"type": "string",
+					"const": "https://www.w3.org/ns/credentials/v2"
 				}
 			],
+			"maxItems": 3,
 			"description": "The LD Context"
 		},
 		"@id": {
@@ -114,7 +112,7 @@
 			"$ref": "https://schema.twindev.org/json-ld/JsonLdNodeObject",
 			"description": "ODRL Policy"
 		},
-		"trustedIssuerId": {
+		"issuer": {
 			"type": "string",
 			"description": "The trusted issuer of the compliance credential"
 		},
@@ -130,7 +128,7 @@
 			"type": "string",
 			"description": "The creation date."
 		},
-		"evidences": {
+		"evidence": {
 			"type": "array",
 			"items": {
 				"type": "string"
@@ -142,14 +140,14 @@
 		"@context",
 		"copyrightOwnedBy",
 		"dateCreated",
-		"evidences",
+		"evidence",
 		"exposedThrough",
 		"id",
+		"issuer",
 		"license",
 		"name",
 		"producedBy",
 		"resourcePolicy",
-		"trustedIssuerId",
 		"type",
 		"validFrom",
 		"validUntil"

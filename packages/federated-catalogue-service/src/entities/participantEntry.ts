@@ -18,7 +18,7 @@ export class ParticipantEntry {
 	 * The trusted issuer of the compliance credential
 	 */
 	@property({ type: "string" })
-	public trustedIssuerId!: string;
+	public issuer!: string;
 
 	/**
 	 * The legal registration number.
@@ -60,5 +60,5 @@ export class ParticipantEntry {
 	 * Evidences
 	 */
 	@property({ type: "array" })
-	public evidences!: string[];
+	public evidence!: string[];
 }

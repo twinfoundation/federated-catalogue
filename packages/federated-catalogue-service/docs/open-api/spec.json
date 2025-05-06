@@ -534,9 +534,10 @@
 										"value": {
 											"data": {
 												"@context": [
+													"https://w3id.org/gaia-x/development",
 													"https://schema.org",
 													"http://purl.org/dc/terms/",
-													"https://w3id.org/gaia-x/development",
+													"http://purl.org/dc/dcmitype/",
 													"https://www.w3.org/ns/credentials/v2"
 												],
 												"type": "Collection",
@@ -554,7 +555,7 @@
 															"local": "P1234567"
 														},
 														"legalName": "A Inc.",
-														"trustedIssuerId": "did:iota:zzz",
+														"issuer": "did:iota:zzz",
 														"legalAddress": {
 															"type": "Address",
 															"countryCode": "KE"
@@ -562,7 +563,7 @@
 														"validFrom": "2024-08-01T12:00:00Z",
 														"validUntil": "2025-08-01T12:00:00Z",
 														"dateCreated": "2024-08-02T13:45:00Z",
-														"evidences": [
+														"evidence": [
 															"https://credentials.example.org/1234567"
 														]
 													}
@@ -683,7 +684,7 @@
 												"local": "P1234567"
 											},
 											"legalName": "A Inc.",
-											"trustedIssuerId": "did:iota:zzz",
+											"issuer": "did:iota:zzz",
 											"legalAddress": {
 												"type": "Address",
 												"countryCode": "KE"
@@ -691,7 +692,7 @@
 											"validFrom": "2024-08-01T12:00:00Z",
 											"validUntil": "2025-08-01T12:00:00Z",
 											"dateCreated": "2024-08-02T13:45:00Z",
-											"evidences": [
+											"evidence": [
 												"https://credentials.example.org/1234567"
 											]
 										}
@@ -824,9 +825,10 @@
 										"value": {
 											"data": {
 												"@context": [
+													"https://w3id.org/gaia-x/development",
 													"https://schema.org",
 													"http://purl.org/dc/terms/",
-													"https://w3id.org/gaia-x/development",
+													"http://purl.org/dc/dcmitype/",
 													"https://www.w3.org/ns/credentials/v2"
 												],
 												"type": "Collection",
@@ -845,12 +847,12 @@
 															"type": "Endpoint",
 															"endpointURL": "https://endpoint.example.org/api"
 														},
-														"trustedIssuerId": "did:iota:7890",
+														"issuer": "did:iota:7890",
 														"providedBy": "did:iota:1234567",
 														"validFrom": "2024-08-01T12:00:00Z",
 														"validUntil": "2025-08-01T12:00:00Z",
 														"dateCreated": "2024-08-02T13:45:00Z",
-														"evidences": [
+														"evidence": [
 															"https://credentials.example.org/1234567"
 														]
 													}
@@ -972,12 +974,12 @@
 												"type": "Endpoint",
 												"endpointURL": "https://endpoint.example.org/api"
 											},
-											"trustedIssuerId": "did:iota:7890",
+											"issuer": "did:iota:7890",
 											"providedBy": "did:iota:1234567",
 											"validFrom": "2024-08-01T12:00:00Z",
 											"validUntil": "2025-08-01T12:00:00Z",
 											"dateCreated": "2024-08-02T13:45:00Z",
-											"evidences": [
+											"evidence": [
 												"https://credentials.example.org/1234567"
 											]
 										}
@@ -1110,9 +1112,10 @@
 										"value": {
 											"data": {
 												"@context": [
+													"https://w3id.org/gaia-x/development",
 													"https://schema.org",
 													"http://purl.org/dc/terms/",
-													"https://w3id.org/gaia-x/development",
+													"http://purl.org/dc/dcmitype/",
 													"https://www.w3.org/ns/credentials/v2"
 												],
 												"type": "Collection",
@@ -1131,11 +1134,11 @@
 														"resourcePolicy": {},
 														"exposedThrough": "https://ds-connectors.example.org/ds1",
 														"producedBy": "did:iota:1234567",
-														"trustedIssuerId": "did:iota:987654",
+														"issuer": "did:iota:987654",
 														"validFrom": "2024-08-01T12:00:00Z",
 														"validUntil": "2025-08-01T12:00:00Z",
 														"dateCreated": "2024-08-02T13:45:00Z",
-														"evidences": [
+														"evidence": [
 															"https://credentials.example.org/1234567"
 														]
 													}
@@ -1257,11 +1260,11 @@
 											"resourcePolicy": {},
 											"exposedThrough": "https://ds-connectors.example.org/ds1",
 											"producedBy": "did:iota:1234567",
-											"trustedIssuerId": "did:iota:987654",
+											"issuer": "did:iota:987654",
 											"validFrom": "2024-08-01T12:00:00Z",
 											"validUntil": "2025-08-01T12:00:00Z",
 											"dateCreated": "2024-08-02T13:45:00Z",
-											"evidences": [
+											"evidence": [
 												"https://credentials.example.org/1234567"
 											]
 										}
@@ -1394,10 +1397,12 @@
 										"value": {
 											"data": {
 												"@context": [
+													"https://w3id.org/gaia-x/development",
 													"https://schema.org",
 													"http://purl.org/dc/terms/",
-													"https://w3id.org/gaia-x/development",
-													"https://www.w3.org/ns/credentials/v2"
+													"http://purl.org/dc/dcmitype/",
+													"https://www.w3.org/ns/credentials/v2",
+													"https://schema.twindev.org/federated-catalogue/types.jsonld"
 												],
 												"type": "Collection",
 												"hasPart": [
@@ -1405,7 +1410,8 @@
 														"@context": [
 															"https://w3id.org/gaia-x/development",
 															"https://schema.org",
-															"https://www.w3.org/ns/credentials/v2"
+															"https://www.w3.org/ns/credentials/v2",
+															"https://schema.twindev.org/federated-catalogue/types.jsonld"
 														],
 														"id": "https://my-ds-connectors.example.org/ds-connector-ABCD",
 														"type": [
@@ -1433,11 +1439,11 @@
 														"offeredResource": [
 															"https://my-data-resource.example.org"
 														],
-														"trustedIssuerId": "did:iota:987654",
+														"issuer": "did:iota:987654",
 														"validFrom": "2024-08-01T12:00:00Z",
 														"validUntil": "2025-08-01T12:00:00Z",
 														"dateCreated": "2024-08-02T13:45:00Z",
-														"evidences": [
+														"evidence": [
 															"https://credentials.example.org/1234567"
 														]
 													}
@@ -1549,7 +1555,8 @@
 											"@context": [
 												"https://w3id.org/gaia-x/development",
 												"https://schema.org",
-												"https://www.w3.org/ns/credentials/v2"
+												"https://www.w3.org/ns/credentials/v2",
+												"https://schema.twindev.org/federated-catalogue/types.jsonld"
 											],
 											"id": "https://my-ds-connectors.example.org/ds-connector-ABCD",
 											"type": [
@@ -1577,11 +1584,11 @@
 											"offeredResource": [
 												"https://my-data-resource.example.org"
 											],
-											"trustedIssuerId": "did:iota:987654",
+											"issuer": "did:iota:987654",
 											"validFrom": "2024-08-01T12:00:00Z",
 											"validUntil": "2025-08-01T12:00:00Z",
 											"dateCreated": "2024-08-02T13:45:00Z",
-											"evidences": [
+											"evidence": [
 												"https://credentials.example.org/1234567"
 											]
 										}
@@ -1764,25 +1771,23 @@
 				"type": "object",
 				"properties": {
 					"@context": {
-						"anyOf": [
+						"type": "array",
+						"minItems": 3,
+						"items": [
 							{
 								"type": "string",
 								"const": "https://w3id.org/gaia-x/development"
 							},
 							{
-								"type": "array",
-								"minItems": 1,
-								"items": [
-									{
-										"type": "string",
-										"const": "https://w3id.org/gaia-x/development"
-									}
-								],
-								"additionalItems": {
-									"$ref": "https://schema.twindev.org/json-ld/JsonLdContextDefinitionElement"
-								}
+								"type": "string",
+								"const": "https://schema.org"
+							},
+							{
+								"type": "string",
+								"const": "https://www.w3.org/ns/credentials/v2"
 							}
 						],
+						"maxItems": 3,
 						"description": "The LD Context"
 					},
 					"@id": {
@@ -1875,7 +1880,7 @@
 					"resourcePolicy": {
 						"$ref": "https://schema.twindev.org/json-ld/JsonLdNodeObject"
 					},
-					"trustedIssuerId": {
+					"issuer": {
 						"type": "string",
 						"description": "The trusted issuer of the compliance credential"
 					},
@@ -1891,7 +1896,7 @@
 						"type": "string",
 						"description": "The creation date."
 					},
-					"evidences": {
+					"evidence": {
 						"type": "array",
 						"items": {
 							"type": "string"
@@ -1903,14 +1908,14 @@
 					"@context",
 					"copyrightOwnedBy",
 					"dateCreated",
-					"evidences",
+					"evidence",
 					"exposedThrough",
 					"id",
+					"issuer",
 					"license",
 					"name",
 					"producedBy",
 					"resourcePolicy",
-					"trustedIssuerId",
 					"type",
 					"validFrom",
 					"validUntil"
@@ -1947,8 +1952,12 @@
 				"properties": {
 					"@context": {
 						"type": "array",
-						"minItems": 4,
+						"minItems": 5,
 						"items": [
+							{
+								"type": "string",
+								"const": "https://w3id.org/gaia-x/development"
+							},
 							{
 								"type": "string",
 								"const": "https://schema.org"
@@ -1959,14 +1968,14 @@
 							},
 							{
 								"type": "string",
-								"const": "https://w3id.org/gaia-x/development"
+								"const": "http://purl.org/dc/dcmitype/"
 							},
 							{
 								"type": "string",
 								"const": "https://www.w3.org/ns/credentials/v2"
 							}
 						],
-						"maxItems": 4,
+						"maxItems": 5,
 						"description": "The LD Context."
 					},
 					"type": {
@@ -2010,7 +2019,7 @@
 			"DataSpaceConnectorEntry": {
 				"type": "object",
 				"properties": {
-					"trustedIssuerId": {
+					"issuer": {
 						"type": "string",
 						"description": "The trusted issuer of the compliance credential"
 					},
@@ -2026,7 +2035,7 @@
 						"type": "string",
 						"description": "The creation date."
 					},
-					"evidences": {
+					"evidence": {
 						"type": "array",
 						"items": {
 							"type": "string"
@@ -2035,17 +2044,27 @@
 					},
 					"@context": {
 						"type": "array",
-						"minItems": 1,
+						"minItems": 4,
 						"items": [
 							{
 								"type": "string",
 								"const": "https://w3id.org/gaia-x/development"
+							},
+							{
+								"type": "string",
+								"const": "https://schema.org"
+							},
+							{
+								"type": "string",
+								"const": "https://www.w3.org/ns/credentials/v2"
+							},
+							{
+								"type": "string",
+								"const": "https://schema.twindev.org/federated-catalogue/types.jsonld"
 							}
 						],
-						"additionalItems": {
-							"$ref": "https://schema.twindev.org/json-ld/JsonLdContextDefinitionElement"
-						},
-						"description": "The LD Context."
+						"maxItems": 4,
+						"description": "The LD Context"
 					},
 					"@id": {
 						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
@@ -2163,14 +2182,14 @@
 					"@context",
 					"dateCreated",
 					"defaultEndpoint",
-					"evidences",
+					"evidence",
 					"id",
 					"identity",
+					"issuer",
 					"maintainer",
 					"offeredResource",
 					"pullDataEndpoint",
 					"pushActivityEndpoint",
-					"trustedIssuerId",
 					"type",
 					"validFrom",
 					"validUntil"
@@ -2207,8 +2226,12 @@
 				"properties": {
 					"@context": {
 						"type": "array",
-						"minItems": 4,
+						"minItems": 6,
 						"items": [
+							{
+								"type": "string",
+								"const": "https://w3id.org/gaia-x/development"
+							},
 							{
 								"type": "string",
 								"const": "https://schema.org"
@@ -2219,14 +2242,18 @@
 							},
 							{
 								"type": "string",
-								"const": "https://w3id.org/gaia-x/development"
+								"const": "http://purl.org/dc/dcmitype/"
 							},
 							{
 								"type": "string",
 								"const": "https://www.w3.org/ns/credentials/v2"
+							},
+							{
+								"type": "string",
+								"const": "https://schema.twindev.org/federated-catalogue/types.jsonld"
 							}
 						],
-						"maxItems": 4,
+						"maxItems": 6,
 						"description": "The LD Context."
 					},
 					"type": {
@@ -2411,33 +2438,8 @@
 			},
 			"ParticipantEntry": {
 				"type": "object",
-				"additionalProperties": {
-					"anyOf": [
-						{
-							"$ref": "https://schema.twindev.org/json-ld/JsonLdNodePrimitive"
-						},
-						{
-							"$ref": "https://schema.twindev.org/json-ld/JsonLdLanguageMap"
-						},
-						{
-							"$ref": "https://schema.twindev.org/json-ld/JsonLdIndexMap"
-						},
-						{
-							"$ref": "https://schema.twindev.org/json-ld/JsonLdIncludedBlock"
-						},
-						{
-							"$ref": "https://schema.twindev.org/json-ld/JsonLdIdMap"
-						},
-						{
-							"$ref": "https://schema.twindev.org/json-ld/JsonLdTypeMap"
-						},
-						{
-							"type": "array"
-						}
-					]
-				},
 				"properties": {
-					"trustedIssuerId": {
+					"issuer": {
 						"type": "string",
 						"description": "The trusted issuer of the compliance credential"
 					},
@@ -2453,7 +2455,7 @@
 						"type": "string",
 						"description": "The creation date."
 					},
-					"evidences": {
+					"evidence": {
 						"type": "array",
 						"items": {
 							"type": "string"
@@ -2461,26 +2463,24 @@
 						"description": "The evidences concerning the data resource."
 					},
 					"@context": {
-						"anyOf": [
+						"type": "array",
+						"minItems": 3,
+						"items": [
 							{
 								"type": "string",
 								"const": "https://w3id.org/gaia-x/development"
 							},
 							{
-								"type": "array",
-								"minItems": 1,
-								"items": [
-									{
-										"type": "string",
-										"const": "https://w3id.org/gaia-x/development"
-									}
-								],
-								"additionalItems": {
-									"$ref": "https://schema.twindev.org/json-ld/JsonLdContextDefinitionElement"
-								}
+								"type": "string",
+								"const": "https://schema.org"
+							},
+							{
+								"type": "string",
+								"const": "https://www.w3.org/ns/credentials/v2"
 							}
 						],
-						"description": "The LD context"
+						"maxItems": 3,
+						"description": "The LD Context"
 					},
 					"@id": {
 						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
@@ -2559,16 +2559,41 @@
 				"required": [
 					"@context",
 					"dateCreated",
-					"evidences",
+					"evidence",
 					"id",
+					"issuer",
 					"legalAddress",
 					"legalName",
 					"registrationNumber",
-					"trustedIssuerId",
 					"type",
 					"validFrom",
 					"validUntil"
 				],
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdNodePrimitive"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdLanguageMap"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdIndexMap"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdIncludedBlock"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdIdMap"
+						},
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdTypeMap"
+						},
+						{
+							"type": "array"
+						}
+					]
+				},
 				"description": "Interface describing a participant."
 			},
 			"ParticipantList": {
@@ -2576,8 +2601,12 @@
 				"properties": {
 					"@context": {
 						"type": "array",
-						"minItems": 4,
+						"minItems": 5,
 						"items": [
+							{
+								"type": "string",
+								"const": "https://w3id.org/gaia-x/development"
+							},
 							{
 								"type": "string",
 								"const": "https://schema.org"
@@ -2588,14 +2617,14 @@
 							},
 							{
 								"type": "string",
-								"const": "https://w3id.org/gaia-x/development"
+								"const": "http://purl.org/dc/dcmitype/"
 							},
 							{
 								"type": "string",
 								"const": "https://www.w3.org/ns/credentials/v2"
 							}
 						],
-						"maxItems": 4,
+						"maxItems": 5,
 						"description": "The LD Context."
 					},
 					"type": {
@@ -2780,26 +2809,24 @@
 				"type": "object",
 				"properties": {
 					"@context": {
-						"anyOf": [
+						"type": "array",
+						"minItems": 3,
+						"items": [
 							{
 								"type": "string",
 								"const": "https://w3id.org/gaia-x/development"
 							},
 							{
-								"type": "array",
-								"minItems": 1,
-								"items": [
-									{
-										"type": "string",
-										"const": "https://w3id.org/gaia-x/development"
-									}
-								],
-								"additionalItems": {
-									"$ref": "https://schema.twindev.org/json-ld/JsonLdContextDefinitionElement"
-								}
+								"type": "string",
+								"const": "https://schema.org"
+							},
+							{
+								"type": "string",
+								"const": "https://www.w3.org/ns/credentials/v2"
 							}
 						],
-						"description": "The LD context"
+						"maxItems": 3,
+						"description": "The LD Context"
 					},
 					"@id": {
 						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
@@ -2889,7 +2916,7 @@
 					"endpoint": {
 						"$ref": "#/components/schemas/Endpoint"
 					},
-					"trustedIssuerId": {
+					"issuer": {
 						"type": "string",
 						"description": "The trusted issuer of the compliance credential"
 					},
@@ -2905,7 +2932,7 @@
 						"type": "string",
 						"description": "The creation date."
 					},
-					"evidences": {
+					"evidence": {
 						"type": "array",
 						"items": {
 							"type": "string"
@@ -2917,12 +2944,12 @@
 					"@context",
 					"dateCreated",
 					"endpoint",
-					"evidences",
+					"evidence",
 					"id",
+					"issuer",
 					"name",
 					"providedBy",
 					"servicePolicy",
-					"trustedIssuerId",
 					"type",
 					"validFrom",
 					"validUntil"
@@ -2959,8 +2986,12 @@
 				"properties": {
 					"@context": {
 						"type": "array",
-						"minItems": 4,
+						"minItems": 5,
 						"items": [
+							{
+								"type": "string",
+								"const": "https://w3id.org/gaia-x/development"
+							},
 							{
 								"type": "string",
 								"const": "https://schema.org"
@@ -2971,14 +3002,14 @@
 							},
 							{
 								"type": "string",
-								"const": "https://w3id.org/gaia-x/development"
+								"const": "http://purl.org/dc/dcmitype/"
 							},
 							{
 								"type": "string",
 								"const": "https://www.w3.org/ns/credentials/v2"
 							}
 						],
-						"maxItems": 4,
+						"maxItems": 5,
 						"description": "The LD Context."
 					},
 					"type": {

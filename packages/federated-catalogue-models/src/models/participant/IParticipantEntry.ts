@@ -1,10 +1,21 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import type { IParticipant } from "@twin.org/standards-gaia-x";
+import type { GaiaXContexts, IParticipant } from "@twin.org/standards-gaia-x";
+import type { SchemaOrgContexts } from "@twin.org/standards-schema-org";
+import type { DidContexts } from "@twin.org/standards-w3c-did";
 import type { ICatalogueEntry } from "../ICatalogueEntry";
 
 /**
  * Interface describing a participant.
  */
-export interface IParticipantEntry extends IParticipant, ICatalogueEntry {}
+export interface IParticipantEntry extends IParticipant, ICatalogueEntry {
+	/**
+	 * The LD Context
+	 */
+	"@context": [
+		typeof GaiaXContexts.GaiaXLdContext,
+		typeof SchemaOrgContexts.ContextRoot,
+		typeof DidContexts.ContextVCv2
+	];
+}

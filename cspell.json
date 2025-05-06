@@ -31,7 +31,8 @@
 		"VATID",
 		"GLEIF",
 		"twinfoundation",
-		"buildx"
+		"buildx",
+		"dcmi"
 	],
 	"ignoreRegExpList": [
 		"/from\\s+(['\"]).*\\1/",

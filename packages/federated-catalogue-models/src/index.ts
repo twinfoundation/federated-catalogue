@@ -43,6 +43,8 @@ export * from "./models/IVerificationResult";
 export * from "./models/IComplianceVerificationResult";
 
 export * from "./models/federatedCatalogueTypes";
+export * from "./models/federatedCatalogueContexts";
+export * from "./models/federatedCatalogueContextInstances";
 
 export * from "./models/ICredential";
 

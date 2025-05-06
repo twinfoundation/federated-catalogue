@@ -30,15 +30,14 @@ import {
 	type IParticipantList,
 	type IDataResourceList,
 	type IDataSpaceConnectorList,
-	type IServiceOfferingList
+	type IServiceOfferingList,
+	FederatedCatalogueContextInstances
 } from "@twin.org/federated-catalogue-models";
 import { VerificationHelper, type IIdentityResolverComponent } from "@twin.org/identity-models";
 import { LoggingConnectorFactory, type ILoggingConnector } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
-import { DublinCoreClasses, DublinCoreContexts } from "@twin.org/standards-dublin-core";
-import { GaiaXContexts, GaiaXTypes, type IParticipant } from "@twin.org/standards-gaia-x";
-import { SchemaOrgContexts } from "@twin.org/standards-schema-org";
-import { DidContexts } from "@twin.org/standards-w3c-did";
+import { DublinCoreClasses } from "@twin.org/standards-dublin-core";
+import { GaiaXTypes, type IParticipant } from "@twin.org/standards-gaia-x";
 import type { DataResourceEntry } from "./entities/dataResourceEntry";
 import type { DataSpaceConnectorEntry } from "./entities/dataSpaceConnectorEntry";
 import type { ParticipantEntry } from "./entities/participantEntry";
@@ -55,13 +54,6 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	 * @internal
 	 */
 	private static readonly _FIELDS_TO_SKIP = ["@context", "type"];
-
-	private static readonly _LD_CONTEXT_LIST_RESPONSE: IParticipantList["@context"] = [
-		SchemaOrgContexts.ContextRoot,
-		DublinCoreContexts.Context,
-		GaiaXContexts.GaiaXLdContext,
-		DidContexts.ContextVCv2
-	];
 
 	/**
 	 * Runtime name for the class.
@@ -270,16 +262,13 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		);
 
 		const result = {
-			"@context": FederatedCatalogueService._LD_CONTEXT_LIST_RESPONSE,
+			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
 			type: DublinCoreClasses.Collection,
 			hasPart: entries.entities as IParticipantEntry[]
 		};
 
 		return {
-			data: await JsonLdProcessor.compact(
-				result,
-				FederatedCatalogueService._LD_CONTEXT_LIST_RESPONSE
-			),
+			data: await JsonLdProcessor.compact(result, result["@context"]),
 			cursor: entries.cursor
 		};
 	}
@@ -492,16 +481,13 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		);
 
 		const result = {
-			"@context": FederatedCatalogueService._LD_CONTEXT_LIST_RESPONSE,
+			"@context": FederatedCatalogueContextInstances.DS_CONNECTOR_LD_CONTEXT_ENTRY_LIST,
 			type: DublinCoreClasses.Collection,
 			hasPart: entries.entities as IDataSpaceConnectorEntry[]
 		};
 
 		return {
-			data: await JsonLdProcessor.compact(
-				result,
-				FederatedCatalogueService._LD_CONTEXT_LIST_RESPONSE
-			),
+			data: await JsonLdProcessor.compact(result, result["@context"]),
 			cursor: entries.cursor
 		};
 	}
@@ -641,16 +627,13 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		);
 
 		const result = {
-			"@context": FederatedCatalogueService._LD_CONTEXT_LIST_RESPONSE,
+			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
 			type: DublinCoreClasses.Collection,
 			hasPart: entries.entities as IServiceOfferingEntry[]
 		};
 
 		return {
-			data: await JsonLdProcessor.compact(
-				result,
-				FederatedCatalogueService._LD_CONTEXT_LIST_RESPONSE
-			),
+			data: await JsonLdProcessor.compact(result, result["@context"]),
 			cursor: entries.cursor
 		};
 	}
@@ -708,16 +691,13 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		);
 
 		const result = {
-			"@context": FederatedCatalogueService._LD_CONTEXT_LIST_RESPONSE,
+			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
 			type: DublinCoreClasses.Collection,
 			hasPart: entries.entities as IDataResourceEntry[]
 		};
 
 		return {
-			data: await JsonLdProcessor.compact(
-				result,
-				FederatedCatalogueService._LD_CONTEXT_LIST_RESPONSE
-			),
+			data: await JsonLdProcessor.compact(result, result["@context"]),
 			cursor: entries.cursor
 		};
 	}
@@ -766,11 +746,12 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 		const result: IParticipantEntry = {
 			...participantData,
-			trustedIssuerId: this.getTrustedIssuerId(complianceCredential),
+			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY,
+			issuer: this.getTrustedIssuerId(complianceCredential),
 			validFrom: complianceCredential.validFrom,
 			validUntil: complianceCredential.validUntil,
 			dateCreated: new Date().toISOString(),
-			evidences
+			evidence: evidences
 		};
 
 		return result;
@@ -794,12 +775,13 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 		const result: IDataSpaceConnectorEntry = {
 			...deStructuredData,
+			"@context": FederatedCatalogueContextInstances.DS_CONNECTOR_LD_CONTEXT_ENTRY,
 			offeredResource: Object.keys(offeredResource),
-			trustedIssuerId: this.getTrustedIssuerId(complianceCredential),
+			issuer: this.getTrustedIssuerId(complianceCredential),
 			validFrom: complianceCredential.validFrom,
 			validUntil: complianceCredential.validUntil,
 			dateCreated: new Date().toISOString(),
-			evidences: [dataSpaceConnectorCredential.id]
+			evidence: [dataSpaceConnectorCredential.id]
 		};
 
 		return result;
@@ -823,13 +805,14 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 		const result: IServiceOfferingEntry = {
 			...deStructuredData,
+			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY,
 			providedBy: Is.string(providedBy) ? providedBy : providedBy.id,
 			aggregationOfResources: aggregationOfResources as string[],
-			trustedIssuerId: this.getTrustedIssuerId(complianceCredential),
+			issuer: this.getTrustedIssuerId(complianceCredential),
 			validFrom: complianceCredential.validFrom,
 			validUntil: complianceCredential.validUntil,
 			dateCreated: new Date().toISOString(),
-			evidences: [serviceOfferingCredential.id as string]
+			evidence: [serviceOfferingCredential.id as string]
 		};
 
 		return result;
@@ -862,14 +845,15 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 		const result: IDataResourceEntry = {
 			...deStructuredData,
-			trustedIssuerId: this.getTrustedIssuerId(complianceCredential),
+			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY,
+			issuer: this.getTrustedIssuerId(complianceCredential),
 			producedBy: producedByValue,
 			copyrightOwnedBy: copyrightOwnedByValue,
 			exposedThrough: exposedThrough as string,
 			validFrom: complianceCredential.validFrom,
 			validUntil: complianceCredential.validUntil,
 			dateCreated: new Date().toISOString(),
-			evidences: [dataResourceCredential.id as string]
+			evidence: [dataResourceCredential.id as string]
 		};
 
 		return result;

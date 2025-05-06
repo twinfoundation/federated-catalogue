@@ -1,7 +1,7 @@
 {
 	"type": "object",
 	"properties": {
-		"trustedIssuerId": {
+		"issuer": {
 			"type": "string",
 			"description": "The trusted issuer of the compliance credential"
 		},
@@ -17,7 +17,7 @@
 			"type": "string",
 			"description": "The creation date."
 		},
-		"evidences": {
+		"evidence": {
 			"type": "array",
 			"items": {
 				"type": "string"
@@ -26,17 +26,27 @@
 		},
 		"@context": {
 			"type": "array",
-			"minItems": 1,
+			"minItems": 4,
 			"items": [
 				{
 					"type": "string",
 					"const": "https://w3id.org/gaia-x/development"
+				},
+				{
+					"type": "string",
+					"const": "https://schema.org"
+				},
+				{
+					"type": "string",
+					"const": "https://www.w3.org/ns/credentials/v2"
+				},
+				{
+					"type": "string",
+					"const": "https://schema.twindev.org/federated-catalogue/types.jsonld"
 				}
 			],
-			"additionalItems": {
-				"$ref": "https://schema.twindev.org/json-ld/JsonLdContextDefinitionElement"
-			},
-			"description": "The LD Context."
+			"maxItems": 4,
+			"description": "The LD Context"
 		},
 		"@id": {
 			"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
@@ -158,14 +168,14 @@
 		"@context",
 		"dateCreated",
 		"defaultEndpoint",
-		"evidences",
+		"evidence",
 		"id",
 		"identity",
+		"issuer",
 		"maintainer",
 		"offeredResource",
 		"pullDataEndpoint",
 		"pushActivityEndpoint",
-		"trustedIssuerId",
 		"type",
 		"validFrom",
 		"validUntil"

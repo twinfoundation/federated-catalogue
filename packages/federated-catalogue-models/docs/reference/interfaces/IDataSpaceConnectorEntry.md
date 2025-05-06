@@ -12,15 +12,15 @@ Interface describing a participant.
 
 ## Properties
 
-### trustedIssuerId
+### issuer
 
-> **trustedIssuerId**: `string`
+> **issuer**: `string`
 
 The trusted issuer of the compliance credential
 
 #### Inherited from
 
-`ICatalogueEntry.trustedIssuerId`
+`ICatalogueEntry.issuer`
 
 ***
 
@@ -60,27 +60,15 @@ The creation date.
 
 ***
 
-### evidences
+### evidence
 
-> **evidences**: `string`[]
+> **evidence**: `string`[]
 
 The evidences concerning the data resource.
 
 #### Inherited from
 
-`ICatalogueEntry.evidences`
-
-***
-
-### @context
-
-> **@context**: \[`"https://w3id.org/gaia-x/development"`, `...IJsonLdContextDefinitionElement[]`\]
-
-The LD Context.
-
-#### Inherited from
-
-[`IDataSpaceConnector`](IDataSpaceConnector.md).[`@context`](IDataSpaceConnector.md#context)
+`ICatalogueEntry.evidence`
 
 ***
 
@@ -208,6 +196,18 @@ default endpoint URL as a base URL.
 #### Inherited from
 
 [`IDataSpaceConnector`](IDataSpaceConnector.md).[`pullDataEndpoint`](IDataSpaceConnector.md#pulldataendpoint)
+
+***
+
+### @context
+
+> **@context**: \[`"https://w3id.org/gaia-x/development"`, `"https://schema.org"`, `"https://www.w3.org/ns/credentials/v2"`, `"https://schema.twindev.org/federated-catalogue/types.jsonld"`\]
+
+The LD Context
+
+#### Overrides
+
+[`IDataSpaceConnector`](IDataSpaceConnector.md).[`@context`](IDataSpaceConnector.md#context)
 
 ***
 

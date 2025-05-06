@@ -1,32 +1,7 @@
 {
 	"type": "object",
-	"additionalProperties": {
-		"anyOf": [
-			{
-				"$ref": "https://schema.twindev.org/json-ld/JsonLdNodePrimitive"
-			},
-			{
-				"$ref": "https://schema.twindev.org/json-ld/JsonLdLanguageMap"
-			},
-			{
-				"$ref": "https://schema.twindev.org/json-ld/JsonLdIndexMap"
-			},
-			{
-				"$ref": "https://schema.twindev.org/json-ld/JsonLdIncludedBlock"
-			},
-			{
-				"$ref": "https://schema.twindev.org/json-ld/JsonLdIdMap"
-			},
-			{
-				"$ref": "https://schema.twindev.org/json-ld/JsonLdTypeMap"
-			},
-			{
-				"type": "array"
-			}
-		]
-	},
 	"properties": {
-		"trustedIssuerId": {
+		"issuer": {
 			"type": "string",
 			"description": "The trusted issuer of the compliance credential"
 		},
@@ -42,7 +17,7 @@
 			"type": "string",
 			"description": "The creation date."
 		},
-		"evidences": {
+		"evidence": {
 			"type": "array",
 			"items": {
 				"type": "string"
@@ -50,26 +25,24 @@
 			"description": "The evidences concerning the data resource."
 		},
 		"@context": {
-			"anyOf": [
+			"type": "array",
+			"minItems": 3,
+			"items": [
 				{
 					"type": "string",
 					"const": "https://w3id.org/gaia-x/development"
 				},
 				{
-					"type": "array",
-					"minItems": 1,
-					"items": [
-						{
-							"type": "string",
-							"const": "https://w3id.org/gaia-x/development"
-						}
-					],
-					"additionalItems": {
-						"$ref": "https://schema.twindev.org/json-ld/JsonLdContextDefinitionElement"
-					}
+					"type": "string",
+					"const": "https://schema.org"
+				},
+				{
+					"type": "string",
+					"const": "https://www.w3.org/ns/credentials/v2"
 				}
 			],
-			"description": "The LD context"
+			"maxItems": 3,
+			"description": "The LD Context"
 		},
 		"@id": {
 			"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
@@ -150,15 +123,40 @@
 	"required": [
 		"@context",
 		"dateCreated",
-		"evidences",
+		"evidence",
 		"id",
+		"issuer",
 		"legalAddress",
 		"legalName",
 		"registrationNumber",
-		"trustedIssuerId",
 		"type",
 		"validFrom",
 		"validUntil"
 	],
+	"additionalProperties": {
+		"anyOf": [
+			{
+				"$ref": "https://schema.twindev.org/json-ld/JsonLdNodePrimitive"
+			},
+			{
+				"$ref": "https://schema.twindev.org/json-ld/JsonLdLanguageMap"
+			},
+			{
+				"$ref": "https://schema.twindev.org/json-ld/JsonLdIndexMap"
+			},
+			{
+				"$ref": "https://schema.twindev.org/json-ld/JsonLdIncludedBlock"
+			},
+			{
+				"$ref": "https://schema.twindev.org/json-ld/JsonLdIdMap"
+			},
+			{
+				"$ref": "https://schema.twindev.org/json-ld/JsonLdTypeMap"
+			},
+			{
+				"type": "array"
+			}
+		]
+	},
 	"description": "Interface describing a participant."
 }

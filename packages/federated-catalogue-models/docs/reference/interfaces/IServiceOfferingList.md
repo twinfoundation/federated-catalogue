@@ -6,7 +6,7 @@ Interface describing a list of Service Offering Entries.
 
 ### @context
 
-> **@context**: \[`"https://schema.org"`, `"http://purl.org/dc/terms/"`, `"https://w3id.org/gaia-x/development"`, `"https://www.w3.org/ns/credentials/v2"`\]
+> **@context**: \[`"https://w3id.org/gaia-x/development"`, `"https://schema.org"`, `"http://purl.org/dc/terms/"`, `"http://purl.org/dc/dcmitype/"`, `"https://www.w3.org/ns/credentials/v2"`\]
 
 The LD Context.
 

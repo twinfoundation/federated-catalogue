@@ -17,7 +17,7 @@ export class DataResourceEntry {
 	 * The trusted issuer of the compliance credential
 	 */
 	@property({ type: "string" })
-	public trustedIssuerId!: string;
+	public issuer!: string;
 
 	/**
 	 * The name.
@@ -84,5 +84,5 @@ export class DataResourceEntry {
 	 * Evidences
 	 */
 	@property({ type: "array" })
-	public evidences!: string[];
+	public evidence!: string[];
 }

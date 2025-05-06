@@ -9,6 +9,7 @@ import type {
 	IUnprocessableEntityResponse
 } from "@twin.org/api-models";
 import { Coerce, ComponentFactory, Guards, Is } from "@twin.org/core";
+import { JsonLdProcessor } from "@twin.org/data-json-ld";
 import {
 	type ICompliancePresentationRequest,
 	type IDataResourceListRequest,
@@ -29,13 +30,12 @@ import {
 	type IParticipantEntry,
 	type IServiceOfferingEntry,
 	type IDataResourceEntry,
-	type IDataSpaceConnectorEntry
+	type IDataSpaceConnectorEntry,
+	FederatedCatalogueContextInstances
 } from "@twin.org/federated-catalogue-models";
 import { nameof } from "@twin.org/nameof";
-import { DublinCoreContexts, DublinCoreClasses } from "@twin.org/standards-dublin-core";
-import { GaiaXContexts, GaiaXTypes } from "@twin.org/standards-gaia-x";
-import { SchemaOrgContexts } from "@twin.org/standards-schema-org";
-import { DidContexts } from "@twin.org/standards-w3c-did";
+import { DublinCoreClasses } from "@twin.org/standards-dublin-core";
+import { GaiaXTypes } from "@twin.org/standards-gaia-x";
 import { HttpStatusCode, MimeTypes } from "@twin.org/web";
 
 /**
@@ -219,11 +219,7 @@ export function generateRestRoutesFederatedCatalogue(
 	};
 
 	const participantEntryExample: IParticipantEntry = {
-		"@context": [
-			GaiaXContexts.GaiaXLdContext,
-			SchemaOrgContexts.ContextRoot,
-			DidContexts.ContextVCv2
-		],
+		"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY,
 		id: "did:iota:xxx",
 		type: GaiaXTypes.Participant,
 		registrationNumber: {
@@ -231,7 +227,7 @@ export function generateRestRoutesFederatedCatalogue(
 			local: "P1234567"
 		},
 		legalName: "A Inc.",
-		trustedIssuerId: "did:iota:zzz",
+		issuer: "did:iota:zzz",
 		legalAddress: {
 			type: GaiaXTypes.Address,
 			countryCode: "KE"
@@ -239,7 +235,7 @@ export function generateRestRoutesFederatedCatalogue(
 		validFrom: "2024-08-01T12:00:00Z",
 		validUntil: "2025-08-01T12:00:00Z",
 		dateCreated: "2024-08-02T13:45:00Z",
-		evidences: ["https://credentials.example.org/1234567"]
+		evidence: ["https://credentials.example.org/1234567"]
 	};
 
 	const listParticipantsRoute: IRestRoute<IParticipantListRequest, IParticipantListResponse> = {
@@ -272,12 +268,7 @@ export function generateRestRoutesFederatedCatalogue(
 						response: {
 							body: {
 								data: {
-									"@context": [
-										SchemaOrgContexts.ContextRoot,
-										DublinCoreContexts.Context,
-										GaiaXContexts.GaiaXLdContext,
-										DidContexts.ContextVCv2
-									],
+									"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
 									type: DublinCoreClasses.Collection,
 									hasPart: [
 										{
@@ -334,11 +325,7 @@ export function generateRestRoutesFederatedCatalogue(
 	};
 
 	const serviceOfferingEntryExample: IServiceOfferingEntry = {
-		"@context": [
-			GaiaXContexts.GaiaXLdContext,
-			SchemaOrgContexts.ContextRoot,
-			DidContexts.ContextVCv2
-		],
+		"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY,
 		id: "http://example.org/is123456",
 		name: "Service 1",
 		type: GaiaXTypes.ServiceOffering,
@@ -347,12 +334,12 @@ export function generateRestRoutesFederatedCatalogue(
 			type: GaiaXTypes.Endpoint,
 			endpointURL: "https://endpoint.example.org/api"
 		},
-		trustedIssuerId: "did:iota:7890",
+		issuer: "did:iota:7890",
 		providedBy: "did:iota:1234567",
 		validFrom: "2024-08-01T12:00:00Z",
 		validUntil: "2025-08-01T12:00:00Z",
 		dateCreated: "2024-08-02T13:45:00Z",
-		evidences: ["https://credentials.example.org/1234567"]
+		evidence: ["https://credentials.example.org/1234567"]
 	};
 
 	const listServicesRoute: IRestRoute<IServiceOfferingListRequest, IServiceOfferingListResponse> = {
@@ -385,12 +372,7 @@ export function generateRestRoutesFederatedCatalogue(
 						response: {
 							body: {
 								data: {
-									"@context": [
-										SchemaOrgContexts.ContextRoot,
-										DublinCoreContexts.Context,
-										GaiaXContexts.GaiaXLdContext,
-										DidContexts.ContextVCv2
-									],
+									"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
 									type: DublinCoreClasses.Collection,
 									hasPart: [
 										{
@@ -449,11 +431,7 @@ export function generateRestRoutesFederatedCatalogue(
 	};
 
 	const dataResourceEntryExample: IDataResourceEntry = {
-		"@context": [
-			GaiaXContexts.GaiaXLdContext,
-			SchemaOrgContexts.ContextRoot,
-			DidContexts.ContextVCv2
-		],
+		"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY,
 		id: "http://example.org/is123456",
 		name: "Data Resource 1",
 		type: "DataResource",
@@ -462,11 +440,11 @@ export function generateRestRoutesFederatedCatalogue(
 		resourcePolicy: {},
 		exposedThrough: "https://ds-connectors.example.org/ds1",
 		producedBy: "did:iota:1234567",
-		trustedIssuerId: "did:iota:987654",
+		issuer: "did:iota:987654",
 		validFrom: "2024-08-01T12:00:00Z",
 		validUntil: "2025-08-01T12:00:00Z",
 		dateCreated: "2024-08-02T13:45:00Z",
-		evidences: ["https://credentials.example.org/1234567"]
+		evidence: ["https://credentials.example.org/1234567"]
 	};
 
 	const listDataResourcesRoute: IRestRoute<IDataResourceListRequest, IDataResourceListResponse> = {
@@ -499,12 +477,7 @@ export function generateRestRoutesFederatedCatalogue(
 						response: {
 							body: {
 								data: {
-									"@context": [
-										SchemaOrgContexts.ContextRoot,
-										DublinCoreContexts.Context,
-										GaiaXContexts.GaiaXLdContext,
-										DidContexts.ContextVCv2
-									],
+									"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
 									type: "Collection",
 									hasPart: [
 										{
@@ -563,11 +536,7 @@ export function generateRestRoutesFederatedCatalogue(
 	};
 
 	const dataSpaceConnectorEntryExample: IDataSpaceConnectorEntry = {
-		"@context": [
-			GaiaXContexts.GaiaXLdContext,
-			SchemaOrgContexts.ContextRoot,
-			DidContexts.ContextVCv2
-		],
+		"@context": FederatedCatalogueContextInstances.DS_CONNECTOR_LD_CONTEXT_ENTRY,
 		id: "https://my-ds-connectors.example.org/ds-connector-ABCD",
 		type: [GaiaXTypes.DataExchangeComponent, FederatedCatalogueTypes.DataSpaceConnector],
 		identity: "did:iota:testnet:123456",
@@ -589,11 +558,11 @@ export function generateRestRoutesFederatedCatalogue(
 		},
 		maintainer: "did:iota:99999",
 		offeredResource: ["https://my-data-resource.example.org"],
-		trustedIssuerId: "did:iota:987654",
+		issuer: "did:iota:987654",
 		validFrom: "2024-08-01T12:00:00Z",
 		validUntil: "2025-08-01T12:00:00Z",
 		dateCreated: "2024-08-02T13:45:00Z",
-		evidences: ["https://credentials.example.org/1234567"]
+		evidence: ["https://credentials.example.org/1234567"]
 	};
 
 	const listDataSpaceConnectorsRoute: IRestRoute<
@@ -629,12 +598,7 @@ export function generateRestRoutesFederatedCatalogue(
 						response: {
 							body: {
 								data: {
-									"@context": [
-										SchemaOrgContexts.ContextRoot,
-										DublinCoreContexts.Context,
-										GaiaXContexts.GaiaXLdContext,
-										DidContexts.ContextVCv2
-									],
+									"@context": FederatedCatalogueContextInstances.DS_CONNECTOR_LD_CONTEXT_ENTRY_LIST,
 									type: "Collection",
 									hasPart: [
 										{
@@ -784,16 +748,16 @@ export async function participantGet(
 	const itemsAndCursor = await service.queryParticipants(request?.pathParams.id);
 
 	if (Is.arrayValue(itemsAndCursor.data.hasPart)) {
+		const entry: IParticipantEntry = {
+			type: GaiaXTypes.Participant,
+			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY,
+			...itemsAndCursor.data.hasPart[0]
+		} as unknown as IParticipantEntry;
+
+		const result = await JsonLdProcessor.compact(entry, entry["@context"]);
+
 		return {
-			body: {
-				type: GaiaXTypes.Participant,
-				"@context": [
-					"https://w3id.org/gaia-x/development",
-					"https://schema.org",
-					"https://www.w3.org/ns/credentials/v2"
-				],
-				...itemsAndCursor.data.hasPart[0]
-			} as unknown as IParticipantEntry
+			body: result
 		};
 	}
 
@@ -882,16 +846,16 @@ export async function serviceOfferingGet(
 	const itemsAndCursor = await service.queryServiceOfferings(request?.pathParams.id);
 
 	if (Is.arrayValue(itemsAndCursor.data.hasPart)) {
+		const entry = {
+			...itemsAndCursor.data.hasPart[0],
+			type: GaiaXTypes.ServiceOffering,
+			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY
+		} as unknown as IServiceOfferingEntry;
+
+		const result = await JsonLdProcessor.compact(entry, entry["@context"]);
+
 		return {
-			body: {
-				...itemsAndCursor.data.hasPart[0],
-				type: GaiaXTypes.ServiceOffering,
-				"@context": [
-					"https://w3id.org/gaia-x/development",
-					"https://schema.org",
-					"https://www.w3.org/ns/credentials/v2"
-				]
-			} as unknown as IServiceOfferingEntry
+			body: result
 		};
 	}
 
@@ -980,16 +944,16 @@ export async function dataResourceGet(
 	const itemsAndCursor = await service.queryDataResources(request?.pathParams.id);
 
 	if (Is.arrayValue(itemsAndCursor.data.hasPart)) {
+		const entry = {
+			...itemsAndCursor.data.hasPart[0],
+			type: GaiaXTypes.DataResource,
+			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY
+		} as unknown as IDataResourceEntry;
+
+		const result = await JsonLdProcessor.compact(entry, entry["@context"]);
+
 		return {
-			body: {
-				...itemsAndCursor.data.hasPart[0],
-				type: GaiaXTypes.DataResource,
-				"@context": [
-					"https://w3id.org/gaia-x/development",
-					"https://schema.org",
-					"https://www.w3.org/ns/credentials/v2"
-				]
-			} as unknown as IDataResourceEntry
+			body: result
 		};
 	}
 
@@ -1078,16 +1042,16 @@ export async function dataSpaceConnectorGet(
 	const itemsAndCursor = await service.queryDataSpaceConnectors(request?.pathParams.id);
 
 	if (Is.arrayValue(itemsAndCursor.data.hasPart)) {
+		const entry = {
+			...itemsAndCursor.data.hasPart[0],
+			type: [GaiaXTypes.DataExchangeComponent, FederatedCatalogueTypes.DataSpaceConnector],
+			"@context": FederatedCatalogueContextInstances.DS_CONNECTOR_LD_CONTEXT_ENTRY
+		} as unknown as IDataSpaceConnectorEntry;
+
+		const result = await JsonLdProcessor.compact(entry, entry["@context"]);
+
 		return {
-			body: {
-				...itemsAndCursor.data.hasPart[0],
-				type: [GaiaXTypes.DataExchangeComponent, FederatedCatalogueTypes.DataSpaceConnector],
-				"@context": [
-					"https://w3id.org/gaia-x/development",
-					"https://schema.org",
-					"https://www.w3.org/ns/credentials/v2"
-				]
-			} as unknown as IDataSpaceConnectorEntry
+			body: result
 		};
 	}
 

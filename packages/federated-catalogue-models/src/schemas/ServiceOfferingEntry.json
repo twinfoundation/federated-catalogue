@@ -2,26 +2,24 @@
 	"type": "object",
 	"properties": {
 		"@context": {
-			"anyOf": [
+			"type": "array",
+			"minItems": 3,
+			"items": [
 				{
 					"type": "string",
 					"const": "https://w3id.org/gaia-x/development"
 				},
 				{
-					"type": "array",
-					"minItems": 1,
-					"items": [
-						{
-							"type": "string",
-							"const": "https://w3id.org/gaia-x/development"
-						}
-					],
-					"additionalItems": {
-						"$ref": "https://schema.twindev.org/json-ld/JsonLdContextDefinitionElement"
-					}
+					"type": "string",
+					"const": "https://schema.org"
+				},
+				{
+					"type": "string",
+					"const": "https://www.w3.org/ns/credentials/v2"
 				}
 			],
-			"description": "The LD context"
+			"maxItems": 3,
+			"description": "The LD Context"
 		},
 		"@id": {
 			"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
@@ -113,7 +111,7 @@
 			"$ref": "https://schema.twindev.org/federated-catalogue/Endpoint",
 			"description": "The endpoint"
 		},
-		"trustedIssuerId": {
+		"issuer": {
 			"type": "string",
 			"description": "The trusted issuer of the compliance credential"
 		},
@@ -129,7 +127,7 @@
 			"type": "string",
 			"description": "The creation date."
 		},
-		"evidences": {
+		"evidence": {
 			"type": "array",
 			"items": {
 				"type": "string"
@@ -141,12 +139,12 @@
 		"@context",
 		"dateCreated",
 		"endpoint",
-		"evidences",
+		"evidence",
 		"id",
+		"issuer",
 		"name",
 		"providedBy",
 		"servicePolicy",
-		"trustedIssuerId",
 		"type",
 		"validFrom",
 		"validUntil"

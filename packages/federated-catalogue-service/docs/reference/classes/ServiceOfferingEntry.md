@@ -22,9 +22,9 @@ The service Id.
 
 ***
 
-### trustedIssuerId
+### issuer
 
-> **trustedIssuerId**: `string`
+> **issuer**: `string`
 
 The trusted issuer of the compliance credential associated with
 
@@ -102,8 +102,8 @@ Date created
 
 ***
 
-### evidences
+### evidence
 
-> **evidences**: `string`[]
+> **evidence**: `string`[]
 
 Evidences
