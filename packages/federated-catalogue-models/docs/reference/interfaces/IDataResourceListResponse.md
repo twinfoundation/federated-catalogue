@@ -6,18 +6,6 @@ Response fo data resource list.
 
 ### body
 
-> **body**: `object`
+> **body**: [`IDataResourceList`](IDataResourceList.md)
 
 The response payload.
-
-#### data
-
-> **data**: [`IDataResourceList`](IDataResourceList.md)
-
-The list of Data Resources.
-
-#### cursor?
-
-> `optional` **cursor**: `string`
-
-An optional cursor, when defined can be used to call find to get more entities.

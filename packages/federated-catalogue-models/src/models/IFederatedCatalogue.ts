@@ -34,16 +34,7 @@ export interface IFederatedCatalogue extends IComponent {
 		lrnType?: string,
 		cursor?: string,
 		pageSize?: number
-	): Promise<{
-		/**
-		 * The participant list represented as a Collection, which can be partial if a limited keys list was provided.
-		 */
-		data: IParticipantList;
-		/**
-		 * An optional cursor, when defined can be used to call find to get more entities.
-		 */
-		cursor?: string;
-	}>;
+	): Promise<IParticipantList>;
 
 	/**
 	 * Registers a Data Space Connector to the service.
@@ -67,16 +58,7 @@ export interface IFederatedCatalogue extends IComponent {
 		maintainer?: string,
 		cursor?: string,
 		pageSize?: number
-	): Promise<{
-		/**
-		 * The DS Connector list, which can be partial if a limited keys list was provided.
-		 */
-		data: IDataSpaceConnectorList;
-		/**
-		 * An optional cursor, when defined can be used to call find to get more entities.
-		 */
-		cursor?: string;
-	}>;
+	): Promise<IDataSpaceConnectorList>;
 
 	/**
 	 * Registers a service offering Credential to the service.
@@ -107,16 +89,7 @@ export interface IFederatedCatalogue extends IComponent {
 		providedBy?: string,
 		cursor?: string,
 		pageSize?: number
-	): Promise<{
-		/**
-		 * The Service Offering List as a Collection, which can be partial if a limited keys list was provided.
-		 */
-		data: IServiceOfferingList;
-		/**
-		 * An optional cursor, when defined can be used to call find to get more entities.
-		 */
-		cursor?: string;
-	}>;
+	): Promise<IServiceOfferingList>;
 
 	/**
 	 * Query the federated catalogue.
@@ -133,14 +106,5 @@ export interface IFederatedCatalogue extends IComponent {
 		producedBy?: string,
 		cursor?: string,
 		pageSize?: number
-	): Promise<{
-		/**
-		 * The Data Resource List, as a Collection, which can be partial if a limited keys list was provided.
-		 */
-		data: IDataResourceList;
-		/**
-		 * An optional cursor, when defined can be used to call find to get more entities.
-		 */
-		cursor?: string;
-	}>;
+	): Promise<IDataResourceList>;
 }

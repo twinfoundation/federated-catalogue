@@ -32,7 +32,7 @@ The participant Id (usually a DID).
 
 ### queryParticipants()
 
-> **queryParticipants**(`participant?`, `legalRegistrationNumber?`, `lrnType?`, `cursor?`, `pageSize?`): `Promise`\<\{ `data`: [`IParticipantList`](IParticipantList.md); `cursor`: `string`; \}\>
+> **queryParticipants**(`participant?`, `legalRegistrationNumber?`, `lrnType?`, `cursor?`, `pageSize?`): `Promise`\<[`IParticipantList`](IParticipantList.md)\>
 
 Query the federated catalogue.
 
@@ -70,7 +70,7 @@ The maximum number of entities in a page.
 
 #### Returns
 
-`Promise`\<\{ `data`: [`IParticipantList`](IParticipantList.md); `cursor`: `string`; \}\>
+`Promise`\<[`IParticipantList`](IParticipantList.md)\>
 
 All the entities for the storage matching the conditions,
 and a cursor which can be used to request more entities.
@@ -105,7 +105,7 @@ The Data Space Connector Id registered.
 
 ### queryDataSpaceConnectors()
 
-> **queryDataSpaceConnectors**(`id?`, `maintainer?`, `cursor?`, `pageSize?`): `Promise`\<\{ `data`: [`IDataSpaceConnectorList`](IDataSpaceConnectorList.md); `cursor`: `string`; \}\>
+> **queryDataSpaceConnectors**(`id?`, `maintainer?`, `cursor?`, `pageSize?`): `Promise`\<[`IDataSpaceConnectorList`](IDataSpaceConnectorList.md)\>
 
 Query the federated catalogue.
 
@@ -137,7 +137,7 @@ The maximum number of entities in a page.
 
 #### Returns
 
-`Promise`\<\{ `data`: [`IDataSpaceConnectorList`](IDataSpaceConnectorList.md); `cursor`: `string`; \}\>
+`Promise`\<[`IDataSpaceConnectorList`](IDataSpaceConnectorList.md)\>
 
 All the entities for the storage matching the conditions,
 and a cursor which can be used to request more entities.
@@ -194,7 +194,7 @@ The Id of the Data Resources registered.
 
 ### queryServiceOfferings()
 
-> **queryServiceOfferings**(`id?`, `providedBy?`, `cursor?`, `pageSize?`): `Promise`\<\{ `data`: [`IServiceOfferingList`](IServiceOfferingList.md); `cursor`: `string`; \}\>
+> **queryServiceOfferings**(`id?`, `providedBy?`, `cursor?`, `pageSize?`): `Promise`\<[`IServiceOfferingList`](IServiceOfferingList.md)\>
 
 Query the federated catalogue.
 
@@ -226,7 +226,7 @@ The maximum number of entities in a page.
 
 #### Returns
 
-`Promise`\<\{ `data`: [`IServiceOfferingList`](IServiceOfferingList.md); `cursor`: `string`; \}\>
+`Promise`\<[`IServiceOfferingList`](IServiceOfferingList.md)\>
 
 All the entities for the storage matching the conditions,
 and a cursor which can be used to request more entities.
@@ -239,7 +239,7 @@ NotImplementedError if the implementation does not support retrieval.
 
 ### queryDataResources()
 
-> **queryDataResources**(`id?`, `producedBy?`, `cursor?`, `pageSize?`): `Promise`\<\{ `data`: [`IDataResourceList`](IDataResourceList.md); `cursor`: `string`; \}\>
+> **queryDataResources**(`id?`, `producedBy?`, `cursor?`, `pageSize?`): `Promise`\<[`IDataResourceList`](IDataResourceList.md)\>
 
 Query the federated catalogue.
 
@@ -271,7 +271,7 @@ The maximum number of entities in a page.
 
 #### Returns
 
-`Promise`\<\{ `data`: [`IDataResourceList`](IDataResourceList.md); `cursor`: `string`; \}\>
+`Promise`\<[`IDataResourceList`](IDataResourceList.md)\>
 
 All the entities for the storage matching the conditions,
 and a cursor which can be used to request more entities.

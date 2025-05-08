@@ -34,8 +34,8 @@ import {
 	FederatedCatalogueContextInstances
 } from "@twin.org/federated-catalogue-models";
 import { nameof } from "@twin.org/nameof";
-import { DublinCoreClasses } from "@twin.org/standards-dublin-core";
 import { GaiaXTypes } from "@twin.org/standards-gaia-x";
+import { SchemaOrgTypes } from "@twin.org/standards-schema-org";
 import { HttpStatusCode, MimeTypes } from "@twin.org/web";
 
 /**
@@ -267,16 +267,13 @@ export function generateRestRoutesFederatedCatalogue(
 						id: "participantListResponseExample",
 						response: {
 							body: {
-								data: {
-									"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
-									type: DublinCoreClasses.Collection,
-									hasPart: [
-										{
-											...participantEntryExample
-										}
-									]
-								},
-								cursor: "1"
+								"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
+								type: SchemaOrgTypes.StructuredValue,
+								itemListElement: [
+									{
+										...participantEntryExample
+									}
+								]
 							}
 						}
 					}
@@ -371,16 +368,13 @@ export function generateRestRoutesFederatedCatalogue(
 						id: "serviceOfferingListResponseExample",
 						response: {
 							body: {
-								data: {
-									"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
-									type: DublinCoreClasses.Collection,
-									hasPart: [
-										{
-											...serviceOfferingEntryExample
-										}
-									]
-								},
-								cursor: "1"
+								"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
+								type: SchemaOrgTypes.StructuredValue,
+								itemListElement: [
+									{
+										...serviceOfferingEntryExample
+									}
+								]
 							}
 						}
 					}
@@ -476,16 +470,13 @@ export function generateRestRoutesFederatedCatalogue(
 						id: "dataResourceListResponseExample",
 						response: {
 							body: {
-								data: {
-									"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
-									type: "Collection",
-									hasPart: [
-										{
-											...dataResourceEntryExample
-										}
-									]
-								},
-								cursor: "1"
+								"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
+								type: SchemaOrgTypes.StructuredValue,
+								itemListElement: [
+									{
+										...dataResourceEntryExample
+									}
+								]
 							}
 						}
 					}
@@ -597,16 +588,13 @@ export function generateRestRoutesFederatedCatalogue(
 						id: "dataSpaceConnectorListResponseExample",
 						response: {
 							body: {
-								data: {
-									"@context": FederatedCatalogueContextInstances.DS_CONNECTOR_LD_CONTEXT_ENTRY_LIST,
-									type: "Collection",
-									hasPart: [
-										{
-											...dataSpaceConnectorEntryExample
-										}
-									]
-								},
-								cursor: "1"
+								"@context": FederatedCatalogueContextInstances.DS_CONNECTOR_LD_CONTEXT_ENTRY_LIST,
+								type: SchemaOrgTypes.StructuredValue,
+								itemListElement: [
+									{
+										...dataSpaceConnectorEntryExample
+									}
+								]
 							}
 						}
 					}
@@ -747,11 +735,11 @@ export async function participantGet(
 
 	const itemsAndCursor = await service.queryParticipants(request?.pathParams.id);
 
-	if (Is.arrayValue(itemsAndCursor.data.hasPart)) {
+	if (Is.arrayValue(itemsAndCursor.itemListElement)) {
 		const entry: IParticipantEntry = {
 			type: GaiaXTypes.Participant,
 			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY,
-			...itemsAndCursor.data.hasPart[0]
+			...itemsAndCursor.itemListElement[0]
 		} as unknown as IParticipantEntry;
 
 		const result = await JsonLdProcessor.compact(entry, entry["@context"]);
@@ -845,9 +833,9 @@ export async function serviceOfferingGet(
 
 	const itemsAndCursor = await service.queryServiceOfferings(request?.pathParams.id);
 
-	if (Is.arrayValue(itemsAndCursor.data.hasPart)) {
+	if (Is.arrayValue(itemsAndCursor.itemListElement)) {
 		const entry = {
-			...itemsAndCursor.data.hasPart[0],
+			...itemsAndCursor.itemListElement[0],
 			type: GaiaXTypes.ServiceOffering,
 			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY
 		} as unknown as IServiceOfferingEntry;
@@ -943,9 +931,9 @@ export async function dataResourceGet(
 
 	const itemsAndCursor = await service.queryDataResources(request?.pathParams.id);
 
-	if (Is.arrayValue(itemsAndCursor.data.hasPart)) {
+	if (Is.arrayValue(itemsAndCursor.itemListElement)) {
 		const entry = {
-			...itemsAndCursor.data.hasPart[0],
+			...itemsAndCursor.itemListElement[0],
 			type: GaiaXTypes.DataResource,
 			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY
 		} as unknown as IDataResourceEntry;
@@ -1041,9 +1029,9 @@ export async function dataSpaceConnectorGet(
 
 	const itemsAndCursor = await service.queryDataSpaceConnectors(request?.pathParams.id);
 
-	if (Is.arrayValue(itemsAndCursor.data.hasPart)) {
+	if (Is.arrayValue(itemsAndCursor.itemListElement)) {
 		const entry = {
-			...itemsAndCursor.data.hasPart[0],
+			...itemsAndCursor.itemListElement,
 			type: [GaiaXTypes.DataExchangeComponent, FederatedCatalogueTypes.DataSpaceConnector],
 			"@context": FederatedCatalogueContextInstances.DS_CONNECTOR_LD_CONTEXT_ENTRY
 		} as unknown as IDataSpaceConnectorEntry;

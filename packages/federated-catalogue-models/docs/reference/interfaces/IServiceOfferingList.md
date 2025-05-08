@@ -6,7 +6,7 @@ Interface describing a list of Service Offering Entries.
 
 ### @context
 
-> **@context**: \[`"https://w3id.org/gaia-x/development"`, `"https://schema.org"`, `"http://purl.org/dc/terms/"`, `"http://purl.org/dc/dcmitype/"`, `"https://www.w3.org/ns/credentials/v2"`\]
+> **@context**: \[`"https://schema.org"`, `"https://www.w3.org/ns/credentials/v2"`, `"https://w3id.org/gaia-x/development"`\]
 
 The LD Context.
 
@@ -14,14 +14,22 @@ The LD Context.
 
 ### type
 
-> **type**: `"Collection"`
+> **type**: `"StructuredValue"`
 
 The type
 
 ***
 
-### hasPart
+### itemListElement
 
-> **hasPart**: `Omit`\<[`IServiceOfferingEntry`](IServiceOfferingEntry.md), `"@context"`\>[]
+> **itemListElement**: `Omit`\<[`IServiceOfferingEntry`](IServiceOfferingEntry.md), `"@context"`\>[]
 
 The components of the Collection
+
+***
+
+### nextItem?
+
+> `optional` **nextItem**: `string`
+
+Next item cursor.

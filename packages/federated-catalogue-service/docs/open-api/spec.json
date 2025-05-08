@@ -527,49 +527,44 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ParticipantListResponse"
+									"$ref": "#/components/schemas/ParticipantList"
 								},
 								"examples": {
 									"participantListResponseExample": {
 										"value": {
-											"data": {
-												"@context": [
-													"https://w3id.org/gaia-x/development",
-													"https://schema.org",
-													"http://purl.org/dc/terms/",
-													"http://purl.org/dc/dcmitype/",
-													"https://www.w3.org/ns/credentials/v2"
-												],
-												"type": "Collection",
-												"hasPart": [
-													{
-														"@context": [
-															"https://w3id.org/gaia-x/development",
-															"https://schema.org",
-															"https://www.w3.org/ns/credentials/v2"
-														],
-														"id": "did:iota:xxx",
-														"type": "LegalPerson",
-														"registrationNumber": {
-															"type": "LocalRegistrationNumber",
-															"local": "P1234567"
-														},
-														"legalName": "A Inc.",
-														"issuer": "did:iota:zzz",
-														"legalAddress": {
-															"type": "Address",
-															"countryCode": "KE"
-														},
-														"validFrom": "2024-08-01T12:00:00Z",
-														"validUntil": "2025-08-01T12:00:00Z",
-														"dateCreated": "2024-08-02T13:45:00Z",
-														"evidence": [
-															"https://credentials.example.org/1234567"
-														]
-													}
-												]
-											},
-											"cursor": "1"
+											"@context": [
+												"https://schema.org",
+												"https://www.w3.org/ns/credentials/v2",
+												"https://w3id.org/gaia-x/development"
+											],
+											"type": "StructuredValue",
+											"itemListElement": [
+												{
+													"@context": [
+														"https://w3id.org/gaia-x/development",
+														"https://schema.org",
+														"https://www.w3.org/ns/credentials/v2"
+													],
+													"id": "did:iota:xxx",
+													"type": "LegalPerson",
+													"registrationNumber": {
+														"type": "LocalRegistrationNumber",
+														"local": "P1234567"
+													},
+													"legalName": "A Inc.",
+													"issuer": "did:iota:zzz",
+													"legalAddress": {
+														"type": "Address",
+														"countryCode": "KE"
+													},
+													"validFrom": "2024-08-01T12:00:00Z",
+													"validUntil": "2025-08-01T12:00:00Z",
+													"dateCreated": "2024-08-02T13:45:00Z",
+													"evidence": [
+														"https://credentials.example.org/1234567"
+													]
+												}
+											]
 										}
 									}
 								}
@@ -818,47 +813,42 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ServiceOfferingListResponse"
+									"$ref": "#/components/schemas/ServiceOfferingList"
 								},
 								"examples": {
 									"serviceOfferingListResponseExample": {
 										"value": {
-											"data": {
-												"@context": [
-													"https://w3id.org/gaia-x/development",
-													"https://schema.org",
-													"http://purl.org/dc/terms/",
-													"http://purl.org/dc/dcmitype/",
-													"https://www.w3.org/ns/credentials/v2"
-												],
-												"type": "Collection",
-												"hasPart": [
-													{
-														"@context": [
-															"https://w3id.org/gaia-x/development",
-															"https://schema.org",
-															"https://www.w3.org/ns/credentials/v2"
-														],
-														"id": "http://example.org/is123456",
-														"name": "Service 1",
-														"type": "ServiceOffering",
-														"servicePolicy": {},
-														"endpoint": {
-															"type": "Endpoint",
-															"endpointURL": "https://endpoint.example.org/api"
-														},
-														"issuer": "did:iota:7890",
-														"providedBy": "did:iota:1234567",
-														"validFrom": "2024-08-01T12:00:00Z",
-														"validUntil": "2025-08-01T12:00:00Z",
-														"dateCreated": "2024-08-02T13:45:00Z",
-														"evidence": [
-															"https://credentials.example.org/1234567"
-														]
-													}
-												]
-											},
-											"cursor": "1"
+											"@context": [
+												"https://schema.org",
+												"https://www.w3.org/ns/credentials/v2",
+												"https://w3id.org/gaia-x/development"
+											],
+											"type": "StructuredValue",
+											"itemListElement": [
+												{
+													"@context": [
+														"https://w3id.org/gaia-x/development",
+														"https://schema.org",
+														"https://www.w3.org/ns/credentials/v2"
+													],
+													"id": "http://example.org/is123456",
+													"name": "Service 1",
+													"type": "ServiceOffering",
+													"servicePolicy": {},
+													"endpoint": {
+														"type": "Endpoint",
+														"endpointURL": "https://endpoint.example.org/api"
+													},
+													"issuer": "did:iota:7890",
+													"providedBy": "did:iota:1234567",
+													"validFrom": "2024-08-01T12:00:00Z",
+													"validUntil": "2025-08-01T12:00:00Z",
+													"dateCreated": "2024-08-02T13:45:00Z",
+													"evidence": [
+														"https://credentials.example.org/1234567"
+													]
+												}
+											]
 										}
 									}
 								}
@@ -1105,46 +1095,41 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/DataResourceListResponse"
+									"$ref": "#/components/schemas/DataResourceList"
 								},
 								"examples": {
 									"dataResourceListResponseExample": {
 										"value": {
-											"data": {
-												"@context": [
-													"https://w3id.org/gaia-x/development",
-													"https://schema.org",
-													"http://purl.org/dc/terms/",
-													"http://purl.org/dc/dcmitype/",
-													"https://www.w3.org/ns/credentials/v2"
-												],
-												"type": "Collection",
-												"hasPart": [
-													{
-														"@context": [
-															"https://w3id.org/gaia-x/development",
-															"https://schema.org",
-															"https://www.w3.org/ns/credentials/v2"
-														],
-														"id": "http://example.org/is123456",
-														"name": "Data Resource 1",
-														"type": "DataResource",
-														"copyrightOwnedBy": "did:iota:1234",
-														"license": "http://licenses.example.org/12345",
-														"resourcePolicy": {},
-														"exposedThrough": "https://ds-connectors.example.org/ds1",
-														"producedBy": "did:iota:1234567",
-														"issuer": "did:iota:987654",
-														"validFrom": "2024-08-01T12:00:00Z",
-														"validUntil": "2025-08-01T12:00:00Z",
-														"dateCreated": "2024-08-02T13:45:00Z",
-														"evidence": [
-															"https://credentials.example.org/1234567"
-														]
-													}
-												]
-											},
-											"cursor": "1"
+											"@context": [
+												"https://schema.org",
+												"https://www.w3.org/ns/credentials/v2",
+												"https://w3id.org/gaia-x/development"
+											],
+											"type": "StructuredValue",
+											"itemListElement": [
+												{
+													"@context": [
+														"https://w3id.org/gaia-x/development",
+														"https://schema.org",
+														"https://www.w3.org/ns/credentials/v2"
+													],
+													"id": "http://example.org/is123456",
+													"name": "Data Resource 1",
+													"type": "DataResource",
+													"copyrightOwnedBy": "did:iota:1234",
+													"license": "http://licenses.example.org/12345",
+													"resourcePolicy": {},
+													"exposedThrough": "https://ds-connectors.example.org/ds1",
+													"producedBy": "did:iota:1234567",
+													"issuer": "did:iota:987654",
+													"validFrom": "2024-08-01T12:00:00Z",
+													"validUntil": "2025-08-01T12:00:00Z",
+													"dateCreated": "2024-08-02T13:45:00Z",
+													"evidence": [
+														"https://credentials.example.org/1234567"
+													]
+												}
+											]
 										}
 									}
 								}
@@ -1390,66 +1375,61 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/DataSpaceConnectorListResponse"
+									"$ref": "#/components/schemas/DataSpaceConnectorList"
 								},
 								"examples": {
 									"dataSpaceConnectorListResponseExample": {
 										"value": {
-											"data": {
-												"@context": [
-													"https://w3id.org/gaia-x/development",
-													"https://schema.org",
-													"http://purl.org/dc/terms/",
-													"http://purl.org/dc/dcmitype/",
-													"https://www.w3.org/ns/credentials/v2",
-													"https://schema.twindev.org/federated-catalogue/types.jsonld"
-												],
-												"type": "Collection",
-												"hasPart": [
-													{
-														"@context": [
-															"https://w3id.org/gaia-x/development",
-															"https://schema.org",
-															"https://www.w3.org/ns/credentials/v2",
-															"https://schema.twindev.org/federated-catalogue/types.jsonld"
-														],
-														"id": "https://my-ds-connectors.example.org/ds-connector-ABCD",
-														"type": [
-															"DataExchangeComponent",
-															"DataSpaceConnector"
-														],
-														"identity": "did:iota:testnet:123456",
-														"defaultEndpoint": {
-															"type": "Endpoint",
-															"endpointURL": "https://my-twin-node.example.org:9000/twin-ds-connector"
-														},
-														"subscriptionActivityEndpoint": {
-															"type": "Endpoint",
-															"endpointURL": "/subscriptions"
-														},
-														"pushActivityEndpoint": {
-															"type": "Endpoint",
-															"endpointURL": "/notify"
-														},
-														"pullDataEndpoint": {
-															"type": "Endpoint",
-															"endpointURL": "/data"
-														},
-														"maintainer": "did:iota:99999",
-														"offeredResource": [
-															"https://my-data-resource.example.org"
-														],
-														"issuer": "did:iota:987654",
-														"validFrom": "2024-08-01T12:00:00Z",
-														"validUntil": "2025-08-01T12:00:00Z",
-														"dateCreated": "2024-08-02T13:45:00Z",
-														"evidence": [
-															"https://credentials.example.org/1234567"
-														]
-													}
-												]
-											},
-											"cursor": "1"
+											"@context": [
+												"https://schema.org",
+												"https://www.w3.org/ns/credentials/v2",
+												"https://w3id.org/gaia-x/development",
+												"https://schema.twindev.org/federated-catalogue/types.jsonld"
+											],
+											"type": "StructuredValue",
+											"itemListElement": [
+												{
+													"@context": [
+														"https://w3id.org/gaia-x/development",
+														"https://schema.org",
+														"https://www.w3.org/ns/credentials/v2",
+														"https://schema.twindev.org/federated-catalogue/types.jsonld"
+													],
+													"id": "https://my-ds-connectors.example.org/ds-connector-ABCD",
+													"type": [
+														"DataExchangeComponent",
+														"DataSpaceConnector"
+													],
+													"identity": "did:iota:testnet:123456",
+													"defaultEndpoint": {
+														"type": "Endpoint",
+														"endpointURL": "https://my-twin-node.example.org:9000/twin-ds-connector"
+													},
+													"subscriptionActivityEndpoint": {
+														"type": "Endpoint",
+														"endpointURL": "/subscriptions"
+													},
+													"pushActivityEndpoint": {
+														"type": "Endpoint",
+														"endpointURL": "/notify"
+													},
+													"pullDataEndpoint": {
+														"type": "Endpoint",
+														"endpointURL": "/data"
+													},
+													"maintainer": "did:iota:99999",
+													"offeredResource": [
+														"https://my-data-resource.example.org"
+													],
+													"issuer": "did:iota:987654",
+													"validFrom": "2024-08-01T12:00:00Z",
+													"validUntil": "2025-08-01T12:00:00Z",
+													"dateCreated": "2024-08-02T13:45:00Z",
+													"evidence": [
+														"https://credentials.example.org/1234567"
+													]
+												}
+											]
 										}
 									}
 								}
@@ -1952,69 +1932,48 @@
 				"properties": {
 					"@context": {
 						"type": "array",
-						"minItems": 5,
+						"minItems": 3,
 						"items": [
-							{
-								"type": "string",
-								"const": "https://w3id.org/gaia-x/development"
-							},
 							{
 								"type": "string",
 								"const": "https://schema.org"
 							},
 							{
 								"type": "string",
-								"const": "http://purl.org/dc/terms/"
-							},
-							{
-								"type": "string",
-								"const": "http://purl.org/dc/dcmitype/"
-							},
-							{
-								"type": "string",
 								"const": "https://www.w3.org/ns/credentials/v2"
+							},
+							{
+								"type": "string",
+								"const": "https://w3id.org/gaia-x/development"
 							}
 						],
-						"maxItems": 5,
+						"maxItems": 3,
 						"description": "The LD Context."
 					},
 					"type": {
 						"type": "string",
-						"const": "Collection",
+						"const": "StructuredValue",
 						"description": "The type"
 					},
-					"hasPart": {
+					"itemListElement": {
 						"type": "array",
 						"items": {
 							"$ref": "#/components/schemas/Omit%3CIDataResourceEntry%2C%22%40context%22%3E"
 						},
 						"description": "The components of the Collection"
+					},
+					"nextItem": {
+						"type": "string",
+						"description": "Next item cursor."
 					}
 				},
 				"required": [
 					"@context",
 					"type",
-					"hasPart"
+					"itemListElement"
 				],
 				"additionalProperties": false,
 				"description": "Interface describing a list of Data Resource entries."
-			},
-			"DataResourceListResponse": {
-				"type": "object",
-				"properties": {
-					"data": {
-						"$ref": "#/components/schemas/DataResourceList"
-					},
-					"cursor": {
-						"type": "string",
-						"description": "An optional cursor, when defined can be used to call find to get more entities."
-					}
-				},
-				"required": [
-					"data"
-				],
-				"additionalProperties": false,
-				"description": "The response payload."
 			},
 			"DataSpaceConnectorEntry": {
 				"type": "object",
@@ -2226,23 +2185,11 @@
 				"properties": {
 					"@context": {
 						"type": "array",
-						"minItems": 6,
+						"minItems": 4,
 						"items": [
 							{
 								"type": "string",
-								"const": "https://w3id.org/gaia-x/development"
-							},
-							{
-								"type": "string",
 								"const": "https://schema.org"
-							},
-							{
-								"type": "string",
-								"const": "http://purl.org/dc/terms/"
-							},
-							{
-								"type": "string",
-								"const": "http://purl.org/dc/dcmitype/"
 							},
 							{
 								"type": "string",
@@ -2250,49 +2197,40 @@
 							},
 							{
 								"type": "string",
+								"const": "https://w3id.org/gaia-x/development"
+							},
+							{
+								"type": "string",
 								"const": "https://schema.twindev.org/federated-catalogue/types.jsonld"
 							}
 						],
-						"maxItems": 6,
+						"maxItems": 4,
 						"description": "The LD Context."
 					},
 					"type": {
 						"type": "string",
-						"const": "Collection",
+						"const": "StructuredValue",
 						"description": "The type"
 					},
-					"hasPart": {
+					"itemListElement": {
 						"type": "array",
 						"items": {
 							"$ref": "#/components/schemas/Omit%3CIDataSpaceConnectorEntry%2C%22%40context%22%3E"
 						},
 						"description": "The components of the Collection"
+					},
+					"nextItem": {
+						"type": "string",
+						"description": "Next item cursor."
 					}
 				},
 				"required": [
 					"@context",
 					"type",
-					"hasPart"
+					"itemListElement"
 				],
 				"additionalProperties": false,
 				"description": "Interface describing a list of Data Space Connectors."
-			},
-			"DataSpaceConnectorListResponse": {
-				"type": "object",
-				"properties": {
-					"data": {
-						"$ref": "#/components/schemas/DataSpaceConnectorList"
-					},
-					"cursor": {
-						"type": "string",
-						"description": "An optional cursor, when defined can be used to call find to get more entities."
-					}
-				},
-				"required": [
-					"data"
-				],
-				"additionalProperties": false,
-				"description": "The response payload."
 			},
 			"Endpoint": {
 				"type": "object",
@@ -2601,69 +2539,48 @@
 				"properties": {
 					"@context": {
 						"type": "array",
-						"minItems": 5,
+						"minItems": 3,
 						"items": [
-							{
-								"type": "string",
-								"const": "https://w3id.org/gaia-x/development"
-							},
 							{
 								"type": "string",
 								"const": "https://schema.org"
 							},
 							{
 								"type": "string",
-								"const": "http://purl.org/dc/terms/"
-							},
-							{
-								"type": "string",
-								"const": "http://purl.org/dc/dcmitype/"
-							},
-							{
-								"type": "string",
 								"const": "https://www.w3.org/ns/credentials/v2"
+							},
+							{
+								"type": "string",
+								"const": "https://w3id.org/gaia-x/development"
 							}
 						],
-						"maxItems": 5,
+						"maxItems": 3,
 						"description": "The LD Context."
 					},
 					"type": {
 						"type": "string",
-						"const": "Collection",
+						"const": "StructuredValue",
 						"description": "The type"
 					},
-					"hasPart": {
+					"itemListElement": {
 						"type": "array",
 						"items": {
 							"$ref": "#/components/schemas/Omit%3CIParticipantEntry%2C%22%40context%22%3E"
 						},
 						"description": "The components of the Collection"
+					},
+					"nextItem": {
+						"type": "string",
+						"description": "Next item cursor."
 					}
 				},
 				"required": [
 					"@context",
 					"type",
-					"hasPart"
+					"itemListElement"
 				],
 				"additionalProperties": false,
 				"description": "Interface describing a participant entry list."
-			},
-			"ParticipantListResponse": {
-				"type": "object",
-				"properties": {
-					"data": {
-						"$ref": "#/components/schemas/ParticipantList"
-					},
-					"cursor": {
-						"type": "string",
-						"description": "An optional cursor, when defined can be used to call find to get more entities."
-					}
-				},
-				"required": [
-					"data"
-				],
-				"additionalProperties": false,
-				"description": "The response payload."
 			},
 			"RegistrationNumber": {
 				"type": "object",
@@ -2986,69 +2903,48 @@
 				"properties": {
 					"@context": {
 						"type": "array",
-						"minItems": 5,
+						"minItems": 3,
 						"items": [
-							{
-								"type": "string",
-								"const": "https://w3id.org/gaia-x/development"
-							},
 							{
 								"type": "string",
 								"const": "https://schema.org"
 							},
 							{
 								"type": "string",
-								"const": "http://purl.org/dc/terms/"
-							},
-							{
-								"type": "string",
-								"const": "http://purl.org/dc/dcmitype/"
-							},
-							{
-								"type": "string",
 								"const": "https://www.w3.org/ns/credentials/v2"
+							},
+							{
+								"type": "string",
+								"const": "https://w3id.org/gaia-x/development"
 							}
 						],
-						"maxItems": 5,
+						"maxItems": 3,
 						"description": "The LD Context."
 					},
 					"type": {
 						"type": "string",
-						"const": "Collection",
+						"const": "StructuredValue",
 						"description": "The type"
 					},
-					"hasPart": {
+					"itemListElement": {
 						"type": "array",
 						"items": {
 							"$ref": "#/components/schemas/Omit%3CIServiceOfferingEntry%2C%22%40context%22%3E"
 						},
 						"description": "The components of the Collection"
+					},
+					"nextItem": {
+						"type": "string",
+						"description": "Next item cursor."
 					}
 				},
 				"required": [
 					"@context",
 					"type",
-					"hasPart"
+					"itemListElement"
 				],
 				"additionalProperties": false,
 				"description": "Interface describing a list of Service Offering Entries."
-			},
-			"ServiceOfferingListResponse": {
-				"type": "object",
-				"properties": {
-					"data": {
-						"$ref": "#/components/schemas/ServiceOfferingList"
-					},
-					"cursor": {
-						"type": "string",
-						"description": "An optional cursor, when defined can be used to call find to get more entities."
-					}
-				},
-				"required": [
-					"data"
-				],
-				"additionalProperties": false,
-				"description": "The response payload."
 			}
 		},
 		"securitySchemes": {

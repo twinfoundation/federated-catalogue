@@ -10,15 +10,5 @@ export interface IServiceOfferingListResponse {
 	/**
 	 * The response payload.
 	 */
-	body: {
-		/**
-		 * The list of service offerings.
-		 */
-		data: IServiceOfferingList;
-
-		/**
-		 * An optional cursor, when defined can be used to call find to get more entities.
-		 */
-		cursor?: string;
-	};
+	body: IServiceOfferingList;
 }

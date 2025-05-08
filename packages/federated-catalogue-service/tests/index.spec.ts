@@ -73,6 +73,8 @@ describe("federated-catalogue-service", () => {
 			.mockImplementation(
 				async (request: Request | URL | string, opts: RequestInit | undefined) => {
 					const url = new URL(extractURL(request));
+					console.log(url);
+
 					const filePath = url.pathname;
 					const domainName = url.host;
 					const pathToFile = path.join(__dirname, "published-datasets", domainName, filePath);
@@ -156,12 +158,10 @@ describe("federated-catalogue-service", () => {
 	test("It should register a compliant Participant", async () => {
 		const fedCatalogueService = new FederatedCatalogueService(options);
 		await fedCatalogueService.registerComplianceCredential(participantCredential.jwtCredential);
-		const queryResult = await fedCatalogueService.queryParticipants();
-		expect(queryResult.data.hasPart.length).toBe(1);
 
-		expect(queryResult.data.hasPart[0].id).toBe(
-			participantCredential.credential.credentialSubject.id
-		);
+		const queryResult = await fedCatalogueService.queryParticipants();
+
+		expect(queryResult.data.hasPart.id).toBe(participantCredential.credential.credentialSubject.id);
 	});
 
 	test("It should register a compliant Data Resource", async () => {
@@ -171,6 +171,7 @@ describe("federated-catalogue-service", () => {
 
 		await fedCatalogueService.registerDataResourceCredential(dataResourceCredential.jwtCredential);
 		const queryResult = await fedCatalogueService.queryDataResources();
+		console.log(queryResult);
 		expect(queryResult.data.hasPart.length).toBe(1);
 
 		expect(queryResult.data.hasPart[0].id).toBe(

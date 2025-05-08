@@ -3,8 +3,16 @@
 
 /* eslint-disable no-console */
 
+/**
+ * Script for calculating a digest of a credential following the subresource integrity
+ * specification. See https://www.w3.org/TR/sri/
+ *
+ * Input: The JSON content of the credential as a string
+ * Output: The digest following the SRI representation format.
+ */
+
 import { createHash } from 'node:crypto';
-import canonicalize from 'canonicalize';
+import { JsonHelper } from '@twin.org/core';
 
 const jsonStrData = process.argv[2];
 
@@ -20,7 +28,7 @@ if (jsonObject.credential) {
 }
 delete jsonObject.proof;
 
-const canonical = canonicalize(jsonObject);
+const canonical = JsonHelper.canonicalize(jsonObject);
 
 const hash = sha256(canonical);
 

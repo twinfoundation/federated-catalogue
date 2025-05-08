@@ -6,18 +6,6 @@ Response for Data Space Connector list
 
 ### body
 
-> **body**: `object`
+> **body**: [`IDataSpaceConnectorList`](IDataSpaceConnectorList.md)
 
 The response payload.
-
-#### data
-
-> **data**: [`IDataSpaceConnectorList`](IDataSpaceConnectorList.md)
-
-The entities as a Data Space Connector list
-
-#### cursor?
-
-> `optional` **cursor**: `string`
-
-An optional cursor, when defined can be used to call find to get more entities.

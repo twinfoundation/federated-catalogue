@@ -36,8 +36,8 @@ import {
 import { VerificationHelper, type IIdentityResolverComponent } from "@twin.org/identity-models";
 import { LoggingConnectorFactory, type ILoggingConnector } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
-import { DublinCoreClasses } from "@twin.org/standards-dublin-core";
 import { GaiaXTypes, type IParticipant } from "@twin.org/standards-gaia-x";
+import { SchemaOrgDataTypes, SchemaOrgTypes } from "@twin.org/standards-schema-org";
 import type { DataResourceEntry } from "./entities/dataResourceEntry";
 import type { DataSpaceConnectorEntry } from "./entities/dataSpaceConnectorEntry";
 import type { ParticipantEntry } from "./entities/participantEntry";
@@ -137,6 +137,8 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			options.config.subResourceCacheTtlMs,
 			this._loggingService
 		);
+
+		SchemaOrgDataTypes.registerRedirects();
 	}
 
 	/**
@@ -211,16 +213,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		lrnType?: string,
 		cursor?: string,
 		pageSize?: number
-	): Promise<{
-		/**
-		 * The participant list.
-		 */
-		data: IParticipantList;
-		/**
-		 * An optional cursor, when defined can be used to call find to get more entities.
-		 */
-		cursor?: string;
-	}> {
+	): Promise<IParticipantList> {
 		const conditions: EntityCondition<ParticipantEntry>[] = [];
 
 		if (Is.stringValue(id)) {
@@ -263,14 +256,11 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 		const result = {
 			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
-			type: DublinCoreClasses.Collection,
-			hasPart: entries.entities as IParticipantEntry[]
+			type: SchemaOrgTypes.StructuredValue,
+			itemListElement: entries.entities as IParticipantEntry[]
 		};
 
-		return {
-			data: await JsonLdProcessor.compact(result, result["@context"]),
-			cursor: entries.cursor
-		};
+		return JsonLdProcessor.compact(result, result["@context"]);
 	}
 
 	/**
@@ -439,17 +429,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		maintainer?: string,
 		cursor?: string,
 		pageSize?: number
-	): Promise<{
-		/**
-		 * Collection of DS Connectors.
-		 */
-		data: IDataSpaceConnectorList;
-
-		/**
-		 * An optional cursor, when defined can be used to call find to get more entities.
-		 */
-		cursor?: string;
-	}> {
+	): Promise<IDataSpaceConnectorList> {
 		const conditions: EntityCondition<DataSpaceConnectorEntry>[] = [];
 
 		if (Is.stringValue(id)) {
@@ -482,14 +462,11 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 		const result = {
 			"@context": FederatedCatalogueContextInstances.DS_CONNECTOR_LD_CONTEXT_ENTRY_LIST,
-			type: DublinCoreClasses.Collection,
-			hasPart: entries.entities as IDataSpaceConnectorEntry[]
+			type: SchemaOrgTypes.StructuredValue,
+			itemListElement: entries.entities as IDataSpaceConnectorEntry[]
 		};
 
-		return {
-			data: await JsonLdProcessor.compact(result, result["@context"]),
-			cursor: entries.cursor
-		};
+		return JsonLdProcessor.compact(result, result["@context"]);
 	}
 
 	/**
@@ -589,13 +566,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		providedBy?: string,
 		cursor?: string,
 		pageSize?: number
-	): Promise<{
-		data: IServiceOfferingList;
-		/**
-		 * An optional cursor, when defined can be used to call find to get more entities.
-		 */
-		cursor?: string;
-	}> {
+	): Promise<IServiceOfferingList> {
 		const conditions: EntityCondition<ServiceOfferingEntry>[] = [];
 
 		if (Is.stringValue(providedBy)) {
@@ -628,14 +599,11 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 		const result = {
 			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
-			type: DublinCoreClasses.Collection,
-			hasPart: entries.entities as IServiceOfferingEntry[]
+			type: SchemaOrgTypes.StructuredValue,
+			itemListElement: entries.entities as IServiceOfferingEntry[]
 		};
 
-		return {
-			data: await JsonLdProcessor.compact(result, result["@context"]),
-			cursor: entries.cursor
-		};
+		return JsonLdProcessor.compact(result, result["@context"]);
 	}
 
 	/**
@@ -653,13 +621,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		producedBy?: string,
 		cursor?: string,
 		pageSize?: number
-	): Promise<{
-		data: IDataResourceList;
-		/**
-		 * An optional cursor, when defined can be used to call find to get more entities.
-		 */
-		cursor?: string;
-	}> {
+	): Promise<IDataResourceList> {
 		const conditions: EntityCondition<DataResourceEntry>[] = [];
 
 		if (Is.stringValue(producedBy)) {
@@ -692,14 +654,11 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 		const result = {
 			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
-			type: DublinCoreClasses.Collection,
-			hasPart: entries.entities as IDataResourceEntry[]
+			type: SchemaOrgTypes.StructuredValue,
+			itemListElement: entries.entities as IDataResourceEntry[]
 		};
 
-		return {
-			data: await JsonLdProcessor.compact(result, result["@context"]),
-			cursor: entries.cursor
-		};
+		return JsonLdProcessor.compact(result, result["@context"]);
 	}
 
 	/**

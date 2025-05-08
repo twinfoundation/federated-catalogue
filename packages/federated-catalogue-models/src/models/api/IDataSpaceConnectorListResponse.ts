@@ -10,14 +10,5 @@ export interface IDataSpaceConnectorListResponse {
 	/**
 	 * The response payload.
 	 */
-	body: {
-		/**
-		 * The entities as a Data Space Connector list
-		 */
-		data: IDataSpaceConnectorList;
-		/**
-		 * An optional cursor, when defined can be used to call find to get more entities.
-		 */
-		cursor?: string;
-	};
+	body: IDataSpaceConnectorList;
 }

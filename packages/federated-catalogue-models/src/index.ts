@@ -49,3 +49,5 @@ export * from "./models/federatedCatalogueContextInstances";
 export * from "./models/ICredential";
 
 export * from "./models/verificationFailureReasons";
+
+export * from "./models/objectOrArray";

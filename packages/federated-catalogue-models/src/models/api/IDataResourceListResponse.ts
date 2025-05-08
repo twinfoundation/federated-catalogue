@@ -10,14 +10,5 @@ export interface IDataResourceListResponse {
 	/**
 	 * The response payload.
 	 */
-	body: {
-		/**
-		 * The list of Data Resources.
-		 */
-		data: IDataResourceList;
-		/**
-		 * An optional cursor, when defined can be used to call find to get more entities.
-		 */
-		cursor?: string;
-	};
+	body: IDataResourceList;
 }

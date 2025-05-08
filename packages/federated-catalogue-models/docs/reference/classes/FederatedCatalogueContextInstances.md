@@ -16,7 +16,7 @@ The LD context instances concerning the Federated Catalogue.
 
 ### DEFAULT\_LD\_CONTEXT\_ENTRY\_LIST
 
-> `static` **DEFAULT\_LD\_CONTEXT\_ENTRY\_LIST**: \[`"https://w3id.org/gaia-x/development"`, `"https://schema.org"`, `"http://purl.org/dc/terms/"`, `"http://purl.org/dc/dcmitype/"`, `"https://www.w3.org/ns/credentials/v2"`\]
+> `static` **DEFAULT\_LD\_CONTEXT\_ENTRY\_LIST**: \[`"https://schema.org"`, `"https://www.w3.org/ns/credentials/v2"`, `"https://w3id.org/gaia-x/development"`\]
 
 The LD Context of a list of Catalogue entries.
 
@@ -40,6 +40,6 @@ The LD Context of a DataSpace Connector entry.
 
 ### DS\_CONNECTOR\_LD\_CONTEXT\_ENTRY\_LIST
 
-> `static` **DS\_CONNECTOR\_LD\_CONTEXT\_ENTRY\_LIST**: \[`"https://w3id.org/gaia-x/development"`, `"https://schema.org"`, `"http://purl.org/dc/terms/"`, `"http://purl.org/dc/dcmitype/"`, `"https://www.w3.org/ns/credentials/v2"`, `"https://schema.twindev.org/federated-catalogue/types.jsonld"`\]
+> `static` **DS\_CONNECTOR\_LD\_CONTEXT\_ENTRY\_LIST**: \[`"https://schema.org"`, `"https://www.w3.org/ns/credentials/v2"`, `"https://w3id.org/gaia-x/development"`, `"https://schema.twindev.org/federated-catalogue/types.jsonld"`\]
 
 The LD Context of a list of DataSpace Connector entries.
