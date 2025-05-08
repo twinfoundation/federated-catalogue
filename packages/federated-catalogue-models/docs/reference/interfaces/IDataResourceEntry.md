@@ -74,7 +74,7 @@ The evidences concerning the data resource.
 
 ### @context
 
-> **@context**: \[`"https://w3id.org/gaia-x/development"`, `"https://schema.org"`, `"https://www.w3.org/ns/credentials/v2"`\]
+> **@context**: [`FederatedCatalogueContextType`](../type-aliases/FederatedCatalogueContextType.md)
 
 The LD Context
 
@@ -117,3 +117,75 @@ Overwriting exposedThrough as we only store the id of the Data Exchange Componen
 #### Overrides
 
 `IDataResource.exposedThrough`
+
+***
+
+### id
+
+> **id**: `string`
+
+Subject Id
+
+#### Inherited from
+
+`IDataResource.id`
+
+***
+
+### type
+
+> **type**: `"DataResource"`
+
+Subject type
+
+#### Inherited from
+
+`IDataResource.type`
+
+***
+
+### description?
+
+> `optional` **description**: `string`
+
+Description
+
+#### Inherited from
+
+`IDataResource.description`
+
+***
+
+### name
+
+> **name**: `string`
+
+The Resource Name
+
+#### Inherited from
+
+`IDataResource.name`
+
+***
+
+### license
+
+> **license**: `string`
+
+Pointer (URL) to the license
+
+#### Inherited from
+
+`IDataResource.license`
+
+***
+
+### resourcePolicy
+
+> **resourcePolicy**: `IJsonLdNodeObject`
+
+ODRL Policy
+
+#### Inherited from
+
+`IDataResource.resourcePolicy`

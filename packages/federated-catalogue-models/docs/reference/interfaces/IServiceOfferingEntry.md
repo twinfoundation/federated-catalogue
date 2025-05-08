@@ -74,7 +74,7 @@ The evidences concerning the data resource.
 
 ### @context
 
-> **@context**: \[`"https://w3id.org/gaia-x/development"`, `"https://schema.org"`, `"https://www.w3.org/ns/credentials/v2"`\]
+> **@context**: [`FederatedCatalogueContextType`](../type-aliases/FederatedCatalogueContextType.md)
 
 The LD Context
 
@@ -105,3 +105,75 @@ Overwrites aggregationOfResources as we only store identifier as string
 #### Overrides
 
 `IServiceOffering.aggregationOfResources`
+
+***
+
+### id
+
+> **id**: `string`
+
+Id
+
+#### Inherited from
+
+`IServiceOffering.id`
+
+***
+
+### type
+
+> **type**: `"ServiceOffering"`
+
+Type
+
+#### Inherited from
+
+`IServiceOffering.type`
+
+***
+
+### description?
+
+> `optional` **description**: `string`
+
+Description
+
+#### Inherited from
+
+`IServiceOffering.description`
+
+***
+
+### name
+
+> **name**: `string`
+
+Name
+
+#### Inherited from
+
+`IServiceOffering.name`
+
+***
+
+### servicePolicy
+
+> **servicePolicy**: `IJsonLdNodeObject`
+
+ODRL policy associated to the service offering
+
+#### Inherited from
+
+`IServiceOffering.servicePolicy`
+
+***
+
+### endpoint
+
+> **endpoint**: `IEndpoint`
+
+The endpoint
+
+#### Inherited from
+
+`IServiceOffering.endpoint`

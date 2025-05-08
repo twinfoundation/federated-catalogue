@@ -254,10 +254,15 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			pageSize
 		);
 
+		const itemList = entries.entities.map(entry => {
+			(entry as IParticipantEntry).type = GaiaXTypes.Participant;
+			return entry;
+		});
 		const result = {
 			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
-			type: SchemaOrgTypes.StructuredValue,
-			itemListElement: entries.entities as IParticipantEntry[]
+			type: SchemaOrgTypes.ItemList,
+			itemListElement: itemList,
+			nextItem: entries.cursor
 		};
 
 		return JsonLdProcessor.compact(result, result["@context"]);
@@ -460,10 +465,18 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			pageSize
 		);
 
+		const itemList = entries.entities.map(entry => {
+			(entry as IDataSpaceConnectorEntry).type = [
+				GaiaXTypes.DataExchangeComponent,
+				FederatedCatalogueTypes.DataSpaceConnector
+			];
+			return entry;
+		});
 		const result = {
-			"@context": FederatedCatalogueContextInstances.DS_CONNECTOR_LD_CONTEXT_ENTRY_LIST,
-			type: SchemaOrgTypes.StructuredValue,
-			itemListElement: entries.entities as IDataSpaceConnectorEntry[]
+			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
+			type: SchemaOrgTypes.ItemList,
+			itemListElement: itemList,
+			nextItem: entries.cursor
 		};
 
 		return JsonLdProcessor.compact(result, result["@context"]);
@@ -597,10 +610,15 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			pageSize
 		);
 
+		const itemList = entries.entities.map(entry => {
+			(entry as IServiceOfferingEntry).type = GaiaXTypes.ServiceOffering;
+			return entry;
+		});
 		const result = {
 			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
-			type: SchemaOrgTypes.StructuredValue,
-			itemListElement: entries.entities as IServiceOfferingEntry[]
+			type: SchemaOrgTypes.ItemList,
+			itemListElement: itemList as IServiceOfferingEntry[],
+			nextItem: entries.cursor
 		};
 
 		return JsonLdProcessor.compact(result, result["@context"]);
@@ -652,10 +670,15 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			pageSize
 		);
 
+		const itemList = entries.entities.map(entry => {
+			(entry as IDataResourceEntry).type = GaiaXTypes.DataResource;
+			return entry;
+		});
 		const result = {
 			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
-			type: SchemaOrgTypes.StructuredValue,
-			itemListElement: entries.entities as IDataResourceEntry[]
+			type: SchemaOrgTypes.ItemList,
+			itemListElement: itemList as IDataResourceEntry[],
+			nextItem: entries.cursor
 		};
 
 		return JsonLdProcessor.compact(result, result["@context"]);
@@ -734,7 +757,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 		const result: IDataSpaceConnectorEntry = {
 			...deStructuredData,
-			"@context": FederatedCatalogueContextInstances.DS_CONNECTOR_LD_CONTEXT_ENTRY,
+			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY,
 			offeredResource: Object.keys(offeredResource),
 			issuer: this.getTrustedIssuerId(complianceCredential),
 			validFrom: complianceCredential.validFrom,

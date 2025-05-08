@@ -201,7 +201,7 @@ default endpoint URL as a base URL.
 
 ### @context
 
-> **@context**: \[`"https://w3id.org/gaia-x/development"`, `"https://schema.org"`, `"https://www.w3.org/ns/credentials/v2"`, `"https://schema.twindev.org/federated-catalogue/types.jsonld"`\]
+> **@context**: [`FederatedCatalogueContextType`](../type-aliases/FederatedCatalogueContextType.md)
 
 The LD Context
 

@@ -268,7 +268,7 @@ export function generateRestRoutesFederatedCatalogue(
 						response: {
 							body: {
 								"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
-								type: SchemaOrgTypes.StructuredValue,
+								type: SchemaOrgTypes.ItemList,
 								itemListElement: [
 									{
 										...participantEntryExample
@@ -369,7 +369,7 @@ export function generateRestRoutesFederatedCatalogue(
 						response: {
 							body: {
 								"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
-								type: SchemaOrgTypes.StructuredValue,
+								type: SchemaOrgTypes.ItemList,
 								itemListElement: [
 									{
 										...serviceOfferingEntryExample
@@ -471,7 +471,7 @@ export function generateRestRoutesFederatedCatalogue(
 						response: {
 							body: {
 								"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
-								type: SchemaOrgTypes.StructuredValue,
+								type: SchemaOrgTypes.ItemList,
 								itemListElement: [
 									{
 										...dataResourceEntryExample
@@ -527,7 +527,7 @@ export function generateRestRoutesFederatedCatalogue(
 	};
 
 	const dataSpaceConnectorEntryExample: IDataSpaceConnectorEntry = {
-		"@context": FederatedCatalogueContextInstances.DS_CONNECTOR_LD_CONTEXT_ENTRY,
+		"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY,
 		id: "https://my-ds-connectors.example.org/ds-connector-ABCD",
 		type: [GaiaXTypes.DataExchangeComponent, FederatedCatalogueTypes.DataSpaceConnector],
 		identity: "did:iota:testnet:123456",
@@ -588,8 +588,8 @@ export function generateRestRoutesFederatedCatalogue(
 						id: "dataSpaceConnectorListResponseExample",
 						response: {
 							body: {
-								"@context": FederatedCatalogueContextInstances.DS_CONNECTOR_LD_CONTEXT_ENTRY_LIST,
-								type: SchemaOrgTypes.StructuredValue,
+								"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
+								type: SchemaOrgTypes.ItemList,
 								itemListElement: [
 									{
 										...dataSpaceConnectorEntryExample
@@ -1033,7 +1033,7 @@ export async function dataSpaceConnectorGet(
 		const entry = {
 			...itemsAndCursor.itemListElement,
 			type: [GaiaXTypes.DataExchangeComponent, FederatedCatalogueTypes.DataSpaceConnector],
-			"@context": FederatedCatalogueContextInstances.DS_CONNECTOR_LD_CONTEXT_ENTRY
+			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY
 		} as unknown as IDataSpaceConnectorEntry;
 
 		const result = await JsonLdProcessor.compact(entry, entry["@context"]);

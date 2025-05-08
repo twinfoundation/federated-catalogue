@@ -18,7 +18,7 @@ TWIN Data Space Connector.
 
 ### @context
 
-> **@context**: \[`"https://w3id.org/gaia-x/development"`, `...IJsonLdContextDefinitionElement[]`\]
+> **@context**: `GaiaXContextType`
 
 The LD Context.
 

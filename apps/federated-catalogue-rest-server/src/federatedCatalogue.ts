@@ -40,9 +40,6 @@ export function federatedCatalogueTypeInitialiser(
  * @param componentName The component name.
  * @returns The rest routes.
  */
-export async function generateRestRoutes(
-	baseRouteName: string,
-	componentName: string
-): Promise<IRestRoute[]> {
+export function generateRestRoutes(baseRouteName: string, componentName: string): IRestRoute[] {
 	return generateRestRoutesFederatedCatalogue(baseRouteName, componentName);
 }

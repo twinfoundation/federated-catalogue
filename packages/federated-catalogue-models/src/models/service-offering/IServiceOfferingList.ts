@@ -1,10 +1,9 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import type { GaiaXContexts } from "@twin.org/standards-gaia-x";
-import type { SchemaOrgContexts, SchemaOrgTypes } from "@twin.org/standards-schema-org";
-import type { DidContexts } from "@twin.org/standards-w3c-did";
+import type { SchemaOrgTypes } from "@twin.org/standards-schema-org";
 import type { IServiceOfferingEntry } from "./IServiceOfferingEntry";
+import type { FederatedCatalogueContextType } from "../fedCatalogueEntryContextType";
 
 /**
  * Interface describing a list of Service Offering Entries.
@@ -13,16 +12,12 @@ export interface IServiceOfferingList {
 	/**
 	 * The LD Context.
 	 */
-	"@context": [
-		typeof SchemaOrgContexts.ContextRoot,
-		typeof DidContexts.ContextVCv2,
-		typeof GaiaXContexts.GaiaXLdContext
-	];
+	"@context": FederatedCatalogueContextType;
 
 	/**
 	 * The type
 	 */
-	type: typeof SchemaOrgTypes.StructuredValue;
+	type: typeof SchemaOrgTypes.ItemList;
 
 	/**
 	 * The components of the Collection

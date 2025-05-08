@@ -42,6 +42,7 @@
 
 ## Type Aliases
 
+- [FederatedCatalogueContextType](type-aliases/FederatedCatalogueContextType.md)
 - [FederatedCatalogueContexts](type-aliases/FederatedCatalogueContexts.md)
 - [FederatedCatalogueTypes](type-aliases/FederatedCatalogueTypes.md)
 - [ObjectOrArray](type-aliases/ObjectOrArray.md)

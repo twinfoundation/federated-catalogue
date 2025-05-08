@@ -74,10 +74,70 @@ The evidences concerning the data resource.
 
 ### @context
 
-> **@context**: \[`"https://w3id.org/gaia-x/development"`, `"https://schema.org"`, `"https://www.w3.org/ns/credentials/v2"`\]
+> **@context**: [`FederatedCatalogueContextType`](../type-aliases/FederatedCatalogueContextType.md)
 
 The LD Context
 
 #### Overrides
 
 `IParticipant.@context`
+
+***
+
+### id
+
+> **id**: `string`
+
+The participant Id.
+
+#### Inherited from
+
+`IParticipant.id`
+
+***
+
+### type
+
+> **type**: `"LegalPerson"`
+
+JSON-LD type.
+
+#### Inherited from
+
+`IParticipant.type`
+
+***
+
+### registrationNumber
+
+> **registrationNumber**: `IRegistrationNumber`
+
+The legal registration number.
+
+#### Inherited from
+
+`IParticipant.registrationNumber`
+
+***
+
+### legalName
+
+> **legalName**: `string`
+
+The legal name.
+
+#### Inherited from
+
+`IParticipant.legalName`
+
+***
+
+### legalAddress
+
+> **legalAddress**: `IAddress`
+
+Legal Address
+
+#### Inherited from
+
+`IParticipant.legalAddress`

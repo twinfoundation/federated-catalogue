@@ -6,7 +6,7 @@ Interface describing a list of Data Space Connectors.
 
 ### @context
 
-> **@context**: \[`"https://schema.org"`, `"https://www.w3.org/ns/credentials/v2"`, `"https://w3id.org/gaia-x/development"`, `"https://schema.twindev.org/federated-catalogue/types.jsonld"`\]
+> **@context**: [`FederatedCatalogueContextType`](../type-aliases/FederatedCatalogueContextType.md)
 
 The LD Context.
 
@@ -14,7 +14,7 @@ The LD Context.
 
 ### type
 
-> **type**: `"StructuredValue"`
+> **type**: `"ItemList"`
 
 The type
 

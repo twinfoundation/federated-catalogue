@@ -7,6 +7,7 @@ import path from "node:path";
 import { ComponentFactory, StringHelper, Urn } from "@twin.org/core";
 import { MemoryEntityStorageConnector } from "@twin.org/entity-storage-connector-memory";
 import { EntityStorageConnectorFactory } from "@twin.org/entity-storage-models";
+import { FederatedCatalogueTypes } from "@twin.org/federated-catalogue-models";
 import {
 	IdentityResolverConnectorFactory,
 	type IIdentityResolverConnector
@@ -14,6 +15,7 @@ import {
 import { IdentityResolverService } from "@twin.org/identity-service";
 import { ModuleHelper } from "@twin.org/modules";
 import { nameof } from "@twin.org/nameof";
+import { GaiaXTypes } from "@twin.org/standards-gaia-x";
 import { addAllContextsToDocumentCache } from "@twin.org/standards-ld-contexts";
 
 import type { IDidDocument } from "@twin.org/standards-w3c-did";
@@ -73,7 +75,6 @@ describe("federated-catalogue-service", () => {
 			.mockImplementation(
 				async (request: Request | URL | string, opts: RequestInit | undefined) => {
 					const url = new URL(extractURL(request));
-					console.log(url);
 
 					const filePath = url.pathname;
 					const domainName = url.host;
@@ -161,7 +162,10 @@ describe("federated-catalogue-service", () => {
 
 		const queryResult = await fedCatalogueService.queryParticipants();
 
-		expect(queryResult.data.hasPart.id).toBe(participantCredential.credential.credentialSubject.id);
+		expect(queryResult.itemListElement[0].id).toBe(
+			participantCredential.credential.credentialSubject.id
+		);
+		expect(queryResult.itemListElement[0].type).toBe(GaiaXTypes.Participant);
 	});
 
 	test("It should register a compliant Data Resource", async () => {
@@ -171,12 +175,12 @@ describe("federated-catalogue-service", () => {
 
 		await fedCatalogueService.registerDataResourceCredential(dataResourceCredential.jwtCredential);
 		const queryResult = await fedCatalogueService.queryDataResources();
-		console.log(queryResult);
-		expect(queryResult.data.hasPart.length).toBe(1);
+		expect(queryResult.itemListElement.length).toBe(1);
 
-		expect(queryResult.data.hasPart[0].id).toBe(
+		expect(queryResult.itemListElement[0].id).toBe(
 			dataResourceCredential.credential.credentialSubject.id
 		);
+		expect(queryResult.itemListElement[0].type).toBe(GaiaXTypes.DataResource);
 	});
 
 	test("It should register a compliant Service Offering", async () => {
@@ -188,11 +192,12 @@ describe("federated-catalogue-service", () => {
 			serviceOfferingCedential.jwtCredential
 		);
 		const queryResult = await fedCatalogueService.queryServiceOfferings();
-		expect(queryResult.data.hasPart.length).toBe(1);
+		expect(queryResult.itemListElement.length).toBe(1);
 
-		expect(queryResult.data.hasPart[0].id).toBe(
+		expect(queryResult.itemListElement[0].id).toBe(
 			serviceOfferingCedential.credential.credentialSubject.id
 		);
+		expect(queryResult.itemListElement[0].type).toBe(GaiaXTypes.ServiceOffering);
 	});
 
 	test("It should register a compliant Data Space Connector", async () => {
@@ -204,10 +209,14 @@ describe("federated-catalogue-service", () => {
 			dataSpaceConnectorCredential.jwtCredential
 		);
 		const queryResult = await fedCatalogueService.queryDataSpaceConnectors();
-		expect(queryResult.data.hasPart.length).toBe(1);
+		expect(queryResult.itemListElement.length).toBe(1);
 
-		expect(queryResult.data.hasPart[0].id).toBe(
+		expect(queryResult.itemListElement[0].id).toBe(
 			dataSpaceConnectorCredential.credential.credentialSubject.id
 		);
+		expect(queryResult.itemListElement[0].type).toStrictEqual([
+			GaiaXTypes.DataExchangeComponent,
+			FederatedCatalogueTypes.DataSpaceConnector
+		]);
 	});
 });
