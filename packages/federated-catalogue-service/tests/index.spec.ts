@@ -177,8 +177,6 @@ describe("federated-catalogue-service", () => {
 		const queryResult = await fedCatalogueService.queryDataResources();
 		expect(queryResult.itemListElement.length).toBe(1);
 
-		console.log(queryResult.itemListElement[0]);
-
 		expect(queryResult.itemListElement[0].id).toBe(
 			dataResourceCredential.credential.credentialSubject.id
 		);
