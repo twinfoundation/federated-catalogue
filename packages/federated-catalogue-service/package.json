@@ -26,7 +26,7 @@
 		"docs:generate": "typedoc",
 		"docs:api": "ts-to-openapi ./ts-to-openapi.json ./docs/open-api/spec.json",
 		"docs": "npm run docs:clean && npm run docs:generate && npm run docs:api",
-		"dist": "npm run clean && npm run build && npm run test && npm run bundle",
+		"dist": "npm run clean && npm run build && npm run test && npm run bundle && npm run docs",
 		"dist:no-test": "npm run clean && npm run build && npm run bundle && npm run docs",
 		"prepare": "ts-patch install -s"
 	},

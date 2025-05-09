@@ -534,16 +534,16 @@
 										"value": {
 											"@context": [
 												"https://schema.org",
-												"https://www.w3.org/ns/credentials/v2",
-												"https://w3id.org/gaia-x/development"
+												"https://w3id.org/gaia-x/development",
+												"https://schema.twindev.org/federated-catalogue/types.jsonld"
 											],
-											"type": "StructuredValue",
+											"type": "ItemList",
 											"itemListElement": [
 												{
 													"@context": [
-														"https://w3id.org/gaia-x/development",
 														"https://schema.org",
-														"https://www.w3.org/ns/credentials/v2"
+														"https://w3id.org/gaia-x/development",
+														"https://schema.twindev.org/federated-catalogue/types.jsonld"
 													],
 													"id": "did:iota:xxx",
 													"type": "LegalPerson",
@@ -668,9 +668,9 @@
 									"participantGetResponseExample": {
 										"value": {
 											"@context": [
-												"https://w3id.org/gaia-x/development",
 												"https://schema.org",
-												"https://www.w3.org/ns/credentials/v2"
+												"https://w3id.org/gaia-x/development",
+												"https://schema.twindev.org/federated-catalogue/types.jsonld"
 											],
 											"id": "did:iota:xxx",
 											"type": "LegalPerson",
@@ -820,16 +820,16 @@
 										"value": {
 											"@context": [
 												"https://schema.org",
-												"https://www.w3.org/ns/credentials/v2",
-												"https://w3id.org/gaia-x/development"
+												"https://w3id.org/gaia-x/development",
+												"https://schema.twindev.org/federated-catalogue/types.jsonld"
 											],
-											"type": "StructuredValue",
+											"type": "ItemList",
 											"itemListElement": [
 												{
 													"@context": [
-														"https://w3id.org/gaia-x/development",
 														"https://schema.org",
-														"https://www.w3.org/ns/credentials/v2"
+														"https://w3id.org/gaia-x/development",
+														"https://schema.twindev.org/federated-catalogue/types.jsonld"
 													],
 													"id": "http://example.org/is123456",
 													"name": "Service 1",
@@ -952,9 +952,9 @@
 									"serviceOfferingGetResponseExample": {
 										"value": {
 											"@context": [
-												"https://w3id.org/gaia-x/development",
 												"https://schema.org",
-												"https://www.w3.org/ns/credentials/v2"
+												"https://w3id.org/gaia-x/development",
+												"https://schema.twindev.org/federated-catalogue/types.jsonld"
 											],
 											"id": "http://example.org/is123456",
 											"name": "Service 1",
@@ -1102,16 +1102,16 @@
 										"value": {
 											"@context": [
 												"https://schema.org",
-												"https://www.w3.org/ns/credentials/v2",
-												"https://w3id.org/gaia-x/development"
+												"https://w3id.org/gaia-x/development",
+												"https://schema.twindev.org/federated-catalogue/types.jsonld"
 											],
-											"type": "StructuredValue",
+											"type": "ItemList",
 											"itemListElement": [
 												{
 													"@context": [
-														"https://w3id.org/gaia-x/development",
 														"https://schema.org",
-														"https://www.w3.org/ns/credentials/v2"
+														"https://w3id.org/gaia-x/development",
+														"https://schema.twindev.org/federated-catalogue/types.jsonld"
 													],
 													"id": "http://example.org/is123456",
 													"name": "Data Resource 1",
@@ -1233,9 +1233,9 @@
 									"dataResourceGetResponseExample": {
 										"value": {
 											"@context": [
-												"https://w3id.org/gaia-x/development",
 												"https://schema.org",
-												"https://www.w3.org/ns/credentials/v2"
+												"https://w3id.org/gaia-x/development",
+												"https://schema.twindev.org/federated-catalogue/types.jsonld"
 											],
 											"id": "http://example.org/is123456",
 											"name": "Data Resource 1",
@@ -1382,17 +1382,15 @@
 										"value": {
 											"@context": [
 												"https://schema.org",
-												"https://www.w3.org/ns/credentials/v2",
 												"https://w3id.org/gaia-x/development",
 												"https://schema.twindev.org/federated-catalogue/types.jsonld"
 											],
-											"type": "StructuredValue",
+											"type": "ItemList",
 											"itemListElement": [
 												{
 													"@context": [
-														"https://w3id.org/gaia-x/development",
 														"https://schema.org",
-														"https://www.w3.org/ns/credentials/v2",
+														"https://w3id.org/gaia-x/development",
 														"https://schema.twindev.org/federated-catalogue/types.jsonld"
 													],
 													"id": "https://my-ds-connectors.example.org/ds-connector-ABCD",
@@ -1533,9 +1531,8 @@
 									"dataSpaceConnectorGetResponseExample": {
 										"value": {
 											"@context": [
-												"https://w3id.org/gaia-x/development",
 												"https://schema.org",
-												"https://www.w3.org/ns/credentials/v2",
+												"https://w3id.org/gaia-x/development",
 												"https://schema.twindev.org/federated-catalogue/types.jsonld"
 											],
 											"id": "https://my-ds-connectors.example.org/ds-connector-ABCD",
@@ -1751,24 +1748,7 @@
 				"type": "object",
 				"properties": {
 					"@context": {
-						"type": "array",
-						"minItems": 3,
-						"items": [
-							{
-								"type": "string",
-								"const": "https://w3id.org/gaia-x/development"
-							},
-							{
-								"type": "string",
-								"const": "https://schema.org"
-							},
-							{
-								"type": "string",
-								"const": "https://www.w3.org/ns/credentials/v2"
-							}
-						],
-						"maxItems": 3,
-						"description": "The LD Context"
+						"$ref": "#/components/schemas/FederatedCatalogueContextType"
 					},
 					"@id": {
 						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
@@ -1931,28 +1911,11 @@
 				"type": "object",
 				"properties": {
 					"@context": {
-						"type": "array",
-						"minItems": 3,
-						"items": [
-							{
-								"type": "string",
-								"const": "https://schema.org"
-							},
-							{
-								"type": "string",
-								"const": "https://www.w3.org/ns/credentials/v2"
-							},
-							{
-								"type": "string",
-								"const": "https://w3id.org/gaia-x/development"
-							}
-						],
-						"maxItems": 3,
-						"description": "The LD Context."
+						"$ref": "#/components/schemas/FederatedCatalogueContextType"
 					},
 					"type": {
 						"type": "string",
-						"const": "StructuredValue",
+						"const": "ItemList",
 						"description": "The type"
 					},
 					"itemListElement": {
@@ -2002,28 +1965,7 @@
 						"description": "The evidences concerning the data resource."
 					},
 					"@context": {
-						"type": "array",
-						"minItems": 4,
-						"items": [
-							{
-								"type": "string",
-								"const": "https://w3id.org/gaia-x/development"
-							},
-							{
-								"type": "string",
-								"const": "https://schema.org"
-							},
-							{
-								"type": "string",
-								"const": "https://www.w3.org/ns/credentials/v2"
-							},
-							{
-								"type": "string",
-								"const": "https://schema.twindev.org/federated-catalogue/types.jsonld"
-							}
-						],
-						"maxItems": 4,
-						"description": "The LD Context"
+						"$ref": "#/components/schemas/FederatedCatalogueContextType"
 					},
 					"@id": {
 						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
@@ -2184,32 +2126,11 @@
 				"type": "object",
 				"properties": {
 					"@context": {
-						"type": "array",
-						"minItems": 4,
-						"items": [
-							{
-								"type": "string",
-								"const": "https://schema.org"
-							},
-							{
-								"type": "string",
-								"const": "https://www.w3.org/ns/credentials/v2"
-							},
-							{
-								"type": "string",
-								"const": "https://w3id.org/gaia-x/development"
-							},
-							{
-								"type": "string",
-								"const": "https://schema.twindev.org/federated-catalogue/types.jsonld"
-							}
-						],
-						"maxItems": 4,
-						"description": "The LD Context."
+						"$ref": "#/components/schemas/FederatedCatalogueContextType"
 					},
 					"type": {
 						"type": "string",
-						"const": "StructuredValue",
+						"const": "ItemList",
 						"description": "The type"
 					},
 					"itemListElement": {
@@ -2374,6 +2295,26 @@
 				"additionalProperties": false,
 				"description": "Model to describe serialized error."
 			},
+			"FederatedCatalogueContextType": {
+				"type": "array",
+				"minItems": 3,
+				"items": [
+					{
+						"type": "string",
+						"const": "https://schema.org"
+					},
+					{
+						"type": "string",
+						"const": "https://w3id.org/gaia-x/development"
+					},
+					{
+						"type": "string",
+						"const": "https://schema.twindev.org/federated-catalogue/types.jsonld"
+					}
+				],
+				"maxItems": 3,
+				"description": "Type that defines the LD Context for the Federated Catalogue entities and entries."
+			},
 			"ParticipantEntry": {
 				"type": "object",
 				"properties": {
@@ -2401,24 +2342,7 @@
 						"description": "The evidences concerning the data resource."
 					},
 					"@context": {
-						"type": "array",
-						"minItems": 3,
-						"items": [
-							{
-								"type": "string",
-								"const": "https://w3id.org/gaia-x/development"
-							},
-							{
-								"type": "string",
-								"const": "https://schema.org"
-							},
-							{
-								"type": "string",
-								"const": "https://www.w3.org/ns/credentials/v2"
-							}
-						],
-						"maxItems": 3,
-						"description": "The LD Context"
+						"$ref": "#/components/schemas/FederatedCatalogueContextType"
 					},
 					"@id": {
 						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
@@ -2538,28 +2462,11 @@
 				"type": "object",
 				"properties": {
 					"@context": {
-						"type": "array",
-						"minItems": 3,
-						"items": [
-							{
-								"type": "string",
-								"const": "https://schema.org"
-							},
-							{
-								"type": "string",
-								"const": "https://www.w3.org/ns/credentials/v2"
-							},
-							{
-								"type": "string",
-								"const": "https://w3id.org/gaia-x/development"
-							}
-						],
-						"maxItems": 3,
-						"description": "The LD Context."
+						"$ref": "#/components/schemas/FederatedCatalogueContextType"
 					},
 					"type": {
 						"type": "string",
-						"const": "StructuredValue",
+						"const": "ItemList",
 						"description": "The type"
 					},
 					"itemListElement": {
@@ -2726,24 +2633,7 @@
 				"type": "object",
 				"properties": {
 					"@context": {
-						"type": "array",
-						"minItems": 3,
-						"items": [
-							{
-								"type": "string",
-								"const": "https://w3id.org/gaia-x/development"
-							},
-							{
-								"type": "string",
-								"const": "https://schema.org"
-							},
-							{
-								"type": "string",
-								"const": "https://www.w3.org/ns/credentials/v2"
-							}
-						],
-						"maxItems": 3,
-						"description": "The LD Context"
+						"$ref": "#/components/schemas/FederatedCatalogueContextType"
 					},
 					"@id": {
 						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
@@ -2902,28 +2792,11 @@
 				"type": "object",
 				"properties": {
 					"@context": {
-						"type": "array",
-						"minItems": 3,
-						"items": [
-							{
-								"type": "string",
-								"const": "https://schema.org"
-							},
-							{
-								"type": "string",
-								"const": "https://www.w3.org/ns/credentials/v2"
-							},
-							{
-								"type": "string",
-								"const": "https://w3id.org/gaia-x/development"
-							}
-						],
-						"maxItems": 3,
-						"description": "The LD Context."
+						"$ref": "#/components/schemas/FederatedCatalogueContextType"
 					},
 					"type": {
 						"type": "string",
-						"const": "StructuredValue",
+						"const": "ItemList",
 						"description": "The type"
 					},
 					"itemListElement": {
