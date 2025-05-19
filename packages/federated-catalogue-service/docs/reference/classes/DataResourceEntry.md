@@ -81,7 +81,7 @@ Only a URL pointing to the resource is stored
 
 ### resourcePolicy
 
-> **resourcePolicy**: `unknown`
+> **resourcePolicy**: `IOdrlPolicy`[]
 
 The Data Resource policy
 

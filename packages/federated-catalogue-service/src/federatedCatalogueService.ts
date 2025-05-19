@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0.
 
 import {
+	ArrayHelper,
 	ComponentFactory,
 	GeneralError,
 	Guards,
@@ -12,6 +13,7 @@ import {
 	UnprocessableError
 } from "@twin.org/core";
 import { JsonLdProcessor } from "@twin.org/data-json-ld";
+import type { IJsonLdNodeObject } from "@twin.org/data-json-ld";
 import { ComparisonOperator, type EntityCondition } from "@twin.org/entity";
 import {
 	EntityStorageConnectorFactory,
@@ -41,6 +43,7 @@ import { LoggingConnectorFactory, type ILoggingConnector } from "@twin.org/loggi
 import { nameof } from "@twin.org/nameof";
 import { GaiaXTypes, type IParticipant } from "@twin.org/standards-gaia-x";
 import { SchemaOrgDataTypes, SchemaOrgTypes } from "@twin.org/standards-schema-org";
+import type { IOdrlPolicy } from "@twin.org/standards-w3c-odrl";
 import type { DataResourceEntry } from "./entities/dataResourceEntry";
 import type { DataSpaceConnectorEntry } from "./entities/dataSpaceConnectorEntry";
 import type { ParticipantEntry } from "./entities/participantEntry";
@@ -830,7 +833,8 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 		Guards.objectValue(this.CLASS_NAME, nameof(credentialData), credentialData);
 
-		const { providedBy, aggregationOfResources, ...deStructuredData } = credentialData;
+		const { providedBy, aggregationOfResources, servicePolicy, ...deStructuredData } =
+			credentialData;
 
 		const result: IServiceOfferingEntry = {
 			...deStructuredData,
@@ -841,7 +845,10 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			validFrom: complianceCredential.validFrom,
 			validUntil: complianceCredential.validUntil,
 			dateCreated: new Date().toISOString(),
-			evidence: [serviceOfferingCredential.id as string]
+			evidence: [serviceOfferingCredential.id as string],
+			servicePolicy: ArrayHelper.fromObjectOrArray<IJsonLdNodeObject>(
+				servicePolicy
+			) as IOdrlPolicy[]
 		};
 
 		return result;
@@ -860,7 +867,8 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		const credentialData = dataResourceCredential.credentialSubject;
 		Guards.objectValue(this.CLASS_NAME, nameof(credentialData), credentialData);
 
-		const { producedBy, copyrightOwnedBy, exposedThrough, ...deStructuredData } = credentialData;
+		const { producedBy, copyrightOwnedBy, exposedThrough, resourcePolicy, ...deStructuredData } =
+			credentialData;
 
 		let producedByValue = producedBy;
 		if (Is.object<IParticipant>(producedByValue)) {
@@ -882,7 +890,10 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			validFrom: complianceCredential.validFrom,
 			validUntil: complianceCredential.validUntil,
 			dateCreated: new Date().toISOString(),
-			evidence: [dataResourceCredential.id as string]
+			evidence: [dataResourceCredential.id as string],
+			resourcePolicy: ArrayHelper.fromObjectOrArray<IJsonLdNodeObject>(
+				resourcePolicy
+			) as IOdrlPolicy[]
 		};
 
 		return result;

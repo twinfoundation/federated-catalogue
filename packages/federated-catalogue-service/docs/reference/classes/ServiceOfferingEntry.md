@@ -64,7 +64,7 @@ The REST endpoint
 
 ### servicePolicy
 
-> **servicePolicy**: `unknown`
+> **servicePolicy**: `IOdrlPolicy`[]
 
 The policy
 

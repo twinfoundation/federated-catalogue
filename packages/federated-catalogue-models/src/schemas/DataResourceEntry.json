@@ -93,8 +93,11 @@
 			"description": "Overwriting copyrightOwnedBy as we only store the identifier"
 		},
 		"resourcePolicy": {
-			"$ref": "https://schema.twindev.org/json-ld/JsonLdNodeObject",
-			"description": "ODRL Policy"
+			"type": "array",
+			"items": {
+				"$ref": "https://schema.twindev.org/federated-catalogue/OdrlPolicy"
+			},
+			"description": "Overwriting to ensure always an array is stored"
 		},
 		"issuer": {
 			"type": "string",

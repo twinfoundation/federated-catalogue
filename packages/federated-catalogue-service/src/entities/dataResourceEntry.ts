@@ -1,6 +1,7 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 import { entity, property, SortDirection } from "@twin.org/entity";
+import type { IOdrlPolicy } from "@twin.org/standards-w3c-odrl";
 
 /**
  * Data Resource Entry.
@@ -59,8 +60,8 @@ export class DataResourceEntry {
 	/**
 	 * The Data Resource policy
 	 */
-	@property({ type: "object" })
-	public resourcePolicy!: unknown;
+	@property({ type: "array" })
+	public resourcePolicy!: IOdrlPolicy[];
 
 	/**
 	 * Valid from

@@ -117,3 +117,75 @@ Overwriting exposedThrough as we only store the id of the Data Exchange Componen
 #### Overrides
 
 `IDataResource.exposedThrough`
+
+***
+
+### resourcePolicy
+
+> **resourcePolicy**: `IOdrlPolicy`[]
+
+Overwriting to ensure always an array is stored
+
+#### Overrides
+
+`IDataResource.resourcePolicy`
+
+***
+
+### id
+
+> **id**: `string`
+
+Subject Id
+
+#### Inherited from
+
+`IDataResource.id`
+
+***
+
+### type
+
+> **type**: `"DataResource"`
+
+Subject type
+
+#### Inherited from
+
+`IDataResource.type`
+
+***
+
+### description?
+
+> `optional` **description**: `string`
+
+Description
+
+#### Inherited from
+
+`IDataResource.description`
+
+***
+
+### name
+
+> **name**: `string`
+
+The Resource Name
+
+#### Inherited from
+
+`IDataResource.name`
+
+***
+
+### license
+
+> **license**: `string`
+
+Pointer (URL) to the license
+
+#### Inherited from
+
+`IDataResource.license`

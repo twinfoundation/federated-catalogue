@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0.
 
 import type { IServiceOffering } from "@twin.org/standards-gaia-x";
+import type { IOdrlPolicy } from "@twin.org/standards-w3c-odrl";
 import type { FederatedCatalogueContextType } from "../fedCatalogueContextType";
 import type { ICatalogueEntry } from "../ICatalogueEntry";
 
@@ -22,4 +23,9 @@ export interface IServiceOfferingEntry extends ICatalogueEntry, IServiceOffering
 	 * Overwrites aggregationOfResources as we only store identifier as string
 	 */
 	aggregationOfResources?: string[];
+
+	/**
+	 * The service policy is always stored as an array
+	 */
+	servicePolicy: IOdrlPolicy[];
 }

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0.
 import { entity, property, SortDirection } from "@twin.org/entity";
 import type { IEndpoint } from "@twin.org/standards-gaia-x";
+import type { IOdrlPolicy } from "@twin.org/standards-w3c-odrl";
 
 /**
  * Service Offering Entry.
@@ -47,8 +48,8 @@ export class ServiceOfferingEntry {
 	/**
 	 * The policy
 	 */
-	@property({ type: "object" })
-	public servicePolicy!: unknown;
+	@property({ type: "array" })
+	public servicePolicy!: IOdrlPolicy[];
 
 	/**
 	 * Resources aggregated

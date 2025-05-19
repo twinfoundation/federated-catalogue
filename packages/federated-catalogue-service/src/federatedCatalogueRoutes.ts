@@ -35,6 +35,7 @@ import {
 import { nameof } from "@twin.org/nameof";
 import { GaiaXTypes } from "@twin.org/standards-gaia-x";
 import { SchemaOrgTypes } from "@twin.org/standards-schema-org";
+import type { IOdrlPolicy } from "@twin.org/standards-w3c-odrl";
 import { HttpStatusCode, MimeTypes } from "@twin.org/web";
 
 /**
@@ -320,12 +321,42 @@ export function generateRestRoutesFederatedCatalogue(
 		]
 	};
 
+	const servicePolicyExample: IOdrlPolicy = {
+		"@context": [
+			"https://www.w3.org/ns/odrl.jsonld",
+			{
+				twin: "https://schema.twindev.org/odrl/",
+				jsonPathSelector: "twin:jsonPathSelector"
+			}
+		],
+		"@type": "Agreement",
+		uid: "http://example.com/policy:1010",
+		assigner: "did:iota:testnet:0x1a7bded4d22dc54722435d624e4323e10fcbc570cd57462eabbf3a5ab2ced24f",
+		assignee: "did:iota:testnet:0x119adb64d01d3b0fa0d308c67db90ab1c6e0df6aebe5b7e0250783f57cd10c21",
+		permission: [
+			{
+				target: {
+					type: "https://vocabulary.uncefact.org/Document",
+					refinement: {
+						leftOperand: {
+							"@id": "https://w3id.org/twin/odrl/propertyValue",
+							jsonPathSelector: ".documentTypeCode"
+						},
+						operator: "eq",
+						rightOperand: "https://vocabulary.uncefact.org/DocumentCodeList#331"
+					}
+				},
+				action: "extract"
+			}
+		]
+	};
+
 	const serviceOfferingEntryExample: IServiceOfferingEntry = {
 		"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY,
 		id: "http://example.org/is123456",
 		name: "Service 1",
 		type: GaiaXTypes.ServiceOffering,
-		servicePolicy: {},
+		servicePolicy: [servicePolicyExample],
 		endpoint: {
 			type: GaiaXTypes.Endpoint,
 			endpointURL: "https://endpoint.example.org/api"
@@ -423,6 +454,21 @@ export function generateRestRoutesFederatedCatalogue(
 		]
 	};
 
+	const resourcePolicyExample: IOdrlPolicy = {
+		"@context": ["https://www.w3.org/ns/odrl.jsonld"],
+		"@type": "Offer",
+		uid: "http://example.com/policy:1010",
+		assigner: "did:iota:testnet:0x1a7bded4d22dc54722435d624e4323e10fcbc570cd57462eabbf3a5ab2ced24f",
+		permission: [
+			{
+				target: {
+					type: "https://vocabulary.uncefact.org/Document"
+				},
+				action: "extract"
+			}
+		]
+	};
+
 	const dataResourceEntryExample: IDataResourceEntry = {
 		"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY,
 		id: "http://example.org/is123456",
@@ -430,7 +476,7 @@ export function generateRestRoutesFederatedCatalogue(
 		type: "DataResource",
 		copyrightOwnedBy: "did:iota:1234",
 		license: "http://licenses.example.org/12345",
-		resourcePolicy: {},
+		resourcePolicy: [resourcePolicyExample],
 		exposedThrough: "https://ds-connectors.example.org/ds1",
 		producedBy: "did:iota:1234567",
 		issuer: "did:iota:987654",

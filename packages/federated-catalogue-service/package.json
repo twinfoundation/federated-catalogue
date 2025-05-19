@@ -44,6 +44,7 @@
 		"@twin.org/standards-w3c-did": "next",
 		"@twin.org/standards-gaia-x": "next",
 		"@twin.org/standards-schema-org": "next",
+		"@twin.org/standards-w3c-odrl": "next",
 		"@twin.org/crypto": "next",
 		"@twin.org/data-json-ld": "next"
 	},

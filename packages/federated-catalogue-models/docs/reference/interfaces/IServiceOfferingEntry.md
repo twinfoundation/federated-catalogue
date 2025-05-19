@@ -105,3 +105,75 @@ Overwrites aggregationOfResources as we only store identifier as string
 #### Overrides
 
 `IServiceOffering.aggregationOfResources`
+
+***
+
+### servicePolicy
+
+> **servicePolicy**: `IOdrlPolicy`[]
+
+The service policy is always stored as an array
+
+#### Overrides
+
+`IServiceOffering.servicePolicy`
+
+***
+
+### id
+
+> **id**: `string`
+
+Id
+
+#### Inherited from
+
+`IServiceOffering.id`
+
+***
+
+### type
+
+> **type**: `"ServiceOffering"`
+
+Type
+
+#### Inherited from
+
+`IServiceOffering.type`
+
+***
+
+### description?
+
+> `optional` **description**: `string`
+
+Description
+
+#### Inherited from
+
+`IServiceOffering.description`
+
+***
+
+### name
+
+> **name**: `string`
+
+Name
+
+#### Inherited from
+
+`IServiceOffering.name`
+
+***
+
+### endpoint
+
+> **endpoint**: `IEndpoint`
+
+The endpoint
+
+#### Inherited from
+
+`IServiceOffering.endpoint`
