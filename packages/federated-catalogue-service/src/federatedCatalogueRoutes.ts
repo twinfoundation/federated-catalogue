@@ -725,9 +725,11 @@ export async function complianceCredentialPresentation(
 	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
 	const participantId = await service.registerComplianceCredential(request.body);
 
+	const searchParams = new URLSearchParams();
+	searchParams.append(FederatedCatalogueTypes.Id, participantId);
 	return {
 		headers: {
-			location: `${baseRouteName}/${PARTICIPANTS_ROUTE}/${encodeURIComponent(participantId)}`
+			location: `${baseRouteName}/${PARTICIPANTS_ROUTE}?${searchParams.toString()}`
 		},
 		statusCode: HttpStatusCode.created
 	};
@@ -821,9 +823,14 @@ export async function serviceOfferingCredentialPresentation(
 	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
 	const serviceOfferingsCreated = await service.registerServiceOfferingCredential(request.body);
 
+	// Prepare the Ids to be returned
+	const searchParams = new URLSearchParams();
+	for (const serviceOffering of serviceOfferingsCreated) {
+		searchParams.append(FederatedCatalogueTypes.Id, serviceOffering);
+	}
 	return {
 		headers: {
-			location: `${baseRouteName}/${SERVICE_OFFERING_ROUTE}/${encodeURIComponent(serviceOfferingsCreated[0])}`
+			location: `${baseRouteName}/${SERVICE_OFFERING_ROUTE}?${searchParams.toString()}`
 		},
 		statusCode: HttpStatusCode.created
 	};
@@ -916,9 +923,14 @@ export async function dataResourceCredentialPresentation(
 	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
 	const dataResourcesCreated = await service.registerDataResourceCredential(request.body);
 
+	// Prepare the Ids to be returned
+	const searchParams = new URLSearchParams();
+	for (const dataResource of dataResourcesCreated) {
+		searchParams.append(FederatedCatalogueTypes.Id, dataResource);
+	}
 	return {
 		headers: {
-			location: `${baseRouteName}/${DATA_RESOURCE_ROUTE}/${encodeURIComponent(dataResourcesCreated[0])}`
+			location: `${baseRouteName}/${DATA_RESOURCE_ROUTE}?${searchParams.toString()}`
 		},
 		statusCode: HttpStatusCode.created
 	};
@@ -1011,9 +1023,11 @@ export async function dataSpaceConnectorCredentialPresentation(
 	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
 	const dataSpaceConnectorId = await service.registerDataSpaceConnectorCredential(request.body);
 
+	const searchParams = new URLSearchParams();
+	searchParams.append("id", dataSpaceConnectorId);
 	return {
 		headers: {
-			location: `${baseRouteName}/${DATA_SPACE_CONNECTOR_ROUTE}/${encodeURIComponent(dataSpaceConnectorId)}`
+			location: `${baseRouteName}/${DATA_SPACE_CONNECTOR_ROUTE}?${searchParams.toString()}`
 		},
 		statusCode: HttpStatusCode.created
 	};

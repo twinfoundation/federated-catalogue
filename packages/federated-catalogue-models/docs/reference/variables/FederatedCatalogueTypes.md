@@ -23,3 +23,9 @@ A Compliance Credential.
 > `readonly` **DataSpaceConnector**: `"DataSpaceConnector"` = `"DataSpaceConnector"`
 
 A Data Space Connector.
+
+### Id
+
+> `readonly` **Id**: `"id"` = `"id"`
+
+Id property.

@@ -3,9 +3,8 @@
 
 import { GaiaXContexts } from "@twin.org/standards-gaia-x";
 import { SchemaOrgContexts } from "@twin.org/standards-schema-org";
+import type { FederatedCatalogueContextType } from "./fedCatalogueContextType";
 import { FederatedCatalogueContexts } from "./federatedCatalogueContexts";
-import type { IParticipantEntry } from "./participant/IParticipantEntry";
-import type { IParticipantList } from "./participant/IParticipantList";
 
 /**
  * The LD context instances concerning the Federated Catalogue.
@@ -15,7 +14,7 @@ export abstract class FederatedCatalogueContextInstances {
 	/**
 	 * The LD Context of a list of Catalogue entries.
 	 */
-	public static DEFAULT_LD_CONTEXT_ENTRY_LIST: IParticipantList["@context"] = [
+	public static DEFAULT_LD_CONTEXT_ENTRY_LIST: FederatedCatalogueContextType = [
 		SchemaOrgContexts.ContextRoot,
 		GaiaXContexts.GaiaXLdContext,
 		FederatedCatalogueContexts.ContextRoot
@@ -24,6 +23,6 @@ export abstract class FederatedCatalogueContextInstances {
 	/**
 	 * The LD Context of a Catalogue entry.
 	 */
-	public static DEFAULT_LD_CONTEXT_ENTRY: IParticipantEntry["@context"] =
+	public static DEFAULT_LD_CONTEXT_ENTRY: FederatedCatalogueContextType =
 		this.DEFAULT_LD_CONTEXT_ENTRY_LIST;
 }

@@ -19,7 +19,12 @@ export const FederatedCatalogueTypes = {
 	/**
 	 * A Data Space Connector.
 	 */
-	DataSpaceConnector: "DataSpaceConnector"
+	DataSpaceConnector: "DataSpaceConnector",
+
+	/**
+	 * Id property.
+	 */
+	Id: "id"
 } as const;
 
 /**

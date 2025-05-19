@@ -66,7 +66,7 @@ export class FederatedCatalogueClient extends BaseRestClient implements IFederat
 			}
 		);
 
-		return this.getIdFromLocation(response.headers[HeaderTypes.Location]);
+		return this.getIdsFromLocation(response.headers[HeaderTypes.Location])[0];
 	}
 
 	/**
@@ -123,7 +123,7 @@ export class FederatedCatalogueClient extends BaseRestClient implements IFederat
 			}
 		);
 
-		return this.getIdFromLocation(response.headers[HeaderTypes.Location]);
+		return this.getIdsFromLocation(response.headers[HeaderTypes.Location])[0];
 	}
 
 	/**
@@ -176,7 +176,7 @@ export class FederatedCatalogueClient extends BaseRestClient implements IFederat
 			}
 		);
 
-		return [this.getIdFromLocation(response.headers[HeaderTypes.Location])];
+		return this.getIdsFromLocation(response.headers[HeaderTypes.Location]);
 	}
 
 	/**
@@ -195,7 +195,7 @@ export class FederatedCatalogueClient extends BaseRestClient implements IFederat
 			}
 		);
 
-		return [this.getIdFromLocation(response.headers[HeaderTypes.Location])];
+		return this.getIdsFromLocation(response.headers[HeaderTypes.Location]);
 	}
 
 	/**
@@ -387,17 +387,20 @@ export class FederatedCatalogueClient extends BaseRestClient implements IFederat
 	 * @returns The Id
 	 * @throws GeneralError if Id cannot be found
 	 */
-	private getIdFromLocation(locationURL: string): string {
+	private getIdsFromLocation(locationURL: string): string[] {
 		if (Is.undefined(locationURL)) {
 			throw new GeneralError(this.CLASS_NAME, "locationURLNotProvided");
 		}
 
-		const id = locationURL.split("/").pop();
+		// Localhost is dummy used to build a correct URL as a fallback
+		const url = new URL(locationURL, "localhost");
+		const searchParams = url.searchParams;
+		const ids = searchParams.getAll(FederatedCatalogueTypes.Id);
 
-		if (Is.undefined(id)) {
+		if (Is.empty(ids)) {
 			throw new GeneralError(this.CLASS_NAME, "idNotFoundFromLocationURL", { locationURL });
 		}
 
-		return id;
+		return ids;
 	}
 }
