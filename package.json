@@ -50,7 +50,8 @@
 	"workspaces": [
 		"packages/federated-catalogue-models",
 		"packages/federated-catalogue-service",
-		"apps/federated-catalogue-rest-server"
+		"apps/federated-catalogue-rest-server",
+		"packages/federated-catalogue-rest-client"
 	],
 	"type": "module"
 }

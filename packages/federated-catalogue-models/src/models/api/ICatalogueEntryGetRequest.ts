@@ -1,10 +1,12 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
+import type { IFederatedCatalogueGetRequest } from "./IFederatedCatalogueGetRequest";
+
 /**
  * Get a Catalogue Entry.
  */
-export interface ICatalogueEntryGetRequest {
+export interface ICatalogueEntryGetRequest extends IFederatedCatalogueGetRequest {
 	/**
 	 * The parameters from the path.
 	 */

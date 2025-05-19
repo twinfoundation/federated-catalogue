@@ -769,6 +769,15 @@
 						"schema": {
 							"type": "number"
 						}
+					},
+					{
+						"name": "accept",
+						"in": "header",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple"
 					}
 				],
 				"security": [
@@ -904,6 +913,15 @@
 						},
 						"style": "simple",
 						"example": "did:iota:123456"
+					},
+					{
+						"name": "accept",
+						"in": "header",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple"
 					}
 				],
 				"security": [
@@ -1055,6 +1073,15 @@
 						"schema": {
 							"type": "number"
 						}
+					},
+					{
+						"name": "accept",
+						"in": "header",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple"
 					}
 				],
 				"security": [
@@ -1337,6 +1364,15 @@
 						"schema": {
 							"type": "number"
 						}
+					},
+					{
+						"name": "accept",
+						"in": "header",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple"
 					}
 				],
 				"security": [
@@ -1617,6 +1653,15 @@
 						"schema": {
 							"type": "number"
 						}
+					},
+					{
+						"name": "accept",
+						"in": "header",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple"
 					}
 				],
 				"security": [

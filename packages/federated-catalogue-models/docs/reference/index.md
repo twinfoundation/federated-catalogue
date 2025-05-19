@@ -20,6 +20,7 @@
 - [IDataSpaceConnectorGetResponse](interfaces/IDataSpaceConnectorGetResponse.md)
 - [IDataSpaceConnectorListRequest](interfaces/IDataSpaceConnectorListRequest.md)
 - [IDataSpaceConnectorListResponse](interfaces/IDataSpaceConnectorListResponse.md)
+- [IFederatedCatalogueGetRequest](interfaces/IFederatedCatalogueGetRequest.md)
 - [IParticipantGetResponse](interfaces/IParticipantGetResponse.md)
 - [IParticipantListRequest](interfaces/IParticipantListRequest.md)
 - [IParticipantListResponse](interfaces/IParticipantListResponse.md)
