@@ -3,7 +3,7 @@
 
 import type { SchemaOrgTypes } from "@twin.org/standards-schema-org";
 import type { IDataResourceEntry } from "./IDataResourceEntry";
-import type { FederatedCatalogueContextType } from "../fedCatalogueEntryContextType";
+import type { FederatedCatalogueContextType } from "../fedCatalogueContextType";
 
 /**
  * Interface describing a list of Data Resource entries.
@@ -23,10 +23,10 @@ export interface IDataResourceList {
 	 * The components of the Collection
 	 *
 	 */
-	itemListElement: Omit<IDataResourceEntry, "@context">[];
+	[SchemaOrgTypes.ItemListElement]: Omit<IDataResourceEntry, "@context">[];
 
 	/**
 	 * Next item cursor.
 	 */
-	nextItem?: string;
+	[SchemaOrgTypes.NextItem]?: string;
 }

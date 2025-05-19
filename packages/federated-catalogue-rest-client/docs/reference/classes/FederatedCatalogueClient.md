@@ -351,3 +351,45 @@ NotImplementedError if the implementation does not support retrieval.
 #### Implementation of
 
 `IFederatedCatalogue.queryDataResources`
+
+***
+
+### getEntry()
+
+> **getEntry**\<`T`\>(`entryType`, `entryId`): `Promise`\<`T`\>
+
+Returns a Federated Catalogue entry.
+
+#### Type Parameters
+
+##### T
+
+`T`
+
+#### Parameters
+
+##### entryType
+
+`FederatedCatalogueEntryType`
+
+The type of entry.
+
+##### entryId
+
+`string`
+
+The entry's id.
+
+#### Returns
+
+`Promise`\<`T`\>
+
+Catalogue Entry
+
+#### Throws
+
+NotFoundError if not found.
+
+#### Implementation of
+
+`IFederatedCatalogue.getEntry`

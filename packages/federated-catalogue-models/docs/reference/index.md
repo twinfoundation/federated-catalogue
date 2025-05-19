@@ -45,8 +45,8 @@
 
 - [FederatedCatalogueContextType](type-aliases/FederatedCatalogueContextType.md)
 - [FederatedCatalogueContexts](type-aliases/FederatedCatalogueContexts.md)
+- [FederatedCatalogueEntryType](type-aliases/FederatedCatalogueEntryType.md)
 - [FederatedCatalogueTypes](type-aliases/FederatedCatalogueTypes.md)
-- [ObjectOrArray](type-aliases/ObjectOrArray.md)
 - [VerificationFailureReasons](type-aliases/VerificationFailureReasons.md)
 
 ## Variables

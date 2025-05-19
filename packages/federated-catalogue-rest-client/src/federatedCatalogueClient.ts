@@ -2,23 +2,35 @@
 // SPDX-License-Identifier: Apache-2.0.
 import { BaseRestClient } from "@twin.org/api-core";
 import type { IHttpRequest, IBaseRestClientConfig, ICreatedResponse } from "@twin.org/api-models";
-import { Guards } from "@twin.org/core";
-import type {
-	IDataResourceList,
-	IDataResourceListRequest,
-	IDataResourceListResponse,
-	IDataSpaceConnectorList,
-	IDataSpaceConnectorListRequest,
-	IDataSpaceConnectorListResponse,
-	IFederatedCatalogue,
-	IParticipantList,
-	IParticipantListRequest,
-	IParticipantListResponse,
-	IServiceOfferingList,
-	IServiceOfferingListRequest,
-	IServiceOfferingListResponse
+import { GeneralError, Guards } from "@twin.org/core";
+import {
+	FederatedCatalogueTypes,
+	type IParticipantEntry,
+	type IParticipantGetResponse,
+	type FederatedCatalogueEntryType,
+	type ICatalogueEntryGetRequest,
+	type IDataResourceEntry,
+	type IDataResourceGetResponse,
+	type IDataResourceList,
+	type IDataResourceListRequest,
+	type IDataResourceListResponse,
+	type IDataSpaceConnectorList,
+	type IDataSpaceConnectorListRequest,
+	type IDataSpaceConnectorListResponse,
+	type IFederatedCatalogue,
+	type IParticipantList,
+	type IParticipantListRequest,
+	type IParticipantListResponse,
+	type IServiceOfferingEntry,
+	type IServiceOfferingGetResponse,
+	type IServiceOfferingList,
+	type IServiceOfferingListRequest,
+	type IServiceOfferingListResponse,
+	type IDataSpaceConnectorEntry,
+	type IDataSpaceConnectorGetResponse
 } from "@twin.org/federated-catalogue-models";
 import { nameof } from "@twin.org/nameof";
+import { GaiaXTypes } from "@twin.org/standards-gaia-x";
 import { HeaderTypes, MimeTypes } from "@twin.org/web";
 
 /**
@@ -83,7 +95,7 @@ export class FederatedCatalogueClient extends BaseRestClient implements IFederat
 					[HeaderTypes.Accept]: MimeTypes.JsonLd
 				},
 				query: {
-					id: participant,
+					id: participant ? encodeURIComponent(participant) : undefined,
 					registrationNumber: legalRegistrationNumber,
 					lrnType,
 					cursor,
@@ -138,7 +150,7 @@ export class FederatedCatalogueClient extends BaseRestClient implements IFederat
 				[HeaderTypes.Accept]: MimeTypes.JsonLd
 			},
 			query: {
-				id,
+				id: id ? encodeURIComponent(id) : undefined,
 				maintainedBy: maintainer,
 				cursor,
 				pageSize
@@ -210,7 +222,7 @@ export class FederatedCatalogueClient extends BaseRestClient implements IFederat
 					[HeaderTypes.Accept]: MimeTypes.JsonLd
 				},
 				query: {
-					id,
+					id: id ? encodeURIComponent(id) : undefined,
 					providedBy,
 					cursor,
 					pageSize
@@ -245,7 +257,7 @@ export class FederatedCatalogueClient extends BaseRestClient implements IFederat
 					[HeaderTypes.Accept]: MimeTypes.JsonLd
 				},
 				query: {
-					id,
+					id: id ? encodeURIComponent(id) : undefined,
 					producedBy,
 					cursor,
 					pageSize
@@ -254,5 +266,118 @@ export class FederatedCatalogueClient extends BaseRestClient implements IFederat
 		);
 
 		return response.body;
+	}
+
+	/**
+	 * Returns a Federated Catalogue entry.
+	 * @param entryType The type of entry.
+	 * @param entryId The entry's id.
+	 * @returns Catalogue Entry
+	 * @throws NotFoundError if not found.
+	 */
+	public async getEntry<T>(entryType: FederatedCatalogueEntryType, entryId: string): Promise<T> {
+		Guards.stringValue(this.CLASS_NAME, nameof(entryId), entryId);
+
+		switch (entryType) {
+			case GaiaXTypes.Participant:
+				return this.getParticipantEntry(entryId) as T;
+			case GaiaXTypes.DataResource:
+				return this.getDataResourceEntry(entryId) as T;
+			case GaiaXTypes.ServiceOffering:
+				return this.getServiceOfferingEntry(entryId) as T;
+			case GaiaXTypes.DataExchangeComponent:
+			case FederatedCatalogueTypes.DataSpaceConnector:
+				return this.getDataSpaceConnectorEntry(entryId) as T;
+			default:
+				throw new GeneralError(this.CLASS_NAME, "unknownEntryType", { entryType });
+		}
+	}
+
+	/**
+	 * Gets a Participant entry.
+	 * @param entryId The entry Id
+	 * @returns The Data Resource entry
+	 */
+	private async getParticipantEntry(entryId: string): Promise<IParticipantEntry> {
+		const entry = await this.fetch<ICatalogueEntryGetRequest, IParticipantGetResponse>(
+			"/participants/:id",
+			"GET",
+			{
+				pathParams: {
+					id: encodeURIComponent(entryId)
+				},
+				headers: {
+					[HeaderTypes.Accept]: MimeTypes.JsonLd
+				}
+			}
+		);
+
+		return entry.body;
+	}
+
+	/**
+	 * Gets a Participant entry.
+	 * @param entryId The entry Id
+	 * @returns The Data Resource entry
+	 */
+	private async getDataSpaceConnectorEntry(entryId: string): Promise<IDataSpaceConnectorEntry> {
+		const entry = await this.fetch<ICatalogueEntryGetRequest, IDataSpaceConnectorGetResponse>(
+			"/data-space-connectors/:id",
+			"GET",
+			{
+				pathParams: {
+					id: encodeURIComponent(entryId)
+				},
+				headers: {
+					[HeaderTypes.Accept]: MimeTypes.JsonLd
+				}
+			}
+		);
+
+		return entry.body;
+	}
+
+	/**
+	 * Gets a Data Resource entry.
+	 * @param entryId The entry Id
+	 * @returns The Data Resource entry
+	 */
+	private async getDataResourceEntry(entryId: string): Promise<IDataResourceEntry> {
+		const entry = await this.fetch<ICatalogueEntryGetRequest, IDataResourceGetResponse>(
+			"/data-resources/:id",
+			"GET",
+			{
+				pathParams: {
+					id: encodeURIComponent(entryId)
+				},
+				headers: {
+					[HeaderTypes.Accept]: MimeTypes.JsonLd
+				}
+			}
+		);
+
+		return entry.body;
+	}
+
+	/**
+	 * Gets a Service Offering entry.
+	 * @param entryId The entry Id
+	 * @returns The Service Offering entry
+	 */
+	private async getServiceOfferingEntry(entryId: string): Promise<IServiceOfferingEntry> {
+		const entry = await this.fetch<ICatalogueEntryGetRequest, IServiceOfferingGetResponse>(
+			"/service-offerings/:id",
+			"GET",
+			{
+				pathParams: {
+					id: encodeURIComponent(entryId)
+				},
+				headers: {
+					[HeaderTypes.Accept]: MimeTypes.JsonLd
+				}
+			}
+		);
+
+		return entry.body;
 	}
 }

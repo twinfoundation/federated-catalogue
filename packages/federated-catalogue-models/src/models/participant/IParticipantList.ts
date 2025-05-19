@@ -3,7 +3,7 @@
 
 import type { SchemaOrgTypes } from "@twin.org/standards-schema-org";
 import type { IParticipantEntry } from "./IParticipantEntry";
-import type { FederatedCatalogueContextType } from "../fedCatalogueEntryContextType";
+import type { FederatedCatalogueContextType } from "../fedCatalogueContextType";
 
 /**
  * Interface describing a participant entry list.
@@ -23,10 +23,10 @@ export interface IParticipantList {
 	 * The components of the Collection
 	 *
 	 */
-	itemListElement: Omit<IParticipantEntry, "@context">[];
+	[SchemaOrgTypes.ItemListElement]: Omit<IParticipantEntry, "@context">[];
 
 	/**
 	 * Next item cursor.
 	 */
-	nextItem?: string;
+	[SchemaOrgTypes.NextItem]?: string;
 }

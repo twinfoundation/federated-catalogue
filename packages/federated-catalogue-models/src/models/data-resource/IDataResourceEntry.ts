@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0.
 
 import type { IDataResource } from "@twin.org/standards-gaia-x";
-import type { FederatedCatalogueContextType } from "../fedCatalogueEntryContextType";
+import type { FederatedCatalogueContextType } from "../fedCatalogueContextType";
 import type { ICatalogueEntry } from "../ICatalogueEntry";
 
 /**

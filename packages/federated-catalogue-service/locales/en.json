@@ -6,7 +6,9 @@
 			"credentialVerificationError": "Credential \"{credentialUrl}\" verification error",
 			"unknownHashingAlgorithm": "Unknown hashing algorithm: \"{hashingAlg}\"",
 			"noEvidence": "No Credential evidence provided for the type of Compliance Claimed",
-			"providerIsNotParticipant": "Provider is not known as participant"
+			"providerIsNotParticipant": "Provider is not known as participant",
+			"entryNotFound": "The requested entry has not been found in the Catalogue",
+			"unknownEntryType": "The entry type is not known to the Catalogue"
 		}
 	},
 	"info": {

@@ -8,8 +8,7 @@ import type {
 	ITag,
 	IUnprocessableEntityResponse
 } from "@twin.org/api-models";
-import { Coerce, ComponentFactory, Guards, Is } from "@twin.org/core";
-import { JsonLdProcessor } from "@twin.org/data-json-ld";
+import { BaseError, Coerce, ComponentFactory, Guards, NotFoundError } from "@twin.org/core";
 import {
 	type ICompliancePresentationRequest,
 	type IDataResourceListRequest,
@@ -733,30 +732,27 @@ export async function participantGet(
 	const id = request?.pathParams.id;
 	Guards.stringValue(ROUTES_SOURCE, nameof(id), id);
 
-	const itemsAndCursor = await service.queryParticipants(request?.pathParams.id);
-
-	if (Is.arrayValue(itemsAndCursor.itemListElement)) {
-		const entry: IParticipantEntry = {
-			type: GaiaXTypes.Participant,
-			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY,
-			...itemsAndCursor.itemListElement[0]
-		} as unknown as IParticipantEntry;
-
-		const result = await JsonLdProcessor.compact(entry, entry["@context"]);
-
+	try {
+		const entry: IParticipantEntry = await service.getEntry<IParticipantEntry>(
+			GaiaXTypes.Participant,
+			id
+		);
 		return {
-			body: result
+			body: entry
 		};
-	}
-
-	return {
-		statusCode: HttpStatusCode.notFound,
-		body: {
-			name: "notFoundEntry",
-			message: "notFoundEntry",
-			notFoundId: id
+	} catch (e) {
+		if (BaseError.isErrorName(e, NotFoundError.CLASS_NAME)) {
+			return {
+				statusCode: HttpStatusCode.notFound,
+				body: {
+					name: "notFoundEntry",
+					message: "notFoundEntry",
+					notFoundId: id
+				}
+			};
 		}
-	};
+		throw e;
+	}
 }
 
 /**
@@ -831,30 +827,27 @@ export async function serviceOfferingGet(
 	const id = request?.pathParams.id;
 	Guards.stringValue(ROUTES_SOURCE, nameof(id), id);
 
-	const itemsAndCursor = await service.queryServiceOfferings(request?.pathParams.id);
-
-	if (Is.arrayValue(itemsAndCursor.itemListElement)) {
-		const entry = {
-			...itemsAndCursor.itemListElement[0],
-			type: GaiaXTypes.ServiceOffering,
-			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY
-		} as unknown as IServiceOfferingEntry;
-
-		const result = await JsonLdProcessor.compact(entry, entry["@context"]);
-
+	try {
+		const entry: IServiceOfferingEntry = await service.getEntry<IServiceOfferingEntry>(
+			GaiaXTypes.ServiceOffering,
+			id
+		);
 		return {
-			body: result
+			body: entry
 		};
-	}
-
-	return {
-		statusCode: HttpStatusCode.notFound,
-		body: {
-			name: "notFoundEntry",
-			message: "notFoundEntry",
-			notFoundId: id
+	} catch (e) {
+		if (BaseError.isErrorName(e, NotFoundError.CLASS_NAME)) {
+			return {
+				statusCode: HttpStatusCode.notFound,
+				body: {
+					name: "notFoundEntry",
+					message: "notFoundEntry",
+					notFoundId: id
+				}
+			};
 		}
-	};
+		throw e;
+	}
 }
 
 /**
@@ -929,30 +922,27 @@ export async function dataResourceGet(
 	const id = request?.pathParams.id;
 	Guards.stringValue(ROUTES_SOURCE, nameof(id), id);
 
-	const itemsAndCursor = await service.queryDataResources(request?.pathParams.id);
-
-	if (Is.arrayValue(itemsAndCursor.itemListElement)) {
-		const entry = {
-			...itemsAndCursor.itemListElement[0],
-			type: GaiaXTypes.DataResource,
-			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY
-		} as unknown as IDataResourceEntry;
-
-		const result = await JsonLdProcessor.compact(entry, entry["@context"]);
-
+	try {
+		const entry: IDataResourceEntry = await service.getEntry<IDataResourceEntry>(
+			GaiaXTypes.DataResource,
+			id
+		);
 		return {
-			body: result
+			body: entry
 		};
-	}
-
-	return {
-		statusCode: HttpStatusCode.notFound,
-		body: {
-			name: "notFoundEntry",
-			message: "notFoundEntry",
-			notFoundId: id
+	} catch (e) {
+		if (BaseError.isErrorName(e, NotFoundError.CLASS_NAME)) {
+			return {
+				statusCode: HttpStatusCode.notFound,
+				body: {
+					name: "notFoundEntry",
+					message: "notFoundEntry",
+					notFoundId: id
+				}
+			};
 		}
-	};
+		throw e;
+	}
 }
 
 /**
@@ -1027,28 +1017,25 @@ export async function dataSpaceConnectorGet(
 	const id = request?.pathParams.id;
 	Guards.stringValue(ROUTES_SOURCE, nameof(id), id);
 
-	const itemsAndCursor = await service.queryDataSpaceConnectors(request?.pathParams.id);
-
-	if (Is.arrayValue(itemsAndCursor.itemListElement)) {
-		const entry = {
-			...itemsAndCursor.itemListElement,
-			type: [GaiaXTypes.DataExchangeComponent, FederatedCatalogueTypes.DataSpaceConnector],
-			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY
-		} as unknown as IDataSpaceConnectorEntry;
-
-		const result = await JsonLdProcessor.compact(entry, entry["@context"]);
-
+	try {
+		const entry: IDataSpaceConnectorEntry = await service.getEntry<IDataSpaceConnectorEntry>(
+			GaiaXTypes.DataExchangeComponent,
+			id
+		);
 		return {
-			body: result
+			body: entry
 		};
-	}
-
-	return {
-		statusCode: HttpStatusCode.notFound,
-		body: {
-			name: "notFoundEntry",
-			message: "notFoundEntry",
-			notFoundId: id
+	} catch (e) {
+		if (BaseError.isErrorName(e, NotFoundError.CLASS_NAME)) {
+			return {
+				statusCode: HttpStatusCode.notFound,
+				body: {
+					name: "notFoundEntry",
+					message: "notFoundEntry",
+					notFoundId: id
+				}
+			};
 		}
-	};
+		throw e;
+	}
 }

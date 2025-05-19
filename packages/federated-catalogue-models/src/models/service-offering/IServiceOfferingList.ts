@@ -3,7 +3,7 @@
 
 import type { SchemaOrgTypes } from "@twin.org/standards-schema-org";
 import type { IServiceOfferingEntry } from "./IServiceOfferingEntry";
-import type { FederatedCatalogueContextType } from "../fedCatalogueEntryContextType";
+import type { FederatedCatalogueContextType } from "../fedCatalogueContextType";
 
 /**
  * Interface describing a list of Service Offering Entries.
@@ -23,10 +23,10 @@ export interface IServiceOfferingList {
 	 * The components of the Collection
 	 *
 	 */
-	itemListElement: Omit<IServiceOfferingEntry, "@context">[];
+	[SchemaOrgTypes.ItemListElement]: Omit<IServiceOfferingEntry, "@context">[];
 
 	/**
 	 * Next item cursor.
 	 */
-	nextItem?: string;
+	[SchemaOrgTypes.NextItem]?: string;
 }

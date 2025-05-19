@@ -3,8 +3,10 @@
 
 import {
 	ComponentFactory,
+	GeneralError,
 	Guards,
 	Is,
+	NotFoundError,
 	ObjectHelper,
 	StringHelper,
 	UnprocessableError
@@ -31,7 +33,8 @@ import {
 	type IDataResourceList,
 	type IDataSpaceConnectorList,
 	type IServiceOfferingList,
-	FederatedCatalogueContextInstances
+	FederatedCatalogueContextInstances,
+	type FederatedCatalogueEntryType
 } from "@twin.org/federated-catalogue-models";
 import { VerificationHelper, type IIdentityResolverComponent } from "@twin.org/identity-models";
 import { LoggingConnectorFactory, type ILoggingConnector } from "@twin.org/logging-models";
@@ -266,6 +269,50 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		};
 
 		return JsonLdProcessor.compact(result, result["@context"]);
+	}
+
+	/**
+	 * Returns a Federated Catalogue entry.
+	 * @param entryType The type of entry.
+	 * @param entryId The entry's id.
+	 * @returns Catalogue Entry
+	 * @throws NotFoundError if not found.
+	 */
+	public async getEntry<T>(entryType: FederatedCatalogueEntryType, entryId: string): Promise<T> {
+		Guards.stringValue(this.CLASS_NAME, nameof(entryId), entryId);
+
+		let itemsAndCursor;
+		switch (entryType) {
+			case GaiaXTypes.Participant:
+				itemsAndCursor = await this.queryParticipants(entryId);
+				break;
+			case GaiaXTypes.DataExchangeComponent:
+			case FederatedCatalogueTypes.DataSpaceConnector:
+				itemsAndCursor = await this.queryDataSpaceConnectors(entryId);
+				break;
+			case GaiaXTypes.ServiceOffering:
+				itemsAndCursor = await this.queryServiceOfferings(entryId);
+				break;
+			case GaiaXTypes.DataResource:
+				itemsAndCursor = await this.queryDataResources(entryId);
+				break;
+			default:
+				throw new GeneralError(this.CLASS_NAME, "unknownEntryType", { entryType });
+		}
+
+		if (Is.arrayValue(itemsAndCursor?.itemListElement)) {
+			const entry = {
+				type: GaiaXTypes.Participant,
+				"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY,
+				...itemsAndCursor.itemListElement[0]
+			};
+
+			const result = await JsonLdProcessor.compact(entry, entry["@context"]);
+
+			return result as T;
+		}
+
+		throw new NotFoundError(this.CLASS_NAME, "entryNotFound", entryId);
 	}
 
 	/**

@@ -3,6 +3,7 @@
 import type { IComponent } from "@twin.org/core";
 import type { IDataResourceList } from "./data-resource/IDataResourceList";
 import type { IDataSpaceConnectorList } from "./data-space-connector/IDataSpaceConnectorList";
+import type { FederatedCatalogueEntryType } from "./federatedCatalogueEntryType";
 import type { IParticipantList } from "./participant/IParticipantList";
 import type { IServiceOfferingList } from "./service-offering/IServiceOfferingList";
 
@@ -107,4 +108,13 @@ export interface IFederatedCatalogue extends IComponent {
 		cursor?: string,
 		pageSize?: number
 	): Promise<IDataResourceList>;
+
+	/**
+	 * Returns a Federated Catalogue entry.
+	 * @param entryType The type of entry.
+	 * @param entryId The entry's id.
+	 * @returns Catalogue Entry
+	 * @throws NotFoundError if not found.
+	 */
+	getEntry<T>(entryType: FederatedCatalogueEntryType, entryId: string): Promise<T>;
 }

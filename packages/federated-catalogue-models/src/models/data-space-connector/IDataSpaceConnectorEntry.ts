@@ -3,7 +3,7 @@
 
 import type { ICatalogueEntry } from "../ICatalogueEntry";
 import type { IDataSpaceConnector } from "./IDataSpaceConnector";
-import type { FederatedCatalogueContextType } from "../fedCatalogueEntryContextType";
+import type { FederatedCatalogueContextType } from "../fedCatalogueContextType";
 
 /**
  * Interface describing a participant.

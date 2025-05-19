@@ -51,6 +51,6 @@ export * from "./models/ICredential";
 
 export * from "./models/verificationFailureReasons";
 
-export * from "./models/objectOrArray";
+export * from "./models/fedCatalogueContextType";
 
-export * from "./models/fedCatalogueEntryContextType";
+export * from "./models/federatedCatalogueEntryType";

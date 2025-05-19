@@ -3,7 +3,7 @@
 
 import type { SchemaOrgTypes } from "@twin.org/standards-schema-org";
 import type { IDataSpaceConnectorEntry } from "./IDataSpaceConnectorEntry";
-import type { FederatedCatalogueContextType } from "../fedCatalogueEntryContextType";
+import type { FederatedCatalogueContextType } from "../fedCatalogueContextType";
 
 /**
  * Interface describing a list of Data Space Connectors.
@@ -23,10 +23,10 @@ export interface IDataSpaceConnectorList {
 	 * The components of the Collection
 	 *
 	 */
-	itemListElement: Omit<IDataSpaceConnectorEntry, "@context">[];
+	[SchemaOrgTypes.ItemListElement]: Omit<IDataSpaceConnectorEntry, "@context">[];
 
 	/**
 	 * Next item cursor.
 	 */
-	nextItem?: string;
+	[SchemaOrgTypes.NextItem]?: string;
 }
