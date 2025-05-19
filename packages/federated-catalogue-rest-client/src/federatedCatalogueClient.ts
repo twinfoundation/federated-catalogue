@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0.
 import { BaseRestClient } from "@twin.org/api-core";
 import type { IHttpRequest, IBaseRestClientConfig, ICreatedResponse } from "@twin.org/api-models";
-import { GeneralError, Guards } from "@twin.org/core";
+import { GeneralError, Guards, Is } from "@twin.org/core";
 import {
 	FederatedCatalogueTypes,
 	type IParticipantEntry,
@@ -66,7 +66,7 @@ export class FederatedCatalogueClient extends BaseRestClient implements IFederat
 			}
 		);
 
-		return response.headers[HeaderTypes.Location].split("/")[0];
+		return this.getIdFromLocation(response.headers[HeaderTypes.Location]);
 	}
 
 	/**
@@ -123,7 +123,7 @@ export class FederatedCatalogueClient extends BaseRestClient implements IFederat
 			}
 		);
 
-		return response.headers[HeaderTypes.Location].split("/")[0];
+		return this.getIdFromLocation(response.headers[HeaderTypes.Location]);
 	}
 
 	/**
@@ -176,7 +176,7 @@ export class FederatedCatalogueClient extends BaseRestClient implements IFederat
 			}
 		);
 
-		return [response.headers[HeaderTypes.Location].split("/")[0]];
+		return [this.getIdFromLocation(response.headers[HeaderTypes.Location])];
 	}
 
 	/**
@@ -195,7 +195,7 @@ export class FederatedCatalogueClient extends BaseRestClient implements IFederat
 			}
 		);
 
-		return [response.headers[HeaderTypes.Location].split("/")[0]];
+		return [this.getIdFromLocation(response.headers[HeaderTypes.Location])];
 	}
 
 	/**
@@ -379,5 +379,25 @@ export class FederatedCatalogueClient extends BaseRestClient implements IFederat
 		);
 
 		return entry.body;
+	}
+
+	/**
+	 * Returns the Id from a location URL.
+	 * @param locationURL Location URL
+	 * @returns The Id
+	 * @throws GeneralError if Id cannot be found
+	 */
+	private getIdFromLocation(locationURL: string): string {
+		if (Is.undefined(locationURL)) {
+			throw new GeneralError(this.CLASS_NAME, "locationURLNotProvided");
+		}
+
+		const id = locationURL.split("/").pop();
+
+		if (Is.undefined(id)) {
+			throw new GeneralError(this.CLASS_NAME, "idNotFoundFromLocationURL", { locationURL });
+		}
+
+		return id;
 	}
 }
