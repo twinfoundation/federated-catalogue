@@ -10,6 +10,7 @@ This mono-repository contains the TWIN Federated Catalogue.
 
 - [federated-catalogue-models](packages/federated-catalogue-models/README.md) - Federated Catalogue data models.
 - [federated-catalogue-service](packages/federated-catalogue-service/README.md) - Federated Catalogue business logic.
+- [federated-catalogue-rest-client](packages/federated-catalogue-rest-client/README.md) - Federated Catalogue REST Client.
 
 ## Contributing
 
