@@ -10,7 +10,7 @@ A Compliance credential.
 
 ### @context
 
-> **@context**: \[`"https://www.w3.org/ns/credentials/v2"`, `"https://w3id.org/gaia-x/development"`, `"https://w3id.org/security/suites/jws-2020/v1"`, `...string[]`\]
+> **@context**: \[`"https://www.w3.org/ns/credentials/v2"`, `"https://w3id.org/gaia-x/development"`, `"https://w3id.org/security/suites/jws-2020/v1"`, `...IJsonLdContextDefinitionElement[]`\]
 
 The LD Context.
 

@@ -1,7 +1,7 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import type { IJsonLdKeyword } from "@twin.org/data-json-ld";
+import type { IJsonLdContextDefinitionElement } from "@twin.org/data-json-ld";
 import type { GaiaXContexts } from "@twin.org/standards-gaia-x";
 import type { DidContexts, DidTypes } from "@twin.org/standards-w3c-did";
 import type { FederatedCatalogueTypes } from "./federatedCatalogueTypes";
@@ -19,7 +19,7 @@ export interface IComplianceCredential extends ICredential {
 		typeof DidContexts.ContextVCv2,
 		typeof GaiaXContexts.GaiaXLdContext,
 		typeof GaiaXContexts.W3IdSecurityJwsLdContext,
-		...IJsonLdKeyword["@type"][]
+		...IJsonLdContextDefinitionElement[]
 	];
 
 	/**

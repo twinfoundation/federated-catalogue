@@ -3,8 +3,8 @@
 
 import { GaiaXContexts } from "@twin.org/standards-gaia-x";
 import { SchemaOrgContexts } from "@twin.org/standards-schema-org";
-import type { FederatedCatalogueContextType } from "./federatedCatalogueContextType";
 import { FederatedCatalogueContexts } from "./federatedCatalogueContexts";
+import type { FederatedCatalogueContextType } from "./federatedCatalogueContextType";
 
 /**
  * The LD context instances concerning the Federated Catalogue.
