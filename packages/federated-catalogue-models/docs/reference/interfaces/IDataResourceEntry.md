@@ -4,7 +4,7 @@ Interface describing a Data Resource entry.
 
 ## Extends
 
-- `ICatalogueEntry`.`IDataResource`
+- `ICatalogueBase`.`IDataResource`
 
 ## Indexable
 
@@ -20,7 +20,7 @@ The trusted issuer of the compliance credential
 
 #### Inherited from
 
-`ICatalogueEntry.issuer`
+`ICatalogueBase.issuer`
 
 ***
 
@@ -32,7 +32,7 @@ Valid from (as per W3C VC Data Model v2)
 
 #### Inherited from
 
-`ICatalogueEntry.validFrom`
+`ICatalogueBase.validFrom`
 
 ***
 
@@ -44,7 +44,7 @@ Valid until (as per W3C VC Data Model v2)
 
 #### Inherited from
 
-`ICatalogueEntry.validUntil`
+`ICatalogueBase.validUntil`
 
 ***
 
@@ -56,7 +56,7 @@ The creation date.
 
 #### Inherited from
 
-`ICatalogueEntry.dateCreated`
+`ICatalogueBase.dateCreated`
 
 ***
 
@@ -68,7 +68,7 @@ The evidences concerning the data resource.
 
 #### Inherited from
 
-`ICatalogueEntry.evidence`
+`ICatalogueBase.evidence`
 
 ***
 

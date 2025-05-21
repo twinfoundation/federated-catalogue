@@ -36,7 +36,8 @@ import {
 	type IDataSpaceConnectorList,
 	type IServiceOfferingList,
 	FederatedCatalogueContextInstances,
-	type FederatedCatalogueEntryType
+	type FederatedCatalogueEntryType,
+	type ICatalogueEntry
 } from "@twin.org/federated-catalogue-models";
 import { VerificationHelper, type IIdentityResolverComponent } from "@twin.org/identity-models";
 import { LoggingConnectorFactory, type ILoggingConnector } from "@twin.org/logging-models";
@@ -287,7 +288,10 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	 * @returns Catalogue Entry
 	 * @throws NotFoundError if not found.
 	 */
-	public async getEntry<T>(entryType: FederatedCatalogueEntryType, entryId: string): Promise<T> {
+	public async getEntry(
+		entryType: FederatedCatalogueEntryType,
+		entryId: string
+	): Promise<ICatalogueEntry> {
 		Guards.stringValue(this.CLASS_NAME, nameof(entryId), entryId);
 
 		let itemsAndCursor;
@@ -311,14 +315,12 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 		if (Is.arrayValue(itemsAndCursor?.itemListElement)) {
 			const entry = {
-				type: GaiaXTypes.Participant,
-				"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY,
-				...itemsAndCursor.itemListElement[0]
+				...itemsAndCursor.itemListElement[0],
+				"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY
 			};
 
 			const result = await JsonLdProcessor.compact(entry, entry["@context"]);
-
-			return result as T;
+			return result as ICatalogueEntry;
 		}
 
 		throw new NotFoundError(this.CLASS_NAME, "entryNotFound", entryId);

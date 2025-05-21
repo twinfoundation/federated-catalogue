@@ -3,7 +3,7 @@
 
 import { GaiaXContexts } from "@twin.org/standards-gaia-x";
 import { SchemaOrgContexts } from "@twin.org/standards-schema-org";
-import type { FederatedCatalogueContextType } from "./fedCatalogueContextType";
+import type { FederatedCatalogueContextType } from "./federatedCatalogueContextType";
 import { FederatedCatalogueContexts } from "./federatedCatalogueContexts";
 
 /**

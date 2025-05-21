@@ -3,13 +3,13 @@
 
 import type { IServiceOffering } from "@twin.org/standards-gaia-x";
 import type { IOdrlPolicy } from "@twin.org/standards-w3c-odrl";
-import type { FederatedCatalogueContextType } from "../fedCatalogueContextType";
-import type { ICatalogueEntry } from "../ICatalogueEntry";
+import type { FederatedCatalogueContextType } from "../federatedCatalogueContextType";
+import type { ICatalogueBase } from "../ICatalogueBase";
 
 /**
  * Interface describing a Service Offering.
  */
-export interface IServiceOfferingEntry extends ICatalogueEntry, IServiceOffering {
+export interface IServiceOfferingEntry extends ICatalogueBase, IServiceOffering {
 	/**
 	 * The LD Context
 	 */

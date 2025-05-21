@@ -4,6 +4,7 @@ import type { IComponent } from "@twin.org/core";
 import type { IDataResourceList } from "./data-resource/IDataResourceList";
 import type { IDataSpaceConnectorList } from "./data-space-connector/IDataSpaceConnectorList";
 import type { FederatedCatalogueEntryType } from "./federatedCatalogueEntryType";
+import type { ICatalogueEntry } from "./ICatalogueEntry";
 import type { IParticipantList } from "./participant/IParticipantList";
 import type { IServiceOfferingList } from "./service-offering/IServiceOfferingList";
 
@@ -116,5 +117,5 @@ export interface IFederatedCatalogue extends IComponent {
 	 * @returns Catalogue Entry
 	 * @throws NotFoundError if not found.
 	 */
-	getEntry<T>(entryType: FederatedCatalogueEntryType, entryId: string): Promise<T>;
+	getEntry(entryType: FederatedCatalogueEntryType, entryId: string): Promise<ICatalogueEntry>;
 }

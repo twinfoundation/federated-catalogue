@@ -3,7 +3,7 @@
 
 import type { SchemaOrgTypes } from "@twin.org/standards-schema-org";
 import type { IDataResourceEntry } from "./IDataResourceEntry";
-import type { FederatedCatalogueContextType } from "../fedCatalogueContextType";
+import type { FederatedCatalogueContextType } from "../federatedCatalogueContextType";
 
 /**
  * Interface describing a list of Data Resource entries.

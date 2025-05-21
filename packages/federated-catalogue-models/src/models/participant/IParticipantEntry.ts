@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0.
 
 import type { IParticipant } from "@twin.org/standards-gaia-x";
-import type { FederatedCatalogueContextType } from "../fedCatalogueContextType";
-import type { ICatalogueEntry } from "../ICatalogueEntry";
+import type { FederatedCatalogueContextType } from "../federatedCatalogueContextType";
+import type { ICatalogueBase } from "../ICatalogueBase";
 
 /**
  * Interface describing a participant.
  */
-export interface IParticipantEntry extends IParticipant, ICatalogueEntry {
+export interface IParticipantEntry extends IParticipant, ICatalogueBase {
 	/**
 	 * The LD Context
 	 */

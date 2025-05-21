@@ -3,13 +3,13 @@
 
 import type { IDataResource } from "@twin.org/standards-gaia-x";
 import type { IOdrlPolicy } from "@twin.org/standards-w3c-odrl";
-import type { FederatedCatalogueContextType } from "../fedCatalogueContextType";
-import type { ICatalogueEntry } from "../ICatalogueEntry";
+import type { FederatedCatalogueContextType } from "../federatedCatalogueContextType";
+import type { ICatalogueBase } from "../ICatalogueBase";
 
 /**
  * Interface describing a Data Resource entry.
  */
-export interface IDataResourceEntry extends ICatalogueEntry, IDataResource {
+export interface IDataResourceEntry extends ICatalogueBase, IDataResource {
 	/**
 	 * The LD Context
 	 */

@@ -781,10 +781,10 @@ export async function participantGet(
 	Guards.stringValue(ROUTES_SOURCE, nameof(id), id);
 
 	try {
-		const entry: IParticipantEntry = await service.getEntry<IParticipantEntry>(
+		const entry: IParticipantEntry = (await service.getEntry(
 			GaiaXTypes.Participant,
 			id
-		);
+		)) as IParticipantEntry;
 		return {
 			body: entry
 		};
@@ -881,10 +881,10 @@ export async function serviceOfferingGet(
 	Guards.stringValue(ROUTES_SOURCE, nameof(id), id);
 
 	try {
-		const entry: IServiceOfferingEntry = await service.getEntry<IServiceOfferingEntry>(
+		const entry: IServiceOfferingEntry = (await service.getEntry(
 			GaiaXTypes.ServiceOffering,
 			id
-		);
+		)) as IServiceOfferingEntry;
 		return {
 			body: entry
 		};
@@ -981,10 +981,10 @@ export async function dataResourceGet(
 	Guards.stringValue(ROUTES_SOURCE, nameof(id), id);
 
 	try {
-		const entry: IDataResourceEntry = await service.getEntry<IDataResourceEntry>(
+		const entry: IDataResourceEntry = (await service.getEntry(
 			GaiaXTypes.DataResource,
 			id
-		);
+		)) as IDataResourceEntry;
 		return {
 			body: entry
 		};
@@ -1078,10 +1078,10 @@ export async function dataSpaceConnectorGet(
 	Guards.stringValue(ROUTES_SOURCE, nameof(id), id);
 
 	try {
-		const entry: IDataSpaceConnectorEntry = await service.getEntry<IDataSpaceConnectorEntry>(
+		const entry: IDataSpaceConnectorEntry = (await service.getEntry(
 			GaiaXTypes.DataExchangeComponent,
 			id
-		);
+		)) as IDataSpaceConnectorEntry;
 		return {
 			body: entry
 		};

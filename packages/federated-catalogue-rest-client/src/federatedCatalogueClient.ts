@@ -27,7 +27,8 @@ import {
 	type IServiceOfferingListRequest,
 	type IServiceOfferingListResponse,
 	type IDataSpaceConnectorEntry,
-	type IDataSpaceConnectorGetResponse
+	type IDataSpaceConnectorGetResponse,
+	type ICatalogueEntry
 } from "@twin.org/federated-catalogue-models";
 import { nameof } from "@twin.org/nameof";
 import { GaiaXTypes } from "@twin.org/standards-gaia-x";
@@ -275,19 +276,22 @@ export class FederatedCatalogueClient extends BaseRestClient implements IFederat
 	 * @returns Catalogue Entry
 	 * @throws NotFoundError if not found.
 	 */
-	public async getEntry<T>(entryType: FederatedCatalogueEntryType, entryId: string): Promise<T> {
+	public async getEntry(
+		entryType: FederatedCatalogueEntryType,
+		entryId: string
+	): Promise<ICatalogueEntry> {
 		Guards.stringValue(this.CLASS_NAME, nameof(entryId), entryId);
 
 		switch (entryType) {
 			case GaiaXTypes.Participant:
-				return this.getParticipantEntry(entryId) as T;
+				return this.getParticipantEntry(entryId);
 			case GaiaXTypes.DataResource:
-				return this.getDataResourceEntry(entryId) as T;
+				return this.getDataResourceEntry(entryId);
 			case GaiaXTypes.ServiceOffering:
-				return this.getServiceOfferingEntry(entryId) as T;
+				return this.getServiceOfferingEntry(entryId);
 			case GaiaXTypes.DataExchangeComponent:
 			case FederatedCatalogueTypes.DataSpaceConnector:
-				return this.getDataSpaceConnectorEntry(entryId) as T;
+				return this.getDataSpaceConnectorEntry(entryId);
 			default:
 				throw new GeneralError(this.CLASS_NAME, "unknownEntryType", { entryType });
 		}
@@ -297,6 +301,7 @@ export class FederatedCatalogueClient extends BaseRestClient implements IFederat
 	 * Gets a Participant entry.
 	 * @param entryId The entry Id
 	 * @returns The Data Resource entry
+	 * @internal
 	 */
 	private async getParticipantEntry(entryId: string): Promise<IParticipantEntry> {
 		const entry = await this.fetch<ICatalogueEntryGetRequest, IParticipantGetResponse>(
@@ -304,7 +309,7 @@ export class FederatedCatalogueClient extends BaseRestClient implements IFederat
 			"GET",
 			{
 				pathParams: {
-					id: encodeURIComponent(entryId)
+					id: entryId
 				},
 				headers: {
 					[HeaderTypes.Accept]: MimeTypes.JsonLd
@@ -319,6 +324,7 @@ export class FederatedCatalogueClient extends BaseRestClient implements IFederat
 	 * Gets a Participant entry.
 	 * @param entryId The entry Id
 	 * @returns The Data Resource entry
+	 * @internal
 	 */
 	private async getDataSpaceConnectorEntry(entryId: string): Promise<IDataSpaceConnectorEntry> {
 		const entry = await this.fetch<ICatalogueEntryGetRequest, IDataSpaceConnectorGetResponse>(
@@ -326,7 +332,7 @@ export class FederatedCatalogueClient extends BaseRestClient implements IFederat
 			"GET",
 			{
 				pathParams: {
-					id: encodeURIComponent(entryId)
+					id: entryId
 				},
 				headers: {
 					[HeaderTypes.Accept]: MimeTypes.JsonLd
@@ -341,6 +347,7 @@ export class FederatedCatalogueClient extends BaseRestClient implements IFederat
 	 * Gets a Data Resource entry.
 	 * @param entryId The entry Id
 	 * @returns The Data Resource entry
+	 * @internal
 	 */
 	private async getDataResourceEntry(entryId: string): Promise<IDataResourceEntry> {
 		const entry = await this.fetch<ICatalogueEntryGetRequest, IDataResourceGetResponse>(
@@ -348,7 +355,7 @@ export class FederatedCatalogueClient extends BaseRestClient implements IFederat
 			"GET",
 			{
 				pathParams: {
-					id: encodeURIComponent(entryId)
+					id: entryId
 				},
 				headers: {
 					[HeaderTypes.Accept]: MimeTypes.JsonLd
@@ -363,6 +370,7 @@ export class FederatedCatalogueClient extends BaseRestClient implements IFederat
 	 * Gets a Service Offering entry.
 	 * @param entryId The entry Id
 	 * @returns The Service Offering entry
+	 * @internal
 	 */
 	private async getServiceOfferingEntry(entryId: string): Promise<IServiceOfferingEntry> {
 		const entry = await this.fetch<ICatalogueEntryGetRequest, IServiceOfferingGetResponse>(
@@ -370,7 +378,7 @@ export class FederatedCatalogueClient extends BaseRestClient implements IFederat
 			"GET",
 			{
 				pathParams: {
-					id: encodeURIComponent(entryId)
+					id: entryId
 				},
 				headers: {
 					[HeaderTypes.Accept]: MimeTypes.JsonLd
@@ -386,6 +394,7 @@ export class FederatedCatalogueClient extends BaseRestClient implements IFederat
 	 * @param locationURL Location URL
 	 * @returns The Id
 	 * @throws GeneralError if Id cannot be found
+	 * @internal
 	 */
 	private getIdsFromLocation(locationURL: string): string[] {
 		if (Is.undefined(locationURL)) {

@@ -1,14 +1,14 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import type { ICatalogueEntry } from "../ICatalogueEntry";
+import type { ICatalogueBase } from "../ICatalogueBase";
 import type { IDataSpaceConnector } from "./IDataSpaceConnector";
-import type { FederatedCatalogueContextType } from "../fedCatalogueContextType";
+import type { FederatedCatalogueContextType } from "../federatedCatalogueContextType";
 
 /**
  * Interface describing a participant.
  */
-export interface IDataSpaceConnectorEntry extends IDataSpaceConnector, ICatalogueEntry {
+export interface IDataSpaceConnectorEntry extends IDataSpaceConnector, ICatalogueBase {
 	/**
 	 * The LD Context
 	 */

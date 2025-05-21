@@ -43,6 +43,7 @@
 
 ## Type Aliases
 
+- [ICatalogueEntry](type-aliases/ICatalogueEntry.md)
 - [FederatedCatalogueContextType](type-aliases/FederatedCatalogueContextType.md)
 - [FederatedCatalogueContexts](type-aliases/FederatedCatalogueContexts.md)
 - [FederatedCatalogueEntryType](type-aliases/FederatedCatalogueEntryType.md)

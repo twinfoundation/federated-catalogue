@@ -166,6 +166,13 @@ describe("federated-catalogue-service", () => {
 			participantCredential.credential.credentialSubject.id
 		);
 		expect(queryResult.itemListElement[0].type).toBe(GaiaXTypes.Participant);
+
+		const participantId = queryResult.itemListElement[0].id as string;
+		const participantEntry = await fedCatalogueService.getEntry(
+			GaiaXTypes.Participant,
+			participantId
+		);
+		expect(participantEntry.id).toBe(participantId);
 	});
 
 	test("It should register a compliant Data Resource", async () => {
@@ -181,6 +188,13 @@ describe("federated-catalogue-service", () => {
 			dataResourceCredential.credential.credentialSubject.id
 		);
 		expect(queryResult.itemListElement[0].type).toBe(GaiaXTypes.DataResource);
+
+		const dataResourceId = queryResult.itemListElement[0].id as string;
+		const dataResourceEntry = await fedCatalogueService.getEntry(
+			GaiaXTypes.DataResource,
+			dataResourceId
+		);
+		expect(dataResourceEntry.id).toBe(dataResourceId);
 	});
 
 	test("It should register a compliant Service Offering", async () => {
@@ -198,6 +212,13 @@ describe("federated-catalogue-service", () => {
 			serviceOfferingCedential.credential.credentialSubject.id
 		);
 		expect(queryResult.itemListElement[0].type).toBe(GaiaXTypes.ServiceOffering);
+
+		const serviceOfferingId = queryResult.itemListElement[0].id as string;
+		const serviceOfferingEntry = await fedCatalogueService.getEntry(
+			GaiaXTypes.ServiceOffering,
+			serviceOfferingId
+		);
+		expect(serviceOfferingEntry.id).toBe(serviceOfferingId);
 	});
 
 	test("It should register a compliant Data Space Connector", async () => {
@@ -218,5 +239,12 @@ describe("federated-catalogue-service", () => {
 			GaiaXTypes.DataExchangeComponent,
 			FederatedCatalogueTypes.DataSpaceConnector
 		]);
+
+		const dataSpaceConnectorId = queryResult.itemListElement[0].id as string;
+		const dataSpaceConnectorEntry = await fedCatalogueService.getEntry(
+			GaiaXTypes.DataExchangeComponent,
+			dataSpaceConnectorId
+		);
+		expect(dataSpaceConnectorEntry.id).toBe(dataSpaceConnectorId);
 	});
 });

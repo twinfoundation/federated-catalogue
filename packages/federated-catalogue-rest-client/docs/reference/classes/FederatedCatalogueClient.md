@@ -356,15 +356,9 @@ NotImplementedError if the implementation does not support retrieval.
 
 ### getEntry()
 
-> **getEntry**\<`T`\>(`entryType`, `entryId`): `Promise`\<`T`\>
+> **getEntry**(`entryType`, `entryId`): `Promise`\<`ICatalogueEntry`\>
 
 Returns a Federated Catalogue entry.
-
-#### Type Parameters
-
-##### T
-
-`T`
 
 #### Parameters
 
@@ -382,7 +376,7 @@ The entry's id.
 
 #### Returns
 
-`Promise`\<`T`\>
+`Promise`\<`ICatalogueEntry`\>
 
 Catalogue Entry
 
