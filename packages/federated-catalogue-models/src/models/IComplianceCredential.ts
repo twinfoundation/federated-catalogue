@@ -23,11 +23,6 @@ export interface IComplianceCredential extends ICredential {
 	];
 
 	/**
-	 * The Id of the credential, it is mandatory.
-	 */
-	id: string;
-
-	/**
 	 * Type of Credential.
 	 */
 	type: [typeof DidTypes.VerifiableCredential, typeof FederatedCatalogueTypes.ComplianceCredential];

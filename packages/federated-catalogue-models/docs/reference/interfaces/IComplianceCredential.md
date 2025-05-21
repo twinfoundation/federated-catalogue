@@ -20,18 +20,6 @@ The LD Context.
 
 ***
 
-### id
-
-> **id**: `string`
-
-The Id of the credential, it is mandatory.
-
-#### Overrides
-
-[`ICredential`](ICredential.md).[`id`](ICredential.md#id)
-
-***
-
 ### type
 
 > **type**: \[`"VerifiableCredential"`, `"ComplianceCredential"`\]
@@ -77,6 +65,30 @@ Compliance evidence. It is mandatory.
 #### Overrides
 
 `ICredential.evidence`
+
+***
+
+### id
+
+> **id**: `string`
+
+The Id of the credential, it is mandatory.
+
+#### Inherited from
+
+[`ICredential`](ICredential.md).[`id`](ICredential.md#id)
+
+***
+
+### issuer
+
+> **issuer**: `string`
+
+The issuer of the credential, it is mandatory.
+
+#### Inherited from
+
+[`ICredential`](ICredential.md).[`issuer`](ICredential.md#issuer)
 
 ***
 

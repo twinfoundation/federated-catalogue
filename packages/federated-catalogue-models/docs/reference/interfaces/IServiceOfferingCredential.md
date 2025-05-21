@@ -20,6 +20,18 @@ The Id of the credential, it is mandatory.
 
 ***
 
+### issuer
+
+> **issuer**: `string`
+
+The issuer of the credential, it is mandatory.
+
+#### Inherited from
+
+[`ICredential`](ICredential.md).[`issuer`](ICredential.md#issuer)
+
+***
+
 ### credentialSubject
 
 > **credentialSubject**: `IServiceOffering`

@@ -362,7 +362,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			throw new UnprocessableError(this.CLASS_NAME, "noEvidence");
 		}
 
-		await this.checkParticipantExists(targetCredential.issuer as string);
+		await this.checkParticipantExists(targetCredential.issuer);
 
 		const dataSpaceConnectorEntry = this.extractDataSpaceConnectorEntry(
 			complianceCredential,
@@ -375,7 +375,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		await this._entityStorageDataSpaceConnectors.set(theEntry as IDataSpaceConnectorEntry);
 
 		for (const dataResourceCredential of dataResourceCredentials) {
-			await this.checkParticipantExists(dataResourceCredential.issuer as string);
+			await this.checkParticipantExists(dataResourceCredential.issuer);
 
 			const dataResourceEntry = this.extractDataResourceEntry(
 				complianceCredential,
@@ -439,7 +439,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 		const dataResourceIds: string[] = [];
 		for (const dataResourceCredential of dataResourceCredentials) {
-			await this.checkParticipantExists(dataResourceCredential.issuer as string);
+			await this.checkParticipantExists(dataResourceCredential.issuer);
 
 			const dataResourceEntry = this.extractDataResourceEntry(
 				complianceCredential,
@@ -575,7 +575,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 		for (const serviceOfferingCredential of serviceOfferingCredentials) {
 			const serviceIssuer = serviceOfferingCredential.issuer;
-			await this.checkParticipantExists(serviceIssuer as string);
+			await this.checkParticipantExists(serviceIssuer);
 
 			const serviceOfferingEntry = this.extractServiceOfferingEntry(
 				sdComplianceCredential,
@@ -591,7 +591,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		}
 
 		for (const dataResourceCredential of dataResourceCredentials) {
-			await this.checkParticipantExists(dataResourceCredential.issuer as string);
+			await this.checkParticipantExists(dataResourceCredential.issuer);
 
 			const dataResourceEntry = this.extractDataResourceEntry(
 				sdComplianceCredential,
@@ -752,7 +752,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	private getTrustedIssuerId(complianceCredential: IComplianceCredential): string {
 		const trustedIssuerId = Is.object<{ id: string }>(complianceCredential.issuer)
 			? complianceCredential.issuer.id
-			: (complianceCredential.issuer as string);
+			: complianceCredential.issuer;
 
 		return trustedIssuerId;
 	}
@@ -773,7 +773,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 		const evidences: string[] = [];
 		for (const evidence of complianceCredential.evidence) {
-			evidences.push(evidence.id as string);
+			evidences.push(evidence.id);
 		}
 
 		const result: IParticipantEntry = {
@@ -845,7 +845,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			validFrom: complianceCredential.validFrom,
 			validUntil: complianceCredential.validUntil,
 			dateCreated: new Date().toISOString(),
-			evidence: [serviceOfferingCredential.id as string],
+			evidence: [serviceOfferingCredential.id],
 			servicePolicy: ArrayHelper.fromObjectOrArray<IJsonLdNodeObject>(
 				servicePolicy
 			) as IOdrlPolicy[]
@@ -890,7 +890,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			validFrom: complianceCredential.validFrom,
 			validUntil: complianceCredential.validUntil,
 			dateCreated: new Date().toISOString(),
-			evidence: [dataResourceCredential.id as string],
+			evidence: [dataResourceCredential.id],
 			resourcePolicy: ArrayHelper.fromObjectOrArray<IJsonLdNodeObject>(
 				resourcePolicy
 			) as IOdrlPolicy[]
