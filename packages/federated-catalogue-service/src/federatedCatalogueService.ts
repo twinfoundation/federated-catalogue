@@ -119,19 +119,25 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 		this._entityStorageParticipants = EntityStorageConnectorFactory.get<
 			IEntityStorageConnector<ParticipantEntry>
-		>(StringHelper.kebabCase(nameof<ParticipantEntry>()));
+		>(options.participantEntityStorageType ?? StringHelper.kebabCase(nameof<ParticipantEntry>()));
 
 		this._entityStorageServiceOfferings = EntityStorageConnectorFactory.get<
 			IEntityStorageConnector<ServiceOfferingEntry>
-		>(StringHelper.kebabCase(nameof<ServiceOfferingEntry>()));
+		>(
+			options.serviceOfferingEntityStorageType ??
+				StringHelper.kebabCase(nameof<ServiceOfferingEntry>())
+		);
 
 		this._entityStorageDataResources = EntityStorageConnectorFactory.get<
 			IEntityStorageConnector<DataResourceEntry>
-		>(StringHelper.kebabCase(nameof<DataResourceEntry>()));
+		>(options.dataResourceEntityStorageType ?? StringHelper.kebabCase(nameof<DataResourceEntry>()));
 
 		this._entityStorageDataSpaceConnectors = EntityStorageConnectorFactory.get<
 			IEntityStorageConnector<DataSpaceConnectorEntry>
-		>(StringHelper.kebabCase(nameof<DataSpaceConnectorEntry>()));
+		>(
+			options.dataSpaceConnectorStorageType ??
+				StringHelper.kebabCase(nameof<DataSpaceConnectorEntry>())
+		);
 
 		this._resolver = ComponentFactory.get<IIdentityResolverComponent>(
 			options.identityResolverComponentType ?? "identity-resolver"
