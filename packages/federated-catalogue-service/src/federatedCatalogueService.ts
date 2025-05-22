@@ -2,21 +2,24 @@
 // SPDX-License-Identifier: Apache-2.0.
 
 import {
+	ArrayHelper,
 	ComponentFactory,
+	GeneralError,
 	Guards,
 	Is,
+	NotFoundError,
 	ObjectHelper,
 	StringHelper,
 	UnprocessableError
 } from "@twin.org/core";
+import { JsonLdProcessor } from "@twin.org/data-json-ld";
+import type { IJsonLdNodeObject } from "@twin.org/data-json-ld";
 import { ComparisonOperator, type EntityCondition } from "@twin.org/entity";
 import {
 	EntityStorageConnectorFactory,
 	type IEntityStorageConnector
 } from "@twin.org/entity-storage-models";
 import {
-	type DataResourceEntry,
-	type DataSpaceConnectorEntry,
 	type IComplianceCredential,
 	type IDataResourceCredential,
 	type IDataResourceEntry,
@@ -24,20 +27,30 @@ import {
 	type IParticipantEntry,
 	type IServiceOfferingCredential,
 	type IServiceOfferingEntry,
-	type ServiceOfferingEntry,
 	type IDataSpaceConnectorEntry,
 	type IDataSpaceConnectorCredential,
 	type IParticipantCredential,
 	FederatedCatalogueTypes,
-	type ParticipantEntry
+	type IParticipantList,
+	type IDataResourceList,
+	type IDataSpaceConnectorList,
+	type IServiceOfferingList,
+	FederatedCatalogueContextInstances,
+	type FederatedCatalogueEntryType,
+	type ICatalogueEntry
 } from "@twin.org/federated-catalogue-models";
-import type { IIdentityResolverComponent } from "@twin.org/identity-models";
+import { VerificationHelper, type IIdentityResolverComponent } from "@twin.org/identity-models";
 import { LoggingConnectorFactory, type ILoggingConnector } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
 import { GaiaXTypes, type IParticipant } from "@twin.org/standards-gaia-x";
-import type { IFederatedCatalogueOptions } from "./IFederatedCatalogueOptions";
+import { SchemaOrgDataTypes, SchemaOrgTypes } from "@twin.org/standards-schema-org";
+import type { IOdrlPolicy } from "@twin.org/standards-w3c-odrl";
+import type { DataResourceEntry } from "./entities/dataResourceEntry";
+import type { DataSpaceConnectorEntry } from "./entities/dataSpaceConnectorEntry";
+import type { ParticipantEntry } from "./entities/participantEntry";
+import type { ServiceOfferingEntry } from "./entities/serviceOfferingEntry";
+import type { IFederatedCatalogueConstructorOptions } from "./models/IFederatedCatalogueConstructorOptions";
 import { ComplianceCredentialVerificationService } from "./verification/complianceCredentialVerificationService";
-import { JwtVerificationService } from "./verification/jwtVerificationService";
 
 /**
  * Service for performing logging operations to a connector.
@@ -55,35 +68,40 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	public readonly CLASS_NAME: string = nameof<FederatedCatalogueService>();
 
 	/**
+	 * The identity resolver used to dereference DIDs.
+	 * @internal
+	 */
+	private readonly _resolver: IIdentityResolverComponent;
+
+	/**
 	 * Logging service.
+	 * @internal
 	 */
 	private readonly _loggingService?: ILoggingConnector;
 
 	/**
 	 * Storage service for participants.
+	 * @internal
 	 */
 	private readonly _entityStorageParticipants: IEntityStorageConnector<ParticipantEntry>;
 
 	/**
 	 * Storage service for service offering.
-	 */
-	private readonly _entityStorageSOs: IEntityStorageConnector<ServiceOfferingEntry>;
-
-	/**
-	 * Storage service for data resources.
-	 */
-	private readonly _entityStorageResources: IEntityStorageConnector<DataResourceEntry>;
-
-	/**
-	 * Storage service for data resources.
-	 */
-	private readonly _entityStorageDataSpaceConnectors: IEntityStorageConnector<DataSpaceConnectorEntry>;
-
-	/**
-	 * JWT Verifier service.
 	 * @internal
 	 */
-	private readonly _jwtVerifier: JwtVerificationService;
+	private readonly _entityStorageServiceOfferings: IEntityStorageConnector<ServiceOfferingEntry>;
+
+	/**
+	 * Storage service for data resources.
+	 * @internal
+	 */
+	private readonly _entityStorageDataResources: IEntityStorageConnector<DataResourceEntry>;
+
+	/**
+	 * Storage service for data resources.
+	 * @internal
+	 */
+	private readonly _entityStorageDataSpaceConnectors: IEntityStorageConnector<DataSpaceConnectorEntry>;
 
 	/**
 	 * Compliance Credential Verifier service.
@@ -95,48 +113,57 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	 * Create a new instance of FederatedCatalogue service.
 	 * @param options The options for the connector.
 	 */
-	constructor(options: IFederatedCatalogueOptions) {
+	constructor(options: IFederatedCatalogueConstructorOptions) {
 		this._loggingService = LoggingConnectorFactory.getIfExists(
 			options?.loggingConnectorType ?? "logging"
 		);
 
 		this._entityStorageParticipants = EntityStorageConnectorFactory.get<
 			IEntityStorageConnector<ParticipantEntry>
-		>(StringHelper.kebabCase(nameof<ParticipantEntry>()));
+		>(options.participantEntityStorageType ?? StringHelper.kebabCase(nameof<ParticipantEntry>()));
 
-		this._entityStorageSOs = EntityStorageConnectorFactory.get<
+		this._entityStorageServiceOfferings = EntityStorageConnectorFactory.get<
 			IEntityStorageConnector<ServiceOfferingEntry>
-		>(StringHelper.kebabCase(nameof<ServiceOfferingEntry>()));
+		>(
+			options.serviceOfferingEntityStorageType ??
+				StringHelper.kebabCase(nameof<ServiceOfferingEntry>())
+		);
 
-		this._entityStorageResources = EntityStorageConnectorFactory.get<
+		this._entityStorageDataResources = EntityStorageConnectorFactory.get<
 			IEntityStorageConnector<DataResourceEntry>
-		>(StringHelper.kebabCase(nameof<DataResourceEntry>()));
+		>(options.dataResourceEntityStorageType ?? StringHelper.kebabCase(nameof<DataResourceEntry>()));
 
 		this._entityStorageDataSpaceConnectors = EntityStorageConnectorFactory.get<
 			IEntityStorageConnector<DataSpaceConnectorEntry>
-		>(StringHelper.kebabCase(nameof<DataSpaceConnectorEntry>()));
+		>(
+			options.dataSpaceConnectorStorageType ??
+				StringHelper.kebabCase(nameof<DataSpaceConnectorEntry>())
+		);
 
-		const resolver: IIdentityResolverComponent =
-			ComponentFactory.get<IIdentityResolverComponent>("identity-resolver");
+		this._resolver = ComponentFactory.get<IIdentityResolverComponent>(
+			options.identityResolverComponentType ?? "identity-resolver"
+		);
 
-		this._jwtVerifier = new JwtVerificationService(resolver);
 		this._complianceCredentialVerifier = new ComplianceCredentialVerificationService(
-			options.clearingHouseWhiteList,
-			resolver,
+			options.config.clearingHouseApproverList,
+			this._resolver,
+			options.config.subResourceCacheTtlMs,
 			this._loggingService
 		);
+
+		SchemaOrgDataTypes.registerRedirects();
 	}
 
 	/**
-	 * Registers a compliance Credential to the service.
+	 * Registers a Participant's compliance Credential.
 	 * @param credentialJwt The credential (wrapped into a presentation) as JWT.
-	 * @returns Nothing.
+	 * @returns The Id of the Participant (DID usually).
 	 */
-	public async registerComplianceCredential(credentialJwt: string): Promise<void> {
+	public async registerComplianceCredential(credentialJwt: string): Promise<string> {
 		Guards.string(this.CLASS_NAME, nameof(credentialJwt), credentialJwt);
 
 		// This will raise exceptions as it has been coded reusing code from Gaia-X
-		const complianceCredential = await this._jwtVerifier.decodeJwt(credentialJwt);
+		const complianceCredential = await this.decodeJwt(credentialJwt);
 
 		const result = await this._complianceCredentialVerifier.verify(complianceCredential);
 
@@ -178,6 +205,8 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 				trustedIssuer: complianceCredential.issuer
 			}
 		});
+
+		return participantEntry.id;
 	}
 
 	/**
@@ -197,16 +226,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		lrnType?: string,
 		cursor?: string,
 		pageSize?: number
-	): Promise<{
-		/**
-		 * The entities, which can be partial if a limited keys list was provided.
-		 */
-		entities: IParticipantEntry[];
-		/**
-		 * An optional cursor, when defined can be used to call find to get more entities.
-		 */
-		cursor?: string;
-	}> {
+	): Promise<IParticipantList> {
 		const conditions: EntityCondition<ParticipantEntry>[] = [];
 
 		if (Is.stringValue(id)) {
@@ -239,23 +259,83 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			conditions.push(condition);
 		}
 
-		const entries = await this._entityStorageParticipants.query({ conditions });
-		return {
-			entities: entries.entities as IParticipantEntry[],
-			cursor: entries.cursor
+		const entries = await this._entityStorageParticipants.query(
+			{ conditions },
+			undefined,
+			undefined,
+			cursor,
+			pageSize
+		);
+
+		const itemList = entries.entities.map(entry => {
+			(entry as IParticipantEntry).type = GaiaXTypes.Participant;
+			return entry;
+		});
+		const result = {
+			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
+			type: SchemaOrgTypes.ItemList,
+			itemListElement: itemList,
+			nextItem: entries.cursor
 		};
+
+		return JsonLdProcessor.compact(result, result["@context"]);
+	}
+
+	/**
+	 * Returns a Federated Catalogue entry.
+	 * @param entryType The type of entry.
+	 * @param entryId The entry's id.
+	 * @returns Catalogue Entry
+	 * @throws NotFoundError if not found.
+	 */
+	public async getEntry(
+		entryType: FederatedCatalogueEntryType,
+		entryId: string
+	): Promise<ICatalogueEntry> {
+		Guards.stringValue(this.CLASS_NAME, nameof(entryId), entryId);
+
+		let itemsAndCursor;
+		switch (entryType) {
+			case GaiaXTypes.Participant:
+				itemsAndCursor = await this.queryParticipants(entryId);
+				break;
+			case GaiaXTypes.DataExchangeComponent:
+			case FederatedCatalogueTypes.DataSpaceConnector:
+				itemsAndCursor = await this.queryDataSpaceConnectors(entryId);
+				break;
+			case GaiaXTypes.ServiceOffering:
+				itemsAndCursor = await this.queryServiceOfferings(entryId);
+				break;
+			case GaiaXTypes.DataResource:
+				itemsAndCursor = await this.queryDataResources(entryId);
+				break;
+			default:
+				throw new GeneralError(this.CLASS_NAME, "unknownEntryType", { entryType });
+		}
+
+		if (Is.arrayValue(itemsAndCursor?.itemListElement)) {
+			const entry = {
+				...itemsAndCursor.itemListElement[0],
+				"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY
+			};
+
+			const result = await JsonLdProcessor.compact(entry, entry["@context"]);
+			return result as ICatalogueEntry;
+		}
+
+		throw new NotFoundError(this.CLASS_NAME, "entryNotFound", entryId);
 	}
 
 	/**
 	 * Registers a compliance Credential concerning a Data Space Connector.
 	 * @param credentialJwt The credential (wrapped into a presentation) as JWT.
-	 * @returns Nothing.
+	 * @returns The identifier of the Data Space Connector registered.
 	 */
-	public async registerDataSpaceConnectorCredential(credentialJwt: string): Promise<void> {
+	public async registerDataSpaceConnectorCredential(credentialJwt: string): Promise<string> {
 		Guards.string(this.CLASS_NAME, nameof(credentialJwt), credentialJwt);
 
 		// This will raise exceptions as it has been coded reusing code from Gaia-X
-		const complianceCredential = await this._jwtVerifier.decodeJwt(credentialJwt);
+		const complianceCredential = await this.decodeJwt(credentialJwt);
 
 		const result = await this._complianceCredentialVerifier.verify(complianceCredential);
 
@@ -290,7 +370,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			throw new UnprocessableError(this.CLASS_NAME, "noEvidence");
 		}
 
-		await this.checkParticipantExists(targetCredential.issuer as string);
+		await this.checkParticipantExists(targetCredential.issuer);
 
 		const dataSpaceConnectorEntry = this.extractDataSpaceConnectorEntry(
 			complianceCredential,
@@ -303,7 +383,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		await this._entityStorageDataSpaceConnectors.set(theEntry as IDataSpaceConnectorEntry);
 
 		for (const dataResourceCredential of dataResourceCredentials) {
-			await this.checkParticipantExists(dataResourceCredential.issuer as string);
+			await this.checkParticipantExists(dataResourceCredential.issuer);
 
 			const dataResourceEntry = this.extractDataResourceEntry(
 				complianceCredential,
@@ -313,7 +393,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 				dataResourceEntry,
 				FederatedCatalogueService._FIELDS_TO_SKIP
 			);
-			await this._entityStorageResources.set(drEntry as IDataResourceEntry);
+			await this._entityStorageDataResources.set(drEntry as IDataResourceEntry);
 		}
 
 		await this._loggingService?.log({
@@ -322,22 +402,24 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			ts: Date.now(),
 			message: "complianceCredentialVerified",
 			data: {
-				participantId: complianceCredential.credentialSubject?.id,
+				dataSpaceConnectorId: complianceCredential.credentialSubject?.id,
 				trustedIssuer: complianceCredential.issuer
 			}
 		});
+
+		return dataSpaceConnectorEntry.id;
 	}
 
 	/**
 	 * Registers a data resource Credential concerning a Data Space Connector.
 	 * @param credentialJwt The credential (wrapped into a presentation) as JWT.
-	 * @returns Nothing.
+	 * @returns The list of Data Resources created.
 	 */
-	public async registerDataResourceCredential(credentialJwt: string): Promise<void> {
+	public async registerDataResourceCredential(credentialJwt: string): Promise<string[]> {
 		Guards.string(this.CLASS_NAME, nameof(credentialJwt), credentialJwt);
 
 		// This will raise exceptions as it has been coded reusing code from Gaia-X
-		const complianceCredential = await this._jwtVerifier.decodeJwt(credentialJwt);
+		const complianceCredential = await this.decodeJwt(credentialJwt);
 
 		const result = await this._complianceCredentialVerifier.verify(complianceCredential);
 
@@ -350,13 +432,9 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 				data: { result }
 			});
 
-			throw new UnprocessableError(
-				this.CLASS_NAME,
-				"complianceCredentialNotVerified",
-				{
-					reason: result.verificationFailureReason
-				}
-			);
+			throw new UnprocessableError(this.CLASS_NAME, "complianceCredentialNotVerified", {
+				reason: result.verificationFailureReason
+			});
 		}
 
 		const dataResourceCredentials = result.credentials.filter(
@@ -364,14 +442,12 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		) as IDataResourceCredential[];
 
 		if (dataResourceCredentials.length === 0) {
-			throw new UnprocessableError(
-				this.CLASS_NAME,
-				"noEvidence"
-			);
+			throw new UnprocessableError(this.CLASS_NAME, "noEvidence");
 		}
 
+		const dataResourceIds: string[] = [];
 		for (const dataResourceCredential of dataResourceCredentials) {
-			await this.checkParticipantExists(dataResourceCredential.issuer as string);
+			await this.checkParticipantExists(dataResourceCredential.issuer);
 
 			const dataResourceEntry = this.extractDataResourceEntry(
 				complianceCredential,
@@ -382,20 +458,23 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 				FederatedCatalogueService._FIELDS_TO_SKIP
 			);
 
-			await this._entityStorageResources.set(theEntry as IDataResourceEntry);
+			await this._entityStorageDataResources.set(theEntry as IDataResourceEntry);
+
+			dataResourceIds.push(dataResourceEntry.id);
 		}
 
 		await this._loggingService?.log({
 			level: "info",
 			source: this.CLASS_NAME,
 			ts: Date.now(),
-			message:
-				"complianceCredentialVerified",
+			message: "complianceCredentialVerified",
 			data: {
-				participantId: complianceCredential.credentialSubject?.id,
+				dataResourceIds,
 				trustedIssuer: complianceCredential.issuer
 			}
 		});
+
+		return dataResourceIds;
 	}
 
 	/**
@@ -413,16 +492,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		maintainer?: string,
 		cursor?: string,
 		pageSize?: number
-	): Promise<{
-		/**
-		 * The entities, which can be partial if a limited keys list was provided.
-		 */
-		entities: IDataSpaceConnectorEntry[];
-		/**
-		 * An optional cursor, when defined can be used to call find to get more entities.
-		 */
-		cursor?: string;
-	}> {
+	): Promise<IDataSpaceConnectorList> {
 		const conditions: EntityCondition<DataSpaceConnectorEntry>[] = [];
 
 		if (Is.stringValue(id)) {
@@ -445,11 +515,29 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			conditions.push(condition);
 		}
 
-		const entries = await this._entityStorageDataSpaceConnectors.query({ conditions });
-		return {
-			entities: entries.entities as IDataSpaceConnectorEntry[],
-			cursor: entries.cursor
+		const entries = await this._entityStorageDataSpaceConnectors.query(
+			{ conditions },
+			undefined,
+			undefined,
+			cursor,
+			pageSize
+		);
+
+		const itemList = entries.entities.map(entry => {
+			(entry as IDataSpaceConnectorEntry).type = [
+				GaiaXTypes.DataExchangeComponent,
+				FederatedCatalogueTypes.DataSpaceConnector
+			];
+			return entry;
+		});
+		const result = {
+			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
+			type: SchemaOrgTypes.ItemList,
+			itemListElement: itemList,
+			nextItem: entries.cursor
 		};
+
+		return JsonLdProcessor.compact(result, result["@context"]);
 	}
 
 	/**
@@ -457,11 +545,11 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	 * @param credentialJwt The credential (wrapped into a presentation) as JWT.
 	 * @returns Nothing.
 	 */
-	public async registerServiceOfferingCredential(credentialJwt: string): Promise<void> {
+	public async registerServiceOfferingCredential(credentialJwt: string): Promise<string[]> {
 		Guards.string(this.CLASS_NAME, nameof(credentialJwt), credentialJwt);
 
 		// This will raise exceptions as it has been coded reusing code from Gaia-X
-		const sdComplianceCredential = await this._jwtVerifier.decodeJwt(credentialJwt);
+		const sdComplianceCredential = await this.decodeJwt(credentialJwt);
 
 		const result = await this._complianceCredentialVerifier.verify(sdComplianceCredential);
 
@@ -474,13 +562,9 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 				data: { result }
 			});
 
-			throw new UnprocessableError(
-				this.CLASS_NAME,
-				"complianceCredentialNotVerified",
-				{
-					reason: result.verificationFailureReason
-				}
-			);
+			throw new UnprocessableError(this.CLASS_NAME, "complianceCredentialNotVerified", {
+				reason: result.verificationFailureReason
+			});
 		}
 
 		const serviceOfferingCredentials = result.credentials.filter(
@@ -492,15 +576,14 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		) as IDataResourceCredential[];
 
 		if (serviceOfferingCredentials.length === 0) {
-			throw new UnprocessableError(
-				this.CLASS_NAME,
-				"noEvidence"
-			);
+			throw new UnprocessableError(this.CLASS_NAME, "noEvidence");
 		}
+
+		const serviceOfferingIds: string[] = [];
 
 		for (const serviceOfferingCredential of serviceOfferingCredentials) {
 			const serviceIssuer = serviceOfferingCredential.issuer;
-			await this.checkParticipantExists(serviceIssuer as string);
+			await this.checkParticipantExists(serviceIssuer);
 
 			const serviceOfferingEntry = this.extractServiceOfferingEntry(
 				sdComplianceCredential,
@@ -510,17 +593,19 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 				serviceOfferingEntry,
 				FederatedCatalogueService._FIELDS_TO_SKIP
 			);
-			await this._entityStorageSOs.set(theEntry as IServiceOfferingEntry);
+			await this._entityStorageServiceOfferings.set(theEntry as IServiceOfferingEntry);
+
+			serviceOfferingIds.push(serviceOfferingEntry.id);
 		}
 
 		for (const dataResourceCredential of dataResourceCredentials) {
-			await this.checkParticipantExists(dataResourceCredential.issuer as string);
+			await this.checkParticipantExists(dataResourceCredential.issuer);
 
 			const dataResourceEntry = this.extractDataResourceEntry(
 				sdComplianceCredential,
 				dataResourceCredential
 			);
-			await this._entityStorageResources.set(dataResourceEntry);
+			await this._entityStorageDataResources.set(dataResourceEntry);
 		}
 
 		await this._loggingService?.log({
@@ -529,10 +614,12 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			ts: Date.now(),
 			message: "complianceCredentialVerified",
 			data: {
-				providedBy: serviceOfferingCredentials[0].credentialSubject.providedBy,
+				serviceOfferingIds,
 				trustedIssuer: sdComplianceCredential.issuer
 			}
 		});
+
+		return serviceOfferingIds;
 	}
 
 	/**
@@ -550,16 +637,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		providedBy?: string,
 		cursor?: string,
 		pageSize?: number
-	): Promise<{
-		/**
-		 * The entities, which can be partial if a limited keys list was provided.
-		 */
-		entities: IServiceOfferingEntry[];
-		/**
-		 * An optional cursor, when defined can be used to call find to get more entities.
-		 */
-		cursor?: string;
-	}> {
+	): Promise<IServiceOfferingList> {
 		const conditions: EntityCondition<ServiceOfferingEntry>[] = [];
 
 		if (Is.stringValue(providedBy)) {
@@ -582,11 +660,26 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			conditions.push(condition);
 		}
 
-		const entries = await this._entityStorageSOs.query({ conditions });
-		return {
-			entities: entries.entities as IServiceOfferingEntry[],
-			cursor: entries.cursor
+		const entries = await this._entityStorageServiceOfferings.query(
+			{ conditions },
+			undefined,
+			undefined,
+			cursor,
+			pageSize
+		);
+
+		const itemList = entries.entities.map(entry => {
+			(entry as IServiceOfferingEntry).type = GaiaXTypes.ServiceOffering;
+			return entry;
+		});
+		const result = {
+			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
+			type: SchemaOrgTypes.ItemList,
+			itemListElement: itemList as IServiceOfferingEntry[],
+			nextItem: entries.cursor
 		};
+
+		return JsonLdProcessor.compact(result, result["@context"]);
 	}
 
 	/**
@@ -604,20 +697,11 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		producedBy?: string,
 		cursor?: string,
 		pageSize?: number
-	): Promise<{
-		/**
-		 * The entities, which can be partial if a limited keys list was provided.
-		 */
-		entities: IDataResourceEntry[];
-		/**
-		 * An optional cursor, when defined can be used to call find to get more entities.
-		 */
-		cursor?: string;
-	}> {
-		const conditions: EntityCondition<ServiceOfferingEntry>[] = [];
+	): Promise<IDataResourceList> {
+		const conditions: EntityCondition<DataResourceEntry>[] = [];
 
 		if (Is.stringValue(producedBy)) {
-			const condition: EntityCondition<ServiceOfferingEntry> = {
+			const condition: EntityCondition<DataResourceEntry> = {
 				property: "producedBy",
 				value: producedBy,
 				comparison: ComparisonOperator.Equals
@@ -627,7 +711,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		}
 
 		if (Is.stringValue(id)) {
-			const condition: EntityCondition<ServiceOfferingEntry> = {
+			const condition: EntityCondition<DataResourceEntry> = {
 				property: "id",
 				value: id,
 				comparison: ComparisonOperator.Equals
@@ -636,11 +720,49 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 			conditions.push(condition);
 		}
 
-		const entries = await this._entityStorageResources.query({ conditions });
-		return {
-			entities: entries.entities as IDataResourceEntry[],
-			cursor: entries.cursor
+		const entries = await this._entityStorageDataResources.query(
+			{ conditions },
+			undefined,
+			undefined,
+			cursor,
+			pageSize
+		);
+
+		const itemList = entries.entities.map(entry => {
+			(entry as IDataResourceEntry).type = GaiaXTypes.DataResource;
+			return entry;
+		});
+		const result = {
+			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
+			type: SchemaOrgTypes.ItemList,
+			itemListElement: itemList as IDataResourceEntry[],
+			nextItem: entries.cursor
 		};
+
+		return JsonLdProcessor.compact(result, result["@context"]);
+	}
+
+	/**
+	 * Decodes the JWT.
+	 * @param jwt JWT.
+	 * @returns Decoded.
+	 */
+	private async decodeJwt(jwt: string): Promise<IComplianceCredential> {
+		const { payload } = await VerificationHelper.verifyJwt(this._resolver, jwt);
+		return payload as unknown as IComplianceCredential;
+	}
+
+	/**
+	 * Returns the trusted Issuer id.
+	 * @param complianceCredential The compliance credential.
+	 * @returns The trusted issuer.
+	 */
+	private getTrustedIssuerId(complianceCredential: IComplianceCredential): string {
+		const trustedIssuerId = Is.object<{ id: string }>(complianceCredential.issuer)
+			? complianceCredential.issuer.id
+			: complianceCredential.issuer;
+
+		return trustedIssuerId;
 	}
 
 	/**
@@ -659,16 +781,17 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 		const evidences: string[] = [];
 		for (const evidence of complianceCredential.evidence) {
-			evidences.push(evidence.id as string);
+			evidences.push(evidence.id);
 		}
 
 		const result: IParticipantEntry = {
 			...participantData,
-			trustedIssuerId: complianceCredential.issuer as string,
-			validFrom: complianceCredential.validFrom as string,
-			validUntil: complianceCredential.validUntil as string,
+			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY,
+			issuer: this.getTrustedIssuerId(complianceCredential),
+			validFrom: complianceCredential.validFrom,
+			validUntil: complianceCredential.validUntil,
 			dateCreated: new Date().toISOString(),
-			evidences
+			evidence: evidences
 		};
 
 		return result;
@@ -677,14 +800,14 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	/**
 	 * Extracts Data Space Connector description entry from the credentials.
 	 * @param complianceCredential Compliance Credential.
-	 * @param dsCredential Evidence Credential.
+	 * @param dataSpaceConnectorCredential Evidence Credential.
 	 * @returns Service Description Entry to be saved on the Database.
 	 */
 	private extractDataSpaceConnectorEntry(
 		complianceCredential: IComplianceCredential,
-		dsCredential: IDataSpaceConnectorCredential
+		dataSpaceConnectorCredential: IDataSpaceConnectorCredential
 	): IDataSpaceConnectorEntry {
-		const credentialData = dsCredential.credentialSubject;
+		const credentialData = dataSpaceConnectorCredential.credentialSubject;
 
 		Guards.objectValue(this.CLASS_NAME, nameof(credentialData), credentialData);
 
@@ -692,12 +815,13 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 		const result: IDataSpaceConnectorEntry = {
 			...deStructuredData,
+			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY,
 			offeredResource: Object.keys(offeredResource),
-			trustedIssuerId: complianceCredential.issuer as string,
-			validFrom: dsCredential.validFrom as string,
-			validUntil: dsCredential.validUntil as string,
+			issuer: this.getTrustedIssuerId(complianceCredential),
+			validFrom: complianceCredential.validFrom,
+			validUntil: complianceCredential.validUntil,
 			dateCreated: new Date().toISOString(),
-			evidences: [dsCredential.id]
+			evidence: [dataSpaceConnectorCredential.id]
 		};
 
 		return result;
@@ -706,28 +830,33 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	/**
 	 * Extracts service offering entry from the credentials.
 	 * @param complianceCredential The Compliance Credential.
-	 * @param sdCredential SD credential.
+	 * @param serviceOfferingCredential Service Offering credential (evidence).
 	 * @returns Service Offering Entry to be saved on the Database.
 	 */
 	private extractServiceOfferingEntry(
 		complianceCredential: IComplianceCredential,
-		sdCredential: IServiceOfferingCredential
+		serviceOfferingCredential: IServiceOfferingCredential
 	): IServiceOfferingEntry {
-		const credentialData = sdCredential.credentialSubject;
+		const credentialData = serviceOfferingCredential.credentialSubject;
 
 		Guards.objectValue(this.CLASS_NAME, nameof(credentialData), credentialData);
 
-		const { providedBy, aggregationOfResources, ...deStructuredData } = credentialData;
+		const { providedBy, aggregationOfResources, servicePolicy, ...deStructuredData } =
+			credentialData;
 
 		const result: IServiceOfferingEntry = {
 			...deStructuredData,
-			providedBy: typeof providedBy === "string" ? providedBy : providedBy.id,
+			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY,
+			providedBy: Is.string(providedBy) ? providedBy : providedBy.id,
 			aggregationOfResources: aggregationOfResources as string[],
-			trustedIssuerId: complianceCredential.issuer as string,
-			validFrom: sdCredential.validFrom as string,
-			validUntil: sdCredential.validUntil as string,
+			issuer: this.getTrustedIssuerId(complianceCredential),
+			validFrom: complianceCredential.validFrom,
+			validUntil: complianceCredential.validUntil,
 			dateCreated: new Date().toISOString(),
-			evidences: [sdCredential.id as string]
+			evidence: [serviceOfferingCredential.id],
+			servicePolicy: ArrayHelper.fromObjectOrArray<IJsonLdNodeObject>(
+				servicePolicy
+			) as IOdrlPolicy[]
 		};
 
 		return result;
@@ -746,7 +875,8 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 		const credentialData = dataResourceCredential.credentialSubject;
 		Guards.objectValue(this.CLASS_NAME, nameof(credentialData), credentialData);
 
-		const { producedBy, copyrightOwnedBy, exposedThrough, ...deStructuredData } = credentialData;
+		const { producedBy, copyrightOwnedBy, exposedThrough, resourcePolicy, ...deStructuredData } =
+			credentialData;
 
 		let producedByValue = producedBy;
 		if (Is.object<IParticipant>(producedByValue)) {
@@ -760,14 +890,18 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 
 		const result: IDataResourceEntry = {
 			...deStructuredData,
-			trustedIssuerId: complianceCredential.issuer as string,
+			"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY,
+			issuer: this.getTrustedIssuerId(complianceCredential),
 			producedBy: producedByValue,
 			copyrightOwnedBy: copyrightOwnedByValue,
 			exposedThrough: exposedThrough as string,
-			validFrom: dataResourceCredential.validFrom as string,
-			validUntil: dataResourceCredential.validUntil as string,
+			validFrom: complianceCredential.validFrom,
+			validUntil: complianceCredential.validUntil,
 			dateCreated: new Date().toISOString(),
-			evidences: [dataResourceCredential.id as string]
+			evidence: [dataResourceCredential.id],
+			resourcePolicy: ArrayHelper.fromObjectOrArray<IJsonLdNodeObject>(
+				resourcePolicy
+			) as IOdrlPolicy[]
 		};
 
 		return result;

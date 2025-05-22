@@ -4,23 +4,23 @@ Interface describing a participant.
 
 ## Extends
 
-- `IParticipant`.`ICatalogEntry`
+- `IParticipant`.`ICatalogueBase`
 
 ## Indexable
 
-\[`key`: `string`\]: `undefined` \| `null` \| `string` \| `number` \| `boolean` \| `string`[] \| `IJsonLdContextDefinition` \| `IJsonLdContextDefinitionElement`[] \| `IJsonLdIdMap` \| `IJsonLdNodeObject` \| `IJsonLdListObject` \| `object` & `object` \| `object` & `object` \| `object` & `object` \| `IJsonLdSetObject` \| `IJsonLdJsonObject` \| `IJsonLdIndexMap` \| `IJsonLdLanguageMap` \| `IJsonLdGraphObject` \| `IJsonLdNodeObject`[] \| `IJsonLdJsonObject`[] \| \{\} \| `IJsonLdTypeMap` \| `IJsonLdNodePrimitive`[]
+\[`key`: `string`\]: `undefined` \| `null` \| `string` \| `number` \| `boolean` \| `string`[] \| `IJsonLdContextDefinition` \| `IJsonLdContextDefinitionElement`[] \| `IJsonLdIdMap` \| `IJsonLdNodeObject` \| `IJsonLdListObject` \| `object` & `object` \| `object` & `object` \| `object` & `object` \| `IJsonLdSetObject` \| `IJsonLdJsonObject` \| `IJsonLdIndexMap` \| `IJsonLdLanguageMap` \| `IJsonLdGraphObject` \| `IJsonLdNodeObject`[] \| `IJsonLdJsonObject`[] \| \{[`key`: `string`]: `string`; \} \| `IJsonLdTypeMap` \| `IJsonLdNodePrimitive`[]
 
 ## Properties
 
-### trustedIssuerId
+### issuer
 
-> **trustedIssuerId**: `string`
+> **issuer**: `string`
 
 The trusted issuer of the compliance credential
 
 #### Inherited from
 
-`ICatalogEntry.trustedIssuerId`
+`ICatalogueBase.issuer`
 
 ***
 
@@ -32,7 +32,7 @@ Valid from (as per W3C VC Data Model v2)
 
 #### Inherited from
 
-`ICatalogEntry.validFrom`
+`ICatalogueBase.validFrom`
 
 ***
 
@@ -44,7 +44,7 @@ Valid until (as per W3C VC Data Model v2)
 
 #### Inherited from
 
-`ICatalogEntry.validUntil`
+`ICatalogueBase.validUntil`
 
 ***
 
@@ -56,16 +56,28 @@ The creation date.
 
 #### Inherited from
 
-`ICatalogEntry.dateCreated`
+`ICatalogueBase.dateCreated`
 
 ***
 
-### evidences
+### evidence
 
-> **evidences**: `string`[]
+> **evidence**: `string`[]
 
 The evidences concerning the data resource.
 
 #### Inherited from
 
-`ICatalogEntry.evidences`
+`ICatalogueBase.evidence`
+
+***
+
+### @context
+
+> **@context**: [`FederatedCatalogueContextType`](../type-aliases/FederatedCatalogueContextType.md)
+
+The LD Context
+
+#### Overrides
+
+`IParticipant.@context`

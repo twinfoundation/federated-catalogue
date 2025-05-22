@@ -4,17 +4,10 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import { addAllContextsToDocumentCache, LD_CONTEXTS } from "@twin.org/standards-ld-contexts";
-
-import { ComponentFactory, EnvHelper, Is, StringHelper, Urn } from "@twin.org/core";
+import { ComponentFactory, StringHelper, Urn } from "@twin.org/core";
 import { MemoryEntityStorageConnector } from "@twin.org/entity-storage-connector-memory";
 import { EntityStorageConnectorFactory } from "@twin.org/entity-storage-models";
-import type {
-	DataResourceEntry,
-	DataSpaceConnectorEntry,
-	ParticipantEntry,
-	ServiceOfferingEntry
-} from "@twin.org/federated-catalogue-models";
+import { FederatedCatalogueTypes } from "@twin.org/federated-catalogue-models";
 import {
 	IdentityResolverConnectorFactory,
 	type IIdentityResolverConnector
@@ -22,10 +15,12 @@ import {
 import { IdentityResolverService } from "@twin.org/identity-service";
 import { ModuleHelper } from "@twin.org/modules";
 import { nameof } from "@twin.org/nameof";
+import { GaiaXTypes } from "@twin.org/standards-gaia-x";
+import { addAllContextsToDocumentCache } from "@twin.org/standards-ld-contexts";
 
 import type { IDidDocument } from "@twin.org/standards-w3c-did";
 import { FederatedCatalogueService } from "../src/federatedCatalogueService";
-import type { IFederatedCatalogueOptions } from "../src/IFederatedCatalogueOptions";
+import type { IFederatedCatalogueConstructorOptions } from "../src/models/IFederatedCatalogueConstructorOptions";
 import { initSchema } from "../src/schema";
 
 import dataResourceCredential from "./dataset/credentials/compliance/data-resource-credential.json" assert { type: "json" };
@@ -38,32 +33,33 @@ let dataResourceStore: MemoryEntityStorageConnector<DataResourceEntry>;
 let serviceOfferingStore: MemoryEntityStorageConnector<ServiceOfferingEntry>;
 let dataSpaceConnectorStore: MemoryEntityStorageConnector<DataSpaceConnectorEntry>;
 
-let envVars: { [id: string]: string };
-
 import { cleanupTestEnv, setupTestEnv } from "./setupTestEnv";
+import type { ParticipantEntry } from "../src/entities/participantEntry";
+// eslint-disable-next-line import/order
+import type { DataResourceEntry } from "../src/entities/dataResourceEntry";
+// eslint-disable-next-line import/order
+import type { ServiceOfferingEntry } from "../src/entities/serviceOfferingEntry";
+// eslint-disable-next-line import/order
+import type { DataSpaceConnectorEntry } from "../src/entities/dataSpaceConnectorEntry";
 
-let options: IFederatedCatalogueOptions;
-
-describe("federated-catalogue-service", () => {
-	/**
-	 * Extracts the URL as string.
-	 * @param request The request.
-	 * @returns URL as string.
-	 */
-	function extractURL(request: Request | URL | string): string {
-		let url: string = "";
-		if (request instanceof Request) {
-			url = request.url;
-		} else {
-			url = typeof request === "string" ? request : request.toString();
-		}
-		return url;
+let options: IFederatedCatalogueConstructorOptions;
+/**
+ * Extracts the URL as string.
+ * @param request The request.
+ * @returns URL as string.
+ */
+function extractURL(request: Request | URL | string): string {
+	let url: string = "";
+	if (request instanceof Request) {
+		url = request.url;
+	} else {
+		url = typeof request === "string" ? request : request.toString();
 	}
-
+	return url;
+}
+describe("federated-catalogue-service", () => {
 	beforeAll(async () => {
-		await setupTestEnv();
-
-		envVars = EnvHelper.envToJson(process.env, "FED_CATALOG");
+		const clearingHouseApproverList = await setupTestEnv();
 
 		// Mock the module helper to execute the method in the same thread, so we don't have to create an engine
 		ModuleHelper.execModuleMethodThread = vi
@@ -78,17 +74,11 @@ describe("federated-catalogue-service", () => {
 			.fn()
 			.mockImplementation(
 				async (request: Request | URL | string, opts: RequestInit | undefined) => {
-					const fileName = path.basename(new URL(extractURL(request)).pathname);
-					const pathToFile = path.join(
-						__dirname,
-						"..",
-						"..",
-						"..",
-						"docs",
-						"public-web",
-						"test-credentials",
-						fileName
-					);
+					const url = new URL(extractURL(request));
+
+					const filePath = url.pathname;
+					const domainName = url.host;
+					const pathToFile = path.join(__dirname, "published-datasets", domainName, filePath);
 					const contentBuffer = await fs.readFileSync(pathToFile);
 					const content = contentBuffer.toString();
 					return {
@@ -123,7 +113,7 @@ describe("federated-catalogue-service", () => {
 		options = {
 			loggingConnectorType: "console",
 			// Check for support of multiple values from env vars
-			clearingHouseWhiteList: JSON.parse(envVars.clearingHouseWhitelist) as string[]
+			config: { clearingHouseApproverList }
 		};
 	});
 
@@ -169,10 +159,20 @@ describe("federated-catalogue-service", () => {
 	test("It should register a compliant Participant", async () => {
 		const fedCatalogueService = new FederatedCatalogueService(options);
 		await fedCatalogueService.registerComplianceCredential(participantCredential.jwtCredential);
-		const queryResult = await fedCatalogueService.queryParticipants();
-		expect(queryResult.entities.length).toBe(1);
 
-		expect(queryResult.entities[0].id).toBe(participantCredential.credential.credentialSubject.id);
+		const queryResult = await fedCatalogueService.queryParticipants();
+
+		expect(queryResult.itemListElement[0].id).toBe(
+			participantCredential.credential.credentialSubject.id
+		);
+		expect(queryResult.itemListElement[0].type).toBe(GaiaXTypes.Participant);
+
+		const participantId = queryResult.itemListElement[0].id as string;
+		const participantEntry = await fedCatalogueService.getEntry(
+			GaiaXTypes.Participant,
+			participantId
+		);
+		expect(participantEntry.id).toBe(participantId);
 	});
 
 	test("It should register a compliant Data Resource", async () => {
@@ -182,9 +182,19 @@ describe("federated-catalogue-service", () => {
 
 		await fedCatalogueService.registerDataResourceCredential(dataResourceCredential.jwtCredential);
 		const queryResult = await fedCatalogueService.queryDataResources();
-		expect(queryResult.entities.length).toBe(1);
+		expect(queryResult.itemListElement.length).toBe(1);
 
-		expect(queryResult.entities[0].id).toBe(dataResourceCredential.credential.credentialSubject.id);
+		expect(queryResult.itemListElement[0].id).toBe(
+			dataResourceCredential.credential.credentialSubject.id
+		);
+		expect(queryResult.itemListElement[0].type).toBe(GaiaXTypes.DataResource);
+
+		const dataResourceId = queryResult.itemListElement[0].id as string;
+		const dataResourceEntry = await fedCatalogueService.getEntry(
+			GaiaXTypes.DataResource,
+			dataResourceId
+		);
+		expect(dataResourceEntry.id).toBe(dataResourceId);
 	});
 
 	test("It should register a compliant Service Offering", async () => {
@@ -196,11 +206,19 @@ describe("federated-catalogue-service", () => {
 			serviceOfferingCedential.jwtCredential
 		);
 		const queryResult = await fedCatalogueService.queryServiceOfferings();
-		expect(queryResult.entities.length).toBe(1);
+		expect(queryResult.itemListElement.length).toBe(1);
 
-		expect(queryResult.entities[0].id).toBe(
+		expect(queryResult.itemListElement[0].id).toBe(
 			serviceOfferingCedential.credential.credentialSubject.id
 		);
+		expect(queryResult.itemListElement[0].type).toBe(GaiaXTypes.ServiceOffering);
+
+		const serviceOfferingId = queryResult.itemListElement[0].id as string;
+		const serviceOfferingEntry = await fedCatalogueService.getEntry(
+			GaiaXTypes.ServiceOffering,
+			serviceOfferingId
+		);
+		expect(serviceOfferingEntry.id).toBe(serviceOfferingId);
 	});
 
 	test("It should register a compliant Data Space Connector", async () => {
@@ -212,10 +230,21 @@ describe("federated-catalogue-service", () => {
 			dataSpaceConnectorCredential.jwtCredential
 		);
 		const queryResult = await fedCatalogueService.queryDataSpaceConnectors();
-		expect(queryResult.entities.length).toBe(1);
+		expect(queryResult.itemListElement.length).toBe(1);
 
-		expect(queryResult.entities[0].id).toBe(
+		expect(queryResult.itemListElement[0].id).toBe(
 			dataSpaceConnectorCredential.credential.credentialSubject.id
 		);
+		expect(queryResult.itemListElement[0].type).toStrictEqual([
+			GaiaXTypes.DataExchangeComponent,
+			FederatedCatalogueTypes.DataSpaceConnector
+		]);
+
+		const dataSpaceConnectorId = queryResult.itemListElement[0].id as string;
+		const dataSpaceConnectorEntry = await fedCatalogueService.getEntry(
+			GaiaXTypes.DataExchangeComponent,
+			dataSpaceConnectorId
+		);
+		expect(dataSpaceConnectorEntry.id).toBe(dataSpaceConnectorId);
 	});
 });

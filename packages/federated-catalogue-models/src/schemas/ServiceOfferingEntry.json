@@ -1,0 +1,165 @@
+{
+	"type": "object",
+	"properties": {
+		"@context": {
+			"$ref": "https://schema.twindev.org/federated-catalogue/FederatedCatalogueContextType",
+			"description": "The LD Context"
+		},
+		"@id": {
+			"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+		},
+		"@included": {
+			"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+		},
+		"@graph": {
+			"anyOf": [
+				{
+					"$ref": "https://schema.twindev.org/json-ld/JsonLdNodeObject"
+				},
+				{
+					"type": "array",
+					"items": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdNodeObject"
+					}
+				}
+			]
+		},
+		"@nest": {
+			"anyOf": [
+				{
+					"$ref": "https://schema.twindev.org/json-ld/JsonLdJsonObject"
+				},
+				{
+					"type": "array",
+					"items": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdJsonObject"
+					}
+				}
+			]
+		},
+		"@type": {
+			"anyOf": [
+				{
+					"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+				},
+				{
+					"type": "array",
+					"items": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+					}
+				}
+			]
+		},
+		"@reverse": {
+			"type": "object",
+			"additionalProperties": {
+				"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+			}
+		},
+		"@index": {
+			"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+		},
+		"id": {
+			"type": "string",
+			"description": "Id"
+		},
+		"type": {
+			"type": "string",
+			"const": "ServiceOffering",
+			"description": "Type"
+		},
+		"description": {
+			"type": "string",
+			"description": "Description"
+		},
+		"name": {
+			"type": "string",
+			"description": "Name"
+		},
+		"providedBy": {
+			"type": "string",
+			"description": "Overwrites providedBy as we only store identifier as string"
+		},
+		"servicePolicy": {
+			"type": "array",
+			"items": {
+				"$ref": "https://schema.twindev.org/federated-catalogue/OdrlPolicy"
+			},
+			"description": "The service policy is always stored as an array"
+		},
+		"aggregationOfResources": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			},
+			"description": "Overwrites aggregationOfResources as we only store identifier as string"
+		},
+		"endpoint": {
+			"$ref": "https://schema.twindev.org/federated-catalogue/Endpoint",
+			"description": "The endpoint"
+		},
+		"issuer": {
+			"type": "string",
+			"description": "The trusted issuer of the compliance credential"
+		},
+		"validFrom": {
+			"type": "string",
+			"description": "Valid from (as per W3C VC Data Model v2)"
+		},
+		"validUntil": {
+			"type": "string",
+			"description": "Valid until (as per W3C VC Data Model v2)"
+		},
+		"dateCreated": {
+			"type": "string",
+			"description": "The creation date."
+		},
+		"evidence": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			},
+			"description": "The evidences concerning the data resource."
+		}
+	},
+	"required": [
+		"@context",
+		"dateCreated",
+		"endpoint",
+		"evidence",
+		"id",
+		"issuer",
+		"name",
+		"providedBy",
+		"servicePolicy",
+		"type",
+		"validFrom",
+		"validUntil"
+	],
+	"additionalProperties": {
+		"anyOf": [
+			{
+				"$ref": "https://schema.twindev.org/json-ld/JsonLdNodePrimitive"
+			},
+			{
+				"$ref": "https://schema.twindev.org/json-ld/JsonLdLanguageMap"
+			},
+			{
+				"$ref": "https://schema.twindev.org/json-ld/JsonLdIndexMap"
+			},
+			{
+				"$ref": "https://schema.twindev.org/json-ld/JsonLdIncludedBlock"
+			},
+			{
+				"$ref": "https://schema.twindev.org/json-ld/JsonLdIdMap"
+			},
+			{
+				"$ref": "https://schema.twindev.org/json-ld/JsonLdTypeMap"
+			},
+			{
+				"type": "array"
+			}
+		]
+	},
+	"description": "Interface describing a Service Offering."
+}

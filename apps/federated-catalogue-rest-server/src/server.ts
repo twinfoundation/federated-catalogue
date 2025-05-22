@@ -3,7 +3,7 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import type { IServerInfo } from "@twin.org/api-models";
-import { GeneralError, Is } from "@twin.org/core";
+import { Coerce, GeneralError, Is } from "@twin.org/core";
 import { buildEngineConfiguration, Engine } from "@twin.org/engine";
 import { FileStateStorage } from "@twin.org/engine-core";
 import {
@@ -18,7 +18,7 @@ import {
 	EntityStorageConnectorType,
 	LoggingConnectorType
 } from "@twin.org/engine-types";
-import { extendEngineConfig, extendServerConfig } from "./extensions.js";
+import { extendEngineConfig } from "./extensions.js";
 import type { IFederatedCatalogVariables } from "./models/IFederatedCatalogVariables.js";
 
 const FEDERATED_CATALOGUE_TYPE = "federated-catalogue-type";
@@ -49,7 +49,7 @@ export async function start(
 			Is.empty(stateStorage)) &&
 		!Is.stringValue(envVars.storageFileRoot)
 	) {
-		throw new GeneralError("Federated_Catalogue", "storageFileRootNotSet");
+		throw new GeneralError("federatedCatalogue", "storageFileRootNotSet");
 	}
 
 	// Build the engine configuration from the environment variables.
@@ -60,7 +60,6 @@ export async function start(
 
 	const specFile = path.resolve(path.join(rootPackageFolder, "docs", "open-api", "spec.json"));
 	const serverConfig = buildEngineServerConfiguration(envVars, engineConfig, serverInfo, specFile);
-	extendServerConfig(serverConfig);
 
 	// Create the engine instance using file state storage
 	const engine = new Engine<IEngineServerConfig>({
@@ -74,9 +73,10 @@ export async function start(
 			restPath: REST_PATH,
 			options: {
 				loggingConnectorType: LoggingConnectorType.Console,
-				didResolverEndpoint: envVars.resolverEndpoint,
-				// Check for support of multiple values from env vars
-				clearingHouseWhiteList: JSON.parse(envVars.clearingHouseWhitelist) as string[]
+				config: {
+					clearingHouseApproverList: JSON.parse(envVars.clearingHouseApproverList) as string[],
+					subResourceCacheTtlMs: Coerce.number(envVars.subResourceCacheTtlMs)
+				}
 			}
 		}
 	];

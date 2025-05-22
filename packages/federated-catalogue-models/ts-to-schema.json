@@ -1,7 +1,16 @@
 {
 	"baseUrl": "https://schema.twindev.org/federated-catalogue/",
-	"sources": [],
-	"types": [],
+	"sources": ["./src/models/**/*.ts"],
+	"types": [
+		"IDataResourceEntry",
+		"IDataResourceList",
+		"IDataSpaceConnectorEntry",
+		"IDataSpaceConnectorList",
+		"IServiceOfferingEntry",
+		"IServiceOfferingList",
+		"IParticipantEntry",
+		"IParticipantList"
+	],
 	"externalReferences": {
 		"IJsonLd(.*)": "https://schema.twindev.org/json-ld/JsonLd$1"
 	}

@@ -1,0 +1,5 @@
+{
+	"packages/federated-catalogue-models": "0.0.1",
+	"packages/federated-catalogue-service": "0.0.1",
+	"apps/federated-catalogue-rest-server": "0.0.1"
+}

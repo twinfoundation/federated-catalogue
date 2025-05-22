@@ -13,6 +13,11 @@ export interface ICredential extends IDidVerifiableCredential {
 	id: string;
 
 	/**
+	 * The issuer of the credential, it is mandatory.
+	 */
+	issuer: string;
+
+	/**
 	 * Credential subject must always include id and type
 	 */
 	credentialSubject: IDidVerifiableCredential["credentialSubject"] & {

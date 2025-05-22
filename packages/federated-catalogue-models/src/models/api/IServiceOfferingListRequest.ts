@@ -1,18 +1,21 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
+import type { IFederatedCatalogueGetRequest } from "./IFederatedCatalogueGetRequest";
+
 /**
  * Get the a list of the service offering entries.
  */
-export interface IServiceOfferingListRequest {
+export interface IServiceOfferingListRequest extends IFederatedCatalogueGetRequest {
 	/**
 	 * The query parameters.
 	 */
 	query: {
 		/**
-		 * Id.
+		 * The Service Offering Id.
 		 */
 		id?: string;
+
 		/**
 		 * The service provider.
 		 */

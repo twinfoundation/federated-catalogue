@@ -1,10 +1,12 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
+import type { IFederatedCatalogueGetRequest } from "./IFederatedCatalogueGetRequest";
+
 /**
  * Get the a list of the participant entries.
  */
-export interface IParticipantListRequest {
+export interface IParticipantListRequest extends IFederatedCatalogueGetRequest {
 	/**
 	 * The query parameters.
 	 */

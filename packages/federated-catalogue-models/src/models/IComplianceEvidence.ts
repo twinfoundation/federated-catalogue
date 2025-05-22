@@ -16,11 +16,11 @@ export interface IComplianceEvidence extends IJsonLdNodeObject {
 	/**
 	 * Type of evidence.
 	 */
-	type: typeof FederatedCatalogueTypes.CompliantCredential_Evidence;
+	type: typeof FederatedCatalogueTypes.CompliantCredential;
 
 	/**
 	 * One or more cryptographic digests, as defined by the hash-expression
-	 * ABNF grammar defined in the Subresource Integrity specification,
+	 * ABNF grammar defined in the Sub-resource Integrity specification,
 	 * Section 3.5: The integrity attribute.
 	 */
 	digestSRI: string;

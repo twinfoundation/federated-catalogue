@@ -15,9 +15,25 @@
 		"tsconfig.json",
 		"typedoc.json",
 		".eslintrc.cjs",
-		"**/wordlists/**"
+		"**/wordlists/**",
+		"**/*.json"
 	],
-	"words": ["bech", "Faucet", "ipfs", "Jsonld", "nameof", "openapi", "Stiftung", "Unrevoke"],
+	"words": [
+		"bech",
+		"abbrev",
+		"Jsonld",
+		"nameof",
+		"openapi",
+		"Stiftung",
+		"Unrevoke",
+		"ABNF",
+		"EORI",
+		"VATID",
+		"GLEIF",
+		"twinfoundation",
+		"buildx",
+		"dcmi"
+	],
 	"ignoreRegExpList": [
 		"/from\\s+(['\"]).*\\1/",
 		"/eslint-disable.*/",

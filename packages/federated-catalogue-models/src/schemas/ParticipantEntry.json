@@ -1,0 +1,146 @@
+{
+	"type": "object",
+	"properties": {
+		"issuer": {
+			"type": "string",
+			"description": "The trusted issuer of the compliance credential"
+		},
+		"validFrom": {
+			"type": "string",
+			"description": "Valid from (as per W3C VC Data Model v2)"
+		},
+		"validUntil": {
+			"type": "string",
+			"description": "Valid until (as per W3C VC Data Model v2)"
+		},
+		"dateCreated": {
+			"type": "string",
+			"description": "The creation date."
+		},
+		"evidence": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			},
+			"description": "The evidences concerning the data resource."
+		},
+		"@context": {
+			"$ref": "https://schema.twindev.org/federated-catalogue/FederatedCatalogueContextType",
+			"description": "The LD Context"
+		},
+		"@id": {
+			"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+		},
+		"@included": {
+			"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+		},
+		"@graph": {
+			"anyOf": [
+				{
+					"$ref": "https://schema.twindev.org/json-ld/JsonLdNodeObject"
+				},
+				{
+					"type": "array",
+					"items": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdNodeObject"
+					}
+				}
+			]
+		},
+		"@nest": {
+			"anyOf": [
+				{
+					"$ref": "https://schema.twindev.org/json-ld/JsonLdJsonObject"
+				},
+				{
+					"type": "array",
+					"items": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdJsonObject"
+					}
+				}
+			]
+		},
+		"@type": {
+			"anyOf": [
+				{
+					"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+				},
+				{
+					"type": "array",
+					"items": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+					}
+				}
+			]
+		},
+		"@reverse": {
+			"type": "object",
+			"additionalProperties": {
+				"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+			}
+		},
+		"@index": {
+			"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+		},
+		"id": {
+			"type": "string",
+			"description": "The participant Id."
+		},
+		"type": {
+			"type": "string",
+			"const": "LegalPerson",
+			"description": "JSON-LD type."
+		},
+		"registrationNumber": {
+			"$ref": "https://schema.twindev.org/federated-catalogue/RegistrationNumber",
+			"description": "The legal registration number."
+		},
+		"legalName": {
+			"type": "string",
+			"description": "The legal name."
+		},
+		"legalAddress": {
+			"$ref": "https://schema.twindev.org/federated-catalogue/Address",
+			"description": "Legal Address"
+		}
+	},
+	"required": [
+		"@context",
+		"dateCreated",
+		"evidence",
+		"id",
+		"issuer",
+		"legalAddress",
+		"legalName",
+		"registrationNumber",
+		"type",
+		"validFrom",
+		"validUntil"
+	],
+	"additionalProperties": {
+		"anyOf": [
+			{
+				"$ref": "https://schema.twindev.org/json-ld/JsonLdNodePrimitive"
+			},
+			{
+				"$ref": "https://schema.twindev.org/json-ld/JsonLdLanguageMap"
+			},
+			{
+				"$ref": "https://schema.twindev.org/json-ld/JsonLdIndexMap"
+			},
+			{
+				"$ref": "https://schema.twindev.org/json-ld/JsonLdIncludedBlock"
+			},
+			{
+				"$ref": "https://schema.twindev.org/json-ld/JsonLdIdMap"
+			},
+			{
+				"$ref": "https://schema.twindev.org/json-ld/JsonLdTypeMap"
+			},
+			{
+				"type": "array"
+			}
+		]
+	},
+	"description": "Interface describing a participant."
+}

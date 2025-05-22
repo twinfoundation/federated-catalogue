@@ -276,7 +276,7 @@
 				}
 			}
 		},
-		"/fedcatalogue/participant-credentials": {
+		"/federated-catalogue/participant-credentials": {
 			"post": {
 				"operationId": "compliancePresentationRequest",
 				"summary": "Present a Compliance Credential",
@@ -386,7 +386,7 @@
 				}
 			}
 		},
-		"/fedcatalogue/service-offering-credentials": {
+		"/federated-catalogue/service-offering-credentials": {
 			"post": {
 				"operationId": "serviceOfferingPresentationRequest",
 				"summary": "Present a Service Offering Credential",
@@ -407,7 +407,7 @@
 								"$ref": "#/components/schemas/CompliancePresentationRequest"
 							},
 							"examples": {
-								"servicePresentationRequestExample": {
+								"serviceOfferingPresentationRequestExample": {
 									"value": "ey..."
 								}
 							}
@@ -496,9 +496,9 @@
 				}
 			}
 		},
-		"/fedcatalogue/data-resource-credentials": {
+		"/federated-catalogue/data-resource-credentials": {
 			"post": {
-				"operationId": "datasResourcePresentationRequest",
+				"operationId": "dataResourcePresentationRequest",
 				"summary": "Present a Data Resource Credential",
 				"tags": [
 					"Federated Catalogue"
@@ -606,9 +606,9 @@
 				}
 			}
 		},
-		"/fedcatalogue/data-space-connector-credentials": {
+		"/federated-catalogue/data-space-connector-credentials": {
 			"post": {
-				"operationId": "dataspaceConnectorPresentationRequest",
+				"operationId": "dataSpaceConnectorPresentationRequest",
 				"summary": "Present a Data Space Connector Credential",
 				"tags": [
 					"Federated Catalogue"
@@ -716,9 +716,9 @@
 				}
 			}
 		},
-		"/fedcatalogue/participants": {
+		"/federated-catalogue/participants": {
 			"get": {
-				"operationId": "fedCatalogueListParticipants",
+				"operationId": "federatedCatalogueListParticipants",
 				"summary": "Get a list of the participant entries",
 				"tags": [
 					"Federated Catalogue"
@@ -769,6 +769,15 @@
 						"schema": {
 							"type": "number"
 						}
+					},
+					{
+						"name": "accept",
+						"in": "header",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple"
 					}
 				],
 				"security": [
@@ -782,18 +791,24 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ParticipantListResponse"
+									"$ref": "#/components/schemas/ParticipantList"
 								},
 								"examples": {
-									"listResponseExample": {
+									"participantListResponseExample": {
 										"value": {
 											"@context": [
-												"https://w3id.org/gaia-x/development",
 												"https://schema.org",
-												"https://www.w3.org/ns/credentials/v2"
+												"https://w3id.org/gaia-x/development",
+												"https://schema.twindev.org/federated-catalogue/types.jsonld"
 											],
-											"entities": [
+											"type": "ItemList",
+											"itemListElement": [
 												{
+													"@context": [
+														"https://schema.org",
+														"https://w3id.org/gaia-x/development",
+														"https://schema.twindev.org/federated-catalogue/types.jsonld"
+													],
 													"id": "did:iota:xxx",
 													"type": "LegalPerson",
 													"registrationNumber": {
@@ -801,7 +816,7 @@
 														"local": "P1234567"
 													},
 													"legalName": "A Inc.",
-													"trustedIssuerId": "did:iota:zzz",
+													"issuer": "did:iota:zzz",
 													"legalAddress": {
 														"type": "Address",
 														"countryCode": "KE"
@@ -809,12 +824,11 @@
 													"validFrom": "2024-08-01T12:00:00Z",
 													"validUntil": "2025-08-01T12:00:00Z",
 													"dateCreated": "2024-08-02T13:45:00Z",
-													"evidences": [
+													"evidence": [
 														"https://credentials.example.org/1234567"
 													]
 												}
-											],
-											"cursor": "1"
+											]
 										}
 									}
 								}
@@ -881,9 +895,143 @@
 				}
 			}
 		},
-		"/fedcatalogue/service-offerings": {
+		"/federated-catalogue/participants/{id}": {
 			"get": {
-				"operationId": "fedCatalogueListServices",
+				"operationId": "federatedCatalogueGetParticipant",
+				"summary": "Get a participant",
+				"tags": [
+					"Federated Catalogue"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"description": "The ID of the entry (Participant, Service, etc.) to get.",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "did:iota:123456"
+					},
+					{
+						"name": "accept",
+						"in": "header",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple"
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Response for a Participant Entry.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ParticipantEntry"
+								},
+								"examples": {
+									"participantGetResponseExample": {
+										"value": {
+											"@context": [
+												"https://schema.org",
+												"https://w3id.org/gaia-x/development",
+												"https://schema.twindev.org/federated-catalogue/types.jsonld"
+											],
+											"id": "did:iota:xxx",
+											"type": "LegalPerson",
+											"registrationNumber": {
+												"type": "LocalRegistrationNumber",
+												"local": "P1234567"
+											},
+											"legalName": "A Inc.",
+											"issuer": "did:iota:zzz",
+											"legalAddress": {
+												"type": "Address",
+												"countryCode": "KE"
+											},
+											"validFrom": "2024-08-01T12:00:00Z",
+											"validUntil": "2025-08-01T12:00:00Z",
+											"dateCreated": "2024-08-02T13:45:00Z",
+											"evidence": [
+												"https://credentials.example.org/1234567"
+											]
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "component.error",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/federated-catalogue/service-offerings": {
+			"get": {
+				"operationId": "federatedCatalogueListServices",
 				"summary": "Get a list of the service entries",
 				"tags": [
 					"Federated Catalogue"
@@ -891,7 +1039,7 @@
 				"parameters": [
 					{
 						"name": "id",
-						"description": "Id.",
+						"description": "The Service Offering Id.",
 						"in": "query",
 						"required": false,
 						"schema": {
@@ -925,6 +1073,15 @@
 						"schema": {
 							"type": "number"
 						}
+					},
+					{
+						"name": "accept",
+						"in": "header",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple"
 					}
 				],
 				"security": [
@@ -938,36 +1095,72 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ServiceOfferingListResponse"
+									"$ref": "#/components/schemas/ServiceOfferingList"
 								},
 								"examples": {
-									"listResponseExample": {
+									"serviceOfferingListResponseExample": {
 										"value": {
 											"@context": [
-												"https://w3id.org/gaia-x/development",
 												"https://schema.org",
-												"https://www.w3.org/ns/credentials/v2"
+												"https://w3id.org/gaia-x/development",
+												"https://schema.twindev.org/federated-catalogue/types.jsonld"
 											],
-											"entities": [
+											"type": "ItemList",
+											"itemListElement": [
 												{
+													"@context": [
+														"https://schema.org",
+														"https://w3id.org/gaia-x/development",
+														"https://schema.twindev.org/federated-catalogue/types.jsonld"
+													],
 													"id": "http://example.org/is123456",
 													"name": "Service 1",
 													"type": "ServiceOffering",
-													"servicePolicy": {},
+													"servicePolicy": [
+														{
+															"@context": [
+																"https://www.w3.org/ns/odrl.jsonld",
+																{
+																	"twin": "https://schema.twindev.org/odrl/",
+																	"jsonPathSelector": "twin:jsonPathSelector"
+																}
+															],
+															"@type": "Agreement",
+															"uid": "http://example.com/policy:1010",
+															"assigner": "did:iota:testnet:0x1a7bded4d22dc54722435d624e4323e10fcbc570cd57462eabbf3a5ab2ced24f",
+															"assignee": "did:iota:testnet:0x119adb64d01d3b0fa0d308c67db90ab1c6e0df6aebe5b7e0250783f57cd10c21",
+															"permission": [
+																{
+																	"target": {
+																		"type": "https://vocabulary.uncefact.org/Document",
+																		"refinement": {
+																			"leftOperand": {
+																				"@id": "https://w3id.org/twin/odrl/propertyValue",
+																				"jsonPathSelector": ".documentTypeCode"
+																			},
+																			"operator": "eq",
+																			"rightOperand": "https://vocabulary.uncefact.org/DocumentCodeList#331"
+																		}
+																	},
+																	"action": "extract"
+																}
+															]
+														}
+													],
 													"endpoint": {
 														"type": "Endpoint",
 														"endpointURL": "https://endpoint.example.org/api"
 													},
+													"issuer": "did:iota:7890",
 													"providedBy": "did:iota:1234567",
 													"validFrom": "2024-08-01T12:00:00Z",
 													"validUntil": "2025-08-01T12:00:00Z",
 													"dateCreated": "2024-08-02T13:45:00Z",
-													"evidences": [
+													"evidence": [
 														"https://credentials.example.org/1234567"
 													]
 												}
-											],
-											"cursor": "1"
+											]
 										}
 									}
 								}
@@ -1034,9 +1227,162 @@
 				}
 			}
 		},
-		"/fedcatalogue/data-resources": {
+		"/federated-catalogue/service-offerings/{id}": {
 			"get": {
-				"operationId": "fedCatalogueListResources",
+				"operationId": "federatedCatalogueGetService",
+				"summary": "Get a Service Offering entry",
+				"tags": [
+					"Federated Catalogue"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"description": "",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "https://my-services.example.org/service1"
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Service Offering response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ServiceOfferingEntry"
+								},
+								"examples": {
+									"serviceOfferingGetResponseExample": {
+										"value": {
+											"@context": [
+												"https://schema.org",
+												"https://w3id.org/gaia-x/development",
+												"https://schema.twindev.org/federated-catalogue/types.jsonld"
+											],
+											"id": "http://example.org/is123456",
+											"name": "Service 1",
+											"type": "ServiceOffering",
+											"servicePolicy": [
+												{
+													"@context": [
+														"https://www.w3.org/ns/odrl.jsonld",
+														{
+															"twin": "https://schema.twindev.org/odrl/",
+															"jsonPathSelector": "twin:jsonPathSelector"
+														}
+													],
+													"@type": "Agreement",
+													"uid": "http://example.com/policy:1010",
+													"assigner": "did:iota:testnet:0x1a7bded4d22dc54722435d624e4323e10fcbc570cd57462eabbf3a5ab2ced24f",
+													"assignee": "did:iota:testnet:0x119adb64d01d3b0fa0d308c67db90ab1c6e0df6aebe5b7e0250783f57cd10c21",
+													"permission": [
+														{
+															"target": {
+																"type": "https://vocabulary.uncefact.org/Document",
+																"refinement": {
+																	"leftOperand": {
+																		"@id": "https://w3id.org/twin/odrl/propertyValue",
+																		"jsonPathSelector": ".documentTypeCode"
+																	},
+																	"operator": "eq",
+																	"rightOperand": "https://vocabulary.uncefact.org/DocumentCodeList#331"
+																}
+															},
+															"action": "extract"
+														}
+													]
+												}
+											],
+											"endpoint": {
+												"type": "Endpoint",
+												"endpointURL": "https://endpoint.example.org/api"
+											},
+											"issuer": "did:iota:7890",
+											"providedBy": "did:iota:1234567",
+											"validFrom": "2024-08-01T12:00:00Z",
+											"validUntil": "2025-08-01T12:00:00Z",
+											"dateCreated": "2024-08-02T13:45:00Z",
+											"evidence": [
+												"https://credentials.example.org/1234567"
+											]
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "component.error",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/federated-catalogue/data-resources": {
+			"get": {
+				"operationId": "federatedCatalogueListResources",
 				"summary": "Get a list of the data resource entries",
 				"tags": [
 					"Federated Catalogue"
@@ -1044,6 +1390,7 @@
 				"parameters": [
 					{
 						"name": "id",
+						"description": "The Id of the Data Resource.",
 						"in": "query",
 						"required": false,
 						"schema": {
@@ -1077,6 +1424,15 @@
 						"schema": {
 							"type": "number"
 						}
+					},
+					{
+						"name": "accept",
+						"in": "header",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple"
 					}
 				],
 				"security": [
@@ -1090,39 +1446,58 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/DataResourceListResponse"
+									"$ref": "#/components/schemas/DataResourceList"
 								},
 								"examples": {
-									"listResponseExample": {
+									"dataResourceListResponseExample": {
 										"value": {
 											"@context": [
-												"https://w3id.org/gaia-x/development",
 												"https://schema.org",
-												"https://www.w3.org/ns/credentials/v2"
+												"https://w3id.org/gaia-x/development",
+												"https://schema.twindev.org/federated-catalogue/types.jsonld"
 											],
-											"entities": [
+											"type": "ItemList",
+											"itemListElement": [
 												{
+													"@context": [
+														"https://schema.org",
+														"https://w3id.org/gaia-x/development",
+														"https://schema.twindev.org/federated-catalogue/types.jsonld"
+													],
 													"id": "http://example.org/is123456",
 													"name": "Data Resource 1",
 													"type": "DataResource",
 													"copyrightOwnedBy": "did:iota:1234",
 													"license": "http://licenses.example.org/12345",
-													"resourcePolicy": {},
-													"exposedThrough": {
-														"@id": "https://endpoint.example.org/api",
-														"type": "DataExchangeComponent"
-													},
+													"resourcePolicy": [
+														{
+															"@context": [
+																"https://www.w3.org/ns/odrl.jsonld"
+															],
+															"@type": "Offer",
+															"uid": "http://example.com/policy:1010",
+															"assigner": "did:iota:testnet:0x1a7bded4d22dc54722435d624e4323e10fcbc570cd57462eabbf3a5ab2ced24f",
+															"permission": [
+																{
+																	"target": {
+																		"type": "https://vocabulary.uncefact.org/Document"
+																	},
+																	"action": "extract"
+																}
+															]
+														}
+													],
+													"exposedThrough": "https://ds-connectors.example.org/ds1",
 													"producedBy": "did:iota:1234567",
-													"trustedIssuerId": "did:iota:987654",
+													"issuer": "did:iota:987654",
 													"validFrom": "2024-08-01T12:00:00Z",
 													"validUntil": "2025-08-01T12:00:00Z",
 													"dateCreated": "2024-08-02T13:45:00Z",
-													"evidences": [
+													"evidence": [
 														"https://credentials.example.org/1234567"
 													]
 												}
-											],
-											"cursor": "1"
+											]
 										}
 									}
 								}
@@ -1189,9 +1564,148 @@
 				}
 			}
 		},
-		"/fedcatalogue/data-space-connectors": {
+		"/federated-catalogue/data-resources/{id}": {
 			"get": {
-				"operationId": "fedCatalogueListDataSpaceConnectors",
+				"operationId": "federatedCatalogueGetDataResource",
+				"summary": "Get a Data Resource entry",
+				"tags": [
+					"Federated Catalogue"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"description": "",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "https://data-resources.example.org/drs1"
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Service Offering response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DataResourceEntry"
+								},
+								"examples": {
+									"dataResourceGetResponseExample": {
+										"value": {
+											"@context": [
+												"https://schema.org",
+												"https://w3id.org/gaia-x/development",
+												"https://schema.twindev.org/federated-catalogue/types.jsonld"
+											],
+											"id": "http://example.org/is123456",
+											"name": "Data Resource 1",
+											"type": "DataResource",
+											"copyrightOwnedBy": "did:iota:1234",
+											"license": "http://licenses.example.org/12345",
+											"resourcePolicy": [
+												{
+													"@context": [
+														"https://www.w3.org/ns/odrl.jsonld"
+													],
+													"@type": "Offer",
+													"uid": "http://example.com/policy:1010",
+													"assigner": "did:iota:testnet:0x1a7bded4d22dc54722435d624e4323e10fcbc570cd57462eabbf3a5ab2ced24f",
+													"permission": [
+														{
+															"target": {
+																"type": "https://vocabulary.uncefact.org/Document"
+															},
+															"action": "extract"
+														}
+													]
+												}
+											],
+											"exposedThrough": "https://ds-connectors.example.org/ds1",
+											"producedBy": "did:iota:1234567",
+											"issuer": "did:iota:987654",
+											"validFrom": "2024-08-01T12:00:00Z",
+											"validUntil": "2025-08-01T12:00:00Z",
+											"dateCreated": "2024-08-02T13:45:00Z",
+											"evidence": [
+												"https://credentials.example.org/1234567"
+											]
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "component.error",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/federated-catalogue/data-space-connectors": {
+			"get": {
+				"operationId": "federatedCatalogueListDataSpaceConnectors",
 				"summary": "Get a list of the Data Space connectors entries",
 				"tags": [
 					"Federated Catalogue"
@@ -1199,6 +1713,7 @@
 				"parameters": [
 					{
 						"name": "id",
+						"description": "The id of the Data Space Connector.",
 						"in": "query",
 						"required": false,
 						"schema": {
@@ -1232,6 +1747,15 @@
 						"schema": {
 							"type": "number"
 						}
+					},
+					{
+						"name": "accept",
+						"in": "header",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple"
 					}
 				],
 				"security": [
@@ -1245,49 +1769,199 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/DataSpaceConnectorListResponse"
+									"$ref": "#/components/schemas/DataSpaceConnectorList"
 								},
 								"examples": {
-									"listResponseExample": {
+									"dataSpaceConnectorListResponseExample": {
 										"value": {
 											"@context": [
-												"https://w3id.org/gaia-x/development",
 												"https://schema.org",
-												"https://www.w3.org/ns/credentials/v2"
+												"https://w3id.org/gaia-x/development",
+												"https://schema.twindev.org/federated-catalogue/types.jsonld"
 											],
-											"entities": [
+											"type": "ItemList",
+											"itemListElement": [
 												{
+													"@context": [
+														"https://schema.org",
+														"https://w3id.org/gaia-x/development",
+														"https://schema.twindev.org/federated-catalogue/types.jsonld"
+													],
 													"id": "https://my-ds-connectors.example.org/ds-connector-ABCD",
 													"type": [
-														"DataSpaceConnector",
-														"DataExchangeComponent"
+														"DataExchangeComponent",
+														"DataSpaceConnector"
 													],
 													"identity": "did:iota:testnet:123456",
 													"defaultEndpoint": {
+														"type": "Endpoint",
 														"endpointURL": "https://my-twin-node.example.org:9000/twin-ds-connector"
 													},
 													"subscriptionActivityEndpoint": {
+														"type": "Endpoint",
 														"endpointURL": "/subscriptions"
 													},
 													"pushActivityEndpoint": {
+														"type": "Endpoint",
 														"endpointURL": "/notify"
 													},
 													"pullDataEndpoint": {
+														"type": "Endpoint",
 														"endpointURL": "/data"
 													},
+													"maintainer": "did:iota:99999",
 													"offeredResource": [
 														"https://my-data-resource.example.org"
 													],
-													"trustedIssuerId": "did:iota:987654",
+													"issuer": "did:iota:987654",
 													"validFrom": "2024-08-01T12:00:00Z",
 													"validUntil": "2025-08-01T12:00:00Z",
 													"dateCreated": "2024-08-02T13:45:00Z",
-													"evidences": [
+													"evidence": [
 														"https://credentials.example.org/1234567"
 													]
 												}
+											]
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The server cannot process the request, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "GeneralError",
+											"message": "component.error",
+											"properties": {
+												"foo": "bar"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "You are not authorized to use the API or no credentials were supplied, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "UnauthorizedError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The server has encountered a situation it does not know how to handle, see the content for more details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								},
+								"examples": {
+									"exampleResponse": {
+										"value": {
+											"name": "InternalServerError",
+											"message": "component.error"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/federated-catalogue/data-space-connectors/{id}": {
+			"get": {
+				"operationId": "federatedCatalogueGetDataSpaceConnector",
+				"summary": "Get a Data Space Connector entry",
+				"tags": [
+					"Federated Catalogue"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"description": "",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"example": "https://ds-connectors.example.org/ds1"
+					}
+				],
+				"security": [
+					{
+						"jwtBearerAuthScheme": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Service Offering response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DataSpaceConnectorEntry"
+								},
+								"examples": {
+									"dataSpaceConnectorGetResponseExample": {
+										"value": {
+											"@context": [
+												"https://schema.org",
+												"https://w3id.org/gaia-x/development",
+												"https://schema.twindev.org/federated-catalogue/types.jsonld"
 											],
-											"cursor": "1"
+											"id": "https://my-ds-connectors.example.org/ds-connector-ABCD",
+											"type": [
+												"DataExchangeComponent",
+												"DataSpaceConnector"
+											],
+											"identity": "did:iota:testnet:123456",
+											"defaultEndpoint": {
+												"type": "Endpoint",
+												"endpointURL": "https://my-twin-node.example.org:9000/twin-ds-connector"
+											},
+											"subscriptionActivityEndpoint": {
+												"type": "Endpoint",
+												"endpointURL": "/subscriptions"
+											},
+											"pushActivityEndpoint": {
+												"type": "Endpoint",
+												"endpointURL": "/notify"
+											},
+											"pullDataEndpoint": {
+												"type": "Endpoint",
+												"endpointURL": "/data"
+											},
+											"maintainer": "did:iota:99999",
+											"offeredResource": [
+												"https://my-data-resource.example.org"
+											],
+											"issuer": "did:iota:987654",
+											"validFrom": "2024-08-01T12:00:00Z",
+											"validUntil": "2025-08-01T12:00:00Z",
+											"dateCreated": "2024-08-02T13:45:00Z",
+											"evidence": [
+												"https://credentials.example.org/1234567"
+											]
 										}
 									}
 								}
@@ -1357,89 +2031,952 @@
 	},
 	"components": {
 		"schemas": {
+			"ActionType": {
+				"anyOf": [
+					{
+						"type": "string",
+						"const": "use",
+						"description": "To use the Asset - actions that involve general usage by parties."
+					},
+					{
+						"type": "string",
+						"const": "transfer",
+						"description": "To transfer the ownership to third parties."
+					},
+					{
+						"type": "string",
+						"const": "acceptTracking",
+						"description": "To accept that the use of the Asset may be tracked."
+					},
+					{
+						"type": "string",
+						"const": "aggregate",
+						"description": "To use the Asset or parts of it as part of a composite collection."
+					},
+					{
+						"type": "string",
+						"const": "annotate",
+						"description": "To add explanatory notations/commentaries to the Asset without modifying the Asset in any other way."
+					},
+					{
+						"type": "string",
+						"const": "anonymize",
+						"description": "To anonymize all or parts of the Asset."
+					},
+					{
+						"type": "string",
+						"const": "archive",
+						"description": "To store the Asset (in a non-transient form)."
+					},
+					{
+						"type": "string",
+						"const": "attribute",
+						"description": "To attribute the use of the Asset."
+					},
+					{
+						"type": "string",
+						"const": "attribution",
+						"description": "Credit be given to copyright holder and/or author."
+					},
+					{
+						"type": "string",
+						"const": "commercialUse",
+						"description": "Exercising rights for commercial purposes."
+					},
+					{
+						"type": "string",
+						"const": "compensate",
+						"description": "To compensate by transfer of some amount of value for using or selling the Asset."
+					},
+					{
+						"type": "string",
+						"const": "concurrentUse",
+						"description": "To create multiple copies of the Asset that are being concurrently used."
+					},
+					{
+						"type": "string",
+						"const": "delete",
+						"description": "To permanently remove all copies of the Asset after it has been used."
+					},
+					{
+						"type": "string",
+						"const": "derive",
+						"description": "To create a new derivative Asset from this Asset and to edit or modify the derivative."
+					},
+					{
+						"type": "string",
+						"const": "derivativeWorks",
+						"description": "Distribution of derivative works."
+					},
+					{
+						"type": "string",
+						"const": "digitize",
+						"description": "To produce a digital copy of (or otherwise digitize) the Asset from its analogue form."
+					},
+					{
+						"type": "string",
+						"const": "display",
+						"description": "To create a static and transient rendition of an Asset."
+					},
+					{
+						"type": "string",
+						"const": "distribute",
+						"description": "To supply the Asset to third-parties."
+					},
+					{
+						"type": "string",
+						"const": "distribution",
+						"description": "Distribution, public display, and publicly performance."
+					},
+					{
+						"type": "string",
+						"const": "ensureExclusivity",
+						"description": "To ensure that the Rule on the Asset is exclusive."
+					},
+					{
+						"type": "string",
+						"const": "execute",
+						"description": "To run the computer program Asset."
+					},
+					{
+						"type": "string",
+						"const": "extract",
+						"description": "To extract parts of the Asset and to use it as a new Asset."
+					},
+					{
+						"type": "string",
+						"const": "give",
+						"description": "To transfer the ownership without compensation and while deleting the original asset."
+					},
+					{
+						"type": "string",
+						"const": "grantUse",
+						"description": "To grant the use of the Asset to third parties."
+					},
+					{
+						"type": "string",
+						"const": "include",
+						"description": "To include other related assets in the Asset."
+					},
+					{
+						"type": "string",
+						"const": "index",
+						"description": "To record the Asset in an index."
+					},
+					{
+						"type": "string",
+						"const": "inform",
+						"description": "To inform that an action has been performed on or in relation to the Asset."
+					},
+					{
+						"type": "string",
+						"const": "install",
+						"description": "To load the computer program Asset onto a storage device."
+					},
+					{
+						"type": "string",
+						"const": "modify",
+						"description": "To change existing content of the Asset without creating a new asset."
+					},
+					{
+						"type": "string",
+						"const": "move",
+						"description": "To move the Asset from one digital location to another including deleting the original copy."
+					},
+					{
+						"type": "string",
+						"const": "nextPolicy",
+						"description": "To grant the specified Policy to a third party for their use of the Asset."
+					},
+					{
+						"type": "string",
+						"const": "notice",
+						"description": "Copyright and license notices be kept intact."
+					},
+					{
+						"type": "string",
+						"const": "obtainConsent",
+						"description": "To obtain verifiable consent to perform the requested action."
+					},
+					{
+						"type": "string",
+						"const": "play",
+						"description": "To create a sequential and transient rendition of an Asset."
+					},
+					{
+						"type": "string",
+						"const": "present",
+						"description": "To publicly perform the Asset."
+					},
+					{
+						"type": "string",
+						"const": "print",
+						"description": "To create a tangible and permanent rendition of an Asset."
+					},
+					{
+						"type": "string",
+						"const": "read",
+						"description": "To obtain data from the Asset."
+					},
+					{
+						"type": "string",
+						"const": "reproduce",
+						"description": "To make duplicate copies of the Asset in any material form."
+					},
+					{
+						"type": "string",
+						"const": "reproduction",
+						"description": "Making multiple copies."
+					},
+					{
+						"type": "string",
+						"const": "reviewPolicy",
+						"description": "To review the Policy applicable to the Asset."
+					},
+					{
+						"type": "string",
+						"const": "sell",
+						"description": "To transfer the ownership with compensation and while deleting the original asset."
+					},
+					{
+						"type": "string",
+						"const": "shareAlike",
+						"description": "Derivative works be licensed under the same terms or compatible terms."
+					},
+					{
+						"type": "string",
+						"const": "sharing",
+						"description": "Permits commercial derivatives, but only non-commercial distribution."
+					},
+					{
+						"type": "string",
+						"const": "sourceCode",
+						"description": "Source code must be provided when exercising some rights."
+					},
+					{
+						"type": "string",
+						"const": "stream",
+						"description": "To deliver the Asset in real-time."
+					},
+					{
+						"type": "string",
+						"const": "synchronize",
+						"description": "To use the Asset in timed relations with media elements of another Asset."
+					},
+					{
+						"type": "string",
+						"const": "textToSpeech",
+						"description": "To have a text Asset read out loud."
+					},
+					{
+						"type": "string",
+						"const": "transform",
+						"description": "To convert the Asset into a different format."
+					},
+					{
+						"type": "string",
+						"const": "translate",
+						"description": "To translate the Asset into another natural language."
+					},
+					{
+						"type": "string",
+						"const": "uninstall",
+						"description": "To unload and delete the computer program Asset."
+					},
+					{
+						"type": "string",
+						"const": "watermark",
+						"description": "To apply a watermark to the Asset."
+					}
+				],
+				"description": "The types for ODRL Actions."
+			},
+			"Address": {
+				"type": "object",
+				"properties": {
+					"@context": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@id": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@included": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@graph": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdNodeObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdNodeObject"
+								}
+							}
+						]
+					},
+					"@nest": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdJsonObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdJsonObject"
+								}
+							}
+						]
+					},
+					"@type": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdKeyword"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdKeyword"
+								}
+							}
+						]
+					},
+					"@reverse": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "#/components/schemas/JsonLdKeyword"
+						}
+					},
+					"@index": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"type": {
+						"type": "string",
+						"const": "Address",
+						"description": "JSON-LD @ type. In this case it is allowed to be omitted as it is usually a child node."
+					},
+					"countryCode": {
+						"type": [
+							"string",
+							"number"
+						],
+						"description": "Country code in ISO 3166-1 alpha2, alpha-3 or numeric format"
+					}
+				},
+				"required": [
+					"countryCode"
+				],
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "#/components/schemas/JsonLdNodePrimitive"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdLanguageMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIndexMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIncludedBlock"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIdMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdTypeMap"
+						},
+						{
+							"type": "array"
+						}
+					]
+				},
+				"description": "Address as defined by Gaia-X https://docs.gaia-x.eu/ontology/development/classes/Address/"
+			},
 			"CompliancePresentationRequest": {
 				"type": "string",
 				"description": "The data to be used in the create."
 			},
-			"DataResourceListResponse": {
+			"ConflictStrategyType": {
+				"anyOf": [
+					{
+						"type": "string",
+						"const": "perm",
+						"description": "Permission type."
+					},
+					{
+						"type": "string",
+						"const": "prohibit",
+						"description": "Prohibition type."
+					},
+					{
+						"type": "string",
+						"const": "invalid",
+						"description": "Invalid type."
+					}
+				],
+				"description": "The types for ODRL Conflict Resolution Strategies."
+			},
+			"DataResourceEntry": {
 				"type": "object",
 				"properties": {
 					"@context": {
+						"$ref": "#/components/schemas/FederatedCatalogueContextType"
+					},
+					"@id": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@included": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@graph": {
 						"anyOf": [
 							{
-								"type": "string",
-								"const": "https://w3id.org/gaia-x/development"
+								"$ref": "#/components/schemas/JsonLdNodeObject"
 							},
 							{
 								"type": "array",
-								"minItems": 1,
-								"items": [
-									{
-										"type": "string",
-										"const": "https://w3id.org/gaia-x/development"
-									}
-								],
-								"additionalItems": {
-									"$ref": "#/components/schemas/JsonLdContextDefinitionElement"
+								"items": {
+									"$ref": "#/components/schemas/JsonLdNodeObject"
 								}
 							}
-						],
-						"description": "The LD"
+						]
 					},
-					"entities": {
+					"@nest": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdJsonObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdJsonObject"
+								}
+							}
+						]
+					},
+					"@type": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdKeyword"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdKeyword"
+								}
+							}
+						]
+					},
+					"@reverse": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "#/components/schemas/JsonLdKeyword"
+						}
+					},
+					"@index": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"id": {
+						"type": "string",
+						"description": "Subject Id"
+					},
+					"type": {
+						"type": "string",
+						"const": "DataResource",
+						"description": "Subject type"
+					},
+					"description": {
+						"type": "string",
+						"description": "Description"
+					},
+					"name": {
+						"type": "string",
+						"description": "The Resource Name"
+					},
+					"exposedThrough": {
+						"type": "string",
+						"description": "Overwriting exposedThrough as we only store the id of the Data Exchange Component"
+					},
+					"producedBy": {
+						"type": "string",
+						"description": "Overwriting producedBy as we only store the identifier"
+					},
+					"license": {
+						"type": "string",
+						"description": "Pointer (URL) to the license"
+					},
+					"copyrightOwnedBy": {
+						"type": "string",
+						"description": "Overwriting copyrightOwnedBy as we only store the identifier"
+					},
+					"resourcePolicy": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/OdrlPolicy"
+						},
+						"description": "Overwriting to ensure always an array is stored"
+					},
+					"issuer": {
+						"type": "string",
+						"description": "The trusted issuer of the compliance credential"
+					},
+					"validFrom": {
+						"type": "string",
+						"description": "Valid from (as per W3C VC Data Model v2)"
+					},
+					"validUntil": {
+						"type": "string",
+						"description": "Valid until (as per W3C VC Data Model v2)"
+					},
+					"dateCreated": {
+						"type": "string",
+						"description": "The creation date."
+					},
+					"evidence": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						},
+						"description": "The evidences concerning the data resource."
+					}
+				},
+				"required": [
+					"@context",
+					"copyrightOwnedBy",
+					"dateCreated",
+					"evidence",
+					"exposedThrough",
+					"id",
+					"issuer",
+					"license",
+					"name",
+					"producedBy",
+					"resourcePolicy",
+					"type",
+					"validFrom",
+					"validUntil"
+				],
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "#/components/schemas/JsonLdNodePrimitive"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdLanguageMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIndexMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIncludedBlock"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIdMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdTypeMap"
+						},
+						{
+							"type": "array"
+						}
+					]
+				},
+				"description": "Interface describing a Data Resource entry."
+			},
+			"DataResourceList": {
+				"type": "object",
+				"properties": {
+					"@context": {
+						"$ref": "#/components/schemas/FederatedCatalogueContextType"
+					},
+					"type": {
+						"type": "string",
+						"const": "ItemList",
+						"description": "The type"
+					},
+					"itemListElement": {
 						"type": "array",
 						"items": {
 							"$ref": "#/components/schemas/Omit%3CIDataResourceEntry%2C%22%40context%22%3E"
 						},
-						"description": "The entities, which can be partial if a limited keys list was provided."
+						"description": "The components of the Collection"
 					},
-					"cursor": {
+					"nextItem": {
 						"type": "string",
-						"description": "An optional cursor, when defined can be used to call find to get more entities."
+						"description": "Next item cursor."
 					}
 				},
 				"required": [
 					"@context",
-					"entities"
+					"type",
+					"itemListElement"
 				],
 				"additionalProperties": false,
-				"description": "The response payload."
+				"description": "Interface describing a list of Data Resource entries."
 			},
-			"DataSpaceConnectorListResponse": {
+			"DataSpaceConnectorEntry": {
 				"type": "object",
 				"properties": {
-					"@context": {
+					"issuer": {
+						"type": "string",
+						"description": "The trusted issuer of the compliance credential"
+					},
+					"validFrom": {
+						"type": "string",
+						"description": "Valid from (as per W3C VC Data Model v2)"
+					},
+					"validUntil": {
+						"type": "string",
+						"description": "Valid until (as per W3C VC Data Model v2)"
+					},
+					"dateCreated": {
+						"type": "string",
+						"description": "The creation date."
+					},
+					"evidence": {
 						"type": "array",
-						"minItems": 1,
+						"items": {
+							"type": "string"
+						},
+						"description": "The evidences concerning the data resource."
+					},
+					"@context": {
+						"$ref": "#/components/schemas/FederatedCatalogueContextType"
+					},
+					"@id": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@included": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@graph": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdNodeObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdNodeObject"
+								}
+							}
+						]
+					},
+					"@nest": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdJsonObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdJsonObject"
+								}
+							}
+						]
+					},
+					"@type": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdKeyword"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdKeyword"
+								}
+							}
+						]
+					},
+					"@reverse": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "#/components/schemas/JsonLdKeyword"
+						}
+					},
+					"@index": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"type": {
+						"type": "array",
+						"minItems": 2,
 						"items": [
 							{
 								"type": "string",
-								"const": "https://w3id.org/gaia-x/development"
+								"const": "DataExchangeComponent"
+							},
+							{
+								"type": "string",
+								"const": "DataSpaceConnector"
 							}
 						],
 						"additionalItems": {
-							"$ref": "#/components/schemas/JsonLdContextDefinitionElement"
+							"type": "string"
 						},
-						"description": "The LD"
+						"description": "A Connector is a Data Exchange Component"
 					},
-					"entities": {
+					"id": {
+						"type": "string",
+						"description": "A unique identifier given to this Data Space Connector."
+					},
+					"identity": {
+						"type": "string",
+						"description": "Connector's Identity that allows to know public key of this Connector."
+					},
+					"maintainer": {
+						"type": "string",
+						"description": "Who maintains this Data Space Connector."
+					},
+					"name": {
+						"type": "string",
+						"description": "The name of this Data Space Connector"
+					},
+					"description": {
+						"type": "string",
+						"description": "A description of this Data Space Connector"
+					},
+					"defaultEndpoint": {
+						"$ref": "#/components/schemas/Endpoint"
+					},
+					"subscriptionActivityEndpoint": {
+						"$ref": "#/components/schemas/Endpoint"
+					},
+					"pushActivityEndpoint": {
+						"$ref": "#/components/schemas/Endpoint"
+					},
+					"pullDataEndpoint": {
+						"$ref": "#/components/schemas/Endpoint"
+					},
+					"offeredResource": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						},
+						"description": "Offered resources. Probably in the future this wll be separated in a different entry so that a  Data Space Connector entry does not need to be modified when a new Data Resource is offered."
+					}
+				},
+				"required": [
+					"@context",
+					"dateCreated",
+					"defaultEndpoint",
+					"evidence",
+					"id",
+					"identity",
+					"issuer",
+					"maintainer",
+					"offeredResource",
+					"pullDataEndpoint",
+					"pushActivityEndpoint",
+					"type",
+					"validFrom",
+					"validUntil"
+				],
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "#/components/schemas/JsonLdNodePrimitive"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdLanguageMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIndexMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIncludedBlock"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIdMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdTypeMap"
+						},
+						{
+							"type": "array"
+						}
+					]
+				},
+				"description": "Interface describing a participant."
+			},
+			"DataSpaceConnectorList": {
+				"type": "object",
+				"properties": {
+					"@context": {
+						"$ref": "#/components/schemas/FederatedCatalogueContextType"
+					},
+					"type": {
+						"type": "string",
+						"const": "ItemList",
+						"description": "The type"
+					},
+					"itemListElement": {
 						"type": "array",
 						"items": {
 							"$ref": "#/components/schemas/Omit%3CIDataSpaceConnectorEntry%2C%22%40context%22%3E"
 						},
-						"description": "The entities, which can be partial if a limited keys list was provided."
+						"description": "The components of the Collection"
 					},
-					"cursor": {
+					"nextItem": {
 						"type": "string",
-						"description": "An optional cursor, when defined can be used to call find to get more entities."
+						"description": "Next item cursor."
 					}
 				},
 				"required": [
 					"@context",
-					"entities"
+					"type",
+					"itemListElement"
 				],
 				"additionalProperties": false,
-				"description": "The response payload."
+				"description": "Interface describing a list of Data Space Connectors."
+			},
+			"DataType": {
+				"anyOf": [
+					{
+						"type": "string",
+						"const": "xsd:string",
+						"description": "String type."
+					},
+					{
+						"type": "string",
+						"const": "xsd:boolean",
+						"description": "Boolean type."
+					},
+					{
+						"type": "string",
+						"const": "xsd:integer",
+						"description": "Integer type."
+					},
+					{
+						"type": "string",
+						"const": "xsd:decimal",
+						"description": "Decimal type."
+					},
+					{
+						"type": "string",
+						"const": "xsd:double",
+						"description": "Double type."
+					},
+					{
+						"type": "string",
+						"const": "xsd:date",
+						"description": "Date type."
+					},
+					{
+						"type": "string",
+						"const": "xsd:dateTime",
+						"description": "DateTime type."
+					}
+				],
+				"description": "The types for ODRL Data Types."
+			},
+			"Endpoint": {
+				"type": "object",
+				"properties": {
+					"@context": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@id": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@included": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@graph": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdNodeObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdNodeObject"
+								}
+							}
+						]
+					},
+					"@nest": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdJsonObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdJsonObject"
+								}
+							}
+						]
+					},
+					"@type": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdKeyword"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdKeyword"
+								}
+							}
+						]
+					},
+					"@reverse": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "#/components/schemas/JsonLdKeyword"
+						}
+					},
+					"@index": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"type": {
+						"type": "string",
+						"const": "Endpoint",
+						"description": "The type of JSON-LD node. In this case it is allowed to be omitted as it is usually a child node."
+					},
+					"endpointURL": {
+						"type": "string",
+						"description": "The endpoint URL"
+					},
+					"formalDescription": {
+						"type": "string",
+						"description": "The formal description"
+					},
+					"standardConformity": {
+						"$ref": "#/components/schemas/JsonLdNodeObject"
+					}
+				},
+				"required": [
+					"endpointURL"
+				],
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "#/components/schemas/JsonLdNodePrimitive"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdLanguageMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIndexMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIncludedBlock"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIdMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdTypeMap"
+						},
+						{
+							"type": "array"
+						}
+					]
+				},
+				"description": "Endpoint as defined by the Gaia-X ontology. https://docs.gaia-x.eu/ontology/development/classes/Endpoint"
 			},
 			"Error": {
 				"type": "object",
@@ -1475,6 +3012,26 @@
 				],
 				"additionalProperties": false,
 				"description": "Model to describe serialized error."
+			},
+			"FederatedCatalogueContextType": {
+				"type": "array",
+				"minItems": 3,
+				"items": [
+					{
+						"type": "string",
+						"const": "https://schema.org"
+					},
+					{
+						"type": "string",
+						"const": "https://w3id.org/gaia-x/development"
+					},
+					{
+						"type": "string",
+						"const": "https://schema.twindev.org/federated-catalogue/types.jsonld"
+					}
+				],
+				"maxItems": 3,
+				"description": "Type that defines the LD Context for the Federated Catalogue entities and entries."
 			},
 			"HealthInfo": {
 				"type": "object",
@@ -1534,49 +3091,3410 @@
 				],
 				"description": "The health status of the component."
 			},
-			"ParticipantListResponse": {
-				"type": "object",
-				"properties": {
-					"@context": {
-						"anyOf": [
+			"JsonLdContainerType": {
+				"type": "string",
+				"enum": [
+					"@language",
+					"@index",
+					"@id",
+					"@graph",
+					"@type"
+				],
+				"description": "Helper Types"
+			},
+			"JsonLdContainerTypeArray": {
+				"anyOf": [
+					{
+						"type": "array",
+						"minItems": 2,
+						"items": [
 							{
 								"type": "string",
-								"const": "https://w3id.org/gaia-x/development"
+								"const": "@graph"
+							},
+							{
+								"type": "string",
+								"const": "@id"
+							}
+						],
+						"maxItems": 2
+					},
+					{
+						"type": "array",
+						"minItems": 2,
+						"items": [
+							{
+								"type": "string",
+								"const": "@id"
+							},
+							{
+								"type": "string",
+								"const": "@graph"
+							}
+						],
+						"maxItems": 2
+					},
+					{
+						"type": "array",
+						"minItems": 3,
+						"items": [
+							{
+								"type": "string",
+								"const": "@set"
+							},
+							{
+								"type": "string",
+								"const": "@graph"
+							},
+							{
+								"type": "string",
+								"const": "@id"
+							}
+						],
+						"maxItems": 3
+					},
+					{
+						"type": "array",
+						"minItems": 3,
+						"items": [
+							{
+								"type": "string",
+								"const": "@set"
+							},
+							{
+								"type": "string",
+								"const": "@id"
+							},
+							{
+								"type": "string",
+								"const": "@graph"
+							}
+						],
+						"maxItems": 3
+					},
+					{
+						"type": "array",
+						"minItems": 3,
+						"items": [
+							{
+								"type": "string",
+								"const": "@graph"
+							},
+							{
+								"type": "string",
+								"const": "@set"
+							},
+							{
+								"type": "string",
+								"const": "@id"
+							}
+						],
+						"maxItems": 3
+					},
+					{
+						"type": "array",
+						"minItems": 3,
+						"items": [
+							{
+								"type": "string",
+								"const": "@id"
+							},
+							{
+								"type": "string",
+								"const": "@set"
+							},
+							{
+								"type": "string",
+								"const": "@graph"
+							}
+						],
+						"maxItems": 3
+					},
+					{
+						"type": "array",
+						"minItems": 3,
+						"items": [
+							{
+								"type": "string",
+								"const": "@graph"
+							},
+							{
+								"type": "string",
+								"const": "@id"
+							},
+							{
+								"type": "string",
+								"const": "@set"
+							}
+						],
+						"maxItems": 3
+					},
+					{
+						"type": "array",
+						"minItems": 3,
+						"items": [
+							{
+								"type": "string",
+								"const": "@id"
+							},
+							{
+								"type": "string",
+								"const": "@graph"
+							},
+							{
+								"type": "string",
+								"const": "@set"
+							}
+						],
+						"maxItems": 3
+					},
+					{
+						"type": "array",
+						"minItems": 2,
+						"items": [
+							{
+								"type": "string",
+								"const": "@set"
+							},
+							{
+								"$ref": "#/components/schemas/JsonLdContainerType"
+							}
+						],
+						"maxItems": 2
+					},
+					{
+						"type": "array",
+						"minItems": 2,
+						"items": [
+							{
+								"$ref": "#/components/schemas/JsonLdContainerType"
+							},
+							{
+								"type": "string",
+								"const": "@set"
+							}
+						],
+						"maxItems": 2
+					}
+				],
+				"description": "Helper Types."
+			},
+			"JsonLdContextDefinition": {
+				"type": "object",
+				"properties": {
+					"@base": {
+						"type": [
+							"string",
+							"null"
+						]
+					},
+					"@direction": {
+						"type": [
+							"string",
+							"null"
+						],
+						"enum": [
+							"ltr",
+							"rtl",
+							null
+						]
+					},
+					"@import": {
+						"type": "string"
+					},
+					"@language": {
+						"type": "string"
+					},
+					"@propagate": {
+						"type": "boolean"
+					},
+					"@protected": {
+						"type": "boolean"
+					},
+					"@type": {
+						"type": "object",
+						"properties": {
+							"@container": {
+								"type": "string",
+								"const": "@set"
+							},
+							"@protected": {
+								"type": "boolean"
+							}
+						},
+						"required": [
+							"@container"
+						],
+						"additionalProperties": false
+					},
+					"@version": {
+						"type": "string",
+						"const": "1.1"
+					},
+					"@vocab": {
+						"type": [
+							"string",
+							"null"
+						]
+					}
+				},
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"type": "null"
+						},
+						{
+							"type": "string"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdExpandedTermDefinition"
+						}
+					]
+				},
+				"description": "A context definition defines a local context in a node object."
+			},
+			"JsonLdContextDefinitionElement": {
+				"anyOf": [
+					{
+						"type": "null"
+					},
+					{
+						"type": "string"
+					},
+					{
+						"$ref": "#/components/schemas/JsonLdContextDefinition"
+					}
+				],
+				"description": "A context definition element is used to define the types of a context definition."
+			},
+			"JsonLdContextDefinitionRoot": {
+				"anyOf": [
+					{
+						"$ref": "#/components/schemas/JsonLdContextDefinitionElement"
+					},
+					{
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/JsonLdContextDefinitionElement"
+						}
+					}
+				],
+				"description": "A context definition root is used to define the root of a context definition."
+			},
+			"JsonLdExpandedTermDefinition": {
+				"anyOf": [
+					{
+						"type": "object",
+						"additionalProperties": false,
+						"properties": {
+							"@id": {
+								"anyOf": [
+									{
+										"type": "string"
+									},
+									{
+										"type": "array",
+										"items": {
+											"type": "string"
+										}
+									},
+									{
+										"type": "null"
+									}
+								]
+							},
+							"@nest": {
+								"type": "string"
+							},
+							"@container": {
+								"anyOf": [
+									{
+										"type": "string",
+										"const": "@list"
+									},
+									{
+										"type": "string",
+										"const": "@set"
+									},
+									{
+										"$ref": "#/components/schemas/JsonLdContainerType"
+									},
+									{
+										"type": "array",
+										"items": {
+											"anyOf": [
+												{
+													"type": "string",
+													"const": "@list"
+												},
+												{
+													"type": "string",
+													"const": "@set"
+												},
+												{
+													"$ref": "#/components/schemas/JsonLdContainerType"
+												}
+											]
+										}
+									},
+									{
+										"$ref": "#/components/schemas/JsonLdContainerTypeArray"
+									},
+									{
+										"type": "null"
+									}
+								]
+							},
+							"@type": {
+								"type": "string"
+							},
+							"@language": {
+								"type": "string"
+							},
+							"@index": {
+								"type": "string"
+							},
+							"@context": {
+								"$ref": "#/components/schemas/JsonLdContextDefinition"
+							},
+							"@prefix": {
+								"type": "boolean"
+							},
+							"@propagate": {
+								"type": "boolean"
+							},
+							"@protected": {
+								"type": "boolean"
+							}
+						}
+					},
+					{
+						"type": "object",
+						"additionalProperties": false,
+						"properties": {
+							"@reverse": {
+								"type": "string"
+							},
+							"@container": {
+								"type": [
+									"string",
+									"null"
+								],
+								"enum": [
+									"@set",
+									"@index",
+									null
+								]
+							},
+							"@type": {
+								"type": "string"
+							},
+							"@language": {
+								"type": "string"
+							},
+							"@index": {
+								"type": "string"
+							},
+							"@context": {
+								"$ref": "#/components/schemas/JsonLdContextDefinition"
+							},
+							"@prefix": {
+								"type": "boolean"
+							},
+							"@propagate": {
+								"type": "boolean"
+							},
+							"@protected": {
+								"type": "boolean"
+							}
+						},
+						"required": [
+							"@reverse"
+						]
+					}
+				],
+				"description": "An expanded term definition is used to describe the mapping between a term and its expanded identifier, as well as other properties of the value associated with the term when it is used as key in a node object."
+			},
+			"JsonLdGraphObject": {
+				"type": "object",
+				"properties": {
+					"@graph": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdNodeObject"
 							},
 							{
 								"type": "array",
-								"minItems": 1,
-								"items": [
+								"items": {
+									"$ref": "#/components/schemas/JsonLdNodeObject"
+								}
+							}
+						]
+					},
+					"@index": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@id": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@context": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					}
+				},
+				"required": [
+					"@graph"
+				],
+				"additionalProperties": false,
+				"description": "A graph object represents a named graph, which MAY include an explicit graph name."
+			},
+			"JsonLdIdMap": {
+				"type": "object",
+				"additionalProperties": {
+					"$ref": "#/components/schemas/JsonLdNodeObject"
+				},
+				"description": "An id map is used to associate an IRI with a value that allows easy programmatic access."
+			},
+			"JsonLdIncludedBlock": {
+				"anyOf": [
+					{
+						"$ref": "#/components/schemas/JsonLdNodeObject"
+					},
+					{
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/JsonLdNodeObject"
+						}
+					}
+				],
+				"description": "An included block is used to provide a set of node objects."
+			},
+			"JsonLdIndexMap": {
+				"type": "object",
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "#/components/schemas/JsonLdIndexMapItem"
+						},
+						{
+							"type": "array",
+							"items": {
+								"$ref": "#/components/schemas/JsonLdIndexMapItem"
+							}
+						}
+					]
+				},
+				"description": "An index map allows keys that have no semantic meaning, but should be preserved regardless, to be used in JSON-LD documents."
+			},
+			"JsonLdIndexMapItem": {
+				"anyOf": [
+					{
+						"type": "null"
+					},
+					{
+						"type": "boolean"
+					},
+					{
+						"type": "number"
+					},
+					{
+						"type": "string"
+					},
+					{
+						"$ref": "#/components/schemas/JsonLdNodeObject"
+					},
+					{
+						"$ref": "#/components/schemas/JsonLdValueObject"
+					},
+					{
+						"$ref": "#/components/schemas/JsonLdListObject"
+					},
+					{
+						"$ref": "#/components/schemas/JsonLdSetObject"
+					}
+				],
+				"description": "The items that can be stored in an index map."
+			},
+			"JsonLdJsonArray": {
+				"type": "array",
+				"items": {
+					"$ref": "#/components/schemas/JsonLdJsonValue"
+				},
+				"description": "JSON Type for array."
+			},
+			"JsonLdJsonObject": {
+				"type": "object",
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "#/components/schemas/JsonLdJsonValue"
+						},
+						{
+							"not": {}
+						}
+					]
+				},
+				"description": "JSON Type for object."
+			},
+			"JsonLdJsonPrimitive": {
+				"type": [
+					"string",
+					"number",
+					"boolean",
+					"null"
+				],
+				"description": "JSON Primitive."
+			},
+			"JsonLdJsonValue": {
+				"anyOf": [
+					{
+						"$ref": "#/components/schemas/JsonLdJsonPrimitive"
+					},
+					{
+						"$ref": "#/components/schemas/JsonLdJsonArray"
+					},
+					{
+						"$ref": "#/components/schemas/JsonLdJsonObject"
+					}
+				],
+				"description": "JSON Value."
+			},
+			"JsonLdKeyword": {
+				"type": "object",
+				"properties": {
+					"@base": {
+						"type": [
+							"string",
+							"null"
+						]
+					},
+					"@container": {
+						"anyOf": [
+							{
+								"type": "string",
+								"const": "@list"
+							},
+							{
+								"type": "string",
+								"const": "@set"
+							},
+							{
+								"$ref": "#/components/schemas/JsonLdContainerType"
+							},
+							{
+								"type": "array",
+								"items": {
+									"anyOf": [
+										{
+											"type": "string",
+											"const": "@list"
+										},
+										{
+											"type": "string",
+											"const": "@set"
+										},
+										{
+											"$ref": "#/components/schemas/JsonLdContainerType"
+										}
+									]
+								}
+							},
+							{
+								"$ref": "#/components/schemas/JsonLdContainerTypeArray"
+							},
+							{
+								"type": "null"
+							}
+						]
+					},
+					"@context": {
+						"$ref": "#/components/schemas/JsonLdContextDefinitionRoot"
+					},
+					"@direction": {
+						"type": [
+							"string",
+							"null"
+						],
+						"enum": [
+							"ltr",
+							"rtl",
+							null
+						]
+					},
+					"@graph": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdValueObject"
+							},
+							{
+								"$ref": "#/components/schemas/JsonLdNodeObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/JsonLdValueObject"
+										},
+										{
+											"$ref": "#/components/schemas/JsonLdNodeObject"
+										}
+									]
+								}
+							}
+						]
+					},
+					"@id": {
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"type": "array",
+								"items": {
+									"type": "string"
+								}
+							}
+						]
+					},
+					"@import": {
+						"type": "string"
+					},
+					"@included": {
+						"$ref": "#/components/schemas/JsonLdIncludedBlock"
+					},
+					"@index": {
+						"type": "string"
+					},
+					"@json": {
+						"type": "string",
+						"const": "@json"
+					},
+					"@language": {
+						"type": "string"
+					},
+					"@list": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdListOrSetItem"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdListOrSetItem"
+								}
+							}
+						]
+					},
+					"@nest": {
+						"type": "object"
+					},
+					"@none": {
+						"type": "string",
+						"const": "@none"
+					},
+					"@prefix": {
+						"type": "boolean"
+					},
+					"@propagate": {
+						"type": "boolean"
+					},
+					"@protected": {
+						"type": "boolean"
+					},
+					"@reverse": {
+						"type": "string"
+					},
+					"@set": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdListOrSetItem"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdListOrSetItem"
+								}
+							}
+						]
+					},
+					"@type": {
+						"type": "string"
+					},
+					"@value": {
+						"type": [
+							"null",
+							"boolean",
+							"number",
+							"string"
+						]
+					},
+					"@version": {
+						"type": "string",
+						"const": "1.1"
+					},
+					"@vocab": {
+						"type": [
+							"string",
+							"null"
+						]
+					}
+				},
+				"required": [
+					"@base",
+					"@container",
+					"@context",
+					"@direction",
+					"@graph",
+					"@id",
+					"@import",
+					"@included",
+					"@index",
+					"@json",
+					"@language",
+					"@list",
+					"@nest",
+					"@none",
+					"@prefix",
+					"@propagate",
+					"@protected",
+					"@reverse",
+					"@set",
+					"@type",
+					"@value",
+					"@version",
+					"@vocab"
+				],
+				"additionalProperties": false,
+				"description": "A list of keywords and their types. Only used for internal reference; not an actual interface. Not for export."
+			},
+			"JsonLdLanguageMap": {
+				"type": "object",
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"type": "null"
+						},
+						{
+							"type": "string"
+						},
+						{
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						}
+					]
+				},
+				"description": "A language map is used to associate a language with a value in a way that allows easy programmatic access."
+			},
+			"JsonLdListObject": {
+				"type": "object",
+				"properties": {
+					"@list": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@index": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					}
+				},
+				"required": [
+					"@list"
+				],
+				"additionalProperties": false,
+				"description": "A list represents an ordered set of values."
+			},
+			"JsonLdListOrSetItem": {
+				"anyOf": [
+					{
+						"type": "null"
+					},
+					{
+						"type": "boolean"
+					},
+					{
+						"type": "number"
+					},
+					{
+						"type": "string"
+					},
+					{
+						"$ref": "#/components/schemas/JsonLdNodeObject"
+					},
+					{
+						"$ref": "#/components/schemas/JsonLdValueObject"
+					}
+				],
+				"description": "A list or set item can be a null, boolean, number, string, node object, or value object."
+			},
+			"JsonLdNodeObject": {
+				"type": "object",
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "#/components/schemas/JsonLdNodePrimitive"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdLanguageMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIndexMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIncludedBlock"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIdMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdTypeMap"
+						},
+						{
+							"type": "array"
+						}
+					]
+				},
+				"properties": {
+					"@context": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@id": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@included": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@graph": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdNodeObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdNodeObject"
+								}
+							}
+						]
+					},
+					"@nest": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdJsonObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdJsonObject"
+								}
+							}
+						]
+					},
+					"@type": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdKeyword"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdKeyword"
+								}
+							}
+						]
+					},
+					"@reverse": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "#/components/schemas/JsonLdKeyword"
+						}
+					},
+					"@index": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					}
+				},
+				"description": "A node object represents zero or more properties of a node in the graph serialized by the JSON-LD document."
+			},
+			"JsonLdNodePrimitive": {
+				"anyOf": [
+					{
+						"type": "null"
+					},
+					{
+						"type": "boolean"
+					},
+					{
+						"type": "number"
+					},
+					{
+						"type": "string"
+					},
+					{
+						"$ref": "#/components/schemas/JsonLdNodeObject"
+					},
+					{
+						"$ref": "#/components/schemas/JsonLdGraphObject"
+					},
+					{
+						"$ref": "#/components/schemas/JsonLdValueObject"
+					},
+					{
+						"$ref": "#/components/schemas/JsonLdListObject"
+					},
+					{
+						"$ref": "#/components/schemas/JsonLdSetObject"
+					}
+				],
+				"description": "A node primitive is a JSON-LD value which is not one of the defined NodeObject properties."
+			},
+			"JsonLdSetObject": {
+				"type": "object",
+				"properties": {
+					"@set": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@index": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					}
+				},
+				"required": [
+					"@set"
+				],
+				"additionalProperties": false,
+				"description": "A set represents an unordered set of values."
+			},
+			"JsonLdTypeMap": {
+				"type": "object",
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"type": "string"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdNodeObject"
+						}
+					]
+				},
+				"description": "A type map is used to associate an IRI with a value that allows easy programmatic access."
+			},
+			"JsonLdValueObject": {
+				"anyOf": [
+					{
+						"type": "object",
+						"additionalProperties": false,
+						"properties": {
+							"@value": {
+								"$ref": "#/components/schemas/JsonLdKeyword"
+							},
+							"@language": {
+								"$ref": "#/components/schemas/JsonLdKeyword"
+							},
+							"@direction": {
+								"$ref": "#/components/schemas/JsonLdKeyword"
+							},
+							"@index": {
+								"$ref": "#/components/schemas/JsonLdKeyword"
+							},
+							"@context": {
+								"$ref": "#/components/schemas/JsonLdKeyword"
+							}
+						},
+						"required": [
+							"@value"
+						]
+					},
+					{
+						"type": "object",
+						"additionalProperties": false,
+						"properties": {
+							"@value": {
+								"$ref": "#/components/schemas/JsonLdKeyword"
+							},
+							"@type": {
+								"$ref": "#/components/schemas/JsonLdKeyword"
+							},
+							"@index": {
+								"$ref": "#/components/schemas/JsonLdKeyword"
+							},
+							"@context": {
+								"$ref": "#/components/schemas/JsonLdKeyword"
+							}
+						},
+						"required": [
+							"@type",
+							"@value"
+						]
+					},
+					{
+						"type": "object",
+						"additionalProperties": false,
+						"properties": {
+							"@value": {
+								"anyOf": [
 									{
-										"type": "string",
-										"const": "https://w3id.org/gaia-x/development"
+										"$ref": "#/components/schemas/JsonLdKeyword"
+									},
+									{
+										"$ref": "#/components/schemas/JsonLdJsonObject"
+									},
+									{
+										"$ref": "#/components/schemas/JsonLdJsonArray"
 									}
-								],
-								"additionalItems": {
-									"$ref": "#/components/schemas/JsonLdContextDefinitionElement"
+								]
+							},
+							"@type": {
+								"type": "string",
+								"const": "@json"
+							},
+							"@index": {
+								"$ref": "#/components/schemas/JsonLdKeyword"
+							},
+							"@context": {
+								"$ref": "#/components/schemas/JsonLdKeyword"
+							}
+						},
+						"required": [
+							"@type",
+							"@value"
+						]
+					}
+				],
+				"description": "A value object is used to explicitly associate a type or a language with a value to create a typed value or a language-tagged string and possibly associate a base direction."
+			},
+			"LeftOperandType": {
+				"anyOf": [
+					{
+						"type": "string",
+						"const": "absolutePosition",
+						"description": "Absolute Position type."
+					},
+					{
+						"type": "string",
+						"const": "absoluteSpatialPosition",
+						"description": "Absolute Spatial Position type."
+					},
+					{
+						"type": "string",
+						"const": "absoluteTemporalPosition",
+						"description": "Absolute Temporal Position type."
+					},
+					{
+						"type": "string",
+						"const": "absoluteSize",
+						"description": "Absolute Size type."
+					},
+					{
+						"type": "string",
+						"const": "count",
+						"description": "Count type."
+					},
+					{
+						"type": "string",
+						"const": "dateTime",
+						"description": "DateTime type."
+					},
+					{
+						"type": "string",
+						"const": "delayPeriod",
+						"description": "Delay Period type."
+					},
+					{
+						"type": "string",
+						"const": "deliveryChannel",
+						"description": "Delivery Channel type."
+					},
+					{
+						"type": "string",
+						"const": "elapsedTime",
+						"description": "Elapsed Time type."
+					},
+					{
+						"type": "string",
+						"const": "event",
+						"description": "Event type."
+					},
+					{
+						"type": "string",
+						"const": "fileFormat",
+						"description": "File Format type."
+					},
+					{
+						"type": "string",
+						"const": "industry",
+						"description": "Industry type."
+					},
+					{
+						"type": "string",
+						"const": "language",
+						"description": "Language type."
+					},
+					{
+						"type": "string",
+						"const": "media",
+						"description": "Media type."
+					},
+					{
+						"type": "string",
+						"const": "meteredTime",
+						"description": "Metered Time type."
+					},
+					{
+						"type": "string",
+						"const": "payAmount",
+						"description": "Pay Amount type."
+					},
+					{
+						"type": "string",
+						"const": "percentage",
+						"description": "Percentage type."
+					},
+					{
+						"type": "string",
+						"const": "product",
+						"description": "Product type."
+					},
+					{
+						"type": "string",
+						"const": "purpose",
+						"description": "Purpose type."
+					},
+					{
+						"type": "string",
+						"const": "recipient",
+						"description": "Recipient type."
+					},
+					{
+						"type": "string",
+						"const": "relativePosition",
+						"description": "Relative Position type."
+					},
+					{
+						"type": "string",
+						"const": "relativeSpatialPosition",
+						"description": "Relative Spatial Position type."
+					},
+					{
+						"type": "string",
+						"const": "relativeTemporalPosition",
+						"description": "Relative Temporal Position type."
+					},
+					{
+						"type": "string",
+						"const": "relativeSize",
+						"description": "Relative Size type."
+					},
+					{
+						"type": "string",
+						"const": "resolution",
+						"description": "Resolution type."
+					},
+					{
+						"type": "string",
+						"const": "spatial",
+						"description": "Spatial type."
+					},
+					{
+						"type": "string",
+						"const": "spatialCoordinates",
+						"description": "Spatial Coordinates type."
+					},
+					{
+						"type": "string",
+						"const": "systemDevice",
+						"description": "System Device type."
+					},
+					{
+						"type": "string",
+						"const": "timeInterval",
+						"description": "Time Interval type."
+					},
+					{
+						"type": "string",
+						"const": "unitOfCount",
+						"description": "Unit of Count type."
+					},
+					{
+						"type": "string",
+						"const": "version",
+						"description": "Version type."
+					},
+					{
+						"type": "string",
+						"const": "virtualLocation",
+						"description": "Virtual Location type."
+					}
+				],
+				"description": "The types for ODRL Data Types."
+			},
+			"OdrlAction": {
+				"type": "object",
+				"properties": {
+					"@context": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@id": {
+						"type": "string",
+						"description": "Direct action identifier. Used in simple action references."
+					},
+					"@included": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@graph": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdNodeObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdNodeObject"
+								}
+							}
+						]
+					},
+					"@nest": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdJsonObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdJsonObject"
+								}
+							}
+						]
+					},
+					"@type": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdKeyword"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdKeyword"
+								}
+							}
+						]
+					},
+					"@reverse": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "#/components/schemas/JsonLdKeyword"
+						}
+					},
+					"@index": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"rdf:value": {
+						"type": "object",
+						"properties": {
+							"@id": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"@id"
+						],
+						"additionalProperties": false,
+						"description": "The value/identifier of the action. Used in complex action definitions."
+					},
+					"refinement": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/OdrlConstraint"
+							},
+							{
+								"$ref": "#/components/schemas/OdrlLogicalConstraint"
+							},
+							{
+								"type": "array",
+								"items": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/OdrlConstraint"
+										},
+										{
+											"$ref": "#/components/schemas/OdrlLogicalConstraint"
+										}
+									]
 								}
 							}
 						],
-						"description": "The LD"
+						"description": "Refinements applied to the action."
 					},
-					"entities": {
+					"includedIn": {
+						"$ref": "#/components/schemas/ActionType"
+					},
+					"implies": {
 						"type": "array",
 						"items": {
-							"$ref": "#/components/schemas/Omit%3CIParticipantEntry%2C%22%40context%22%3E"
+							"$ref": "#/components/schemas/ActionType"
 						},
-						"description": "The entities, which can be partial if a limited keys list was provided."
+						"description": "References to actions this action implies."
+					}
+				},
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "#/components/schemas/JsonLdNodePrimitive"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdLanguageMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIndexMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIncludedBlock"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIdMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdTypeMap"
+						},
+						{
+							"type": "array"
+						}
+					]
+				},
+				"description": "Interface for ODRL Actions."
+			},
+			"OdrlAsset": {
+				"type": "object",
+				"properties": {
+					"@context": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
 					},
-					"cursor": {
+					"@id": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@included": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@graph": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdNodeObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdNodeObject"
+								}
+							}
+						]
+					},
+					"@nest": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdJsonObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdJsonObject"
+								}
+							}
+						]
+					},
+					"@type": {
 						"type": "string",
-						"description": "An optional cursor, when defined can be used to call find to get more entities."
+						"description": "The type of the asset. Can be used to specify additional type information."
+					},
+					"@reverse": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "#/components/schemas/JsonLdKeyword"
+						}
+					},
+					"@index": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"uid": {
+						"type": "string",
+						"description": "The unique identifier for the asset. Should be an IRI."
+					},
+					"partOf": {
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"$ref": "#/components/schemas/OdrlAssetCollection"
+							}
+						],
+						"description": "Reference to the asset collection this asset is part of. Used to identify an AssetCollection that this Asset is a member of."
+					},
+					"hasPolicy": {
+						"type": "string",
+						"description": "Reference to the policy that governs this asset. Used to identify the Policy that governs this Asset."
+					}
+				},
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "#/components/schemas/JsonLdNodePrimitive"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdLanguageMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIndexMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIncludedBlock"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIdMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdTypeMap"
+						},
+						{
+							"type": "array"
+						}
+					]
+				},
+				"description": "Interface for ODRL Assets."
+			},
+			"OdrlAssetCollection": {
+				"type": "object",
+				"properties": {
+					"@context": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@id": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@included": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@graph": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdNodeObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdNodeObject"
+								}
+							}
+						]
+					},
+					"@nest": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdJsonObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdJsonObject"
+								}
+							}
+						]
+					},
+					"@type": {
+						"type": "string",
+						"description": "The type of the asset. Can be used to specify additional type information."
+					},
+					"@reverse": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "#/components/schemas/JsonLdKeyword"
+						}
+					},
+					"@index": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"uid": {
+						"type": "string",
+						"description": "The unique identifier for the asset. Should be an IRI."
+					},
+					"partOf": {
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"$ref": "#/components/schemas/OdrlAssetCollection"
+							}
+						],
+						"description": "Reference to the asset collection this asset is part of. Used to identify an AssetCollection that this Asset is a member of."
+					},
+					"hasPolicy": {
+						"type": "string",
+						"description": "Reference to the policy that governs this asset. Used to identify the Policy that governs this Asset."
+					},
+					"source": {
+						"type": "string",
+						"description": "Reference to the source of the asset collection. Must be an IRI that references the AssetCollection."
+					},
+					"refinement": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/OdrlConstraint"
+						},
+						"description": "Refinements applied to the asset collection. Used to specify the refinement context under which to identify individual Asset(s) of the complete collection. The refinement applies to the characteristics of each member of the collection (not the resource as a whole)."
+					}
+				},
+				"required": [
+					"source"
+				],
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "#/components/schemas/JsonLdNodePrimitive"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdLanguageMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIndexMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIncludedBlock"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIdMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdTypeMap"
+						},
+						{
+							"type": "array"
+						}
+					]
+				},
+				"description": "Interface for ODRL Asset Collections. An AssetCollection is a single resource representing a set of member resources, where all members of the set will be the subject of the Rule."
+			},
+			"OdrlConstraint": {
+				"type": "object",
+				"properties": {
+					"@context": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@id": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@included": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@graph": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdNodeObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdNodeObject"
+								}
+							}
+						]
+					},
+					"@nest": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdJsonObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdJsonObject"
+								}
+							}
+						]
+					},
+					"@type": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdKeyword"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdKeyword"
+								}
+							}
+						]
+					},
+					"@reverse": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "#/components/schemas/JsonLdKeyword"
+						}
+					},
+					"@index": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"uid": {
+						"type": "string",
+						"description": "Optional unique identifier for the constraint."
+					},
+					"leftOperand": {
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"$ref": "#/components/schemas/LeftOperandType"
+							}
+						],
+						"description": "The left operand of the constraint."
+					},
+					"operator": {
+						"$ref": "#/components/schemas/OperatorType"
+					},
+					"rightOperand": {
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"type": "object",
+								"properties": {
+									"@value": {
+										"type": "string"
+									},
+									"@type": {
+										"$ref": "#/components/schemas/DataType"
+									}
+								},
+								"required": [
+									"@value"
+								],
+								"additionalProperties": false
+							},
+							{
+								"type": "object",
+								"properties": {
+									"@id": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"@id"
+								],
+								"additionalProperties": false
+							}
+						],
+						"description": "The right operand of the constraint. value with optional"
+					},
+					"rightOperandReference": {
+						"type": "string",
+						"description": "Reference to the right operand."
+					},
+					"dataType": {
+						"$ref": "#/components/schemas/DataType"
+					},
+					"unit": {
+						"type": "string",
+						"description": "The unit for the right operand value."
+					},
+					"status": {
+						"$ref": "#/components/schemas/StatusType"
+					}
+				},
+				"required": [
+					"leftOperand",
+					"operator"
+				],
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "#/components/schemas/JsonLdNodePrimitive"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdLanguageMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIndexMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIncludedBlock"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIdMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdTypeMap"
+						},
+						{
+							"type": "array"
+						}
+					]
+				},
+				"description": "Interface for ODRL Constraints."
+			},
+			"OdrlContextType": {
+				"anyOf": [
+					{
+						"type": "string",
+						"const": "https://www.w3.org/ns/odrl.jsonld"
+					},
+					{
+						"type": "array",
+						"minItems": 1,
+						"items": [
+							{
+								"type": "string",
+								"const": "https://www.w3.org/ns/odrl.jsonld"
+							}
+						],
+						"additionalItems": {
+							"$ref": "#/components/schemas/JsonLdContextDefinitionElement"
+						}
+					},
+					{
+						"type": "array",
+						"minItems": 2,
+						"items": [
+							{
+								"type": "string",
+								"const": "https://www.w3.org/ns/odrl.jsonld"
+							},
+							{
+								"$ref": "#/components/schemas/JsonLdContextDefinitionElement"
+							}
+						],
+						"additionalItems": {
+							"$ref": "#/components/schemas/JsonLdContextDefinitionElement"
+						}
+					},
+					{
+						"type": "array",
+						"minItems": 2,
+						"items": [
+							{
+								"$ref": "#/components/schemas/JsonLdContextDefinitionElement"
+							},
+							{
+								"type": "string",
+								"const": "https://www.w3.org/ns/odrl.jsonld"
+							}
+						],
+						"additionalItems": {
+							"$ref": "#/components/schemas/JsonLdContextDefinitionElement"
+						}
+					}
+				],
+				"description": "The ODRL JSON-LD context type."
+			},
+			"OdrlDuty": {
+				"type": "object",
+				"properties": {
+					"@context": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@id": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@included": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@graph": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdNodeObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdNodeObject"
+								}
+							}
+						]
+					},
+					"@nest": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdJsonObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdJsonObject"
+								}
+							}
+						]
+					},
+					"@type": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdKeyword"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdKeyword"
+								}
+							}
+						]
+					},
+					"@reverse": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "#/components/schemas/JsonLdKeyword"
+						}
+					},
+					"@index": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"uid": {
+						"type": "string",
+						"description": "Optional unique identifier for the rule."
+					},
+					"action": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/ActionType"
+							},
+							{
+								"$ref": "#/components/schemas/OdrlAction"
+							},
+							{
+								"type": "array",
+								"items": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/ActionType"
+										},
+										{
+											"$ref": "#/components/schemas/OdrlAction"
+										}
+									]
+								}
+							}
+						],
+						"description": "The action associated with the rule."
+					},
+					"target": {
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"$ref": "#/components/schemas/OdrlAsset"
+							},
+							{
+								"type": "array",
+								"items": {
+									"anyOf": [
+										{
+											"type": "string"
+										},
+										{
+											"$ref": "#/components/schemas/OdrlAsset"
+										}
+									]
+								}
+							}
+						],
+						"description": "The target asset for the rule."
+					},
+					"assigner": {
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"$ref": "#/components/schemas/OdrlParty"
+							}
+						],
+						"description": "The assigner of the rule."
+					},
+					"assignee": {
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"$ref": "#/components/schemas/OdrlParty"
+							}
+						],
+						"description": "The assignee of the rule."
+					},
+					"constraint": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/OdrlConstraint"
+						},
+						"description": "Constraints applied to the rule."
+					},
+					"summary": {
+						"type": "string",
+						"description": "Additional relation sub-properties as defined in ODRL profiles. For example, 'summary' in profile \"http://example.com/odrl:profile:03\" indicates where the output should be stored."
+					},
+					"attributedParty": {
+						"type": "string",
+						"description": "The party to be attributed Used when the duty involves attribution"
+					},
+					"trackingParty": {
+						"type": "string",
+						"description": "The party performing the tracking Used when the duty involves tracking"
+					},
+					"consequence": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/OdrlDuty"
+						},
+						"description": "The consequences if the duty is not fulfilled. Only applicable when the Duty is referenced by a Rule with duty or obligation properties."
+					},
+					"remedy": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/OdrlDuty"
+						},
+						"description": "The remedies that may be fulfilled to cure the violation."
+					},
+					"compensatedParty": {
+						"type": "string",
+						"description": "The party to be compensated Used when the duty involves compensation"
+					}
+				},
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "#/components/schemas/JsonLdNodePrimitive"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdLanguageMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIndexMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIncludedBlock"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIdMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdTypeMap"
+						},
+						{
+							"type": "array"
+						}
+					]
+				},
+				"description": "Interface for Duty Rules. A Duty is the obligation to exercise an action, with all refinements satisfied. A Duty is fulfilled if all constraints are satisfied and if its action has been exercised."
+			},
+			"OdrlLogicalConstraint": {
+				"type": "object",
+				"properties": {
+					"@context": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@id": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@included": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@graph": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdNodeObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdNodeObject"
+								}
+							}
+						]
+					},
+					"@nest": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdJsonObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdJsonObject"
+								}
+							}
+						]
+					},
+					"@type": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdKeyword"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdKeyword"
+								}
+							}
+						]
+					},
+					"@reverse": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "#/components/schemas/JsonLdKeyword"
+						}
+					},
+					"@index": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"uid": {
+						"type": "string",
+						"description": "Optional unique identifier for the logical constraint. Must be an IRI."
+					},
+					"and": {
+						"type": "object",
+						"properties": {
+							"@list": {
+								"type": "array",
+								"items": {
+									"type": "object",
+									"properties": {
+										"@id": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"@id"
+									],
+									"additionalProperties": false
+								}
+							}
+						},
+						"required": [
+							"@list"
+						],
+						"additionalProperties": false,
+						"description": "AND operator - all constraints must be satisfied."
+					},
+					"or": {
+						"type": "object",
+						"properties": {
+							"@list": {
+								"type": "array",
+								"items": {
+									"type": "object",
+									"properties": {
+										"@id": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"@id"
+									],
+									"additionalProperties": false
+								}
+							}
+						},
+						"required": [
+							"@list"
+						],
+						"additionalProperties": false,
+						"description": "OR operator - at least one constraint must be satisfied."
+					},
+					"xone": {
+						"type": "object",
+						"properties": {
+							"@list": {
+								"type": "array",
+								"items": {
+									"type": "object",
+									"properties": {
+										"@id": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"@id"
+									],
+									"additionalProperties": false
+								}
+							}
+						},
+						"required": [
+							"@list"
+						],
+						"additionalProperties": false,
+						"description": "XOR operator - exactly one constraint must be satisfied."
+					},
+					"andSequence": {
+						"type": "object",
+						"properties": {
+							"@list": {
+								"type": "array",
+								"items": {
+									"type": "object",
+									"properties": {
+										"@id": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"@id"
+									],
+									"additionalProperties": false
+								}
+							}
+						},
+						"required": [
+							"@list"
+						],
+						"additionalProperties": false,
+						"description": "AND Sequence operator - all constraints must be satisfied in order."
+					}
+				},
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "#/components/schemas/JsonLdNodePrimitive"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdLanguageMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIndexMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIncludedBlock"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIdMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdTypeMap"
+						},
+						{
+							"type": "array"
+						}
+					]
+				},
+				"description": "Interface for ODRL Logical Constraints. A Logical Constraint compares two or more existing Constraints by one logical operator. If the comparison returns a logical match, then the Logical Constraint is satisfied."
+			},
+			"OdrlParty": {
+				"type": "object",
+				"properties": {
+					"@context": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@id": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@included": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@graph": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdNodeObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdNodeObject"
+								}
+							}
+						]
+					},
+					"@nest": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdJsonObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdJsonObject"
+								}
+							}
+						]
+					},
+					"@type": {
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"type": "array",
+								"items": {
+									"type": "string"
+								}
+							}
+						],
+						"description": "The type of the party. Can be used to specify additional type information (e.g., \"Party\", \"vcard:Organization\", \"vcard:Individual\")."
+					},
+					"@reverse": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "#/components/schemas/JsonLdKeyword"
+						}
+					},
+					"@index": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"uid": {
+						"type": "string",
+						"description": "The unique identifier for the party. Must be an IRI."
+					},
+					"partOf": {
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"$ref": "#/components/schemas/OdrlPartyCollection"
+							}
+						],
+						"description": "Reference to the party collection this party is part of. Used to identify a PartyCollection that a Party entity is a member of."
+					},
+					"assigneeOf": {
+						"type": "string",
+						"description": "Reference to a policy where this party is an assignee. When assigneeOf is asserted, the Party MUST be inferred to undertake the assignee functional role of all the Rules of that Policy."
+					},
+					"assignerOf": {
+						"type": "string",
+						"description": "Reference to a policy where this party is an assigner. When assignerOf is asserted, the Party MUST be inferred to undertake the assigner functional role of all the Rules of that Policy."
+					}
+				},
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "#/components/schemas/JsonLdNodePrimitive"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdLanguageMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIndexMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIncludedBlock"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIdMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdTypeMap"
+						},
+						{
+							"type": "array"
+						}
+					]
+				},
+				"description": "Interface for ODRL Parties."
+			},
+			"OdrlPartyCollection": {
+				"type": "object",
+				"properties": {
+					"@context": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@id": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@included": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@graph": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdNodeObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdNodeObject"
+								}
+							}
+						]
+					},
+					"@nest": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdJsonObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdJsonObject"
+								}
+							}
+						]
+					},
+					"@type": {
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"type": "array",
+								"items": {
+									"type": "string"
+								}
+							}
+						],
+						"description": "The type of the party. Can be used to specify additional type information (e.g., \"Party\", \"vcard:Organization\", \"vcard:Individual\")."
+					},
+					"@reverse": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "#/components/schemas/JsonLdKeyword"
+						}
+					},
+					"@index": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"uid": {
+						"type": "string",
+						"description": "The unique identifier for the party. Must be an IRI."
+					},
+					"partOf": {
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"$ref": "#/components/schemas/OdrlPartyCollection"
+							}
+						],
+						"description": "Reference to the party collection this party is part of. Used to identify a PartyCollection that a Party entity is a member of."
+					},
+					"assigneeOf": {
+						"type": "string",
+						"description": "Reference to a policy where this party is an assignee. When assigneeOf is asserted, the Party MUST be inferred to undertake the assignee functional role of all the Rules of that Policy."
+					},
+					"assignerOf": {
+						"type": "string",
+						"description": "Reference to a policy where this party is an assigner. When assignerOf is asserted, the Party MUST be inferred to undertake the assigner functional role of all the Rules of that Policy."
+					},
+					"source": {
+						"type": "string",
+						"description": "Reference to the source of the party collection. Used to identify the origin or location of the collection."
+					},
+					"refinement": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/OdrlConstraint"
+						},
+						"description": "Refinements applied to the party collection. Used to specify constraints that apply to all members of the collection."
+					}
+				},
+				"required": [
+					"source"
+				],
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "#/components/schemas/JsonLdNodePrimitive"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdLanguageMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIndexMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIncludedBlock"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIdMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdTypeMap"
+						},
+						{
+							"type": "array"
+						}
+					]
+				},
+				"description": "Interface for ODRL Party Collections. A PartyCollection identifies a collection of entities and is a subclass of Party."
+			},
+			"OdrlPermission": {
+				"type": "object",
+				"properties": {
+					"@context": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@id": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@included": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@graph": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdNodeObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdNodeObject"
+								}
+							}
+						]
+					},
+					"@nest": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdJsonObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdJsonObject"
+								}
+							}
+						]
+					},
+					"@type": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdKeyword"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdKeyword"
+								}
+							}
+						]
+					},
+					"@reverse": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "#/components/schemas/JsonLdKeyword"
+						}
+					},
+					"@index": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"uid": {
+						"type": "string",
+						"description": "Optional unique identifier for the rule."
+					},
+					"action": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/ActionType"
+							},
+							{
+								"$ref": "#/components/schemas/OdrlAction"
+							},
+							{
+								"type": "array",
+								"items": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/ActionType"
+										},
+										{
+											"$ref": "#/components/schemas/OdrlAction"
+										}
+									]
+								}
+							}
+						],
+						"description": "The action associated with the rule."
+					},
+					"target": {
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"$ref": "#/components/schemas/OdrlAsset"
+							},
+							{
+								"type": "array",
+								"items": {
+									"anyOf": [
+										{
+											"type": "string"
+										},
+										{
+											"$ref": "#/components/schemas/OdrlAsset"
+										}
+									]
+								}
+							}
+						],
+						"description": "The target asset for the rule."
+					},
+					"assigner": {
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"$ref": "#/components/schemas/OdrlParty"
+							}
+						],
+						"description": "The assigner of the rule."
+					},
+					"assignee": {
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"$ref": "#/components/schemas/OdrlParty"
+							}
+						],
+						"description": "The assignee of the rule."
+					},
+					"constraint": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/OdrlConstraint"
+						},
+						"description": "Constraints applied to the rule."
+					},
+					"summary": {
+						"type": "string",
+						"description": "Additional relation sub-properties as defined in ODRL profiles. For example, 'summary' in profile \"http://example.com/odrl:profile:03\" indicates where the output should be stored."
+					},
+					"duty": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/OdrlDuty"
+						},
+						"description": "The duties that must be fulfilled before the permission can be exercised. A Permission MAY have none, one, or more duty property values."
+					}
+				},
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "#/components/schemas/JsonLdNodePrimitive"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdLanguageMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIndexMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIncludedBlock"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIdMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdTypeMap"
+						},
+						{
+							"type": "array"
+						}
+					]
+				},
+				"description": "Interface for Permission Rules. A Permission allows an action to be exercised on an Asset if all constraints are satisfied and if all duties are fulfilled."
+			},
+			"OdrlPolicy": {
+				"type": "object",
+				"properties": {
+					"@context": {
+						"$ref": "#/components/schemas/OdrlContextType"
+					},
+					"@id": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@included": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@graph": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdNodeObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdNodeObject"
+								}
+							}
+						]
+					},
+					"@nest": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdJsonObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdJsonObject"
+								}
+							}
+						]
+					},
+					"@type": {
+						"$ref": "#/components/schemas/PolicyType"
+					},
+					"@reverse": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "#/components/schemas/JsonLdKeyword"
+						}
+					},
+					"@index": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"uid": {
+						"type": "string",
+						"description": "The unique identifier for the policy. Must be an IRI."
+					},
+					"profile": {
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"type": "array",
+								"items": {
+									"type": "string"
+								}
+							}
+						],
+						"description": "The profile(s) this policy conforms to. IRIs identifying the ODRL Profile(s)."
+					},
+					"assigner": {
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"$ref": "#/components/schemas/OdrlParty"
+							}
+						],
+						"description": "The assigner of the policy. Applies to all rules unless overridden at rule level."
+					},
+					"assignee": {
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"$ref": "#/components/schemas/OdrlParty"
+							}
+						],
+						"description": "The assignee of the policy. Applies to all rules unless overridden at rule level."
+					},
+					"target": {
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"$ref": "#/components/schemas/OdrlAsset"
+							},
+							{
+								"type": "array",
+								"items": {
+									"anyOf": [
+										{
+											"type": "string"
+										},
+										{
+											"$ref": "#/components/schemas/OdrlAsset"
+										}
+									]
+								}
+							}
+						],
+						"description": "The target asset for the rule."
+					},
+					"action": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/ActionType"
+							},
+							{
+								"$ref": "#/components/schemas/OdrlAction"
+							},
+							{
+								"type": "array",
+								"items": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/ActionType"
+										},
+										{
+											"$ref": "#/components/schemas/OdrlAction"
+										}
+									]
+								}
+							}
+						],
+						"description": "The action associated with the rule."
+					},
+					"inheritFrom": {
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"type": "array",
+								"items": {
+									"type": "string"
+								}
+							}
+						],
+						"description": "The parent policy(ies) this policy inherits from. IRIs identifying the parent Policy(ies)."
+					},
+					"conflict": {
+						"$ref": "#/components/schemas/ConflictStrategyType"
+					},
+					"permission": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/OdrlPermission"
+						},
+						"description": "The permissions in the policy. At least one of permission, prohibition, or obligation must be present."
+					},
+					"prohibition": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/OdrlProhibition"
+						},
+						"description": "The prohibitions in the policy. At least one of permission, prohibition, or obligation must be present."
+					},
+					"obligation": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/OdrlDuty"
+						},
+						"description": "The obligations in the policy. At least one of permission, prohibition, or obligation must be present."
 					}
 				},
 				"required": [
 					"@context",
-					"entities"
+					"@type",
+					"uid"
+				],
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "#/components/schemas/JsonLdNodePrimitive"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdLanguageMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIndexMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIncludedBlock"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIdMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdTypeMap"
+						},
+						{
+							"type": "array"
+						}
+					]
+				},
+				"description": "Interface representing an ODRL Policy."
+			},
+			"OdrlProhibition": {
+				"type": "object",
+				"properties": {
+					"@context": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@id": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@included": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@graph": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdNodeObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdNodeObject"
+								}
+							}
+						]
+					},
+					"@nest": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdJsonObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdJsonObject"
+								}
+							}
+						]
+					},
+					"@type": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdKeyword"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdKeyword"
+								}
+							}
+						]
+					},
+					"@reverse": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "#/components/schemas/JsonLdKeyword"
+						}
+					},
+					"@index": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"uid": {
+						"type": "string",
+						"description": "Optional unique identifier for the rule."
+					},
+					"action": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/ActionType"
+							},
+							{
+								"$ref": "#/components/schemas/OdrlAction"
+							},
+							{
+								"type": "array",
+								"items": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/ActionType"
+										},
+										{
+											"$ref": "#/components/schemas/OdrlAction"
+										}
+									]
+								}
+							}
+						],
+						"description": "The action associated with the rule."
+					},
+					"target": {
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"$ref": "#/components/schemas/OdrlAsset"
+							},
+							{
+								"type": "array",
+								"items": {
+									"anyOf": [
+										{
+											"type": "string"
+										},
+										{
+											"$ref": "#/components/schemas/OdrlAsset"
+										}
+									]
+								}
+							}
+						],
+						"description": "The target asset for the rule."
+					},
+					"assigner": {
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"$ref": "#/components/schemas/OdrlParty"
+							}
+						],
+						"description": "The assigner of the rule."
+					},
+					"assignee": {
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"$ref": "#/components/schemas/OdrlParty"
+							}
+						],
+						"description": "The assignee of the rule."
+					},
+					"constraint": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/OdrlConstraint"
+						},
+						"description": "Constraints applied to the rule."
+					},
+					"summary": {
+						"type": "string",
+						"description": "Additional relation sub-properties as defined in ODRL profiles. For example, 'summary' in profile \"http://example.com/odrl:profile:03\" indicates where the output should be stored."
+					},
+					"remedy": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/OdrlDuty"
+						},
+						"description": "The remedies that must be fulfilled if prohibition is violated."
+					}
+				},
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "#/components/schemas/JsonLdNodePrimitive"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdLanguageMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIndexMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIncludedBlock"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIdMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdTypeMap"
+						},
+						{
+							"type": "array"
+						}
+					]
+				},
+				"description": "Interface for Prohibition Rules."
+			},
+			"OperatorType": {
+				"anyOf": [
+					{
+						"type": "string",
+						"const": "eq",
+						"description": "Equal type."
+					},
+					{
+						"type": "string",
+						"const": "gt",
+						"description": "Greater than type."
+					},
+					{
+						"type": "string",
+						"const": "gteq",
+						"description": "Greater than or equal to type."
+					},
+					{
+						"type": "string",
+						"const": "lt",
+						"description": "Less than type."
+					},
+					{
+						"type": "string",
+						"const": "lteq",
+						"description": "Less than or equal to type."
+					},
+					{
+						"type": "string",
+						"const": "neq",
+						"description": "Not equal to type."
+					},
+					{
+						"type": "string",
+						"const": "isA",
+						"description": "Is a type."
+					},
+					{
+						"type": "string",
+						"const": "hasPart",
+						"description": "Has part type."
+					},
+					{
+						"type": "string",
+						"const": "isPartOf",
+						"description": "Is part of type."
+					},
+					{
+						"type": "string",
+						"const": "isAllOf",
+						"description": "Is all of type."
+					},
+					{
+						"type": "string",
+						"const": "isAnyOf",
+						"description": "Is any of type."
+					},
+					{
+						"type": "string",
+						"const": "isNoneOf",
+						"description": "Is none of type."
+					},
+					{
+						"type": "string",
+						"const": "locTimeEq",
+						"description": "Location time equal to type."
+					},
+					{
+						"type": "string",
+						"const": "locTimeGteq",
+						"description": "Location time greater than or equal to type."
+					}
+				],
+				"description": "The types for ODRL Operators."
+			},
+			"ParticipantEntry": {
+				"type": "object",
+				"properties": {
+					"issuer": {
+						"type": "string",
+						"description": "The trusted issuer of the compliance credential"
+					},
+					"validFrom": {
+						"type": "string",
+						"description": "Valid from (as per W3C VC Data Model v2)"
+					},
+					"validUntil": {
+						"type": "string",
+						"description": "Valid until (as per W3C VC Data Model v2)"
+					},
+					"dateCreated": {
+						"type": "string",
+						"description": "The creation date."
+					},
+					"evidence": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						},
+						"description": "The evidences concerning the data resource."
+					},
+					"@context": {
+						"$ref": "#/components/schemas/FederatedCatalogueContextType"
+					},
+					"@id": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@included": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@graph": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdNodeObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdNodeObject"
+								}
+							}
+						]
+					},
+					"@nest": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdJsonObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdJsonObject"
+								}
+							}
+						]
+					},
+					"@type": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdKeyword"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdKeyword"
+								}
+							}
+						]
+					},
+					"@reverse": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "#/components/schemas/JsonLdKeyword"
+						}
+					},
+					"@index": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"id": {
+						"type": "string",
+						"description": "The participant Id."
+					},
+					"type": {
+						"type": "string",
+						"const": "LegalPerson",
+						"description": "JSON-LD type."
+					},
+					"registrationNumber": {
+						"$ref": "#/components/schemas/RegistrationNumber"
+					},
+					"legalName": {
+						"type": "string",
+						"description": "The legal name."
+					},
+					"legalAddress": {
+						"$ref": "#/components/schemas/Address"
+					}
+				},
+				"required": [
+					"@context",
+					"dateCreated",
+					"evidence",
+					"id",
+					"issuer",
+					"legalAddress",
+					"legalName",
+					"registrationNumber",
+					"type",
+					"validFrom",
+					"validUntil"
+				],
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "#/components/schemas/JsonLdNodePrimitive"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdLanguageMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIndexMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIncludedBlock"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIdMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdTypeMap"
+						},
+						{
+							"type": "array"
+						}
+					]
+				},
+				"description": "Interface describing a participant."
+			},
+			"ParticipantList": {
+				"type": "object",
+				"properties": {
+					"@context": {
+						"$ref": "#/components/schemas/FederatedCatalogueContextType"
+					},
+					"type": {
+						"type": "string",
+						"const": "ItemList",
+						"description": "The type"
+					},
+					"itemListElement": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/Omit%3CIParticipantEntry%2C%22%40context%22%3E"
+						},
+						"description": "The components of the Collection"
+					},
+					"nextItem": {
+						"type": "string",
+						"description": "Next item cursor."
+					}
+				},
+				"required": [
+					"@context",
+					"type",
+					"itemListElement"
 				],
 				"additionalProperties": false,
-				"description": "The response payload."
+				"description": "Interface describing a participant entry list."
+			},
+			"PolicyType": {
+				"anyOf": [
+					{
+						"type": "string",
+						"const": "Policy",
+						"description": "Policy type."
+					},
+					{
+						"type": "string",
+						"const": "Set",
+						"description": "Set type."
+					},
+					{
+						"type": "string",
+						"const": "Offer",
+						"description": "Offer type."
+					},
+					{
+						"type": "string",
+						"const": "Agreement",
+						"description": "Agreement type."
+					}
+				],
+				"description": "The types for ODRL Policies."
+			},
+			"RegistrationNumber": {
+				"type": "object",
+				"properties": {
+					"@context": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@id": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@included": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@graph": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdNodeObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdNodeObject"
+								}
+							}
+						]
+					},
+					"@nest": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdJsonObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdJsonObject"
+								}
+							}
+						]
+					},
+					"@type": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdKeyword"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdKeyword"
+								}
+							}
+						]
+					},
+					"@reverse": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "#/components/schemas/JsonLdKeyword"
+						}
+					},
+					"@index": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"type": {
+						"type": "string",
+						"enum": [
+							"RegistrationNumber",
+							"LocalRegistrationNumber",
+							"EORI",
+							"EUID",
+							"LeiCode",
+							"TaxID",
+							"VatID"
+						],
+						"description": "JSON-LD Type."
+					},
+					"local": {
+						"type": "string",
+						"description": "Local Registration."
+					},
+					"countryCode": {
+						"type": "string",
+						"description": "Country code. See https://docs.gaia-x.eu/ontology/development/enums/CountryNameAlpha2/"
+					},
+					"subdivisionCountryCode": {
+						"type": "string",
+						"description": "Subdivision country code. See https://docs.gaia-x.eu/ontology/development/enums/RegionCode/"
+					},
+					"vatID": {
+						"type": "string",
+						"description": "The VAT identification number."
+					},
+					"leiCode": {
+						"type": "string",
+						"description": "Unique LEI number as defined by GLEIF."
+					},
+					"eori": {
+						"type": "string",
+						"description": "The Economic Operators Registration and Identification number (EORI)."
+					},
+					"country": {
+						"type": "string",
+						"description": "The country where the EORI is registered written in plain english"
+					},
+					"euid": {
+						"type": "string",
+						"description": "The European Unique Identifier (EUID) for business located in the European Ec."
+					},
+					"taxId": {
+						"type": "string",
+						"description": "The company tax ID."
+					}
+				},
+				"required": [
+					"type"
+				],
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "#/components/schemas/JsonLdNodePrimitive"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdLanguageMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIndexMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIncludedBlock"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIdMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdTypeMap"
+						},
+						{
+							"type": "array"
+						}
+					]
+				},
+				"description": "Registration Number as defined by the Gaia-X ontology. https://docs.gaia-x.eu/ontology/development/classes/RegistrationNumber/"
 			},
 			"ServerInfo": {
 				"type": "object",
@@ -1600,49 +6518,224 @@
 			"ServerSpecResponse": {
 				"description": "The spec for the server."
 			},
-			"ServiceOfferingListResponse": {
+			"ServiceOfferingEntry": {
 				"type": "object",
 				"properties": {
 					"@context": {
+						"$ref": "#/components/schemas/FederatedCatalogueContextType"
+					},
+					"@id": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@included": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"@graph": {
 						"anyOf": [
 							{
-								"type": "string",
-								"const": "https://w3id.org/gaia-x/development"
+								"$ref": "#/components/schemas/JsonLdNodeObject"
 							},
 							{
 								"type": "array",
-								"minItems": 1,
-								"items": [
-									{
-										"type": "string",
-										"const": "https://w3id.org/gaia-x/development"
-									}
-								],
-								"additionalItems": {
-									"$ref": "#/components/schemas/JsonLdContextDefinitionElement"
+								"items": {
+									"$ref": "#/components/schemas/JsonLdNodeObject"
 								}
 							}
-						],
-						"description": "The LD"
+						]
 					},
-					"entities": {
+					"@nest": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdJsonObject"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdJsonObject"
+								}
+							}
+						]
+					},
+					"@type": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/JsonLdKeyword"
+							},
+							{
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/JsonLdKeyword"
+								}
+							}
+						]
+					},
+					"@reverse": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "#/components/schemas/JsonLdKeyword"
+						}
+					},
+					"@index": {
+						"$ref": "#/components/schemas/JsonLdKeyword"
+					},
+					"id": {
+						"type": "string",
+						"description": "Id"
+					},
+					"type": {
+						"type": "string",
+						"const": "ServiceOffering",
+						"description": "Type"
+					},
+					"description": {
+						"type": "string",
+						"description": "Description"
+					},
+					"name": {
+						"type": "string",
+						"description": "Name"
+					},
+					"providedBy": {
+						"type": "string",
+						"description": "Overwrites providedBy as we only store identifier as string"
+					},
+					"servicePolicy": {
 						"type": "array",
 						"items": {
-							"$ref": "#/components/schemas/Omit%3CIServiceOfferingEntry%2C%22%40context%22%3E"
+							"$ref": "#/components/schemas/OdrlPolicy"
 						},
-						"description": "The entities, which can be partial if a limited keys list was provided."
+						"description": "The service policy is always stored as an array"
 					},
-					"cursor": {
+					"aggregationOfResources": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						},
+						"description": "Overwrites aggregationOfResources as we only store identifier as string"
+					},
+					"endpoint": {
+						"$ref": "#/components/schemas/Endpoint"
+					},
+					"issuer": {
 						"type": "string",
-						"description": "An optional cursor, when defined can be used to call find to get more entities."
+						"description": "The trusted issuer of the compliance credential"
+					},
+					"validFrom": {
+						"type": "string",
+						"description": "Valid from (as per W3C VC Data Model v2)"
+					},
+					"validUntil": {
+						"type": "string",
+						"description": "Valid until (as per W3C VC Data Model v2)"
+					},
+					"dateCreated": {
+						"type": "string",
+						"description": "The creation date."
+					},
+					"evidence": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						},
+						"description": "The evidences concerning the data resource."
 					}
 				},
 				"required": [
 					"@context",
-					"entities"
+					"dateCreated",
+					"endpoint",
+					"evidence",
+					"id",
+					"issuer",
+					"name",
+					"providedBy",
+					"servicePolicy",
+					"type",
+					"validFrom",
+					"validUntil"
+				],
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "#/components/schemas/JsonLdNodePrimitive"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdLanguageMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIndexMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIncludedBlock"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdIdMap"
+						},
+						{
+							"$ref": "#/components/schemas/JsonLdTypeMap"
+						},
+						{
+							"type": "array"
+						}
+					]
+				},
+				"description": "Interface describing a Service Offering."
+			},
+			"ServiceOfferingList": {
+				"type": "object",
+				"properties": {
+					"@context": {
+						"$ref": "#/components/schemas/FederatedCatalogueContextType"
+					},
+					"type": {
+						"type": "string",
+						"const": "ItemList",
+						"description": "The type"
+					},
+					"itemListElement": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/Omit%3CIServiceOfferingEntry%2C%22%40context%22%3E"
+						},
+						"description": "The components of the Collection"
+					},
+					"nextItem": {
+						"type": "string",
+						"description": "Next item cursor."
+					}
+				},
+				"required": [
+					"@context",
+					"type",
+					"itemListElement"
 				],
 				"additionalProperties": false,
-				"description": "The response payload."
+				"description": "Interface describing a list of Service Offering Entries."
+			},
+			"StatusType": {
+				"anyOf": [
+					{
+						"type": "string",
+						"const": "active",
+						"description": "Active type."
+					},
+					{
+						"type": "string",
+						"const": "inactive",
+						"description": "Inactive type."
+					},
+					{
+						"type": "string",
+						"const": "pending",
+						"description": "Pending type."
+					},
+					{
+						"type": "string",
+						"const": "revoked",
+						"description": "Revoked type."
+					}
+				],
+				"description": "The types for ODRL Status."
 			}
 		},
 		"securitySchemes": {

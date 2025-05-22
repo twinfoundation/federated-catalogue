@@ -2,7 +2,7 @@
 
 > **participantList**(`httpRequestContext`, `factoryServiceName`, `request`): `Promise`\<`IParticipantListResponse`\>
 
-Get a list of the logging participant entries.
+Get a list of the participant entries.
 
 ## Parameters
 

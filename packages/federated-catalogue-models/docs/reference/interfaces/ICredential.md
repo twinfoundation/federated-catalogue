@@ -28,6 +28,18 @@ The Id of the credential, it is mandatory.
 
 ***
 
+### issuer
+
+> **issuer**: `string`
+
+The issuer of the credential, it is mandatory.
+
+#### Overrides
+
+`IDidVerifiableCredential.issuer`
+
+***
+
 ### credentialSubject
 
 > **credentialSubject**: `IJsonLdNodeObject` & `object` \| `IJsonLdNodeObject`[] & `object`

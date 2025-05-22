@@ -1,19 +1,21 @@
 {
-    "error": {
-        "federatedCatalogueService": {
-            "credentialCannotBeRetrieved": "Credential \"{credentialUrl}\" cannot be retrieved",
-            "complianceCredentialNotVerified": "Compliance credential cannot be verified",
-            "credentialVerificationError": "Credential \"{credentialUrl}\" verification error",
-            "unknownHashingAlgorithm": "Unknown hashing algorithm: \"{hashingAlg}\"",
-            "noEvidence": "No Credential evidence provided for the type of Compliance Claimed",
-            "providerIsNotParticipant": "Provider is not known as participant"
-        }
-    },
-    "info": {
-        "federatedCatalogueService": {
-            "verifyingEvidenceCredential": "Verifying evidence credential \"{credentialUrl}\" ...",
-            "credentialEvidenceVerified": "Credential evidence \"{credentialUrl}\" verified",
-            "complianceCredentialVerified": "Compliance credential verified and entry added to the Catalogue"
-        }
-    }
+	"error": {
+		"federatedCatalogueService": {
+			"credentialCannotBeRetrieved": "Credential \"{credentialUrl}\" cannot be retrieved",
+			"complianceCredentialNotVerified": "Compliance credential cannot be verified",
+			"credentialVerificationError": "Credential \"{credentialUrl}\" verification error",
+			"unknownHashingAlgorithm": "Unknown hashing algorithm: \"{hashingAlg}\"",
+			"noEvidence": "No Credential evidence provided for the type of Compliance Claimed",
+			"providerIsNotParticipant": "Provider is not known as participant",
+			"entryNotFound": "The requested entry has not been found in the Catalogue",
+			"unknownEntryType": "The entry type is not known to the Catalogue"
+		}
+	},
+	"info": {
+		"federatedCatalogueService": {
+			"verifyingEvidenceCredential": "Verifying evidence credential \"{credentialUrl}\" ...",
+			"credentialEvidenceVerified": "Credential evidence \"{credentialUrl}\" verified",
+			"complianceCredentialVerified": "Compliance credential verified and entry added to the Catalogue"
+		}
+	}
 }

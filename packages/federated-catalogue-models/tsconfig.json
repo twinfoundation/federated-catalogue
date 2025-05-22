@@ -10,11 +10,16 @@
 		"noEmitHelpers": true,
 		"experimentalDecorators": true,
 		"emitDecoratorMetadata": true,
+		"erasableSyntaxOnly": true,
 		"sourceMap": true,
 		"declaration": true,
 		"declarationDir": "dist/types",
 		"types": [],
-		"plugins": [{ "transform": "@twin.org/nameof-transformer" }]
+		"plugins": [
+			{
+				"transform": "@twin.org/nameof-transformer"
+			}
+		]
 	},
 	"include": ["src/**/*.ts"]
 }

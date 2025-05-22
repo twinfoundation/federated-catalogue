@@ -1,6 +1,6 @@
 # Interface: IFederatedCatalogue
 
-Interface describing a Fed Catalogue Contract.
+Interface describing a Federated Catalogue Contract.
 
 ## Extends
 
@@ -10,7 +10,7 @@ Interface describing a Fed Catalogue Contract.
 
 ### registerComplianceCredential()
 
-> **registerComplianceCredential**(`credential`): `Promise`\<`void`\>
+> **registerComplianceCredential**(`credential`): `Promise`\<`string`\>
 
 Registers a Participant's compliance Credential to the service.
 
@@ -24,15 +24,15 @@ The credential as JWT.
 
 #### Returns
 
-`Promise`\<`void`\>
+`Promise`\<`string`\>
 
-Nothing.
+The participant Id (usually a DID).
 
 ***
 
 ### queryParticipants()
 
-> **queryParticipants**(`participant`?, `legalRegistrationNumber`?, `lrnType`?, `cursor`?, `pageSize`?): `Promise`\<\{ `entities`: [`IParticipantEntry`](IParticipantEntry.md)[]; `cursor`: `string`; \}\>
+> **queryParticipants**(`participant?`, `legalRegistrationNumber?`, `lrnType?`, `cursor?`, `pageSize?`): `Promise`\<[`IParticipantList`](IParticipantList.md)\>
 
 Query the federated catalogue.
 
@@ -70,7 +70,7 @@ The maximum number of entities in a page.
 
 #### Returns
 
-`Promise`\<\{ `entities`: [`IParticipantEntry`](IParticipantEntry.md)[]; `cursor`: `string`; \}\>
+`Promise`\<[`IParticipantList`](IParticipantList.md)\>
 
 All the entities for the storage matching the conditions,
 and a cursor which can be used to request more entities.
@@ -83,7 +83,7 @@ NotImplementedError if the implementation does not support retrieval.
 
 ### registerDataSpaceConnectorCredential()
 
-> **registerDataSpaceConnectorCredential**(`credential`): `Promise`\<`void`\>
+> **registerDataSpaceConnectorCredential**(`credential`): `Promise`\<`string`\>
 
 Registers a Data Space Connector to the service.
 
@@ -97,15 +97,15 @@ The credential as JWT.
 
 #### Returns
 
-`Promise`\<`void`\>
+`Promise`\<`string`\>
 
-Nothing.
+The Data Space Connector Id registered.
 
 ***
 
 ### queryDataSpaceConnectors()
 
-> **queryDataSpaceConnectors**(`id`?, `maintainer`?, `cursor`?, `pageSize`?): `Promise`\<\{ `entities`: [`IDataSpaceConnectorEntry`](IDataSpaceConnectorEntry.md)[]; `cursor`: `string`; \}\>
+> **queryDataSpaceConnectors**(`id?`, `maintainer?`, `cursor?`, `pageSize?`): `Promise`\<[`IDataSpaceConnectorList`](IDataSpaceConnectorList.md)\>
 
 Query the federated catalogue.
 
@@ -137,7 +137,7 @@ The maximum number of entities in a page.
 
 #### Returns
 
-`Promise`\<\{ `entities`: [`IDataSpaceConnectorEntry`](IDataSpaceConnectorEntry.md)[]; `cursor`: `string`; \}\>
+`Promise`\<[`IDataSpaceConnectorList`](IDataSpaceConnectorList.md)\>
 
 All the entities for the storage matching the conditions,
 and a cursor which can be used to request more entities.
@@ -150,7 +150,7 @@ NotImplementedError if the implementation does not support retrieval.
 
 ### registerServiceOfferingCredential()
 
-> **registerServiceOfferingCredential**(`credential`): `Promise`\<`void`\>
+> **registerServiceOfferingCredential**(`credential`): `Promise`\<`string`[]\>
 
 Registers a service offering Credential to the service.
 
@@ -164,15 +164,15 @@ The credential as JWT.
 
 #### Returns
 
-`Promise`\<`void`\>
+`Promise`\<`string`[]\>
 
-Nothing.
+The Id of the Service Offerings registered.
 
 ***
 
 ### registerDataResourceCredential()
 
-> **registerDataResourceCredential**(`credential`): `Promise`\<`void`\>
+> **registerDataResourceCredential**(`credential`): `Promise`\<`string`[]\>
 
 Registers a data resource Credential to the service.
 
@@ -186,15 +186,15 @@ The credential as JWT.
 
 #### Returns
 
-`Promise`\<`void`\>
+`Promise`\<`string`[]\>
 
-Nothing.
+The Id of the Data Resources registered.
 
 ***
 
 ### queryServiceOfferings()
 
-> **queryServiceOfferings**(`id`?, `providedBy`?, `cursor`?, `pageSize`?): `Promise`\<\{ `entities`: [`IServiceOfferingEntry`](IServiceOfferingEntry.md)[]; `cursor`: `string`; \}\>
+> **queryServiceOfferings**(`id?`, `providedBy?`, `cursor?`, `pageSize?`): `Promise`\<[`IServiceOfferingList`](IServiceOfferingList.md)\>
 
 Query the federated catalogue.
 
@@ -226,7 +226,7 @@ The maximum number of entities in a page.
 
 #### Returns
 
-`Promise`\<\{ `entities`: [`IServiceOfferingEntry`](IServiceOfferingEntry.md)[]; `cursor`: `string`; \}\>
+`Promise`\<[`IServiceOfferingList`](IServiceOfferingList.md)\>
 
 All the entities for the storage matching the conditions,
 and a cursor which can be used to request more entities.
@@ -239,7 +239,7 @@ NotImplementedError if the implementation does not support retrieval.
 
 ### queryDataResources()
 
-> **queryDataResources**(`id`?, `producedBy`?, `cursor`?, `pageSize`?): `Promise`\<\{ `entities`: [`IDataResourceEntry`](IDataResourceEntry.md)[]; `cursor`: `string`; \}\>
+> **queryDataResources**(`id?`, `producedBy?`, `cursor?`, `pageSize?`): `Promise`\<[`IDataResourceList`](IDataResourceList.md)\>
 
 Query the federated catalogue.
 
@@ -271,7 +271,7 @@ The maximum number of entities in a page.
 
 #### Returns
 
-`Promise`\<\{ `entities`: [`IDataResourceEntry`](IDataResourceEntry.md)[]; `cursor`: `string`; \}\>
+`Promise`\<[`IDataResourceList`](IDataResourceList.md)\>
 
 All the entities for the storage matching the conditions,
 and a cursor which can be used to request more entities.
@@ -279,3 +279,35 @@ and a cursor which can be used to request more entities.
 #### Throws
 
 NotImplementedError if the implementation does not support retrieval.
+
+***
+
+### getEntry()
+
+> **getEntry**(`entryType`, `entryId`): `Promise`\<[`ICatalogueEntry`](../type-aliases/ICatalogueEntry.md)\>
+
+Returns a Federated Catalogue entry.
+
+#### Parameters
+
+##### entryType
+
+[`FederatedCatalogueEntryType`](../type-aliases/FederatedCatalogueEntryType.md)
+
+The type of entry.
+
+##### entryId
+
+`string`
+
+The entry's id.
+
+#### Returns
+
+`Promise`\<[`ICatalogueEntry`](../type-aliases/ICatalogueEntry.md)\>
+
+Catalogue Entry
+
+#### Throws
+
+NotFoundError if not found.

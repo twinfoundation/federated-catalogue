@@ -2,6 +2,10 @@
 
 Get the a list of the data space connector entries.
 
+## Extends
+
+- [`IFederatedCatalogueGetRequest`](IFederatedCatalogueGetRequest.md)
+
 ## Properties
 
 ### query
@@ -13,6 +17,8 @@ The query parameters.
 #### id?
 
 > `optional` **id**: `string`
+
+The id of the Data Space Connector.
 
 #### maintainedBy?
 
@@ -31,3 +37,19 @@ The optional cursor to get next chunk.
 > `optional` **pageSize**: `number`
 
 The maximum number of entities in a page.
+
+***
+
+### headers?
+
+> `optional` **headers**: `object`
+
+The headers which can be used to determine the response data type.
+
+#### accept
+
+> **accept**: `"application/json"` \| `"application/ld+json"`
+
+#### Inherited from
+
+[`IFederatedCatalogueGetRequest`](IFederatedCatalogueGetRequest.md).[`headers`](IFederatedCatalogueGetRequest.md#headers)

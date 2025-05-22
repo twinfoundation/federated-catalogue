@@ -6,8 +6,8 @@ import type { IEngineCore, IEngineCoreContext } from "@twin.org/engine-models";
 import type { IFederatedCatalogue } from "@twin.org/federated-catalogue-models";
 import {
 	FederatedCatalogueService,
-	generateRestRoutesFedCatalogue,
-	type IFederatedCatalogueOptions
+	generateRestRoutesFederatedCatalogue,
+	type IFederatedCatalogueConstructorOptions
 } from "@twin.org/federated-catalogue-service";
 import { nameof } from "@twin.org/nameof";
 
@@ -23,7 +23,7 @@ import { nameof } from "@twin.org/nameof";
 export function federatedCatalogueTypeInitialiser(
 	core: IEngineCore,
 	context: IEngineCoreContext,
-	instanceConfig: { options: IFederatedCatalogueOptions },
+	instanceConfig: { options: IFederatedCatalogueConstructorOptions },
 	overrideInstanceType: string
 ): string {
 	const componentName = StringHelper.kebabCase(nameof<IFederatedCatalogue>(), true);
@@ -41,5 +41,5 @@ export function federatedCatalogueTypeInitialiser(
  * @returns The rest routes.
  */
 export function generateRestRoutes(baseRouteName: string, componentName: string): IRestRoute[] {
-	return generateRestRoutesFedCatalogue(baseRouteName, componentName);
+	return generateRestRoutesFederatedCatalogue(baseRouteName, componentName);
 }

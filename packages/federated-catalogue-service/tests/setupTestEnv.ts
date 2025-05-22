@@ -1,31 +1,30 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import { mkdir, rm } from "node:fs/promises";
 import path from "node:path";
-import { RandomHelper } from "@twin.org/core";
+import { EnvHelper, RandomHelper } from "@twin.org/core";
 import * as dotenv from "dotenv";
-import * as dotenvExpand from "dotenv-expand";
 
 console.debug("Setting up test environment from .env and .env.dev files");
 
-const dotEnvConfig = dotenv.config({
-	path: [path.join(__dirname, ".env"), path.join(__dirname, ".env.dev")]
+dotenv.config({
+	path: [path.join(__dirname, ".env-test"), path.join(__dirname, ".env.dev")]
 });
-dotenvExpand.expand(dotEnvConfig);
-
-const TEST_FOLDER = "./tests/.tmp";
 
 /**
  * Setup the test environment.
+ * @returns the Clearing House Approver list.
  */
-export async function setupTestEnv(): Promise<void> {
+export async function setupTestEnv(): Promise<string[]> {
 	await cleanupTestEnv();
-	await mkdir(TEST_FOLDER, { recursive: true });
+
+	const envVars = EnvHelper.envToJson(process.env, "FEDERATED_CATALOGUE");
 
 	RandomHelper.generate = vi
 		.fn()
 		.mockImplementationOnce(length => new Uint8Array(length).fill(99))
 		.mockImplementation(length => new Uint8Array(length).fill(88));
+
+	return JSON.parse(envVars.clearingHouseApproverList) as string[];
 }
 
 /**
@@ -33,6 +32,5 @@ export async function setupTestEnv(): Promise<void> {
  */
 export async function cleanupTestEnv(): Promise<void> {
 	try {
-		await rm(TEST_FOLDER, { recursive: true });
 	} catch {}
 }

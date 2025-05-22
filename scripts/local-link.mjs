@@ -1,8 +1,19 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 /**
- * This script is used to link local instances of node_modules without using
- * npm commands.
+ * This script is used to link local instances of npm packages in node_modules
+ * without using npm commands. When using the <package-name> option, the script
+ * will try to find the package in the sibling folders and link it.
+ *
+ * Usage:
+ * npm run local-link <package-name>
+ * or
+ * npm run local-link /path/to/package
+ *
+ * To unlink
+ * npm run local-link <package-name> unlink
+ * or
+ * npm run local-link /path/to/package unlink
  */
 import fs, { readdir } from 'node:fs/promises';
 import path from 'node:path';

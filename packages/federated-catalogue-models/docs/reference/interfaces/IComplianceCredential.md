@@ -10,25 +10,13 @@ A Compliance credential.
 
 ### @context
 
-> **@context**: \[`"https://www.w3.org/ns/credentials/v2"`, `"https://w3id.org/gaia-x/development"`, `"https://w3id.org/security/suites/jws-2020/v1"`, `...string[]`\]
+> **@context**: \[`"https://www.w3.org/ns/credentials/v2"`, `"https://w3id.org/gaia-x/development"`, `"https://w3id.org/security/suites/jws-2020/v1"`, `...IJsonLdContextDefinitionElement[]`\]
 
 The LD Context.
 
 #### Overrides
 
 `ICredential.@context`
-
-***
-
-### id
-
-> **id**: `string`
-
-The Id of the credential, it is mandatory.
-
-#### Overrides
-
-[`ICredential`](ICredential.md).[`id`](ICredential.md#id)
 
 ***
 
@@ -44,6 +32,30 @@ Type of Credential.
 
 ***
 
+### validFrom
+
+> **validFrom**: `string`
+
+A compliance credential requires a validity period
+
+#### Overrides
+
+`ICredential.validFrom`
+
+***
+
+### validUntil
+
+> **validUntil**: `string`
+
+A compliance credential requires a validity period
+
+#### Overrides
+
+`ICredential.validUntil`
+
+***
+
 ### evidence
 
 > **evidence**: [`IComplianceEvidence`](IComplianceEvidence.md)[]
@@ -53,6 +65,30 @@ Compliance evidence. It is mandatory.
 #### Overrides
 
 `ICredential.evidence`
+
+***
+
+### id
+
+> **id**: `string`
+
+The Id of the credential, it is mandatory.
+
+#### Inherited from
+
+[`ICredential`](ICredential.md).[`id`](ICredential.md#id)
+
+***
+
+### issuer
+
+> **issuer**: `string`
+
+The issuer of the credential, it is mandatory.
+
+#### Inherited from
+
+[`ICredential`](ICredential.md).[`issuer`](ICredential.md#issuer)
 
 ***
 

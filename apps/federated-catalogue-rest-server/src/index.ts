@@ -5,7 +5,6 @@ import path from "node:path";
 import type { IServerInfo } from "@twin.org/api-models";
 import { BaseError, EnvHelper } from "@twin.org/core";
 import * as dotenv from "dotenv";
-import * as dotenvExpand from "dotenv-expand";
 import type { IFederatedCatalogVariables } from "./models/IFederatedCatalogVariables.js";
 import { start } from "./server.js";
 import { findRootPackageFolder, initialiseLocales } from "./utils.js";
@@ -13,7 +12,7 @@ import { findRootPackageFolder, initialiseLocales } from "./utils.js";
 try {
 	const serverInfo: IServerInfo = {
 		name: "Federated Catalogue Server",
-		version: "0.0.1"
+		version: "0.0.1" // x-release-please-version
 	};
 
 	console.log(`\u001B[4m🌩️  ${serverInfo.name} v${serverInfo.version}\u001B[24m\n`);
@@ -21,12 +20,14 @@ try {
 	const rootPackageFolder = findRootPackageFolder();
 	await initialiseLocales(rootPackageFolder);
 
-	const dotEnvConfig = dotenv.config({
-		path: [path.join(rootPackageFolder, ".env")]
+	dotenv.config({
+		path: [path.join(rootPackageFolder, ".env"), path.join(rootPackageFolder, ".env.local")]
 	});
-	dotenvExpand.expand(dotEnvConfig);
 
-	const envVars = EnvHelper.envToJson<IFederatedCatalogVariables>(process.env, "FEDERATED_CATALOGUE");
+	const envVars = EnvHelper.envToJson<IFederatedCatalogVariables>(
+		process.env,
+		"FEDERATED_CATALOGUE"
+	);
 
 	const startResult = await start(serverInfo, envVars, rootPackageFolder);
 

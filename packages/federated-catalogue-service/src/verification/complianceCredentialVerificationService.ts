@@ -1,7 +1,17 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import { Guards, UnprocessableError, Is, type IError } from "@twin.org/core";
+import {
+	Guards,
+	UnprocessableError,
+	Is,
+	type IError,
+	Coerce,
+	ObjectHelper,
+	JsonHelper,
+	Converter
+} from "@twin.org/core";
+import { Sha256, Sha512 } from "@twin.org/crypto";
 import {
 	FederatedCatalogueTypes,
 	type ICredential,
@@ -16,34 +26,56 @@ import type { ILoggingConnector } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
 import { ProofHelper, type IDidVerifiableCredential } from "@twin.org/standards-w3c-did";
 import { FetchHelper } from "@twin.org/web";
-import canonicalize from "canonicalize";
-import { HashingUtils } from "../utils/hashingUtils";
 
 /**
  * Compliance Credential Verification Service.
  */
 export class ComplianceCredentialVerificationService {
+	/**
+	 * Class name
+	 */
 	public CLASS_NAME: string = nameof<ComplianceCredentialVerificationService>();
 
+	/**
+	 * Resolver component.
+	 * @internal
+	 */
 	private readonly _resolver: IIdentityResolverComponent;
 
+	/**
+	 * Resolver component.
+	 * @internal
+	 */
+	private readonly _subResourceCacheTtlMs: number | undefined;
+
+	/**
+	 * Logging Component.
+	 * @internal
+	 */
 	private readonly _logger?: ILoggingConnector;
 
-	private readonly _clearingHouseWhitelist: string[];
+	/**
+	 * List of clearing houses tha are approvers.
+	 * @internal
+	 */
+	private readonly _clearingHouseApproverList: string[];
 
 	/**
 	 * Constructor.
-	 * @param clearingHouseWhitelist The white list of clearing house identities accepted.
+	 * @param clearingHouseApproverList The list of clearing house identities approved.
 	 * @param resolver The resolver used for DID.
+	 * @param subResourceCacheTtlMs The time to live (in ms) of sub-resource objects in the cache. undefined means no cache. 0 means live in cache forever.
 	 * @param logger The Logger Component.
 	 */
 	constructor(
-		clearingHouseWhitelist: string[],
+		clearingHouseApproverList: string[],
 		resolver: IIdentityResolverComponent,
+		subResourceCacheTtlMs?: number,
 		logger?: ILoggingConnector
 	) {
-		this._clearingHouseWhitelist = clearingHouseWhitelist;
+		this._clearingHouseApproverList = clearingHouseApproverList;
 		this._resolver = resolver;
+		this._subResourceCacheTtlMs = subResourceCacheTtlMs;
 		this._logger = logger;
 	}
 
@@ -54,7 +86,7 @@ export class ComplianceCredentialVerificationService {
 	 */
 	public async verify(credential: IComplianceCredential): Promise<IComplianceVerificationResult> {
 		if (
-			!Array.isArray(credential.type) ||
+			!Is.arrayValue(credential.type) ||
 			!credential.type.includes(FederatedCatalogueTypes.ComplianceCredential)
 		) {
 			return {
@@ -64,7 +96,19 @@ export class ComplianceCredentialVerificationService {
 			};
 		}
 
-		if (!this._clearingHouseWhitelist.includes(credential.issuer as string)) {
+		const issuer = Is.string(credential.issuer)
+			? credential.issuer
+			: Coerce.object<{ id: string }>(credential.issuer)?.id;
+
+		if (Is.undefined(issuer)) {
+			return {
+				verified: false,
+				verificationFailureReason: VerificationFailureReasons.InvalidIssuer,
+				credentials: []
+			};
+		}
+
+		if (!this._clearingHouseApproverList.includes(issuer)) {
 			return {
 				verified: false,
 				verificationFailureReason: VerificationFailureReasons.InvalidIssuer,
@@ -73,15 +117,8 @@ export class ComplianceCredentialVerificationService {
 		}
 
 		const validFrom = credential.validFrom;
-		if (Is.undefined(validFrom)) {
-			return {
-				verified: false,
-				verificationFailureReason: VerificationFailureReasons.NotValidYet,
-				credentials: []
-			};
-		}
-		const validFromDate = Date.parse(validFrom);
-		if (validFromDate > Date.now()) {
+		const validFromDate = Coerce.dateTime(validFrom);
+		if (Is.undefined(validFromDate) || validFromDate.getTime() > Date.now()) {
 			return {
 				verified: false,
 				verificationFailureReason: VerificationFailureReasons.NotValidYet,
@@ -89,16 +126,15 @@ export class ComplianceCredentialVerificationService {
 			};
 		}
 
-		const validUntil = credential.validUntil;
-		if (Is.undefined(validUntil)) {
+		const validUntilDate = Coerce.dateTime(credential.validUntil);
+		if (Is.undefined(validUntilDate)) {
 			return {
 				verified: false,
 				verificationFailureReason: VerificationFailureReasons.NoValidityEndPeriod,
 				credentials: []
 			};
 		}
-		const validUntilDate = Date.parse(validUntil);
-		if (validUntilDate <= Date.now()) {
+		if (validUntilDate.getTime() <= Date.now()) {
 			return {
 				verified: false,
 				verificationFailureReason: VerificationFailureReasons.Expired,
@@ -173,7 +209,7 @@ export class ComplianceCredentialVerificationService {
 			credentialUrl,
 			"GET",
 			undefined,
-			{ cacheTtlMs: 240000 }
+			{ cacheTtlMs: this._subResourceCacheTtlMs }
 		);
 		if (!credentialResponse.ok) {
 			this._logger?.log({
@@ -192,21 +228,21 @@ export class ComplianceCredentialVerificationService {
 			};
 		}
 		const originalCredential = await credentialResponse.json();
-		const theCredential = structuredClone(originalCredential);
+		const theCredential = ObjectHelper.clone(originalCredential);
 
 		const proof = theCredential.proof;
 		// The proof is not taken into account to calculate the hash
 		delete theCredential.proof;
 
 		// Checking the hash
-		const canonicalized = canonicalize(theCredential) as string;
+		const canonicalized = JsonHelper.canonicalize(theCredential) as string;
 		const hashingDetails = evidence.digestSRI;
 		const [hashingAlg, hash] = hashingDetails.split("-");
 		let hashToCheck: string | null = "";
 		if (hashingAlg === "sha256") {
-			hashToCheck = HashingUtils.sha256(canonicalized);
+			hashToCheck = Converter.bytesToBase64(Sha256.sum256(Converter.utf8ToBytes(canonicalized)));
 		} else if (hashingAlg === "sha512") {
-			hashToCheck = HashingUtils.sha512(canonicalized);
+			hashToCheck = Converter.bytesToBase64(Sha512.sum512(Converter.utf8ToBytes(canonicalized)));
 		} else {
 			throw new UnprocessableError(this.CLASS_NAME, "unknownHashingAlgorithm", { hashingAlg });
 		}
@@ -217,8 +253,8 @@ export class ComplianceCredentialVerificationService {
 			};
 		}
 
-		const verMethodComponents = proof.verificationMethod.split("#");
-		const documentId = theCredential.issuer ?? verMethodComponents[0];
+		const { id } = DocumentHelper.parseId(proof.verificationMethod);
+		const documentId = theCredential.issuer ?? id;
 		Guards.stringValue(this.CLASS_NAME, nameof(documentId), documentId);
 
 		let verified: boolean = false;

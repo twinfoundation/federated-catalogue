@@ -2,7 +2,27 @@
 
 Get the a list of the participant entries.
 
+## Extends
+
+- [`IFederatedCatalogueGetRequest`](IFederatedCatalogueGetRequest.md)
+
 ## Properties
+
+### headers?
+
+> `optional` **headers**: `object`
+
+The headers which can be used to determine the response data type.
+
+#### accept
+
+> **accept**: `"application/json"` \| `"application/ld+json"`
+
+#### Inherited from
+
+[`IFederatedCatalogueGetRequest`](IFederatedCatalogueGetRequest.md).[`headers`](IFederatedCatalogueGetRequest.md#headers)
+
+***
 
 ### query
 

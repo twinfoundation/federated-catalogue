@@ -1,21 +1,23 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 import type { IComponent } from "@twin.org/core";
-import type { IDataResourceEntry } from "./data-resource/IDataResourceEntry";
-import type { IDataSpaceConnectorEntry } from "./data-space-connector/IDataSpaceConnectorEntry";
-import type { IParticipantEntry } from "./participant/IParticipantEntry";
-import type { IServiceOfferingEntry } from "./service-offering/IServiceOfferingEntry";
+import type { IDataResourceList } from "./data-resource/IDataResourceList";
+import type { IDataSpaceConnectorList } from "./data-space-connector/IDataSpaceConnectorList";
+import type { FederatedCatalogueEntryType } from "./federatedCatalogueEntryType";
+import type { ICatalogueEntry } from "./ICatalogueEntry";
+import type { IParticipantList } from "./participant/IParticipantList";
+import type { IServiceOfferingList } from "./service-offering/IServiceOfferingList";
 
 /**
- * Interface describing a Fed Catalogue Contract.
+ * Interface describing a Federated Catalogue Contract.
  */
 export interface IFederatedCatalogue extends IComponent {
 	/**
 	 * Registers a Participant's compliance Credential to the service.
 	 * @param credential The credential as JWT.
-	 * @returns Nothing.
+	 * @returns The participant Id (usually a DID).
 	 */
-	registerComplianceCredential(credential: string): Promise<void>;
+	registerComplianceCredential(credential: string): Promise<string>;
 
 	/**
 	 * Query the federated catalogue.
@@ -34,23 +36,14 @@ export interface IFederatedCatalogue extends IComponent {
 		lrnType?: string,
 		cursor?: string,
 		pageSize?: number
-	): Promise<{
-		/**
-		 * The entities, which can be partial if a limited keys list was provided.
-		 */
-		entities: IParticipantEntry[];
-		/**
-		 * An optional cursor, when defined can be used to call find to get more entities.
-		 */
-		cursor?: string;
-	}>;
+	): Promise<IParticipantList>;
 
 	/**
 	 * Registers a Data Space Connector to the service.
 	 * @param credential The credential as JWT.
-	 * @returns Nothing.
+	 * @returns The Data Space Connector Id registered.
 	 */
-	registerDataSpaceConnectorCredential(credential: string): Promise<void>;
+	registerDataSpaceConnectorCredential(credential: string): Promise<string>;
 
 	/**
 	 * Query the federated catalogue.
@@ -67,30 +60,21 @@ export interface IFederatedCatalogue extends IComponent {
 		maintainer?: string,
 		cursor?: string,
 		pageSize?: number
-	): Promise<{
-		/**
-		 * The entities, which can be partial if a limited keys list was provided.
-		 */
-		entities: IDataSpaceConnectorEntry[];
-		/**
-		 * An optional cursor, when defined can be used to call find to get more entities.
-		 */
-		cursor?: string;
-	}>;
+	): Promise<IDataSpaceConnectorList>;
 
 	/**
 	 * Registers a service offering Credential to the service.
 	 * @param credential The credential as JWT.
-	 * @returns Nothing.
+	 * @returns The Id of the Service Offerings registered.
 	 */
-	registerServiceOfferingCredential(credential: string): Promise<void>;
+	registerServiceOfferingCredential(credential: string): Promise<string[]>;
 
 	/**
 	 * Registers a data resource Credential to the service.
 	 * @param credential The credential as JWT.
-	 * @returns Nothing.
+	 * @returns The Id of the Data Resources registered.
 	 */
-	registerDataResourceCredential(credential: string): Promise<void>;
+	registerDataResourceCredential(credential: string): Promise<string[]>;
 
 	/**
 	 * Query the federated catalogue.
@@ -107,16 +91,7 @@ export interface IFederatedCatalogue extends IComponent {
 		providedBy?: string,
 		cursor?: string,
 		pageSize?: number
-	): Promise<{
-		/**
-		 * The entities, which can be partial if a limited keys list was provided.
-		 */
-		entities: IServiceOfferingEntry[];
-		/**
-		 * An optional cursor, when defined can be used to call find to get more entities.
-		 */
-		cursor?: string;
-	}>;
+	): Promise<IServiceOfferingList>;
 
 	/**
 	 * Query the federated catalogue.
@@ -133,14 +108,14 @@ export interface IFederatedCatalogue extends IComponent {
 		producedBy?: string,
 		cursor?: string,
 		pageSize?: number
-	): Promise<{
-		/**
-		 * The entities, which can be partial if a limited keys list was provided.
-		 */
-		entities: IDataResourceEntry[];
-		/**
-		 * An optional cursor, when defined can be used to call find to get more entities.
-		 */
-		cursor?: string;
-	}>;
+	): Promise<IDataResourceList>;
+
+	/**
+	 * Returns a Federated Catalogue entry.
+	 * @param entryType The type of entry.
+	 * @param entryId The entry's id.
+	 * @returns Catalogue Entry
+	 * @throws NotFoundError if not found.
+	 */
+	getEntry(entryType: FederatedCatalogueEntryType, entryId: string): Promise<ICatalogueEntry>;
 }

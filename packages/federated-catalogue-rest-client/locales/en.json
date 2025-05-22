@@ -1,0 +1,6 @@
+{
+	"error": {
+		"idNotFoundFromLocationURL": "An entry Id cannot be extracted from location header",
+		"locationURLNotProvided": "Location URL header not provided by the server"
+	}
+}

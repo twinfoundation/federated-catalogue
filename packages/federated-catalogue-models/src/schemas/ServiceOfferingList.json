@@ -1,0 +1,32 @@
+{
+	"type": "object",
+	"properties": {
+		"@context": {
+			"$ref": "https://schema.twindev.org/federated-catalogue/FederatedCatalogueContextType",
+			"description": "The LD Context."
+		},
+		"type": {
+			"type": "string",
+			"const": "ItemList",
+			"description": "The type"
+		},
+		"itemListElement": {
+			"type": "array",
+			"items": {
+				"$ref": "https://schema.twindev.org/federated-catalogue/Omit%3CIServiceOfferingEntry%2C%22%40context%22%3E"
+			},
+			"description": "The components of the Collection"
+		},
+		"nextItem": {
+			"type": "string",
+			"description": "Next item cursor."
+		}
+	},
+	"required": [
+		"@context",
+		"type",
+		"itemListElement"
+	],
+	"additionalProperties": false,
+	"description": "Interface describing a list of Service Offering Entries."
+}

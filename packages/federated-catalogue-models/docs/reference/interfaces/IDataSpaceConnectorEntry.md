@@ -4,23 +4,23 @@ Interface describing a participant.
 
 ## Extends
 
-- [`IDataSpaceConnector`](IDataSpaceConnector.md).`ICatalogEntry`
+- [`IDataSpaceConnector`](IDataSpaceConnector.md).`ICatalogueBase`
 
 ## Indexable
 
-\[`key`: `string`\]: `undefined` \| `null` \| `string` \| `number` \| `boolean` \| `string`[] \| `IJsonLdContextDefinition` \| `IJsonLdContextDefinitionElement`[] \| `IJsonLdIdMap` \| `IJsonLdNodeObject` \| `IJsonLdListObject` \| `object` & `object` \| `object` & `object` \| `object` & `object` \| `IJsonLdSetObject` \| `IJsonLdJsonObject` \| `IJsonLdIndexMap` \| `IJsonLdLanguageMap` \| `IJsonLdGraphObject` \| `IJsonLdNodeObject`[] \| `IJsonLdJsonObject`[] \| \{\} \| `IJsonLdTypeMap` \| `IJsonLdNodePrimitive`[]
+\[`key`: `string`\]: `undefined` \| `null` \| `string` \| `number` \| `boolean` \| `string`[] \| `IJsonLdContextDefinition` \| `IJsonLdContextDefinitionElement`[] \| `IJsonLdIdMap` \| `IJsonLdNodeObject` \| `IJsonLdListObject` \| `object` & `object` \| `object` & `object` \| `object` & `object` \| `IJsonLdSetObject` \| `IJsonLdJsonObject` \| `IJsonLdIndexMap` \| `IJsonLdLanguageMap` \| `IJsonLdGraphObject` \| `IJsonLdNodeObject`[] \| `IJsonLdJsonObject`[] \| \{[`key`: `string`]: `string`; \} \| `IJsonLdTypeMap` \| `IJsonLdNodePrimitive`[]
 
 ## Properties
 
-### trustedIssuerId
+### issuer
 
-> **trustedIssuerId**: `string`
+> **issuer**: `string`
 
 The trusted issuer of the compliance credential
 
 #### Inherited from
 
-`ICatalogEntry.trustedIssuerId`
+`ICatalogueBase.issuer`
 
 ***
 
@@ -32,7 +32,7 @@ Valid from (as per W3C VC Data Model v2)
 
 #### Inherited from
 
-`ICatalogEntry.validFrom`
+`ICatalogueBase.validFrom`
 
 ***
 
@@ -44,7 +44,7 @@ Valid until (as per W3C VC Data Model v2)
 
 #### Inherited from
 
-`ICatalogEntry.validUntil`
+`ICatalogueBase.validUntil`
 
 ***
 
@@ -56,31 +56,19 @@ The creation date.
 
 #### Inherited from
 
-`ICatalogEntry.dateCreated`
+`ICatalogueBase.dateCreated`
 
 ***
 
-### evidences
+### evidence
 
-> **evidences**: `string`[]
+> **evidence**: `string`[]
 
 The evidences concerning the data resource.
 
 #### Inherited from
 
-`ICatalogEntry.evidences`
-
-***
-
-### @context
-
-> **@context**: \[`"https://w3id.org/gaia-x/development"`, `...IJsonLdContextDefinitionElement[]`\]
-
-The LD Context.
-
-#### Inherited from
-
-[`IDataSpaceConnector`](IDataSpaceConnector.md).[`@context`](IDataSpaceConnector.md#@context)
+`ICatalogueBase.evidence`
 
 ***
 
@@ -88,7 +76,7 @@ The LD Context.
 
 > **id**: `string`
 
-A unique identifier given to this Data Space Connector
+A unique identifier given to this Data Space Connector.
 
 #### Inherited from
 
@@ -112,7 +100,7 @@ A Connector is a Data Exchange Component
 
 > **identity**: `string`
 
-Connector's Identity that allows to know public key of this Connector
+Connector's Identity that allows to know public key of this Connector.
 
 #### Inherited from
 
@@ -208,6 +196,18 @@ default endpoint URL as a base URL.
 #### Inherited from
 
 [`IDataSpaceConnector`](IDataSpaceConnector.md).[`pullDataEndpoint`](IDataSpaceConnector.md#pulldataendpoint)
+
+***
+
+### @context
+
+> **@context**: [`FederatedCatalogueContextType`](../type-aliases/FederatedCatalogueContextType.md)
+
+The LD Context
+
+#### Overrides
+
+[`IDataSpaceConnector`](IDataSpaceConnector.md).[`@context`](IDataSpaceConnector.md#context)
 
 ***
 

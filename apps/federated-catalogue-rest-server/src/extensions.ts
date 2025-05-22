@@ -1,22 +1,14 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-/* eslint-disable no-console */
-import type { IEngineCoreTypeConfig } from "@twin.org/engine-models";
-import { MimeTypeProcessorType, type IEngineServerConfig } from "@twin.org/engine-server-types";
-import {
-	EntityStorageComponentType,
-	LoggingComponentType,
-	LoggingConnectorType,
-	type IEngineConfig
-} from "@twin.org/engine-types";
-import type {
-	DataResourceEntry,
-	DataSpaceConnectorEntry,
-	ParticipantEntry,
-	ServiceOfferingEntry
-} from "@twin.org/federated-catalogue-models";
+import { EntityStorageComponentType, type IEngineConfig } from "@twin.org/engine-types";
 
-import { initSchema } from "@twin.org/federated-catalogue-service";
+import {
+	type DataResourceEntry,
+	type DataSpaceConnectorEntry,
+	initSchema,
+	type ParticipantEntry,
+	type ServiceOfferingEntry
+} from "@twin.org/federated-catalogue-service";
 import { nameof } from "@twin.org/nameof";
 
 /**
@@ -55,37 +47,4 @@ export function extendEngineConfig(engineConfig: IEngineConfig): void {
 			entityStorageType: nameof<DataSpaceConnectorEntry>()
 		}
 	});
-}
-
-/**
- * Extends server config to customize it.
- * @param serverConfig The server config to be extended
- */
-export function extendServerConfig(serverConfig: IEngineServerConfig): void {
-	removeRestRoute(serverConfig.types.restRouteProcessor ?? [], "node-identity");
-	removeRestRoute(serverConfig.types.socketRouteProcessor ?? [], "node-identity");
-
-	serverConfig.types.loggingConnector ??= [];
-	serverConfig.types.loggingConnector.push({ type: LoggingConnectorType.Console, config: {} });
-
-	serverConfig.types.loggingComponent ??= [];
-	serverConfig.types.loggingComponent.push({
-		type: LoggingComponentType.Service,
-		options: { loggingConnectorType: LoggingConnectorType.Console }
-	});
-
-	serverConfig.types.mimeTypeProcessor ??= [];
-	serverConfig.types.mimeTypeProcessor.push({
-		type: MimeTypeProcessorType.Jwt
-	});
-}
-
-/**
- * Removes a REST route from a configuration array.
- * @param restRouteArray The array of REST routes that has to be tweaked
- * @param restRouteName The name of the REST route to be removed
- */
-function removeRestRoute(restRouteArray: IEngineCoreTypeConfig[], restRouteName: string): void {
-	const position = restRouteArray?.map(rr => rr.type).indexOf(restRouteName) ?? -1;
-	restRouteArray.splice(position, 1);
 }

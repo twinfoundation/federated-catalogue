@@ -10,6 +10,7 @@
 		"noEmitHelpers": true,
 		"experimentalDecorators": true,
 		"emitDecoratorMetadata": true,
+		"erasableSyntaxOnly": true,
 		"sourceMap": true,
 		"sourceRoot": "./src",
 		"declaration": true,
@@ -19,5 +20,5 @@
 		"incremental": true,
 		"skipLibCheck": true
 	},
-	"include": ["src/**/*.ts", "services/routes.ts", "src/models/IFederatedCatalogVariables.ts"]
+	"include": ["src/**/*.ts"]
 }

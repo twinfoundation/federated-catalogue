@@ -1,0 +1,189 @@
+{
+	"type": "object",
+	"properties": {
+		"issuer": {
+			"type": "string",
+			"description": "The trusted issuer of the compliance credential"
+		},
+		"validFrom": {
+			"type": "string",
+			"description": "Valid from (as per W3C VC Data Model v2)"
+		},
+		"validUntil": {
+			"type": "string",
+			"description": "Valid until (as per W3C VC Data Model v2)"
+		},
+		"dateCreated": {
+			"type": "string",
+			"description": "The creation date."
+		},
+		"evidence": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			},
+			"description": "The evidences concerning the data resource."
+		},
+		"@context": {
+			"$ref": "https://schema.twindev.org/federated-catalogue/FederatedCatalogueContextType",
+			"description": "The LD Context"
+		},
+		"@id": {
+			"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+		},
+		"@included": {
+			"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+		},
+		"@graph": {
+			"anyOf": [
+				{
+					"$ref": "https://schema.twindev.org/json-ld/JsonLdNodeObject"
+				},
+				{
+					"type": "array",
+					"items": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdNodeObject"
+					}
+				}
+			]
+		},
+		"@nest": {
+			"anyOf": [
+				{
+					"$ref": "https://schema.twindev.org/json-ld/JsonLdJsonObject"
+				},
+				{
+					"type": "array",
+					"items": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdJsonObject"
+					}
+				}
+			]
+		},
+		"@type": {
+			"anyOf": [
+				{
+					"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+				},
+				{
+					"type": "array",
+					"items": {
+						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+					}
+				}
+			]
+		},
+		"@reverse": {
+			"type": "object",
+			"additionalProperties": {
+				"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+			}
+		},
+		"@index": {
+			"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+		},
+		"type": {
+			"type": "array",
+			"minItems": 2,
+			"items": [
+				{
+					"type": "string",
+					"const": "DataExchangeComponent"
+				},
+				{
+					"type": "string",
+					"const": "DataSpaceConnector"
+				}
+			],
+			"additionalItems": {
+				"type": "string"
+			},
+			"description": "A Connector is a Data Exchange Component"
+		},
+		"id": {
+			"type": "string",
+			"description": "A unique identifier given to this Data Space Connector."
+		},
+		"identity": {
+			"type": "string",
+			"description": "Connector's Identity that allows to know public key of this Connector."
+		},
+		"maintainer": {
+			"type": "string",
+			"description": "Who maintains this Data Space Connector."
+		},
+		"name": {
+			"type": "string",
+			"description": "The name of this Data Space Connector"
+		},
+		"description": {
+			"type": "string",
+			"description": "A description of this Data Space Connector"
+		},
+		"defaultEndpoint": {
+			"$ref": "https://schema.twindev.org/federated-catalogue/Endpoint",
+			"description": "The default endpoint of the Connector. This endpoint can be used as a base to guess other endpoints in case they are not explicitly declared."
+		},
+		"subscriptionActivityEndpoint": {
+			"$ref": "https://schema.twindev.org/federated-catalogue/Endpoint",
+			"description": "The endpoint used for data subscription by Consumers. If the endpoint URL is a relative reference to a URL then it should be resolved using the default endpoint URL as a base URL."
+		},
+		"pushActivityEndpoint": {
+			"$ref": "https://schema.twindev.org/federated-catalogue/Endpoint",
+			"description": "The endpoint used by Providers to push data. If the endpoint URL is a relative reference to a URL then it should be resolved using the default endpoint URL as a base URL."
+		},
+		"pullDataEndpoint": {
+			"$ref": "https://schema.twindev.org/federated-catalogue/Endpoint",
+			"description": "The endpoint used by Consumers to pull data from. If the endpoint URL is a relative reference to a URL then it should be resolved using the default endpoint URL as a base URL."
+		},
+		"offeredResource": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			},
+			"description": "Offered resources. Probably in the future this wll be separated in a different entry so that a  Data Space Connector entry does not need to be modified when a new Data Resource is offered."
+		}
+	},
+	"required": [
+		"@context",
+		"dateCreated",
+		"defaultEndpoint",
+		"evidence",
+		"id",
+		"identity",
+		"issuer",
+		"maintainer",
+		"offeredResource",
+		"pullDataEndpoint",
+		"pushActivityEndpoint",
+		"type",
+		"validFrom",
+		"validUntil"
+	],
+	"additionalProperties": {
+		"anyOf": [
+			{
+				"$ref": "https://schema.twindev.org/json-ld/JsonLdNodePrimitive"
+			},
+			{
+				"$ref": "https://schema.twindev.org/json-ld/JsonLdLanguageMap"
+			},
+			{
+				"$ref": "https://schema.twindev.org/json-ld/JsonLdIndexMap"
+			},
+			{
+				"$ref": "https://schema.twindev.org/json-ld/JsonLdIncludedBlock"
+			},
+			{
+				"$ref": "https://schema.twindev.org/json-ld/JsonLdIdMap"
+			},
+			{
+				"$ref": "https://schema.twindev.org/json-ld/JsonLdTypeMap"
+			},
+			{
+				"type": "array"
+			}
+		]
+	},
+	"description": "Interface describing a participant."
+}
