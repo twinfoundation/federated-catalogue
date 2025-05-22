@@ -50,6 +50,7 @@
 	},
 	"devDependencies": {
 		"@twin.org/standards-ld-contexts": "next",
+		"@twin.org/modules": "next",
 		"@twin.org/nameof-transformer": "next",
 		"@twin.org/nameof-vitest-plugin": "next",
 		"@twin.org/ts-to-openapi": "next",
