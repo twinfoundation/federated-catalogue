@@ -12,30 +12,22 @@
 		"packages/federated-catalogue-models": {
 			"package-name": "federated-catalogue-models",
 			"changelog-path": "docs/changelog.md",
-			"extra-files": [
-				"src/index.ts"
-			]
+			"extra-files": ["src/index.ts"]
 		},
 		"packages/federated-catalogue-service": {
 			"package-name": "federated-catalogue-service",
 			"changelog-path": "docs/changelog.md",
-			"extra-files": [
-				"src/index.ts"
-			]
+			"extra-files": ["src/index.ts"]
 		},
 		"packages/federated-catalogue-rest-client": {
 			"package-name": "federated-catalogue-rest-client",
 			"changelog-path": "docs/changelog.md",
-			"extra-files": [
-				"src/index.ts"
-			]
+			"extra-files": ["src/index.ts"]
 		},
 		"apps/federated-catalogue-rest-server": {
 			"package-name": "federated-catalogue-rest-server",
 			"changelog-path": "docs/changelog.md",
-			"extra-files": [
-				"src/index.ts"
-			]
+			"extra-files": ["src/index.ts"]
 		}
 	},
 	"plugins": [

@@ -8,29 +8,29 @@ import type {
 	ITag,
 	IUnprocessableEntityResponse
 } from "@twin.org/api-models";
-import { BaseError, Coerce, ComponentFactory, Guards, NotFoundError } from "@twin.org/core";
+import { Coerce, ComponentFactory, Guards } from "@twin.org/core";
 import {
+	type ICatalogueEntryGetRequest,
 	type ICompliancePresentationRequest,
+	type IDataResourceEntry,
+	type IDataResourceGetResponse,
 	type IDataResourceListRequest,
 	type IDataResourceListResponse,
+	type IDataSpaceConnectorEntry,
+	type IDataSpaceConnectorGetResponse,
 	type IDataSpaceConnectorListRequest,
 	type IDataSpaceConnectorListResponse,
 	type IFederatedCatalogue,
-	type ICatalogueEntryGetRequest,
+	type IParticipantEntry,
 	type IParticipantGetResponse,
 	type IParticipantListRequest,
 	type IParticipantListResponse,
+	type IServiceOfferingEntry,
+	type IServiceOfferingGetResponse,
 	type IServiceOfferingListRequest,
 	type IServiceOfferingListResponse,
-	type IServiceOfferingGetResponse,
-	type IDataResourceGetResponse,
-	type IDataSpaceConnectorGetResponse,
-	FederatedCatalogueTypes,
-	type IParticipantEntry,
-	type IServiceOfferingEntry,
-	type IDataResourceEntry,
-	type IDataSpaceConnectorEntry,
-	FederatedCatalogueContextInstances
+	FederatedCatalogueContextInstances,
+	FederatedCatalogueTypes
 } from "@twin.org/federated-catalogue-models";
 import { nameof } from "@twin.org/nameof";
 import { GaiaXTypes } from "@twin.org/standards-gaia-x";
@@ -780,27 +780,9 @@ export async function participantGet(
 	const id = request?.pathParams.id;
 	Guards.stringValue(ROUTES_SOURCE, nameof(id), id);
 
-	try {
-		const entry: IParticipantEntry = (await service.getEntry(
-			GaiaXTypes.Participant,
-			id
-		)) as IParticipantEntry;
-		return {
-			body: entry
-		};
-	} catch (e) {
-		if (BaseError.isErrorName(e, NotFoundError.CLASS_NAME)) {
-			return {
-				statusCode: HttpStatusCode.notFound,
-				body: {
-					name: "notFoundEntry",
-					message: "notFoundEntry",
-					notFoundId: id
-				}
-			};
-		}
-		throw e;
-	}
+	return {
+		body: (await service.getEntry(GaiaXTypes.Participant, id)) as IParticipantEntry
+	};
 }
 
 /**
@@ -880,27 +862,9 @@ export async function serviceOfferingGet(
 	const id = request?.pathParams.id;
 	Guards.stringValue(ROUTES_SOURCE, nameof(id), id);
 
-	try {
-		const entry: IServiceOfferingEntry = (await service.getEntry(
-			GaiaXTypes.ServiceOffering,
-			id
-		)) as IServiceOfferingEntry;
-		return {
-			body: entry
-		};
-	} catch (e) {
-		if (BaseError.isErrorName(e, NotFoundError.CLASS_NAME)) {
-			return {
-				statusCode: HttpStatusCode.notFound,
-				body: {
-					name: "notFoundEntry",
-					message: "notFoundEntry",
-					notFoundId: id
-				}
-			};
-		}
-		throw e;
-	}
+	return {
+		body: (await service.getEntry(GaiaXTypes.ServiceOffering, id)) as IServiceOfferingEntry
+	};
 }
 
 /**
@@ -980,27 +944,9 @@ export async function dataResourceGet(
 	const id = request?.pathParams.id;
 	Guards.stringValue(ROUTES_SOURCE, nameof(id), id);
 
-	try {
-		const entry: IDataResourceEntry = (await service.getEntry(
-			GaiaXTypes.DataResource,
-			id
-		)) as IDataResourceEntry;
-		return {
-			body: entry
-		};
-	} catch (e) {
-		if (BaseError.isErrorName(e, NotFoundError.CLASS_NAME)) {
-			return {
-				statusCode: HttpStatusCode.notFound,
-				body: {
-					name: "notFoundEntry",
-					message: "notFoundEntry",
-					notFoundId: id
-				}
-			};
-		}
-		throw e;
-	}
+	return {
+		body: (await service.getEntry(GaiaXTypes.DataResource, id)) as IDataResourceEntry
+	};
 }
 
 /**
@@ -1077,25 +1023,7 @@ export async function dataSpaceConnectorGet(
 	const id = request?.pathParams.id;
 	Guards.stringValue(ROUTES_SOURCE, nameof(id), id);
 
-	try {
-		const entry: IDataSpaceConnectorEntry = (await service.getEntry(
-			GaiaXTypes.DataExchangeComponent,
-			id
-		)) as IDataSpaceConnectorEntry;
-		return {
-			body: entry
-		};
-	} catch (e) {
-		if (BaseError.isErrorName(e, NotFoundError.CLASS_NAME)) {
-			return {
-				statusCode: HttpStatusCode.notFound,
-				body: {
-					name: "notFoundEntry",
-					message: "notFoundEntry",
-					notFoundId: id
-				}
-			};
-		}
-		throw e;
-	}
+	return {
+		body: (await service.getEntry(GaiaXTypes.DataExchangeComponent, id)) as IDataSpaceConnectorEntry
+	};
 }
