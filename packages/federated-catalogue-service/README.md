@@ -5,7 +5,7 @@ Federated Catalogue contract implementation and REST endpoint definitions.
 ## Installation
 
 ```shell
-npm install @twin.org/federated-catalogue-serviceg
+npm install @twin.org/federated-catalogue-service
 ```
 
 ## Examples
