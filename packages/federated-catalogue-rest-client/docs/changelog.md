@@ -1,5 +1,19 @@
 # @twin.org/auditable-item-graph-rest-client - Changelog
 
+## [0.0.1-next.6](https://github.com/twinfoundation/federated-catalogue/compare/federated-catalogue-rest-client-v0.0.1-next.5...federated-catalogue-rest-client-v0.0.1-next.6) (2025-05-23)
+
+
+### Miscellaneous Chores
+
+* **federated-catalogue-rest-client:** Synchronize repo versions
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/federated-catalogue-models bumped from 0.0.1-next.5 to 0.0.1-next.6
+
 ## [0.0.1-next.5](https://github.com/twinfoundation/federated-catalogue/compare/federated-catalogue-rest-client-v0.0.1-next.4...federated-catalogue-rest-client-v0.0.1-next.5) (2025-05-23)
 
 
