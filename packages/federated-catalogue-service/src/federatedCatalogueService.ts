@@ -57,6 +57,11 @@ import { ComplianceCredentialVerificationService } from "./verification/complian
  */
 export class FederatedCatalogueService implements IFederatedCatalogueComponent {
 	/**
+	 * The namespace for the service.
+	 */
+	public static readonly NAMESPACE: string = "fedcat";
+
+	/**
 	 * Fields to skip when persisting entries to the Catalogue
 	 * @internal
 	 */
