@@ -1,5 +1,19 @@
 # @twin.org/federated-catalogue-service - Changelog
 
+## [0.0.1-next.6](https://github.com/twinfoundation/federated-catalogue/compare/federated-catalogue-service-v0.0.1-next.5...federated-catalogue-service-v0.0.1-next.6) (2025-05-23)
+
+
+### Features
+
+* add namespace prop to service ([cbfea3b](https://github.com/twinfoundation/federated-catalogue/commit/cbfea3b115838744fc8a238b36f1660b0f2939d9))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/federated-catalogue-models bumped from 0.0.1-next.5 to 0.0.1-next.6
+
 ## [0.0.1-next.5](https://github.com/twinfoundation/federated-catalogue/compare/federated-catalogue-service-v0.0.1-next.4...federated-catalogue-service-v0.0.1-next.5) (2025-05-23)
 
 
