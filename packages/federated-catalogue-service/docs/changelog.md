@@ -1,5 +1,19 @@
 # @twin.org/federated-catalogue-service - Changelog
 
+## [0.0.1-next.5](https://github.com/twinfoundation/federated-catalogue/compare/federated-catalogue-service-v0.0.1-next.4...federated-catalogue-service-v0.0.1-next.5) (2025-05-23)
+
+
+### Features
+
+* consistent component naming with other repos ([83fc03d](https://github.com/twinfoundation/federated-catalogue/commit/83fc03dee3846600ae6a45d710248a0ae60af570))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/federated-catalogue-models bumped from 0.0.1-next.4 to 0.0.1-next.5
+
 ## [0.0.1-next.4](https://github.com/twinfoundation/federated-catalogue/compare/federated-catalogue-service-v0.0.1-next.3...federated-catalogue-service-v0.0.1-next.4) (2025-05-23)
 
 
