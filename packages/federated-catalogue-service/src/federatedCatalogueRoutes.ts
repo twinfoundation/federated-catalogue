@@ -20,7 +20,7 @@ import {
 	type IDataSpaceConnectorGetResponse,
 	type IDataSpaceConnectorListRequest,
 	type IDataSpaceConnectorListResponse,
-	type IFederatedCatalogue,
+	type IFederatedCatalogueComponent,
 	type IParticipantEntry,
 	type IParticipantGetResponse,
 	type IParticipantListRequest,
@@ -722,7 +722,7 @@ export async function complianceCredentialPresentation(
 	Guards.object<ICompliancePresentationRequest>(ROUTES_SOURCE, nameof(request), request);
 	Guards.stringValue(ROUTES_SOURCE, nameof(request.body), request.body);
 
-	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+	const service = ComponentFactory.get<IFederatedCatalogueComponent>(factoryServiceName);
 	const participantId = await service.registerComplianceCredential(request.body);
 
 	const searchParams = new URLSearchParams();
@@ -747,7 +747,7 @@ export async function participantList(
 	factoryServiceName: string,
 	request: IParticipantListRequest
 ): Promise<IParticipantListResponse> {
-	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+	const service = ComponentFactory.get<IFederatedCatalogueComponent>(factoryServiceName);
 
 	const itemsAndCursor = await service.queryParticipants(
 		request?.query?.id,
@@ -775,7 +775,7 @@ export async function participantGet(
 	factoryServiceName: string,
 	request: ICatalogueEntryGetRequest
 ): Promise<IParticipantGetResponse | INotFoundResponse> {
-	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+	const service = ComponentFactory.get<IFederatedCatalogueComponent>(factoryServiceName);
 
 	const id = request?.pathParams.id;
 	Guards.stringValue(ROUTES_SOURCE, nameof(id), id);
@@ -802,7 +802,7 @@ export async function serviceOfferingCredentialPresentation(
 	Guards.object<ICompliancePresentationRequest>(ROUTES_SOURCE, nameof(request), request);
 	Guards.stringValue(ROUTES_SOURCE, nameof(request.body), request.body);
 
-	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+	const service = ComponentFactory.get<IFederatedCatalogueComponent>(factoryServiceName);
 	const serviceOfferingsCreated = await service.registerServiceOfferingCredential(request.body);
 
 	// Prepare the Ids to be returned
@@ -830,7 +830,7 @@ export async function serviceOfferingList(
 	factoryServiceName: string,
 	request: IServiceOfferingListRequest
 ): Promise<IServiceOfferingListResponse> {
-	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+	const service = ComponentFactory.get<IFederatedCatalogueComponent>(factoryServiceName);
 
 	const itemsAndCursor = await service.queryServiceOfferings(
 		request?.query.id,
@@ -857,7 +857,7 @@ export async function serviceOfferingGet(
 	factoryServiceName: string,
 	request: ICatalogueEntryGetRequest
 ): Promise<IServiceOfferingGetResponse | INotFoundResponse> {
-	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+	const service = ComponentFactory.get<IFederatedCatalogueComponent>(factoryServiceName);
 
 	const id = request?.pathParams.id;
 	Guards.stringValue(ROUTES_SOURCE, nameof(id), id);
@@ -884,7 +884,7 @@ export async function dataResourceCredentialPresentation(
 	Guards.object<ICompliancePresentationRequest>(ROUTES_SOURCE, nameof(request), request);
 	Guards.stringValue(ROUTES_SOURCE, nameof(request.body), request.body);
 
-	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+	const service = ComponentFactory.get<IFederatedCatalogueComponent>(factoryServiceName);
 	const dataResourcesCreated = await service.registerDataResourceCredential(request.body);
 
 	// Prepare the Ids to be returned
@@ -912,7 +912,7 @@ export async function dataResourceList(
 	factoryServiceName: string,
 	request: IDataResourceListRequest
 ): Promise<IDataResourceListResponse> {
-	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+	const service = ComponentFactory.get<IFederatedCatalogueComponent>(factoryServiceName);
 
 	const itemsAndCursor = await service.queryDataResources(
 		request?.query.id,
@@ -939,7 +939,7 @@ export async function dataResourceGet(
 	factoryServiceName: string,
 	request: ICatalogueEntryGetRequest
 ): Promise<IDataResourceGetResponse | INotFoundResponse> {
-	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+	const service = ComponentFactory.get<IFederatedCatalogueComponent>(factoryServiceName);
 
 	const id = request?.pathParams.id;
 	Guards.stringValue(ROUTES_SOURCE, nameof(id), id);
@@ -966,7 +966,7 @@ export async function dataSpaceConnectorCredentialPresentation(
 	Guards.object<ICompliancePresentationRequest>(ROUTES_SOURCE, nameof(request), request);
 	Guards.stringValue(ROUTES_SOURCE, nameof(request.body), request.body);
 
-	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+	const service = ComponentFactory.get<IFederatedCatalogueComponent>(factoryServiceName);
 	const dataSpaceConnectorId = await service.registerDataSpaceConnectorCredential(request.body);
 
 	const searchParams = new URLSearchParams();
@@ -991,7 +991,7 @@ export async function dataSpaceConnectorList(
 	factoryServiceName: string,
 	request: IDataSpaceConnectorListRequest
 ): Promise<IDataSpaceConnectorListResponse> {
-	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+	const service = ComponentFactory.get<IFederatedCatalogueComponent>(factoryServiceName);
 
 	const itemsAndCursor = await service.queryDataSpaceConnectors(
 		request?.query.id,
@@ -1018,7 +1018,7 @@ export async function dataSpaceConnectorGet(
 	factoryServiceName: string,
 	request: ICatalogueEntryGetRequest
 ): Promise<IDataSpaceConnectorGetResponse | INotFoundResponse> {
-	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+	const service = ComponentFactory.get<IFederatedCatalogueComponent>(factoryServiceName);
 
 	const id = request?.pathParams.id;
 	Guards.stringValue(ROUTES_SOURCE, nameof(id), id);

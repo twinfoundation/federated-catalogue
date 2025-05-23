@@ -4,7 +4,7 @@ Service for performing logging operations to a connector.
 
 ## Implements
 
-- `IFederatedCatalogue`
+- `IFederatedCatalogueComponent`
 
 ## Constructors
 
@@ -36,7 +36,7 @@ Runtime name for the class.
 
 #### Implementation of
 
-`IFederatedCatalogue.CLASS_NAME`
+`IFederatedCatalogueComponent.CLASS_NAME`
 
 ## Methods
 
@@ -62,7 +62,7 @@ The Id of the Participant (DID usually).
 
 #### Implementation of
 
-`IFederatedCatalogue.registerComplianceCredential`
+`IFederatedCatalogueComponent.registerComplianceCredential`
 
 ***
 
@@ -117,7 +117,7 @@ NotImplementedError if the implementation does not support retrieval.
 
 #### Implementation of
 
-`IFederatedCatalogue.queryParticipants`
+`IFederatedCatalogueComponent.queryParticipants`
 
 ***
 
@@ -153,7 +153,7 @@ NotFoundError if not found.
 
 #### Implementation of
 
-`IFederatedCatalogue.getEntry`
+`IFederatedCatalogueComponent.getEntry`
 
 ***
 
@@ -179,7 +179,7 @@ The identifier of the Data Space Connector registered.
 
 #### Implementation of
 
-`IFederatedCatalogue.registerDataSpaceConnectorCredential`
+`IFederatedCatalogueComponent.registerDataSpaceConnectorCredential`
 
 ***
 
@@ -205,7 +205,7 @@ The list of Data Resources created.
 
 #### Implementation of
 
-`IFederatedCatalogue.registerDataResourceCredential`
+`IFederatedCatalogueComponent.registerDataResourceCredential`
 
 ***
 
@@ -254,7 +254,7 @@ NotImplementedError if the implementation does not support retrieval.
 
 #### Implementation of
 
-`IFederatedCatalogue.queryDataSpaceConnectors`
+`IFederatedCatalogueComponent.queryDataSpaceConnectors`
 
 ***
 
@@ -280,7 +280,7 @@ Nothing.
 
 #### Implementation of
 
-`IFederatedCatalogue.registerServiceOfferingCredential`
+`IFederatedCatalogueComponent.registerServiceOfferingCredential`
 
 ***
 
@@ -329,7 +329,7 @@ NotImplementedError if the implementation does not support retrieval.
 
 #### Implementation of
 
-`IFederatedCatalogue.queryServiceOfferings`
+`IFederatedCatalogueComponent.queryServiceOfferings`
 
 ***
 
@@ -378,4 +378,4 @@ NotImplementedError if the implementation does not support retrieval.
 
 #### Implementation of
 
-`IFederatedCatalogue.queryDataResources`
+`IFederatedCatalogueComponent.queryDataResources`

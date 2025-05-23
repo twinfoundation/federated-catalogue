@@ -3,7 +3,7 @@
 import type { IRestRoute } from "@twin.org/api-models";
 import { ComponentFactory, StringHelper } from "@twin.org/core";
 import type { IEngineCore, IEngineCoreContext } from "@twin.org/engine-models";
-import type { IFederatedCatalogue } from "@twin.org/federated-catalogue-models";
+import type { IFederatedCatalogueComponent } from "@twin.org/federated-catalogue-models";
 import {
 	FederatedCatalogueService,
 	generateRestRoutesFederatedCatalogue,
@@ -26,7 +26,7 @@ export function federatedCatalogueTypeInitialiser(
 	instanceConfig: { options: IFederatedCatalogueServiceConstructorOptions },
 	overrideInstanceType: string
 ): string {
-	const componentName = StringHelper.kebabCase(nameof<IFederatedCatalogue>(), true);
+	const componentName = StringHelper.kebabCase(nameof<IFederatedCatalogueComponent>(), true);
 	ComponentFactory.register(
 		componentName,
 		() => new FederatedCatalogueService(instanceConfig.options)

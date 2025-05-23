@@ -36,7 +36,7 @@ export * from "./models/data-space-connector/IDataSpaceConnectorEntry";
 export * from "./models/data-space-connector/IDataSpaceConnectorList";
 export * from "./models/data-space-connector/IDataSpaceConnectorCredential";
 
-export * from "./models/IFederatedCatalogue";
+export * from "./models/IFederatedCatalogueComponent";
 
 export * from "./models/IComplianceCredential";
 export * from "./models/IComplianceEvidence";

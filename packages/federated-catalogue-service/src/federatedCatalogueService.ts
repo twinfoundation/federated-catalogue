@@ -12,32 +12,32 @@ import {
 	StringHelper,
 	UnprocessableError
 } from "@twin.org/core";
-import { JsonLdProcessor } from "@twin.org/data-json-ld";
 import type { IJsonLdNodeObject } from "@twin.org/data-json-ld";
+import { JsonLdProcessor } from "@twin.org/data-json-ld";
 import { ComparisonOperator, type EntityCondition } from "@twin.org/entity";
 import {
 	EntityStorageConnectorFactory,
 	type IEntityStorageConnector
 } from "@twin.org/entity-storage-models";
 import {
+	FederatedCatalogueContextInstances,
+	FederatedCatalogueTypes,
+	type FederatedCatalogueEntryType,
+	type ICatalogueEntry,
 	type IComplianceCredential,
 	type IDataResourceCredential,
 	type IDataResourceEntry,
-	type IFederatedCatalogue,
+	type IDataResourceList,
+	type IDataSpaceConnectorCredential,
+	type IDataSpaceConnectorEntry,
+	type IDataSpaceConnectorList,
+	type IFederatedCatalogueComponent,
+	type IParticipantCredential,
 	type IParticipantEntry,
+	type IParticipantList,
 	type IServiceOfferingCredential,
 	type IServiceOfferingEntry,
-	type IDataSpaceConnectorEntry,
-	type IDataSpaceConnectorCredential,
-	type IParticipantCredential,
-	FederatedCatalogueTypes,
-	type IParticipantList,
-	type IDataResourceList,
-	type IDataSpaceConnectorList,
-	type IServiceOfferingList,
-	FederatedCatalogueContextInstances,
-	type FederatedCatalogueEntryType,
-	type ICatalogueEntry
+	type IServiceOfferingList
 } from "@twin.org/federated-catalogue-models";
 import { VerificationHelper, type IIdentityResolverComponent } from "@twin.org/identity-models";
 import { LoggingConnectorFactory, type ILoggingConnector } from "@twin.org/logging-models";
@@ -55,7 +55,7 @@ import { ComplianceCredentialVerificationService } from "./verification/complian
 /**
  * Service for performing logging operations to a connector.
  */
-export class FederatedCatalogueService implements IFederatedCatalogue {
+export class FederatedCatalogueService implements IFederatedCatalogueComponent {
 	/**
 	 * Fields to skip when persisting entries to the Catalogue
 	 * @internal

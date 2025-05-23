@@ -8,7 +8,7 @@ Client for performing auditable item graph through to REST endpoints.
 
 ## Implements
 
-- `IFederatedCatalogue`
+- `IFederatedCatalogueComponent`
 
 ## Constructors
 
@@ -44,7 +44,7 @@ Runtime name for the class.
 
 #### Implementation of
 
-`IFederatedCatalogue.CLASS_NAME`
+`IFederatedCatalogueComponent.CLASS_NAME`
 
 ## Methods
 
@@ -70,7 +70,7 @@ The participant Id (usually a DID).
 
 #### Implementation of
 
-`IFederatedCatalogue.registerComplianceCredential`
+`IFederatedCatalogueComponent.registerComplianceCredential`
 
 ***
 
@@ -125,7 +125,7 @@ NotImplementedError if the implementation does not support retrieval.
 
 #### Implementation of
 
-`IFederatedCatalogue.queryParticipants`
+`IFederatedCatalogueComponent.queryParticipants`
 
 ***
 
@@ -151,7 +151,7 @@ The Data Space Connector Id registered.
 
 #### Implementation of
 
-`IFederatedCatalogue.registerDataSpaceConnectorCredential`
+`IFederatedCatalogueComponent.registerDataSpaceConnectorCredential`
 
 ***
 
@@ -200,7 +200,7 @@ NotImplementedError if the implementation does not support retrieval.
 
 #### Implementation of
 
-`IFederatedCatalogue.queryDataSpaceConnectors`
+`IFederatedCatalogueComponent.queryDataSpaceConnectors`
 
 ***
 
@@ -226,7 +226,7 @@ The Id of the Service Offerings registered.
 
 #### Implementation of
 
-`IFederatedCatalogue.registerServiceOfferingCredential`
+`IFederatedCatalogueComponent.registerServiceOfferingCredential`
 
 ***
 
@@ -252,7 +252,7 @@ The Id of the Data Resources registered.
 
 #### Implementation of
 
-`IFederatedCatalogue.registerDataResourceCredential`
+`IFederatedCatalogueComponent.registerDataResourceCredential`
 
 ***
 
@@ -301,7 +301,7 @@ NotImplementedError if the implementation does not support retrieval.
 
 #### Implementation of
 
-`IFederatedCatalogue.queryServiceOfferings`
+`IFederatedCatalogueComponent.queryServiceOfferings`
 
 ***
 
@@ -350,7 +350,7 @@ NotImplementedError if the implementation does not support retrieval.
 
 #### Implementation of
 
-`IFederatedCatalogue.queryDataResources`
+`IFederatedCatalogueComponent.queryDataResources`
 
 ***
 
@@ -386,4 +386,4 @@ NotFoundError if not found.
 
 #### Implementation of
 
-`IFederatedCatalogue.getEntry`
+`IFederatedCatalogueComponent.getEntry`
