@@ -1,4 +1,4 @@
-# Interface: IFederatedCatalogueConstructorOptions
+# Interface: IFederatedCatalogueServiceConstructorOptions
 
 Federated Catalogue service options
 
@@ -22,7 +22,7 @@ Logging connector type
 
 ### config
 
-> **config**: [`IFederatedCatalogueConfig`](IFederatedCatalogueConfig.md)
+> **config**: [`IFederatedCatalogueServiceConfig`](IFederatedCatalogueServiceConfig.md)
 
 The configuration of the Federated Catalogue service.
 

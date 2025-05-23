@@ -49,7 +49,7 @@ import type { DataResourceEntry } from "./entities/dataResourceEntry";
 import type { DataSpaceConnectorEntry } from "./entities/dataSpaceConnectorEntry";
 import type { ParticipantEntry } from "./entities/participantEntry";
 import type { ServiceOfferingEntry } from "./entities/serviceOfferingEntry";
-import type { IFederatedCatalogueConstructorOptions } from "./models/IFederatedCatalogueConstructorOptions";
+import type { IFederatedCatalogueServiceConstructorOptions } from "./models/IFederatedCatalogueServiceConstructorOptions";
 import { ComplianceCredentialVerificationService } from "./verification/complianceCredentialVerificationService";
 
 /**
@@ -113,7 +113,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	 * Create a new instance of FederatedCatalogue service.
 	 * @param options The options for the connector.
 	 */
-	constructor(options: IFederatedCatalogueConstructorOptions) {
+	constructor(options: IFederatedCatalogueServiceConstructorOptions) {
 		this._loggingService = LoggingConnectorFactory.getIfExists(
 			options?.loggingConnectorType ?? "logging"
 		);

@@ -4,7 +4,7 @@
 /**
  * Federated Catalogue service configuration
  */
-export interface IFederatedCatalogueConfig {
+export interface IFederatedCatalogueServiceConfig {
 	/**
 	 * The number of ms that sub-resources can live in the fetch cache.
 	 * 0 means they can live forever.
