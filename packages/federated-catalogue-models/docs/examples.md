@@ -1,1 +1,1 @@
-# @twin.org/federated--models - Examples
+# @twin.org/federated-catalogue-models - Examples

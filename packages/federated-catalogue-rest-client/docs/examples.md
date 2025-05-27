@@ -1,1 +1,1 @@
-# @twin.org/auditable-item-graph-rest-client - Examples
+# @twin.org/federated-catalogue-rest-client - Examples
