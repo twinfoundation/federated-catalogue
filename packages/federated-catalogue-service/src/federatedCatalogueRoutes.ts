@@ -726,7 +726,7 @@ export async function complianceCredentialPresentation(
 	const participantId = await service.registerComplianceCredential(request.body);
 
 	const searchParams = new URLSearchParams();
-	searchParams.append(FederatedCatalogueTypes.Id, participantId);
+	searchParams.append("id", participantId);
 	return {
 		headers: {
 			location: `${baseRouteName}/${PARTICIPANTS_ROUTE}?${searchParams.toString()}`
@@ -808,7 +808,7 @@ export async function serviceOfferingCredentialPresentation(
 	// Prepare the Ids to be returned
 	const searchParams = new URLSearchParams();
 	for (const serviceOffering of serviceOfferingsCreated) {
-		searchParams.append(FederatedCatalogueTypes.Id, serviceOffering);
+		searchParams.append("id", serviceOffering);
 	}
 	return {
 		headers: {
@@ -890,7 +890,7 @@ export async function dataResourceCredentialPresentation(
 	// Prepare the Ids to be returned
 	const searchParams = new URLSearchParams();
 	for (const dataResource of dataResourcesCreated) {
-		searchParams.append(FederatedCatalogueTypes.Id, dataResource);
+		searchParams.append("id", dataResource);
 	}
 	return {
 		headers: {

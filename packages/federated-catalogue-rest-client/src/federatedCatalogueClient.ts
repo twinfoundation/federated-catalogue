@@ -407,7 +407,7 @@ export class FederatedCatalogueClient
 		// Localhost is dummy used to build a correct URL as a fallback
 		const url = new URL(locationURL, "localhost");
 		const searchParams = url.searchParams;
-		const ids = searchParams.getAll(FederatedCatalogueTypes.Id);
+		const ids = searchParams.getAll("id");
 
 		if (Is.empty(ids)) {
 			throw new GeneralError(this.CLASS_NAME, "idNotFoundFromLocationURL", { locationURL });

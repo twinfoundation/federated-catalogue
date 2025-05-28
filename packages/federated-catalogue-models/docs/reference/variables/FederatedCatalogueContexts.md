@@ -8,6 +8,6 @@ The LD context concerning the Federated Catalogue.
 
 ### ContextRoot
 
-> `readonly` **ContextRoot**: `"https://schema.twindev.org/federated-catalogue/types.jsonld"` = `"https://schema.twindev.org/federated-catalogue/types.jsonld"`
+> `readonly` **ContextRoot**: `"https://schema.twindev.org/federated-catalogue/"` = `"https://schema.twindev.org/federated-catalogue/"`
 
-A Credential that is compliant.
+The context root for the federated catalogue types.

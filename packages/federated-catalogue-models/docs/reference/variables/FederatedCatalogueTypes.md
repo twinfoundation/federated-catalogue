@@ -24,8 +24,50 @@ A Compliance Credential.
 
 A Data Space Connector.
 
-### Id
+### DataResourceEntry
 
-> `readonly` **Id**: `"id"` = `"id"`
+> `readonly` **DataResourceEntry**: `"DataResourceEntry"` = `"DataResourceEntry"`
 
-Id property.
+A Data Resource Entry.
+
+### DataResourceList
+
+> `readonly` **DataResourceList**: `"DataResourceList"` = `"DataResourceList"`
+
+A Data Space Connector List.
+
+### DataSpaceConnectorEntry
+
+> `readonly` **DataSpaceConnectorEntry**: `"DataSpaceConnectorEntry"` = `"DataSpaceConnectorEntry"`
+
+A Data Space Connector Entry.
+
+### DataSpaceConnectorList
+
+> `readonly` **DataSpaceConnectorList**: `"DataSpaceConnectorList"` = `"DataSpaceConnectorList"`
+
+A Data Space Connector List.
+
+### ParticipantEntry
+
+> `readonly` **ParticipantEntry**: `"ParticipantEntry"` = `"ParticipantEntry"`
+
+A Participant Entry.
+
+### ParticipantList
+
+> `readonly` **ParticipantList**: `"ParticipantList"` = `"ParticipantList"`
+
+A Participant List.
+
+### ServiceOfferingEntry
+
+> `readonly` **ServiceOfferingEntry**: `"ServiceOfferingEntry"` = `"ServiceOfferingEntry"`
+
+A Service Offering Entry.
+
+### ServiceOfferingList
+
+> `readonly` **ServiceOfferingList**: `"ServiceOfferingList"` = `"ServiceOfferingList"`
+
+A Service Offering List.

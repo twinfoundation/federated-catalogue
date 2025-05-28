@@ -52,7 +52,7 @@ export * from "./models/ICredential";
 export * from "./models/verificationFailureReasons";
 
 export * from "./models/federatedCatalogueContextType";
-
 export * from "./models/federatedCatalogueEntryType";
+export * from "./dataTypes/federatedCatalogueDataTypes";
 
 export * from "./models/ICatalogueEntry";

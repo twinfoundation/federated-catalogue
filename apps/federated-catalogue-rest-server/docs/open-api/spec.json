@@ -799,7 +799,7 @@
 											"@context": [
 												"https://schema.org",
 												"https://w3id.org/gaia-x/development",
-												"https://schema.twindev.org/federated-catalogue/types.jsonld"
+												"https://schema.twindev.org/federated-catalogue/"
 											],
 											"type": "ItemList",
 											"itemListElement": [
@@ -807,7 +807,7 @@
 													"@context": [
 														"https://schema.org",
 														"https://w3id.org/gaia-x/development",
-														"https://schema.twindev.org/federated-catalogue/types.jsonld"
+														"https://schema.twindev.org/federated-catalogue/"
 													],
 													"id": "did:iota:xxx",
 													"type": "LegalPerson",
@@ -943,7 +943,7 @@
 											"@context": [
 												"https://schema.org",
 												"https://w3id.org/gaia-x/development",
-												"https://schema.twindev.org/federated-catalogue/types.jsonld"
+												"https://schema.twindev.org/federated-catalogue/"
 											],
 											"id": "did:iota:xxx",
 											"type": "LegalPerson",
@@ -1103,7 +1103,7 @@
 											"@context": [
 												"https://schema.org",
 												"https://w3id.org/gaia-x/development",
-												"https://schema.twindev.org/federated-catalogue/types.jsonld"
+												"https://schema.twindev.org/federated-catalogue/"
 											],
 											"type": "ItemList",
 											"itemListElement": [
@@ -1111,7 +1111,7 @@
 													"@context": [
 														"https://schema.org",
 														"https://w3id.org/gaia-x/development",
-														"https://schema.twindev.org/federated-catalogue/types.jsonld"
+														"https://schema.twindev.org/federated-catalogue/"
 													],
 													"id": "http://example.org/is123456",
 													"name": "Service 1",
@@ -1266,7 +1266,7 @@
 											"@context": [
 												"https://schema.org",
 												"https://w3id.org/gaia-x/development",
-												"https://schema.twindev.org/federated-catalogue/types.jsonld"
+												"https://schema.twindev.org/federated-catalogue/"
 											],
 											"id": "http://example.org/is123456",
 											"name": "Service 1",
@@ -1454,7 +1454,7 @@
 											"@context": [
 												"https://schema.org",
 												"https://w3id.org/gaia-x/development",
-												"https://schema.twindev.org/federated-catalogue/types.jsonld"
+												"https://schema.twindev.org/federated-catalogue/"
 											],
 											"type": "ItemList",
 											"itemListElement": [
@@ -1462,7 +1462,7 @@
 													"@context": [
 														"https://schema.org",
 														"https://w3id.org/gaia-x/development",
-														"https://schema.twindev.org/federated-catalogue/types.jsonld"
+														"https://schema.twindev.org/federated-catalogue/"
 													],
 													"id": "http://example.org/is123456",
 													"name": "Data Resource 1",
@@ -1603,7 +1603,7 @@
 											"@context": [
 												"https://schema.org",
 												"https://w3id.org/gaia-x/development",
-												"https://schema.twindev.org/federated-catalogue/types.jsonld"
+												"https://schema.twindev.org/federated-catalogue/"
 											],
 											"id": "http://example.org/is123456",
 											"name": "Data Resource 1",
@@ -1777,7 +1777,7 @@
 											"@context": [
 												"https://schema.org",
 												"https://w3id.org/gaia-x/development",
-												"https://schema.twindev.org/federated-catalogue/types.jsonld"
+												"https://schema.twindev.org/federated-catalogue/"
 											],
 											"type": "ItemList",
 											"itemListElement": [
@@ -1785,7 +1785,7 @@
 													"@context": [
 														"https://schema.org",
 														"https://w3id.org/gaia-x/development",
-														"https://schema.twindev.org/federated-catalogue/types.jsonld"
+														"https://schema.twindev.org/federated-catalogue/"
 													],
 													"id": "https://my-ds-connectors.example.org/ds-connector-ABCD",
 													"type": [
@@ -1927,7 +1927,7 @@
 											"@context": [
 												"https://schema.org",
 												"https://w3id.org/gaia-x/development",
-												"https://schema.twindev.org/federated-catalogue/types.jsonld"
+												"https://schema.twindev.org/federated-catalogue/"
 											],
 											"id": "https://my-ds-connectors.example.org/ds-connector-ABCD",
 											"type": [
@@ -3027,7 +3027,7 @@
 					},
 					{
 						"type": "string",
-						"const": "https://schema.twindev.org/federated-catalogue/types.jsonld"
+						"const": "https://schema.twindev.org/federated-catalogue/"
 					}
 				],
 				"maxItems": 3,

@@ -2,6 +2,7 @@
 
 ## Classes
 
+- [FederatedCatalogueDataTypes](classes/FederatedCatalogueDataTypes.md)
 - [FederatedCatalogueContextInstances](classes/FederatedCatalogueContextInstances.md)
 
 ## Interfaces

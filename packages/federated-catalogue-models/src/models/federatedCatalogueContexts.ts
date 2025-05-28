@@ -7,9 +7,9 @@
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const FederatedCatalogueContexts = {
 	/**
-	 * A Credential that is compliant.
+	 * The context root for the federated catalogue types.
 	 */
-	ContextRoot: "https://schema.twindev.org/federated-catalogue/types.jsonld"
+	ContextRoot: "https://schema.twindev.org/federated-catalogue/"
 } as const;
 
 /**
