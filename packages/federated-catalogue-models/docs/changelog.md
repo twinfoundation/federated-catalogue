@@ -1,5 +1,17 @@
 # @twin.org/federated-catalogue-models - Changelog
 
+## [0.0.1-next.7](https://github.com/twinfoundation/federated-catalogue/compare/federated-catalogue-models-v0.0.1-next.6...federated-catalogue-models-v0.0.1-next.7) (2025-05-28)
+
+
+### Features
+
+* add data types with fully qualified names ([993eb09](https://github.com/twinfoundation/federated-catalogue/commit/993eb09e25f6caad5d82a3908a2ba648900f5ca7))
+
+
+### Bug Fixes
+
+* broken docs ([4588d86](https://github.com/twinfoundation/federated-catalogue/commit/4588d861575522da5374291167d57bacd1b21867))
+
 ## [0.0.1-next.6](https://github.com/twinfoundation/federated-catalogue/compare/federated-catalogue-models-v0.0.1-next.5...federated-catalogue-models-v0.0.1-next.6) (2025-05-23)
 
 
