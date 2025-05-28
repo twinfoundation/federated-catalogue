@@ -1,6 +1,6 @@
 {
 	"name": "@twin.org/federated-catalogue-rest-server",
-	"version": "0.0.1-next.6",
+	"version": "0.0.1-next.7",
 	"description": "Serve APIs using the specified configuration",
 	"repository": {
 		"type": "git",
@@ -35,8 +35,8 @@
 		"@twin.org/engine-server": "next",
 		"@twin.org/engine-server-types": "next",
 		"@twin.org/engine-types": "next",
-		"@twin.org/federated-catalogue-models": "0.0.1-next.6",
-		"@twin.org/federated-catalogue-service": "0.0.1-next.6"
+		"@twin.org/federated-catalogue-models": "0.0.1-next.7",
+		"@twin.org/federated-catalogue-service": "0.0.1-next.7"
 	},
 	"devDependencies": {
 		"@twin.org/entity-storage-connector-memory": "next",
