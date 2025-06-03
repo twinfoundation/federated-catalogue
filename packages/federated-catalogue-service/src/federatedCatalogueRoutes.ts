@@ -323,7 +323,7 @@ export function generateRestRoutesFederatedCatalogue(
 
 	const servicePolicyExample: IOdrlPolicy = {
 		"@context": [
-			"https://www.w3.org/ns/odrl.jsonld",
+			"https://www.w3.org/ns/odrl/2/",
 			{
 				twin: "https://schema.twindev.org/odrl/",
 				jsonPathSelector: "twin:jsonPathSelector"
@@ -455,7 +455,7 @@ export function generateRestRoutesFederatedCatalogue(
 	};
 
 	const resourcePolicyExample: IOdrlPolicy = {
-		"@context": ["https://www.w3.org/ns/odrl.jsonld"],
+		"@context": ["https://www.w3.org/ns/odrl/2/"],
 		"@type": "Offer",
 		uid: "http://example.com/policy:1010",
 		assigner: "did:iota:testnet:0x1a7bded4d22dc54722435d624e4323e10fcbc570cd57462eabbf3a5ab2ced24f",

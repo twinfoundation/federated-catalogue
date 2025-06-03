@@ -864,7 +864,7 @@
 													"servicePolicy": [
 														{
 															"@context": [
-																"https://www.w3.org/ns/odrl.jsonld",
+																"https://www.w3.org/ns/odrl/2/",
 																{
 																	"twin": "https://schema.twindev.org/odrl/",
 																	"jsonPathSelector": "twin:jsonPathSelector"
@@ -1019,7 +1019,7 @@
 											"servicePolicy": [
 												{
 													"@context": [
-														"https://www.w3.org/ns/odrl.jsonld",
+														"https://www.w3.org/ns/odrl/2/",
 														{
 															"twin": "https://schema.twindev.org/odrl/",
 															"jsonPathSelector": "twin:jsonPathSelector"
@@ -1217,7 +1217,7 @@
 													"resourcePolicy": [
 														{
 															"@context": [
-																"https://www.w3.org/ns/odrl.jsonld"
+																"https://www.w3.org/ns/odrl/2/"
 															],
 															"@type": "Offer",
 															"uid": "http://example.com/policy:1010",
@@ -1358,7 +1358,7 @@
 											"resourcePolicy": [
 												{
 													"@context": [
-														"https://www.w3.org/ns/odrl.jsonld"
+														"https://www.w3.org/ns/odrl/2/"
 													],
 													"@type": "Offer",
 													"uid": "http://example.com/policy:1010",
@@ -2034,7 +2034,7 @@
 						"description": "To apply a watermark to the Asset."
 					}
 				],
-				"description": "The types for ODRL Actions."
+				"description": "The types for ODRL Actions. Simple action types (for direct string usage)   The types for ODRL Actions."
 			},
 			"Address": {
 				"type": "object",
@@ -2575,46 +2575,6 @@
 				],
 				"additionalProperties": false,
 				"description": "Interface describing a list of Data Space Connectors."
-			},
-			"DataType": {
-				"anyOf": [
-					{
-						"type": "string",
-						"const": "xsd:string",
-						"description": "String type."
-					},
-					{
-						"type": "string",
-						"const": "xsd:boolean",
-						"description": "Boolean type."
-					},
-					{
-						"type": "string",
-						"const": "xsd:integer",
-						"description": "Integer type."
-					},
-					{
-						"type": "string",
-						"const": "xsd:decimal",
-						"description": "Decimal type."
-					},
-					{
-						"type": "string",
-						"const": "xsd:double",
-						"description": "Double type."
-					},
-					{
-						"type": "string",
-						"const": "xsd:date",
-						"description": "Date type."
-					},
-					{
-						"type": "string",
-						"const": "xsd:dateTime",
-						"description": "DateTime type."
-					}
-				],
-				"description": "The types for ODRL Data Types."
 			},
 			"Endpoint": {
 				"type": "object",
@@ -3379,7 +3339,7 @@
 										"type": "string"
 									},
 									"@type": {
-										"$ref": "#/components/schemas/DataType"
+										"type": "string"
 									}
 								},
 								"required": [
@@ -3407,7 +3367,8 @@
 						"description": "Reference to the right operand."
 					},
 					"dataType": {
-						"$ref": "#/components/schemas/DataType"
+						"type": "string",
+						"description": "The data type of the right operand."
 					},
 					"unit": {
 						"type": "string",
@@ -3452,7 +3413,7 @@
 				"anyOf": [
 					{
 						"type": "string",
-						"const": "https://www.w3.org/ns/odrl.jsonld"
+						"const": "https://www.w3.org/ns/odrl/2/"
 					},
 					{
 						"type": "array",
@@ -3460,7 +3421,7 @@
 						"items": [
 							{
 								"type": "string",
-								"const": "https://www.w3.org/ns/odrl.jsonld"
+								"const": "https://www.w3.org/ns/odrl/2/"
 							}
 						],
 						"additionalItems": {
@@ -3473,7 +3434,7 @@
 						"items": [
 							{
 								"type": "string",
-								"const": "https://www.w3.org/ns/odrl.jsonld"
+								"const": "https://www.w3.org/ns/odrl/2/"
 							},
 							{
 								"$ref": "https://schema.twindev.org/json-ld/JsonLdContextDefinitionElement"
@@ -3492,7 +3453,7 @@
 							},
 							{
 								"type": "string",
-								"const": "https://www.w3.org/ns/odrl.jsonld"
+								"const": "https://www.w3.org/ns/odrl/2/"
 							}
 						],
 						"additionalItems": {
