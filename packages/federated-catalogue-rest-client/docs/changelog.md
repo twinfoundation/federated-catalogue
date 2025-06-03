@@ -1,5 +1,19 @@
 # @twin.org/federated-catalogue-rest-client - Changelog
 
+## [0.0.1-next.8](https://github.com/twinfoundation/federated-catalogue/compare/federated-catalogue-rest-client-v0.0.1-next.7...federated-catalogue-rest-client-v0.0.1-next.8) (2025-06-03)
+
+
+### Miscellaneous Chores
+
+* **federated-catalogue-rest-client:** Synchronize repo versions
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/federated-catalogue-models bumped from 0.0.1-next.7 to 0.0.1-next.8
+
 ## [0.0.1-next.7](https://github.com/twinfoundation/federated-catalogue/compare/federated-catalogue-rest-client-v0.0.1-next.6...federated-catalogue-rest-client-v0.0.1-next.7) (2025-05-28)
 
 

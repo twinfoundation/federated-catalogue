@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.0.1-next.8](https://github.com/twinfoundation/federated-catalogue/compare/federated-catalogue-rest-server-v0.0.1-next.7...federated-catalogue-rest-server-v0.0.1-next.8) (2025-06-03)
+
+
+### Features
+
+* update ts-to-schema generation ([41bdde7](https://github.com/twinfoundation/federated-catalogue/commit/41bdde7ff9f0cfa1ea4376b7a952bbaed9988d0a))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/federated-catalogue-models bumped from 0.0.1-next.7 to 0.0.1-next.8
+    * @twin.org/federated-catalogue-service bumped from 0.0.1-next.7 to 0.0.1-next.8
+
 ## [0.0.1-next.7](https://github.com/twinfoundation/federated-catalogue/compare/federated-catalogue-rest-server-v0.0.1-next.6...federated-catalogue-rest-server-v0.0.1-next.7) (2025-05-28)
 
 
