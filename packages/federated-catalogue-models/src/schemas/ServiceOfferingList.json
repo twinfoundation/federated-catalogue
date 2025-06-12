@@ -1,4 +1,7 @@
 {
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://schema.twindev.org/federated-catalogue/ServiceOfferingList",
+	"description": "Interface describing a list of Service Offering Entries.",
 	"type": "object",
 	"properties": {
 		"@context": {
@@ -12,10 +15,13 @@
 		},
 		"itemListElement": {
 			"type": "array",
-			"items": {
-				"$ref": "https://schema.twindev.org/federated-catalogue/Omit%3CIServiceOfferingEntry%2C%22%40context%22%3E"
-			},
-			"description": "The components of the Collection"
+			"items": false,
+			"description": "The components of the Collection",
+			"prefixItems": [
+				{
+					"$ref": "https://schema.twindev.org/federated-catalogue/Omit%3CIServiceOfferingEntry%2C%22%40context%22%3E"
+				}
+			]
 		},
 		"nextItem": {
 			"type": "string",
@@ -27,6 +33,5 @@
 		"type",
 		"itemListElement"
 	],
-	"additionalProperties": false,
-	"description": "Interface describing a list of Service Offering Entries."
+	"additionalProperties": false
 }

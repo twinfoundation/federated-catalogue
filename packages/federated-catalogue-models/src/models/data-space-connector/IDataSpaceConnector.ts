@@ -1,7 +1,6 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-
-import type { IJsonLdKeyword, IJsonLdNodeObject } from "@twin.org/data-json-ld";
+import type { IJsonLdNodeObject } from "@twin.org/data-json-ld";
 import type {
 	GaiaXContextType,
 	GaiaXTypes,
@@ -31,7 +30,7 @@ export interface IDataSpaceConnector extends IDataExchangeComponent {
 	type: [
 		typeof GaiaXTypes.DataExchangeComponent,
 		typeof FederatedCatalogueTypes.DataSpaceConnector,
-		...IJsonLdKeyword["@type"][]
+		...string[]
 	];
 
 	/**

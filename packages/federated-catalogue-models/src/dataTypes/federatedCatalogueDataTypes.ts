@@ -1,7 +1,6 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import { DataTypeHandlerFactory } from "@twin.org/data-core";
-import type { JSONSchema7 } from "json-schema";
+import { DataTypeHandlerFactory, type IJsonSchema } from "@twin.org/data-core";
 import { FederatedCatalogueContexts } from "../models/federatedCatalogueContexts";
 import { FederatedCatalogueTypes } from "../models/federatedCatalogueTypes";
 import DataResourceEntrySchema from "../schemas/DataResourceEntry.json";
@@ -27,7 +26,7 @@ export class FederatedCatalogueDataTypes {
 				context: FederatedCatalogueContexts.ContextRoot,
 				type: FederatedCatalogueTypes.DataResourceEntry,
 				defaultValue: {},
-				jsonSchema: async () => DataResourceEntrySchema as JSONSchema7
+				jsonSchema: async () => DataResourceEntrySchema as IJsonSchema
 			})
 		);
 
@@ -37,7 +36,7 @@ export class FederatedCatalogueDataTypes {
 				context: FederatedCatalogueContexts.ContextRoot,
 				type: FederatedCatalogueTypes.DataResourceList,
 				defaultValue: {},
-				jsonSchema: async () => DataResourceListSchema as JSONSchema7
+				jsonSchema: async () => DataResourceListSchema as IJsonSchema
 			})
 		);
 
@@ -47,7 +46,7 @@ export class FederatedCatalogueDataTypes {
 				context: FederatedCatalogueContexts.ContextRoot,
 				type: FederatedCatalogueTypes.DataSpaceConnectorEntry,
 				defaultValue: {},
-				jsonSchema: async () => DataSpaceConnectorEntrySchema as JSONSchema7
+				jsonSchema: async () => DataSpaceConnectorEntrySchema as IJsonSchema
 			})
 		);
 
@@ -57,7 +56,7 @@ export class FederatedCatalogueDataTypes {
 				context: FederatedCatalogueContexts.ContextRoot,
 				type: FederatedCatalogueTypes.DataSpaceConnectorList,
 				defaultValue: {},
-				jsonSchema: async () => DataSpaceConnectorListSchema as JSONSchema7
+				jsonSchema: async () => DataSpaceConnectorListSchema as IJsonSchema
 			})
 		);
 
@@ -67,7 +66,7 @@ export class FederatedCatalogueDataTypes {
 				context: FederatedCatalogueContexts.ContextRoot,
 				type: FederatedCatalogueTypes.ParticipantEntry,
 				defaultValue: {},
-				jsonSchema: async () => ParticipantEntrySchema as JSONSchema7
+				jsonSchema: async () => ParticipantEntrySchema as IJsonSchema
 			})
 		);
 
@@ -77,7 +76,7 @@ export class FederatedCatalogueDataTypes {
 				context: FederatedCatalogueContexts.ContextRoot,
 				type: FederatedCatalogueTypes.ParticipantList,
 				defaultValue: {},
-				jsonSchema: async () => ParticipantListSchema as JSONSchema7
+				jsonSchema: async () => ParticipantListSchema as IJsonSchema
 			})
 		);
 
@@ -87,7 +86,7 @@ export class FederatedCatalogueDataTypes {
 				context: FederatedCatalogueContexts.ContextRoot,
 				type: FederatedCatalogueTypes.ServiceOfferingEntry,
 				defaultValue: {},
-				jsonSchema: async () => ServiceOfferingEntrySchema as JSONSchema7
+				jsonSchema: async () => ServiceOfferingEntrySchema as IJsonSchema
 			})
 		);
 
@@ -97,7 +96,7 @@ export class FederatedCatalogueDataTypes {
 				context: FederatedCatalogueContexts.ContextRoot,
 				type: FederatedCatalogueTypes.ServiceOfferingList,
 				defaultValue: {},
-				jsonSchema: async () => ServiceOfferingListSchema as JSONSchema7
+				jsonSchema: async () => ServiceOfferingListSchema as IJsonSchema
 			})
 		);
 	}

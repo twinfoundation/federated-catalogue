@@ -423,7 +423,6 @@ export class FederatedCatalogueService implements IFederatedCatalogueComponent {
 	public async registerDataResourceCredential(credentialJwt: string): Promise<string[]> {
 		Guards.string(this.CLASS_NAME, nameof(credentialJwt), credentialJwt);
 
-		// This will raise exceptions as it has been coded reusing code from Gaia-X
 		const complianceCredential = await this.decodeJwt(credentialJwt);
 
 		const result = await this._complianceCredentialVerifier.verify(complianceCredential);

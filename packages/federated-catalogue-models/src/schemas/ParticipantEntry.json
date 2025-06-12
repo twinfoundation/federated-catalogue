@@ -1,4 +1,7 @@
 {
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://schema.twindev.org/federated-catalogue/ParticipantEntry",
+	"description": "Interface describing a participant.",
 	"type": "object",
 	"properties": {
 		"issuer": {
@@ -19,20 +22,36 @@
 		},
 		"evidence": {
 			"type": "array",
-			"items": {
-				"type": "string"
-			},
-			"description": "The evidences concerning the data resource."
+			"items": false,
+			"description": "The evidences concerning the data resource.",
+			"prefixItems": [
+				{
+					"type": "string"
+				}
+			]
 		},
 		"@context": {
 			"$ref": "https://schema.twindev.org/federated-catalogue/FederatedCatalogueContextType",
 			"description": "The LD Context"
 		},
 		"@id": {
-			"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+			"anyOf": [
+				{
+					"type": "string"
+				},
+				{
+					"type": "array",
+					"items": false,
+					"prefixItems": [
+						{
+							"type": "string"
+						}
+					]
+				}
+			]
 		},
 		"@included": {
-			"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+			"$ref": "https://schema.twindev.org/json-ld/JsonLdIncludedBlock"
 		},
 		"@graph": {
 			"anyOf": [
@@ -41,9 +60,12 @@
 				},
 				{
 					"type": "array",
-					"items": {
-						"$ref": "https://schema.twindev.org/json-ld/JsonLdNodeObject"
-					}
+					"items": false,
+					"prefixItems": [
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdNodeObject"
+						}
+					]
 				}
 			]
 		},
@@ -54,33 +76,39 @@
 				},
 				{
 					"type": "array",
-					"items": {
-						"$ref": "https://schema.twindev.org/json-ld/JsonLdJsonObject"
-					}
+					"items": false,
+					"prefixItems": [
+						{
+							"$ref": "https://schema.twindev.org/json-ld/JsonLdJsonObject"
+						}
+					]
 				}
 			]
 		},
 		"@type": {
 			"anyOf": [
 				{
-					"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+					"type": "string"
 				},
 				{
 					"type": "array",
-					"items": {
-						"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
-					}
+					"items": false,
+					"prefixItems": [
+						{
+							"type": "string"
+						}
+					]
 				}
 			]
 		},
 		"@reverse": {
 			"type": "object",
 			"additionalProperties": {
-				"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+				"type": "string"
 			}
 		},
 		"@index": {
-			"$ref": "https://schema.twindev.org/json-ld/JsonLdKeyword"
+			"type": "string"
 		},
 		"id": {
 			"type": "string",
@@ -141,6 +169,5 @@
 				"type": "array"
 			}
 		]
-	},
-	"description": "Interface describing a participant."
+	}
 }
