@@ -12,7 +12,7 @@ import { findRootPackageFolder, initialiseLocales } from "./utils.js";
 try {
 	const serverInfo: IServerInfo = {
 		name: "Federated Catalogue Server",
-		version: "0.0.1-next.8" // x-release-please-version
+		version: "0.0.1-next.9" // x-release-please-version
 	};
 
 	console.log(`\u001B[4m🌩️  ${serverInfo.name} v${serverInfo.version}\u001B[24m\n`);
