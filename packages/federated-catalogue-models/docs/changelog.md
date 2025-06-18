@@ -1,5 +1,12 @@
 # @twin.org/federated-catalogue-models - Changelog
 
+## [0.0.1-next.10](https://github.com/twinfoundation/federated-catalogue/compare/federated-catalogue-models-v0.0.1-next.9...federated-catalogue-models-v0.0.1-next.10) (2025-06-18)
+
+
+### Features
+
+* update schemas ([58d8581](https://github.com/twinfoundation/federated-catalogue/commit/58d85813231f6576490937d4394e7be0f6d8c58d))
+
 ## [0.0.1-next.9](https://github.com/twinfoundation/federated-catalogue/compare/federated-catalogue-models-v0.0.1-next.8...federated-catalogue-models-v0.0.1-next.9) (2025-06-12)
 
 
