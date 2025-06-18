@@ -10,6 +10,6 @@ import type { FederatedCatalogueContexts } from "./federatedCatalogueContexts";
  */
 export type FederatedCatalogueContextType = [
 	typeof SchemaOrgContexts.ContextRoot,
-	typeof GaiaXContexts.GaiaXLdContext,
+	typeof GaiaXContexts.ContextRoot,
 	typeof FederatedCatalogueContexts.ContextRoot
 ];

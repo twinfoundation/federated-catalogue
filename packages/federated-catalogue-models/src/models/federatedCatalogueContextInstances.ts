@@ -16,7 +16,7 @@ export abstract class FederatedCatalogueContextInstances {
 	 */
 	public static DEFAULT_LD_CONTEXT_ENTRY_LIST: FederatedCatalogueContextType = [
 		SchemaOrgContexts.ContextRoot,
-		GaiaXContexts.GaiaXLdContext,
+		GaiaXContexts.ContextRoot,
 		FederatedCatalogueContexts.ContextRoot
 	];
 

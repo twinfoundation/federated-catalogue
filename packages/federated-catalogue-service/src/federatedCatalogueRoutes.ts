@@ -269,11 +269,7 @@ export function generateRestRoutesFederatedCatalogue(
 							body: {
 								"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
 								type: SchemaOrgTypes.ItemList,
-								itemListElement: [
-									{
-										...participantEntryExample
-									}
-								]
+								itemListElement: [participantEntryExample]
 							}
 						}
 					}
@@ -313,7 +309,7 @@ export function generateRestRoutesFederatedCatalogue(
 					{
 						id: "participantGetResponseExample",
 						response: {
-							body: { ...participantEntryExample }
+							body: participantEntryExample
 						}
 					}
 				]
@@ -400,11 +396,7 @@ export function generateRestRoutesFederatedCatalogue(
 							body: {
 								"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
 								type: SchemaOrgTypes.ItemList,
-								itemListElement: [
-									{
-										...serviceOfferingEntryExample
-									}
-								]
+								itemListElement: [serviceOfferingEntryExample]
 							}
 						}
 					}
@@ -444,9 +436,7 @@ export function generateRestRoutesFederatedCatalogue(
 					{
 						id: "serviceOfferingGetResponseExample",
 						response: {
-							body: {
-								...serviceOfferingEntryExample
-							}
+							body: serviceOfferingEntryExample
 						}
 					}
 				]
@@ -517,11 +507,7 @@ export function generateRestRoutesFederatedCatalogue(
 							body: {
 								"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
 								type: SchemaOrgTypes.ItemList,
-								itemListElement: [
-									{
-										...dataResourceEntryExample
-									}
-								]
+								itemListElement: [dataResourceEntryExample]
 							}
 						}
 					}
@@ -561,9 +547,7 @@ export function generateRestRoutesFederatedCatalogue(
 					{
 						id: "dataResourceGetResponseExample",
 						response: {
-							body: {
-								...dataResourceEntryExample
-							}
+							body: dataResourceEntryExample
 						}
 					}
 				]
@@ -635,11 +619,7 @@ export function generateRestRoutesFederatedCatalogue(
 							body: {
 								"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
 								type: SchemaOrgTypes.ItemList,
-								itemListElement: [
-									{
-										...dataSpaceConnectorEntryExample
-									}
-								]
+								itemListElement: [dataSpaceConnectorEntryExample]
 							}
 						}
 					}
@@ -679,9 +659,7 @@ export function generateRestRoutesFederatedCatalogue(
 					{
 						id: "dataSpaceConnectorGetResponseExample",
 						response: {
-							body: {
-								...dataSpaceConnectorEntryExample
-							}
+							body: dataSpaceConnectorEntryExample
 						}
 					}
 				]
@@ -757,9 +735,7 @@ export async function participantList(
 		Coerce.number(request?.query?.pageSize)
 	);
 	return {
-		body: {
-			...itemsAndCursor
-		}
+		body: itemsAndCursor
 	};
 }
 
@@ -839,9 +815,7 @@ export async function serviceOfferingList(
 		Coerce.number(request?.query?.pageSize)
 	);
 	return {
-		body: {
-			...itemsAndCursor
-		}
+		body: itemsAndCursor
 	};
 }
 
@@ -921,9 +895,7 @@ export async function dataResourceList(
 		Coerce.number(request?.query?.pageSize)
 	);
 	return {
-		body: {
-			...itemsAndCursor
-		}
+		body: itemsAndCursor
 	};
 }
 
@@ -1000,9 +972,7 @@ export async function dataSpaceConnectorList(
 		Coerce.number(request?.query?.pageSize)
 	);
 	return {
-		body: {
-			...itemsAndCursor
-		}
+		body: itemsAndCursor
 	};
 }
 
