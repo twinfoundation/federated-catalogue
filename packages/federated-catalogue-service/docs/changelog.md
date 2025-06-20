@@ -1,5 +1,19 @@
 # @twin.org/federated-catalogue-service - Changelog
 
+## [0.0.1-next.11](https://github.com/twinfoundation/federated-catalogue/compare/federated-catalogue-service-v0.0.1-next.10...federated-catalogue-service-v0.0.1-next.11) (2025-06-20)
+
+
+### Bug Fixes
+
+* query params force coercion ([a532329](https://github.com/twinfoundation/federated-catalogue/commit/a532329089b2b95c7f18cd8bd56ee47482755dc0))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/federated-catalogue-models bumped from 0.0.1-next.10 to 0.0.1-next.11
+
 ## [0.0.1-next.10](https://github.com/twinfoundation/federated-catalogue/compare/federated-catalogue-service-v0.0.1-next.9...federated-catalogue-service-v0.0.1-next.10) (2025-06-18)
 
 
