@@ -10,7 +10,7 @@ export interface IParticipantListRequest extends IFederatedCatalogueGetRequest {
 	/**
 	 * The query parameters.
 	 */
-	query: {
+	query?: {
 		/**
 		 * The participant Id.
 		 */
@@ -34,6 +34,6 @@ export interface IParticipantListRequest extends IFederatedCatalogueGetRequest {
 		/**
 		 * The maximum number of entities in a page.
 		 */
-		pageSize?: number;
+		pageSize?: number | string;
 	};
 }

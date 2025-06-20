@@ -10,7 +10,7 @@ export interface IDataResourceListRequest extends IFederatedCatalogueGetRequest 
 	/**
 	 * The query parameters.
 	 */
-	query: {
+	query?: {
 		/**
 		 * The Id of the Data Resource.
 		 */
@@ -29,6 +29,6 @@ export interface IDataResourceListRequest extends IFederatedCatalogueGetRequest 
 		/**
 		 * The maximum number of entities in a page.
 		 */
-		pageSize?: number;
+		pageSize?: number | string;
 	};
 }

@@ -10,7 +10,7 @@ export interface IServiceOfferingListRequest extends IFederatedCatalogueGetReque
 	/**
 	 * The query parameters.
 	 */
-	query: {
+	query?: {
 		/**
 		 * The Service Offering Id.
 		 */
@@ -29,6 +29,6 @@ export interface IServiceOfferingListRequest extends IFederatedCatalogueGetReque
 		/**
 		 * The maximum number of entities in a page.
 		 */
-		pageSize?: number;
+		pageSize?: number | string;
 	};
 }

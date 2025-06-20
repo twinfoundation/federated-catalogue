@@ -732,7 +732,7 @@ export async function participantList(
 		request?.query?.registrationNumber,
 		request?.query?.lrnType,
 		request?.query?.cursor,
-		Coerce.number(request?.query?.pageSize)
+		Coerce.integer(request?.query?.pageSize)
 	);
 	return {
 		body: itemsAndCursor
@@ -809,10 +809,10 @@ export async function serviceOfferingList(
 	const service = ComponentFactory.get<IFederatedCatalogueComponent>(factoryServiceName);
 
 	const itemsAndCursor = await service.queryServiceOfferings(
-		request?.query.id,
-		request?.query.providedBy,
-		request?.query.cursor,
-		Coerce.number(request?.query?.pageSize)
+		request?.query?.id,
+		request?.query?.providedBy,
+		request?.query?.cursor,
+		Coerce.integer(request?.query?.pageSize)
 	);
 	return {
 		body: itemsAndCursor
@@ -889,10 +889,10 @@ export async function dataResourceList(
 	const service = ComponentFactory.get<IFederatedCatalogueComponent>(factoryServiceName);
 
 	const itemsAndCursor = await service.queryDataResources(
-		request?.query.id,
-		request?.query.producedBy,
-		request?.query.cursor,
-		Coerce.number(request?.query?.pageSize)
+		request?.query?.id,
+		request?.query?.producedBy,
+		request?.query?.cursor,
+		Coerce.integer(request?.query?.pageSize)
 	);
 	return {
 		body: itemsAndCursor
@@ -966,10 +966,10 @@ export async function dataSpaceConnectorList(
 	const service = ComponentFactory.get<IFederatedCatalogueComponent>(factoryServiceName);
 
 	const itemsAndCursor = await service.queryDataSpaceConnectors(
-		request?.query.id,
-		request?.query.maintainedBy,
-		request?.query.cursor,
-		Coerce.number(request?.query?.pageSize)
+		request?.query?.id,
+		request?.query?.maintainedBy,
+		request?.query?.cursor,
+		Coerce.integer(request?.query?.pageSize)
 	);
 	return {
 		body: itemsAndCursor

@@ -10,7 +10,7 @@ export interface IDataSpaceConnectorListRequest extends IFederatedCatalogueGetRe
 	/**
 	 * The query parameters.
 	 */
-	query: {
+	query?: {
 		/**
 		 * The id of the Data Space Connector.
 		 */
@@ -29,6 +29,6 @@ export interface IDataSpaceConnectorListRequest extends IFederatedCatalogueGetRe
 		/**
 		 * The maximum number of entities in a page.
 		 */
-		pageSize?: number;
+		pageSize?: number | string;
 	};
 }
