@@ -1,5 +1,12 @@
 # @twin.org/federated-catalogue-models - Changelog
 
+## [0.0.1-next.11](https://github.com/twinfoundation/federated-catalogue/compare/federated-catalogue-models-v0.0.1-next.10...federated-catalogue-models-v0.0.1-next.11) (2025-06-20)
+
+
+### Bug Fixes
+
+* query params force coercion ([a532329](https://github.com/twinfoundation/federated-catalogue/commit/a532329089b2b95c7f18cd8bd56ee47482755dc0))
+
 ## [0.0.1-next.10](https://github.com/twinfoundation/federated-catalogue/compare/federated-catalogue-models-v0.0.1-next.9...federated-catalogue-models-v0.0.1-next.10) (2025-06-18)
 
 
