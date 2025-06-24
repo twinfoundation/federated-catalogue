@@ -12,7 +12,7 @@ import {
 import { nameof } from "@twin.org/nameof";
 
 /**
- * Extends the engine config with types specific to workbench.
+ * Extends the engine config with types specific to federated catalogue.
  * @param engineConfig The engine configuration.
  */
 export function extendEngineConfig(engineConfig: IEngineConfig): void {

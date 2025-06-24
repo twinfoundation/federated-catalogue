@@ -4,7 +4,7 @@ import type { IEngineEnvironmentVariables } from "@twin.org/engine";
 import type { IEngineServerEnvironmentVariables } from "@twin.org/engine-server";
 
 /**
- * The environment variables for the workbench node.
+ * The environment variables for the federated catalogue node.
  */
 export interface IFederatedCatalogVariables
 	extends IEngineEnvironmentVariables,
