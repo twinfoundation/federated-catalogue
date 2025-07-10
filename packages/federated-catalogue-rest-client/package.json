@@ -1,6 +1,6 @@
 {
 	"name": "@twin.org/federated-catalogue-rest-client",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"description": "Federated Catalogue contract implementation which can connect to REST endpoints",
 	"repository": {
 		"type": "git",
@@ -32,7 +32,7 @@
 	"dependencies": {
 		"@twin.org/api-core": "^0.0.2-next.1",
 		"@twin.org/api-models": "^0.0.2-next.1",
-		"@twin.org/federated-catalogue-models": "^0.0.0",
+		"@twin.org/federated-catalogue-models": "^0.0.1",
 		"@twin.org/standards-gaia-x": "^0.0.1",
 		"@twin.org/core": "^0.0.1",
 		"@twin.org/data-json-ld": "^0.0.1",
