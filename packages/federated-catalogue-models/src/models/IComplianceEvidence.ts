@@ -1,7 +1,7 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import type { IJsonLdKeyword, IJsonLdNodeObject } from "@twin.org/data-json-ld";
+import type { IJsonLdNodeObject } from "@twin.org/data-json-ld";
 import type { FederatedCatalogueTypes } from "./federatedCatalogueTypes";
 
 /**
@@ -29,5 +29,5 @@ export interface IComplianceEvidence extends IJsonLdNodeObject {
 	 * Original type
 	 *
 	 */
-	credentialType: IJsonLdKeyword["@type"] | IJsonLdKeyword["@type"][];
+	credentialType: string | string[];
 }

@@ -1,6 +1,6 @@
 {
 	"name": "@twin.org/federated-catalogue-rest-server",
-	"version": "0.0.1-next.1",
+	"version": "0.0.0",
 	"description": "Serve APIs using the specified configuration",
 	"repository": {
 		"type": "git",
@@ -30,32 +30,32 @@
 		"prepare": "ts-patch install -s"
 	},
 	"dependencies": {
-		"@twin.org/engine": "next",
-		"@twin.org/engine-models": "next",
-		"@twin.org/engine-server": "next",
-		"@twin.org/engine-server-types": "next",
-		"@twin.org/engine-types": "next",
-		"@twin.org/federated-catalogue-models": "0.0.1-next.1",
-		"@twin.org/federated-catalogue-service": "0.0.1-next.1"
+		"@twin.org/engine": "^0.0.1-next.83",
+		"@twin.org/engine-models": "^0.0.1-next.83",
+		"@twin.org/engine-server": "^0.0.1-next.83",
+		"@twin.org/engine-server-types": "^0.0.1-next.83",
+		"@twin.org/engine-types": "^0.0.1-next.83",
+		"@twin.org/federated-catalogue-models": "^0.0.0",
+		"@twin.org/federated-catalogue-service": "^0.0.0"
 	},
 	"devDependencies": {
-		"@twin.org/entity-storage-connector-memory": "next",
-		"@twin.org/merge-locales": "next",
-		"@twin.org/nameof-transformer": "next",
-		"@twin.org/nameof-vitest-plugin": "next",
-		"@twin.org/ts-to-openapi": "next",
-		"@types/node": "22.14.1",
-		"@vitest/coverage-v8": "3.1.1",
+		"@twin.org/entity-storage-connector-memory": "^0.0.1",
+		"@twin.org/merge-locales": "^0.0.1",
+		"@twin.org/nameof-transformer": "^0.0.1",
+		"@twin.org/nameof-vitest-plugin": "^0.0.1",
+		"@twin.org/ts-to-openapi": "^0.0.1",
+		"@types/node": "24.0.1",
+		"@vitest/coverage-v8": "3.2.3",
 		"concurrently": "9.1.2",
 		"copyfiles": "2.4.1",
 		"cross-env": "7.0.3",
-		"nodemon": "3.1.9",
+		"nodemon": "3.1.10",
 		"rimraf": "6.0.1",
 		"ts-patch": "3.3.0",
-		"tsc-watch": "6.2.1",
-		"typedoc": "0.28.2",
-		"typedoc-plugin-markdown": "4.6.2",
+		"tsc-watch": "7.1.1",
+		"typedoc": "0.28.5",
+		"typedoc-plugin-markdown": "4.6.4",
 		"typescript": "5.8.3",
-		"vitest": "3.1.1"
+		"vitest": "3.2.3"
 	}
 }

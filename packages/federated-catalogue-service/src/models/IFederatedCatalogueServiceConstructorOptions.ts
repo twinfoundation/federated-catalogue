@@ -1,12 +1,12 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import type { IFederatedCatalogueConfig } from "./IFederatedCatalogueConfig";
+import type { IFederatedCatalogueServiceConfig } from "./IFederatedCatalogueServiceConfig";
 
 /**
  * Federated Catalogue service options
  */
-export interface IFederatedCatalogueConstructorOptions {
+export interface IFederatedCatalogueServiceConstructorOptions {
 	/**
 	 * The identity resolver component used.
 	 */
@@ -20,7 +20,7 @@ export interface IFederatedCatalogueConstructorOptions {
 	/**
 	 * The configuration of the Federated Catalogue service.
 	 */
-	config: IFederatedCatalogueConfig;
+	config: IFederatedCatalogueServiceConfig;
 
 	/**
 	 * The entity storage for participants.

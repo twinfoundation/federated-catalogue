@@ -4,8 +4,8 @@ export * from "./federatedCatalogueRoutes";
 export * from "./federatedCatalogueService";
 export * from "./restEntryPoints";
 
-export * from "./models/IFederatedCatalogueConstructorOptions";
-export * from "./models/IFederatedCatalogueConfig";
+export * from "./models/IFederatedCatalogueServiceConstructorOptions";
+export * from "./models/IFederatedCatalogueServiceConfig";
 
 export * from "./schema";
 

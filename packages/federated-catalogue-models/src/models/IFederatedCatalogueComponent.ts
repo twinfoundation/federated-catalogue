@@ -11,7 +11,7 @@ import type { IServiceOfferingList } from "./service-offering/IServiceOfferingLi
 /**
  * Interface describing a Federated Catalogue Contract.
  */
-export interface IFederatedCatalogue extends IComponent {
+export interface IFederatedCatalogueComponent extends IComponent {
 	/**
 	 * Registers a Participant's compliance Credential to the service.
 	 * @param credential The credential as JWT.

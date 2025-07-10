@@ -17,8 +17,8 @@ export interface IComplianceCredential extends ICredential {
 	 */
 	"@context": [
 		typeof DidContexts.ContextVCv2,
-		typeof GaiaXContexts.GaiaXLdContext,
-		typeof GaiaXContexts.W3IdSecurityJwsLdContext,
+		typeof GaiaXContexts.ContextRoot,
+		typeof DidContexts.ContextSecurityJws2020,
 		...IJsonLdContextDefinitionElement[]
 	];
 

@@ -1,4 +1,4 @@
-# Interface: IFederatedCatalogue
+# Interface: IFederatedCatalogueComponent
 
 Interface describing a Federated Catalogue Contract.
 

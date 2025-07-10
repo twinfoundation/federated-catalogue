@@ -8,29 +8,29 @@ import type {
 	ITag,
 	IUnprocessableEntityResponse
 } from "@twin.org/api-models";
-import { BaseError, Coerce, ComponentFactory, Guards, NotFoundError } from "@twin.org/core";
+import { Coerce, ComponentFactory, Guards } from "@twin.org/core";
 import {
+	type ICatalogueEntryGetRequest,
 	type ICompliancePresentationRequest,
+	type IDataResourceEntry,
+	type IDataResourceGetResponse,
 	type IDataResourceListRequest,
 	type IDataResourceListResponse,
+	type IDataSpaceConnectorEntry,
+	type IDataSpaceConnectorGetResponse,
 	type IDataSpaceConnectorListRequest,
 	type IDataSpaceConnectorListResponse,
-	type IFederatedCatalogue,
-	type ICatalogueEntryGetRequest,
+	type IFederatedCatalogueComponent,
+	type IParticipantEntry,
 	type IParticipantGetResponse,
 	type IParticipantListRequest,
 	type IParticipantListResponse,
+	type IServiceOfferingEntry,
+	type IServiceOfferingGetResponse,
 	type IServiceOfferingListRequest,
 	type IServiceOfferingListResponse,
-	type IServiceOfferingGetResponse,
-	type IDataResourceGetResponse,
-	type IDataSpaceConnectorGetResponse,
-	FederatedCatalogueTypes,
-	type IParticipantEntry,
-	type IServiceOfferingEntry,
-	type IDataResourceEntry,
-	type IDataSpaceConnectorEntry,
-	FederatedCatalogueContextInstances
+	FederatedCatalogueContextInstances,
+	FederatedCatalogueTypes
 } from "@twin.org/federated-catalogue-models";
 import { nameof } from "@twin.org/nameof";
 import { GaiaXTypes } from "@twin.org/standards-gaia-x";
@@ -269,11 +269,7 @@ export function generateRestRoutesFederatedCatalogue(
 							body: {
 								"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
 								type: SchemaOrgTypes.ItemList,
-								itemListElement: [
-									{
-										...participantEntryExample
-									}
-								]
+								itemListElement: [participantEntryExample]
 							}
 						}
 					}
@@ -313,7 +309,7 @@ export function generateRestRoutesFederatedCatalogue(
 					{
 						id: "participantGetResponseExample",
 						response: {
-							body: { ...participantEntryExample }
+							body: participantEntryExample
 						}
 					}
 				]
@@ -323,7 +319,7 @@ export function generateRestRoutesFederatedCatalogue(
 
 	const servicePolicyExample: IOdrlPolicy = {
 		"@context": [
-			"https://www.w3.org/ns/odrl.jsonld",
+			"https://www.w3.org/ns/odrl/2/",
 			{
 				twin: "https://schema.twindev.org/odrl/",
 				jsonPathSelector: "twin:jsonPathSelector"
@@ -400,11 +396,7 @@ export function generateRestRoutesFederatedCatalogue(
 							body: {
 								"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
 								type: SchemaOrgTypes.ItemList,
-								itemListElement: [
-									{
-										...serviceOfferingEntryExample
-									}
-								]
+								itemListElement: [serviceOfferingEntryExample]
 							}
 						}
 					}
@@ -444,9 +436,7 @@ export function generateRestRoutesFederatedCatalogue(
 					{
 						id: "serviceOfferingGetResponseExample",
 						response: {
-							body: {
-								...serviceOfferingEntryExample
-							}
+							body: serviceOfferingEntryExample
 						}
 					}
 				]
@@ -455,7 +445,7 @@ export function generateRestRoutesFederatedCatalogue(
 	};
 
 	const resourcePolicyExample: IOdrlPolicy = {
-		"@context": ["https://www.w3.org/ns/odrl.jsonld"],
+		"@context": "https://www.w3.org/ns/odrl/2/",
 		"@type": "Offer",
 		uid: "http://example.com/policy:1010",
 		assigner: "did:iota:testnet:0x1a7bded4d22dc54722435d624e4323e10fcbc570cd57462eabbf3a5ab2ced24f",
@@ -517,11 +507,7 @@ export function generateRestRoutesFederatedCatalogue(
 							body: {
 								"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
 								type: SchemaOrgTypes.ItemList,
-								itemListElement: [
-									{
-										...dataResourceEntryExample
-									}
-								]
+								itemListElement: [dataResourceEntryExample]
 							}
 						}
 					}
@@ -561,9 +547,7 @@ export function generateRestRoutesFederatedCatalogue(
 					{
 						id: "dataResourceGetResponseExample",
 						response: {
-							body: {
-								...dataResourceEntryExample
-							}
+							body: dataResourceEntryExample
 						}
 					}
 				]
@@ -635,11 +619,7 @@ export function generateRestRoutesFederatedCatalogue(
 							body: {
 								"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY_LIST,
 								type: SchemaOrgTypes.ItemList,
-								itemListElement: [
-									{
-										...dataSpaceConnectorEntryExample
-									}
-								]
+								itemListElement: [dataSpaceConnectorEntryExample]
 							}
 						}
 					}
@@ -679,9 +659,7 @@ export function generateRestRoutesFederatedCatalogue(
 					{
 						id: "dataSpaceConnectorGetResponseExample",
 						response: {
-							body: {
-								...dataSpaceConnectorEntryExample
-							}
+							body: dataSpaceConnectorEntryExample
 						}
 					}
 				]
@@ -722,11 +700,11 @@ export async function complianceCredentialPresentation(
 	Guards.object<ICompliancePresentationRequest>(ROUTES_SOURCE, nameof(request), request);
 	Guards.stringValue(ROUTES_SOURCE, nameof(request.body), request.body);
 
-	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+	const service = ComponentFactory.get<IFederatedCatalogueComponent>(factoryServiceName);
 	const participantId = await service.registerComplianceCredential(request.body);
 
 	const searchParams = new URLSearchParams();
-	searchParams.append(FederatedCatalogueTypes.Id, participantId);
+	searchParams.append("id", participantId);
 	return {
 		headers: {
 			location: `${baseRouteName}/${PARTICIPANTS_ROUTE}?${searchParams.toString()}`
@@ -747,19 +725,17 @@ export async function participantList(
 	factoryServiceName: string,
 	request: IParticipantListRequest
 ): Promise<IParticipantListResponse> {
-	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+	const service = ComponentFactory.get<IFederatedCatalogueComponent>(factoryServiceName);
 
 	const itemsAndCursor = await service.queryParticipants(
 		request?.query?.id,
 		request?.query?.registrationNumber,
 		request?.query?.lrnType,
 		request?.query?.cursor,
-		Coerce.number(request?.query?.pageSize)
+		Coerce.integer(request?.query?.pageSize)
 	);
 	return {
-		body: {
-			...itemsAndCursor
-		}
+		body: itemsAndCursor
 	};
 }
 
@@ -775,32 +751,14 @@ export async function participantGet(
 	factoryServiceName: string,
 	request: ICatalogueEntryGetRequest
 ): Promise<IParticipantGetResponse | INotFoundResponse> {
-	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+	const service = ComponentFactory.get<IFederatedCatalogueComponent>(factoryServiceName);
 
 	const id = request?.pathParams.id;
 	Guards.stringValue(ROUTES_SOURCE, nameof(id), id);
 
-	try {
-		const entry: IParticipantEntry = (await service.getEntry(
-			GaiaXTypes.Participant,
-			id
-		)) as IParticipantEntry;
-		return {
-			body: entry
-		};
-	} catch (e) {
-		if (BaseError.isErrorName(e, NotFoundError.CLASS_NAME)) {
-			return {
-				statusCode: HttpStatusCode.notFound,
-				body: {
-					name: "notFoundEntry",
-					message: "notFoundEntry",
-					notFoundId: id
-				}
-			};
-		}
-		throw e;
-	}
+	return {
+		body: (await service.getEntry(GaiaXTypes.Participant, id)) as IParticipantEntry
+	};
 }
 
 /**
@@ -820,13 +778,13 @@ export async function serviceOfferingCredentialPresentation(
 	Guards.object<ICompliancePresentationRequest>(ROUTES_SOURCE, nameof(request), request);
 	Guards.stringValue(ROUTES_SOURCE, nameof(request.body), request.body);
 
-	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+	const service = ComponentFactory.get<IFederatedCatalogueComponent>(factoryServiceName);
 	const serviceOfferingsCreated = await service.registerServiceOfferingCredential(request.body);
 
 	// Prepare the Ids to be returned
 	const searchParams = new URLSearchParams();
 	for (const serviceOffering of serviceOfferingsCreated) {
-		searchParams.append(FederatedCatalogueTypes.Id, serviceOffering);
+		searchParams.append("id", serviceOffering);
 	}
 	return {
 		headers: {
@@ -848,18 +806,16 @@ export async function serviceOfferingList(
 	factoryServiceName: string,
 	request: IServiceOfferingListRequest
 ): Promise<IServiceOfferingListResponse> {
-	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+	const service = ComponentFactory.get<IFederatedCatalogueComponent>(factoryServiceName);
 
 	const itemsAndCursor = await service.queryServiceOfferings(
-		request?.query.id,
-		request?.query.providedBy,
-		request?.query.cursor,
-		Coerce.number(request?.query?.pageSize)
+		request?.query?.id,
+		request?.query?.providedBy,
+		request?.query?.cursor,
+		Coerce.integer(request?.query?.pageSize)
 	);
 	return {
-		body: {
-			...itemsAndCursor
-		}
+		body: itemsAndCursor
 	};
 }
 
@@ -875,32 +831,14 @@ export async function serviceOfferingGet(
 	factoryServiceName: string,
 	request: ICatalogueEntryGetRequest
 ): Promise<IServiceOfferingGetResponse | INotFoundResponse> {
-	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+	const service = ComponentFactory.get<IFederatedCatalogueComponent>(factoryServiceName);
 
 	const id = request?.pathParams.id;
 	Guards.stringValue(ROUTES_SOURCE, nameof(id), id);
 
-	try {
-		const entry: IServiceOfferingEntry = (await service.getEntry(
-			GaiaXTypes.ServiceOffering,
-			id
-		)) as IServiceOfferingEntry;
-		return {
-			body: entry
-		};
-	} catch (e) {
-		if (BaseError.isErrorName(e, NotFoundError.CLASS_NAME)) {
-			return {
-				statusCode: HttpStatusCode.notFound,
-				body: {
-					name: "notFoundEntry",
-					message: "notFoundEntry",
-					notFoundId: id
-				}
-			};
-		}
-		throw e;
-	}
+	return {
+		body: (await service.getEntry(GaiaXTypes.ServiceOffering, id)) as IServiceOfferingEntry
+	};
 }
 
 /**
@@ -920,13 +858,13 @@ export async function dataResourceCredentialPresentation(
 	Guards.object<ICompliancePresentationRequest>(ROUTES_SOURCE, nameof(request), request);
 	Guards.stringValue(ROUTES_SOURCE, nameof(request.body), request.body);
 
-	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+	const service = ComponentFactory.get<IFederatedCatalogueComponent>(factoryServiceName);
 	const dataResourcesCreated = await service.registerDataResourceCredential(request.body);
 
 	// Prepare the Ids to be returned
 	const searchParams = new URLSearchParams();
 	for (const dataResource of dataResourcesCreated) {
-		searchParams.append(FederatedCatalogueTypes.Id, dataResource);
+		searchParams.append("id", dataResource);
 	}
 	return {
 		headers: {
@@ -948,18 +886,16 @@ export async function dataResourceList(
 	factoryServiceName: string,
 	request: IDataResourceListRequest
 ): Promise<IDataResourceListResponse> {
-	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+	const service = ComponentFactory.get<IFederatedCatalogueComponent>(factoryServiceName);
 
 	const itemsAndCursor = await service.queryDataResources(
-		request?.query.id,
-		request?.query.producedBy,
-		request?.query.cursor,
-		Coerce.number(request?.query?.pageSize)
+		request?.query?.id,
+		request?.query?.producedBy,
+		request?.query?.cursor,
+		Coerce.integer(request?.query?.pageSize)
 	);
 	return {
-		body: {
-			...itemsAndCursor
-		}
+		body: itemsAndCursor
 	};
 }
 
@@ -975,32 +911,14 @@ export async function dataResourceGet(
 	factoryServiceName: string,
 	request: ICatalogueEntryGetRequest
 ): Promise<IDataResourceGetResponse | INotFoundResponse> {
-	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+	const service = ComponentFactory.get<IFederatedCatalogueComponent>(factoryServiceName);
 
 	const id = request?.pathParams.id;
 	Guards.stringValue(ROUTES_SOURCE, nameof(id), id);
 
-	try {
-		const entry: IDataResourceEntry = (await service.getEntry(
-			GaiaXTypes.DataResource,
-			id
-		)) as IDataResourceEntry;
-		return {
-			body: entry
-		};
-	} catch (e) {
-		if (BaseError.isErrorName(e, NotFoundError.CLASS_NAME)) {
-			return {
-				statusCode: HttpStatusCode.notFound,
-				body: {
-					name: "notFoundEntry",
-					message: "notFoundEntry",
-					notFoundId: id
-				}
-			};
-		}
-		throw e;
-	}
+	return {
+		body: (await service.getEntry(GaiaXTypes.DataResource, id)) as IDataResourceEntry
+	};
 }
 
 /**
@@ -1020,7 +938,7 @@ export async function dataSpaceConnectorCredentialPresentation(
 	Guards.object<ICompliancePresentationRequest>(ROUTES_SOURCE, nameof(request), request);
 	Guards.stringValue(ROUTES_SOURCE, nameof(request.body), request.body);
 
-	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+	const service = ComponentFactory.get<IFederatedCatalogueComponent>(factoryServiceName);
 	const dataSpaceConnectorId = await service.registerDataSpaceConnectorCredential(request.body);
 
 	const searchParams = new URLSearchParams();
@@ -1045,18 +963,16 @@ export async function dataSpaceConnectorList(
 	factoryServiceName: string,
 	request: IDataSpaceConnectorListRequest
 ): Promise<IDataSpaceConnectorListResponse> {
-	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+	const service = ComponentFactory.get<IFederatedCatalogueComponent>(factoryServiceName);
 
 	const itemsAndCursor = await service.queryDataSpaceConnectors(
-		request?.query.id,
-		request?.query.maintainedBy,
-		request?.query.cursor,
-		Coerce.number(request?.query?.pageSize)
+		request?.query?.id,
+		request?.query?.maintainedBy,
+		request?.query?.cursor,
+		Coerce.integer(request?.query?.pageSize)
 	);
 	return {
-		body: {
-			...itemsAndCursor
-		}
+		body: itemsAndCursor
 	};
 }
 
@@ -1072,30 +988,12 @@ export async function dataSpaceConnectorGet(
 	factoryServiceName: string,
 	request: ICatalogueEntryGetRequest
 ): Promise<IDataSpaceConnectorGetResponse | INotFoundResponse> {
-	const service = ComponentFactory.get<IFederatedCatalogue>(factoryServiceName);
+	const service = ComponentFactory.get<IFederatedCatalogueComponent>(factoryServiceName);
 
 	const id = request?.pathParams.id;
 	Guards.stringValue(ROUTES_SOURCE, nameof(id), id);
 
-	try {
-		const entry: IDataSpaceConnectorEntry = (await service.getEntry(
-			GaiaXTypes.DataExchangeComponent,
-			id
-		)) as IDataSpaceConnectorEntry;
-		return {
-			body: entry
-		};
-	} catch (e) {
-		if (BaseError.isErrorName(e, NotFoundError.CLASS_NAME)) {
-			return {
-				statusCode: HttpStatusCode.notFound,
-				body: {
-					name: "notFoundEntry",
-					message: "notFoundEntry",
-					notFoundId: id
-				}
-			};
-		}
-		throw e;
-	}
+	return {
+		body: (await service.getEntry(GaiaXTypes.DataExchangeComponent, id)) as IDataSpaceConnectorEntry
+	};
 }

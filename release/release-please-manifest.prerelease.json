@@ -1,5 +1,6 @@
 {
-	"packages/federated-catalogue-models": "0.0.1-next.1",
-	"packages/federated-catalogue-service": "0.0.1-next.1",
-	"apps/federated-catalogue-rest-server": "0.0.1-next.1"
+	"packages/federated-catalogue-models": "0.0.1-next.11",
+	"packages/federated-catalogue-service": "0.0.1-next.11",
+	"packages/federated-catalogue-rest-client": "0.0.1-next.11",
+	"apps/federated-catalogue-rest-server": "0.0.1-next.11"
 }

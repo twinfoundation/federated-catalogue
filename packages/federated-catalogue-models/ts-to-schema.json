@@ -1,15 +1,14 @@
 {
 	"baseUrl": "https://schema.twindev.org/federated-catalogue/",
-	"sources": ["./src/models/**/*.ts"],
 	"types": [
-		"IDataResourceEntry",
-		"IDataResourceList",
-		"IDataSpaceConnectorEntry",
-		"IDataSpaceConnectorList",
-		"IServiceOfferingEntry",
-		"IServiceOfferingList",
-		"IParticipantEntry",
-		"IParticipantList"
+		"./src/models/data-resource/IDataResourceEntry.ts",
+		"./src/models/data-resource/IDataResourceList.ts",
+		"./src/models/data-space-connector/IDataSpaceConnectorEntry.ts",
+		"./src/models/data-space-connector/IDataSpaceConnectorList.ts",
+		"./src/models/service-offering/IServiceOfferingEntry.ts",
+		"./src/models/service-offering/IServiceOfferingList.ts",
+		"./src/models/participant/IParticipantEntry.ts",
+		"./src/models/participant/IParticipantList.ts"
 	],
 	"externalReferences": {
 		"IJsonLd(.*)": "https://schema.twindev.org/json-ld/JsonLd$1"

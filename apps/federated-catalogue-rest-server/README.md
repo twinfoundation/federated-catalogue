@@ -4,7 +4,7 @@ A REST server implementation support the Federated Catalogue routes.
 
 ## Open API
 
-The Open API Spec is [here](./docs/open-api/spec.json)
+The Open API Spec is [./docs/open-api/spec.json](./docs/open-api/spec.json)
 
 ## Building and running the application
 
@@ -34,9 +34,9 @@ Examples of how to deploy the app can be found in [docs/deployment.md](docs/depl
 
 ## Testing the Catalogue endpoints
 
-Apart from local testing of the [federated-catalogue-service package](../../packages/federated-catalogue-service) you can also test the endpoints offered by this REST service.
+Apart from local testing of the federated-catalogue-service package you can also test the endpoints offered by this REST service.
 
-Once the service is running you can use Postman (or a regular HTTP client) to test the API endpoints. There is a [test dataset](../../packages/federated-catalogue-service/tests/dataset/) that contains several [compliance credentials](../../packages/federated-catalogue-service/tests/dataset/credentials/compliance/).
+Once the service is running you can use Postman (or a regular HTTP client) to test the API endpoints. There is a test dataset in the tests folder of the federated-catalogue-service it also contains several compliance credentials.
 
 As those credentials rely on evidence (Verifiable Credentials) that should be hosted online you can run a local HTTP Server as follows:
 

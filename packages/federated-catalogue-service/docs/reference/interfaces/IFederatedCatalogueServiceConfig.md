@@ -1,4 +1,4 @@
-# Interface: IFederatedCatalogueConfig
+# Interface: IFederatedCatalogueServiceConfig
 
 Federated Catalogue service configuration
 

@@ -10,8 +10,8 @@
 
 ## Interfaces
 
-- [IFederatedCatalogueConfig](interfaces/IFederatedCatalogueConfig.md)
-- [IFederatedCatalogueConstructorOptions](interfaces/IFederatedCatalogueConstructorOptions.md)
+- [IFederatedCatalogueServiceConfig](interfaces/IFederatedCatalogueServiceConfig.md)
+- [IFederatedCatalogueServiceConstructorOptions](interfaces/IFederatedCatalogueServiceConstructorOptions.md)
 
 ## Variables
 

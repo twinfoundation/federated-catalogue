@@ -22,9 +22,44 @@ export const FederatedCatalogueTypes = {
 	DataSpaceConnector: "DataSpaceConnector",
 
 	/**
-	 * Id property.
+	 * A Data Resource Entry.
 	 */
-	Id: "id"
+	DataResourceEntry: "DataResourceEntry",
+
+	/**
+	 * A Data Space Connector List.
+	 */
+	DataResourceList: "DataResourceList",
+
+	/**
+	 * A Data Space Connector Entry.
+	 */
+	DataSpaceConnectorEntry: "DataSpaceConnectorEntry",
+
+	/**
+	 * A Data Space Connector List.
+	 */
+	DataSpaceConnectorList: "DataSpaceConnectorList",
+
+	/**
+	 * A Participant Entry.
+	 */
+	ParticipantEntry: "ParticipantEntry",
+
+	/**
+	 * A Participant List.
+	 */
+	ParticipantList: "ParticipantList",
+
+	/**
+	 * A Service Offering Entry.
+	 */
+	ServiceOfferingEntry: "ServiceOfferingEntry",
+
+	/**
+	 * A Service Offering List.
+	 */
+	ServiceOfferingList: "ServiceOfferingList"
 } as const;
 
 /**

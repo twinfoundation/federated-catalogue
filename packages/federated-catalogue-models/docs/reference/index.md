@@ -2,6 +2,7 @@
 
 ## Classes
 
+- [FederatedCatalogueDataTypes](classes/FederatedCatalogueDataTypes.md)
 - [FederatedCatalogueContextInstances](classes/FederatedCatalogueContextInstances.md)
 
 ## Interfaces
@@ -10,7 +11,7 @@
 - [IComplianceEvidence](interfaces/IComplianceEvidence.md)
 - [IComplianceVerificationResult](interfaces/IComplianceVerificationResult.md)
 - [ICredential](interfaces/ICredential.md)
-- [IFederatedCatalogue](interfaces/IFederatedCatalogue.md)
+- [IFederatedCatalogueComponent](interfaces/IFederatedCatalogueComponent.md)
 - [IVerificationResult](interfaces/IVerificationResult.md)
 - [ICatalogueEntryGetRequest](interfaces/ICatalogueEntryGetRequest.md)
 - [ICompliancePresentationRequest](interfaces/ICompliancePresentationRequest.md)

@@ -24,9 +24,9 @@ The headers which can be used to determine the response data type.
 
 ***
 
-### query
+### query?
 
-> **query**: `object`
+> `optional` **query**: `object`
 
 The query parameters.
 
@@ -56,6 +56,6 @@ The optional cursor to get next chunk.
 
 #### pageSize?
 
-> `optional` **pageSize**: `number`
+> `optional` **pageSize**: `string` \| `number`
 
 The maximum number of entities in a page.

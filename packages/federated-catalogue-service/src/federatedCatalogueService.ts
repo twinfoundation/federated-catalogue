@@ -12,32 +12,32 @@ import {
 	StringHelper,
 	UnprocessableError
 } from "@twin.org/core";
-import { JsonLdProcessor } from "@twin.org/data-json-ld";
 import type { IJsonLdNodeObject } from "@twin.org/data-json-ld";
+import { JsonLdProcessor } from "@twin.org/data-json-ld";
 import { ComparisonOperator, type EntityCondition } from "@twin.org/entity";
 import {
 	EntityStorageConnectorFactory,
 	type IEntityStorageConnector
 } from "@twin.org/entity-storage-models";
 import {
+	FederatedCatalogueContextInstances,
+	FederatedCatalogueTypes,
+	type FederatedCatalogueEntryType,
+	type ICatalogueEntry,
 	type IComplianceCredential,
 	type IDataResourceCredential,
 	type IDataResourceEntry,
-	type IFederatedCatalogue,
+	type IDataResourceList,
+	type IDataSpaceConnectorCredential,
+	type IDataSpaceConnectorEntry,
+	type IDataSpaceConnectorList,
+	type IFederatedCatalogueComponent,
+	type IParticipantCredential,
 	type IParticipantEntry,
+	type IParticipantList,
 	type IServiceOfferingCredential,
 	type IServiceOfferingEntry,
-	type IDataSpaceConnectorEntry,
-	type IDataSpaceConnectorCredential,
-	type IParticipantCredential,
-	FederatedCatalogueTypes,
-	type IParticipantList,
-	type IDataResourceList,
-	type IDataSpaceConnectorList,
-	type IServiceOfferingList,
-	FederatedCatalogueContextInstances,
-	type FederatedCatalogueEntryType,
-	type ICatalogueEntry
+	type IServiceOfferingList
 } from "@twin.org/federated-catalogue-models";
 import { VerificationHelper, type IIdentityResolverComponent } from "@twin.org/identity-models";
 import { LoggingConnectorFactory, type ILoggingConnector } from "@twin.org/logging-models";
@@ -49,13 +49,18 @@ import type { DataResourceEntry } from "./entities/dataResourceEntry";
 import type { DataSpaceConnectorEntry } from "./entities/dataSpaceConnectorEntry";
 import type { ParticipantEntry } from "./entities/participantEntry";
 import type { ServiceOfferingEntry } from "./entities/serviceOfferingEntry";
-import type { IFederatedCatalogueConstructorOptions } from "./models/IFederatedCatalogueConstructorOptions";
+import type { IFederatedCatalogueServiceConstructorOptions } from "./models/IFederatedCatalogueServiceConstructorOptions";
 import { ComplianceCredentialVerificationService } from "./verification/complianceCredentialVerificationService";
 
 /**
  * Service for performing logging operations to a connector.
  */
-export class FederatedCatalogueService implements IFederatedCatalogue {
+export class FederatedCatalogueService implements IFederatedCatalogueComponent {
+	/**
+	 * The namespace for the service.
+	 */
+	public static readonly NAMESPACE: string = "fedcat";
+
 	/**
 	 * Fields to skip when persisting entries to the Catalogue
 	 * @internal
@@ -113,7 +118,7 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	 * Create a new instance of FederatedCatalogue service.
 	 * @param options The options for the connector.
 	 */
-	constructor(options: IFederatedCatalogueConstructorOptions) {
+	constructor(options: IFederatedCatalogueServiceConstructorOptions) {
 		this._loggingService = LoggingConnectorFactory.getIfExists(
 			options?.loggingConnectorType ?? "logging"
 		);
@@ -418,7 +423,6 @@ export class FederatedCatalogueService implements IFederatedCatalogue {
 	public async registerDataResourceCredential(credentialJwt: string): Promise<string[]> {
 		Guards.string(this.CLASS_NAME, nameof(credentialJwt), credentialJwt);
 
-		// This will raise exceptions as it has been coded reusing code from Gaia-X
 		const complianceCredential = await this.decodeJwt(credentialJwt);
 
 		const result = await this._complianceCredentialVerifier.verify(complianceCredential);

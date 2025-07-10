@@ -1,23 +1,26 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 import { BaseRestClient } from "@twin.org/api-core";
-import type { IHttpRequest, IBaseRestClientConfig, ICreatedResponse } from "@twin.org/api-models";
+import type { IBaseRestClientConfig, ICreatedResponse, IHttpRequest } from "@twin.org/api-models";
 import { GeneralError, Guards, Is } from "@twin.org/core";
 import {
 	FederatedCatalogueTypes,
-	type IParticipantEntry,
-	type IParticipantGetResponse,
 	type FederatedCatalogueEntryType,
+	type ICatalogueEntry,
 	type ICatalogueEntryGetRequest,
 	type IDataResourceEntry,
 	type IDataResourceGetResponse,
 	type IDataResourceList,
 	type IDataResourceListRequest,
 	type IDataResourceListResponse,
+	type IDataSpaceConnectorEntry,
+	type IDataSpaceConnectorGetResponse,
 	type IDataSpaceConnectorList,
 	type IDataSpaceConnectorListRequest,
 	type IDataSpaceConnectorListResponse,
-	type IFederatedCatalogue,
+	type IFederatedCatalogueComponent,
+	type IParticipantEntry,
+	type IParticipantGetResponse,
 	type IParticipantList,
 	type IParticipantListRequest,
 	type IParticipantListResponse,
@@ -25,10 +28,7 @@ import {
 	type IServiceOfferingGetResponse,
 	type IServiceOfferingList,
 	type IServiceOfferingListRequest,
-	type IServiceOfferingListResponse,
-	type IDataSpaceConnectorEntry,
-	type IDataSpaceConnectorGetResponse,
-	type ICatalogueEntry
+	type IServiceOfferingListResponse
 } from "@twin.org/federated-catalogue-models";
 import { nameof } from "@twin.org/nameof";
 import { GaiaXTypes } from "@twin.org/standards-gaia-x";
@@ -37,7 +37,10 @@ import { HeaderTypes, MimeTypes } from "@twin.org/web";
 /**
  * Client for performing auditable item graph through to REST endpoints.
  */
-export class FederatedCatalogueClient extends BaseRestClient implements IFederatedCatalogue {
+export class FederatedCatalogueClient
+	extends BaseRestClient
+	implements IFederatedCatalogueComponent
+{
 	/**
 	 * Runtime name for the class.
 	 */
@@ -404,7 +407,7 @@ export class FederatedCatalogueClient extends BaseRestClient implements IFederat
 		// Localhost is dummy used to build a correct URL as a fallback
 		const url = new URL(locationURL, "localhost");
 		const searchParams = url.searchParams;
-		const ids = searchParams.getAll(FederatedCatalogueTypes.Id);
+		const ids = searchParams.getAll("id");
 
 		if (Is.empty(ids)) {
 			throw new GeneralError(this.CLASS_NAME, "idNotFoundFromLocationURL", { locationURL });
