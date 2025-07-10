@@ -1,6 +1,6 @@
 {
 	"name": "@twin.org/federated-catalogue-models",
-	"version": "0.0.1",
+	"version": "0.0.2-next.0",
 	"description": "Models which define the structure of the Federated Catalogue Service",
 	"repository": {
 		"type": "git",
@@ -32,21 +32,21 @@
 		"prepare": "ts-patch install -s"
 	},
 	"dependencies": {
-		"@twin.org/core": "^0.0.1",
-		"@twin.org/data-core": "^0.0.1",
-		"@twin.org/data-json-ld": "^0.0.1",
-		"@twin.org/entity": "^0.0.1",
-		"@twin.org/nameof": "^0.0.1",
-		"@twin.org/standards-w3c-did": "^0.0.1",
-		"@twin.org/standards-gaia-x": "^0.0.1",
-		"@twin.org/standards-schema-org": "^0.0.1",
-		"@twin.org/standards-w3c-odrl": "^0.0.1"
+		"@twin.org/core": "next",
+		"@twin.org/data-core": "next",
+		"@twin.org/data-json-ld": "next",
+		"@twin.org/entity": "next",
+		"@twin.org/nameof": "next",
+		"@twin.org/standards-w3c-did": "next",
+		"@twin.org/standards-gaia-x": "next",
+		"@twin.org/standards-schema-org": "next",
+		"@twin.org/standards-w3c-odrl": "next"
 	},
 	"devDependencies": {
 		"@rollup/plugin-json": "6.1.0",
-		"@twin.org/nameof-transformer": "^0.0.1",
-		"@twin.org/nameof-vitest-plugin": "^0.0.1",
-		"@twin.org/ts-to-schema": "^0.0.1",
+		"@twin.org/nameof-transformer": "next",
+		"@twin.org/nameof-vitest-plugin": "next",
+		"@twin.org/ts-to-schema": "next",
 		"@vitest/coverage-v8": "3.2.3",
 		"copyfiles": "2.4.1",
 		"rimraf": "6.0.1",
