@@ -321,7 +321,7 @@ export function generateRestRoutesFederatedCatalogue(
 		"@context": [
 			"https://www.w3.org/ns/odrl/2/",
 			{
-				twin: "https://schema.twindev.org/odrl/",
+				twin: "https://schema.twindev.org/w3c-odrl/",
 				jsonPathSelector: "twin:jsonPathSelector"
 			}
 		],
