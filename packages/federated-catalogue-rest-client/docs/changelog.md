@@ -1,5 +1,28 @@
 # @twin.org/federated-catalogue-rest-client - Changelog
 
+## [0.0.2-next.1](https://github.com/twinfoundation/federated-catalogue/compare/federated-catalogue-rest-client-v0.0.2-next.0...federated-catalogue-rest-client-v0.0.2-next.1) (2025-07-15)
+
+
+### Features
+
+* add data types with fully qualified names ([993eb09](https://github.com/twinfoundation/federated-catalogue/commit/993eb09e25f6caad5d82a3908a2ba648900f5ca7))
+* consistent component naming with other repos ([83fc03d](https://github.com/twinfoundation/federated-catalogue/commit/83fc03dee3846600ae6a45d710248a0ae60af570))
+* synchronise with gaia-x types ([3e0d7f2](https://github.com/twinfoundation/federated-catalogue/commit/3e0d7f2f277ec0adef79d71165b6db778e15e315))
+* update dependencies ([24ff3d7](https://github.com/twinfoundation/federated-catalogue/commit/24ff3d772cf7bd7f60547c5b314355e75ba55424))
+* version 0 federated catalogue ([#2](https://github.com/twinfoundation/federated-catalogue/issues/2)) ([93fb8bd](https://github.com/twinfoundation/federated-catalogue/commit/93fb8bdbb03aa781ef9e8dc4053beea1b397cc36))
+
+
+### Bug Fixes
+
+* broken docs ([4588d86](https://github.com/twinfoundation/federated-catalogue/commit/4588d861575522da5374291167d57bacd1b21867))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/federated-catalogue-models bumped from 0.0.2-next.0 to 0.0.2-next.1
+
 ## 0.0.1 (2025-07-10)
 
 
