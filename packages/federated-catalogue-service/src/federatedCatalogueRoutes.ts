@@ -221,7 +221,7 @@ export function generateRestRoutesFederatedCatalogue(
 	const participantEntryExample: IParticipantEntry = {
 		"@context": FederatedCatalogueContextInstances.DEFAULT_LD_CONTEXT_ENTRY,
 		id: "did:iota:xxx",
-		type: GaiaXTypes.Participant,
+		type: GaiaXTypes.LegalPerson,
 		registrationNumber: {
 			type: GaiaXTypes.LocalRegistrationNumber,
 			local: "P1234567"
@@ -757,7 +757,7 @@ export async function participantGet(
 	Guards.stringValue(ROUTES_SOURCE, nameof(id), id);
 
 	return {
-		body: (await service.getEntry(GaiaXTypes.Participant, id)) as IParticipantEntry
+		body: (await service.getEntry(GaiaXTypes.LegalPerson, id)) as IParticipantEntry
 	};
 }
 

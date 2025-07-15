@@ -34,7 +34,7 @@ The issuer of the credential, it is mandatory.
 
 ### credentialSubject
 
-> **credentialSubject**: `IParticipant`
+> **credentialSubject**: `ILegalPerson`
 
 The Credential Subject
 

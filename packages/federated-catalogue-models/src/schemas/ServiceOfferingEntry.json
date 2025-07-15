@@ -86,20 +86,20 @@
 		},
 		"id": {
 			"type": "string",
-			"description": "Id"
+			"description": "The Id."
+		},
+		"name": {
+			"type": "string",
+			"description": "Name of the Service Offering."
+		},
+		"description": {
+			"type": "string",
+			"description": "Description of the Gaia-X entity."
 		},
 		"type": {
 			"type": "string",
 			"const": "ServiceOffering",
 			"description": "Type"
-		},
-		"description": {
-			"type": "string",
-			"description": "Description"
-		},
-		"name": {
-			"type": "string",
-			"description": "Name"
 		},
 		"providedBy": {
 			"type": "string",

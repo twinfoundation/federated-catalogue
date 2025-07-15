@@ -4,7 +4,7 @@ Interface describing a participant.
 
 ## Extends
 
-- `IParticipant`.`ICatalogueBase`
+- `ILegalPerson`.`ICatalogueBase`
 
 ## Indexable
 
@@ -80,4 +80,4 @@ The LD Context
 
 #### Overrides
 
-`IParticipant.@context`
+`ILegalPerson.@context`

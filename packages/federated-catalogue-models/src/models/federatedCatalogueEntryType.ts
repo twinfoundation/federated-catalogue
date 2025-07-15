@@ -9,7 +9,7 @@ import type { FederatedCatalogueTypes } from "./federatedCatalogueTypes";
  *
  */
 export type FederatedCatalogueEntryType =
-	| typeof GaiaXTypes.Participant
+	| typeof GaiaXTypes.LegalPerson
 	| typeof GaiaXTypes.DataExchangeComponent
 	| typeof GaiaXTypes.DataResource
 	| typeof GaiaXTypes.ServiceOffering

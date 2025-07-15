@@ -88,18 +88,18 @@
 			"type": "string",
 			"description": "Subject Id"
 		},
+		"name": {
+			"type": "string",
+			"description": "The Resource Name"
+		},
+		"description": {
+			"type": "string",
+			"description": "Description of the Gaia-X entity."
+		},
 		"type": {
 			"type": "string",
 			"const": "DataResource",
 			"description": "Subject type"
-		},
-		"description": {
-			"type": "string",
-			"description": "Description"
-		},
-		"name": {
-			"type": "string",
-			"description": "The Resource Name"
 		},
 		"exposedThrough": {
 			"type": "string",

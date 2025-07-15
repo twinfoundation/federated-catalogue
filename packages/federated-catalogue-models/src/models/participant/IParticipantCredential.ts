@@ -1,7 +1,7 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 
-import type { IParticipant } from "@twin.org/standards-gaia-x";
+import type { ILegalPerson } from "@twin.org/standards-gaia-x";
 import type { ICredential } from "../ICredential";
 
 /**
@@ -11,5 +11,5 @@ export interface IParticipantCredential extends ICredential {
 	/**
 	 * The Credential Subject
 	 */
-	credentialSubject: IParticipant;
+	credentialSubject: ILegalPerson;
 }

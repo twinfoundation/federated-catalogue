@@ -60,7 +60,7 @@ jobs:
 
       # If we are updating next version we need to ensure we merge the latest changes from main
       - name: Merge Main into Next
-        if: github.event.inputs.versionType == 'next' # Only run this step if we are update next versions
+        if: github.event.inputs.versionType == 'next' # Only run this step if we are updating next versions
         run: |
           git merge -S --no-ff --strategy-option theirs origin/main
 

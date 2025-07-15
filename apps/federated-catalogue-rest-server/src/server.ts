@@ -4,20 +4,21 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import type { IServerInfo } from "@twin.org/api-models";
 import { Coerce, GeneralError, Is } from "@twin.org/core";
-import { buildEngineConfiguration, Engine } from "@twin.org/engine";
+import { Engine } from "@twin.org/engine";
 import { FileStateStorage } from "@twin.org/engine-core";
 import {
 	EngineCoreFactory,
 	type IEngineCoreTypeConfig,
 	type IEngineStateStorage
 } from "@twin.org/engine-models";
-import { buildEngineServerConfiguration, EngineServer } from "@twin.org/engine-server";
+import { EngineServer } from "@twin.org/engine-server";
 import type { IEngineServerConfig } from "@twin.org/engine-server-types";
 import {
 	BlobStorageConnectorType,
 	EntityStorageConnectorType,
 	LoggingConnectorType
 } from "@twin.org/engine-types";
+import { buildEngineConfiguration, buildEngineServerConfiguration } from "@twin.org/node-core";
 import { extendEngineConfig } from "./extensions.js";
 import type { IFederatedCatalogVariables } from "./models/IFederatedCatalogVariables.js";
 

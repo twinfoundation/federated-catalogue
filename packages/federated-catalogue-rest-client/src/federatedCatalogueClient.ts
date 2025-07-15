@@ -286,7 +286,7 @@ export class FederatedCatalogueClient
 		Guards.stringValue(this.CLASS_NAME, nameof(entryId), entryId);
 
 		switch (entryType) {
-			case GaiaXTypes.Participant:
+			case GaiaXTypes.LegalPerson:
 				return this.getParticipantEntry(entryId);
 			case GaiaXTypes.DataResource:
 				return this.getDataResourceEntry(entryId);

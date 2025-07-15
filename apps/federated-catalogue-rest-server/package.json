@@ -35,6 +35,7 @@
 		"@twin.org/engine-server": "next",
 		"@twin.org/engine-server-types": "next",
 		"@twin.org/engine-types": "next",
+		"@twin.org/node-core": "next",
 		"@twin.org/federated-catalogue-models": "0.0.2-next.0",
 		"@twin.org/federated-catalogue-service": "0.0.2-next.0"
 	},

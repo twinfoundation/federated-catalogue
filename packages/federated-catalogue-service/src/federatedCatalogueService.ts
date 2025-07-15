@@ -42,7 +42,7 @@ import {
 import { VerificationHelper, type IIdentityResolverComponent } from "@twin.org/identity-models";
 import { LoggingConnectorFactory, type ILoggingConnector } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
-import { GaiaXTypes, type IParticipant } from "@twin.org/standards-gaia-x";
+import { GaiaXTypes, type ILegalPerson } from "@twin.org/standards-gaia-x";
 import { SchemaOrgDataTypes, SchemaOrgTypes } from "@twin.org/standards-schema-org";
 import type { IOdrlPolicy } from "@twin.org/standards-w3c-odrl";
 import type { DataResourceEntry } from "./entities/dataResourceEntry";
@@ -187,7 +187,7 @@ export class FederatedCatalogueService implements IFederatedCatalogueComponent {
 		}
 
 		const targetCredential = result.credentials.find(
-			credential => credential.credentialSubject.type === GaiaXTypes.Participant
+			credential => credential.credentialSubject.type === GaiaXTypes.LegalPerson
 		) as IParticipantCredential;
 
 		if (Is.undefined(targetCredential)) {
@@ -273,7 +273,7 @@ export class FederatedCatalogueService implements IFederatedCatalogueComponent {
 		);
 
 		const itemList = entries.entities.map(entry => {
-			(entry as IParticipantEntry).type = GaiaXTypes.Participant;
+			(entry as IParticipantEntry).type = GaiaXTypes.LegalPerson;
 			return entry;
 		});
 		const result = {
@@ -301,7 +301,7 @@ export class FederatedCatalogueService implements IFederatedCatalogueComponent {
 
 		let itemsAndCursor;
 		switch (entryType) {
-			case GaiaXTypes.Participant:
+			case GaiaXTypes.LegalPerson:
 				itemsAndCursor = await this.queryParticipants(entryId);
 				break;
 			case GaiaXTypes.DataExchangeComponent:
@@ -883,12 +883,12 @@ export class FederatedCatalogueService implements IFederatedCatalogueComponent {
 			credentialData;
 
 		let producedByValue = producedBy;
-		if (Is.object<IParticipant>(producedByValue)) {
+		if (Is.object<ILegalPerson>(producedByValue)) {
 			producedByValue = producedByValue.id;
 		}
 
 		let copyrightOwnedByValue = copyrightOwnedBy;
-		if (Is.object<IParticipant>(copyrightOwnedByValue)) {
+		if (Is.object<ILegalPerson>(copyrightOwnedByValue)) {
 			copyrightOwnedByValue = copyrightOwnedByValue.id;
 		}
 
