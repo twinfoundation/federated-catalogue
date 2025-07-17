@@ -34,7 +34,8 @@
 		"GLEIF",
 		"twinfoundation",
 		"buildx",
-		"dcmi"
+		"dcmi",
+		"twindev"
 	],
 	"ignoreRegExpList": [
 		"/from\\s+(['\"]).*\\1/",

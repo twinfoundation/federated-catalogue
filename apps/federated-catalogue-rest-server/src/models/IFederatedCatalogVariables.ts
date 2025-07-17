@@ -1,6 +1,9 @@
 // Copyright 2024 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import type { IEngineEnvironmentVariables, IEngineServerEnvironmentVariables } from "@twin.org/node-core";
+import type {
+	IEngineEnvironmentVariables,
+	IEngineServerEnvironmentVariables
+} from "@twin.org/node-core";
 
 /**
  * The environment variables for the federated catalogue node.
